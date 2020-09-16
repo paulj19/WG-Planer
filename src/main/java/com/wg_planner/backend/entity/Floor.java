@@ -3,7 +3,7 @@ package com.wg_planner.backend.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,10 +26,10 @@ public class Floor extends AbstractEntity implements Cloneable {
     private String roomStartIndex;
 
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER)
-    private List<Room> rooms = new LinkedList<>();
+    private List<Room> rooms = new ArrayList<>();
 
     @OneToMany
-    private List<Task> tasks = new LinkedList<>();
+    private List<Task> tasks = new ArrayList<>();
 
     public Floor() {
     }
@@ -76,6 +76,5 @@ public class Floor extends AbstractEntity implements Cloneable {
     public List<Task> getTasks() {
         return tasks;
     }
-
 
 }

@@ -12,6 +12,11 @@ public class Task extends AbstractEntity {
     @NotEmpty
     private String taskName;
 
+    @NotNull
+    @NotEmpty
+    @ManyToOne
+    private Floor floor;
+
     @ManyToOne
     private Room assignedRoom;
 
@@ -29,5 +34,13 @@ public class Task extends AbstractEntity {
 
     public void setAssignedRoom(Room assignedRoom) {
         this.assignedRoom = assignedRoom;
+    }
+
+    public Floor getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Floor floor) {
+        this.floor = floor;
     }
 }
