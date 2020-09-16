@@ -15,8 +15,13 @@ public class Room extends AbstractEntity implements Cloneable {
 //    @UniqueConstraint("roomNumber")
     private String roomNumber;
 
+    @NotNull
+    @NotEmpty
     @ManyToOne
     private Floor floor;
+
+    @OneToOne
+    private Resident resident;
 
 //    public Room(@NotNull @NotEmpty String roomNumber) {
 //        this.roomNumber = roomNumber;
@@ -24,8 +29,15 @@ public class Room extends AbstractEntity implements Cloneable {
 
     public Room() { }
 
-    public Room(String roomNumber) {
+    public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor) {
         this.roomNumber = roomNumber;
+        this.floor = floor;
+    }
+
+    public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor, Resident resident) {
+        this.roomNumber = roomNumber;
+        this.floor = floor;
+        this.resident = resident;
     }
 
     public String getRoomNumber() {
@@ -41,4 +53,19 @@ public class Room extends AbstractEntity implements Cloneable {
         return roomNumber;
     }
 
+    public Floor getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Floor floor) {
+        this.floor = floor;
+    }
+
+    public Resident getResident() {
+        return resident;
+    }
+
+    public void setResident(Resident resident) {
+        this.resident = resident;
+    }
 }
