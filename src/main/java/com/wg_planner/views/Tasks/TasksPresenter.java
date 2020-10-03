@@ -31,21 +31,17 @@ public class TasksPresenter {
     List<Task> tasks;
 
 
-    public void init(Account currentAccount, ResidentAccountService residentAccountService, TaskService taskService, VerticalLayout allTaskLayout) {
+    public void init(ResidentAccountService residentAccountService, TaskService taskService, VerticalLayout allTaskLayout) {
         this.accountService = accountService;
         this.taskService = taskService;
         this.residentAccountService = residentAccountService;
-        residentAccount =  residentAccountService.getResidentAccount(currentAccount.getId());
+//        todo the id of the resident account should be passed here to get the current residents room
+//        residentAccount = residentAccountService.getResidentAccount(currentAccount.getId());
+        residentAccount = residentAccountService.getResidentAccountByRoom(roomService.getRoomByRoomNumber("310"));
         tasks = taskService.findAll();
-//        Room myRoom = accountService.getMyRoom();
-
-//        TaskCard taskCard1 = new TaskCard(tasks.get(0));
-//        TaskCard taskCard2 = new TaskCard(tasks.get(1));
-//        TaskCard taskCard3 = new TaskCard(tasks.get(2));
-//        allTaskLayout.add(taskCard1.getTaskCardLayout(), taskCard2.getTaskCardLayout(), taskCard3.getTaskCardLayout());
         for (Task task :
                 tasks) {
-            allTaskLayout.add(new TaskCard(task, accountService.getMyRoom().getRoomNumber().equals(task.getAssignedRoom().toString())).getTaskCardLayout());
+            allTaskLayout.add(new TaskCard(task, residentAccountService.getMyRoom(residentAccount).getRoomNumber().equals(task.getAssignedRoom().toString())).getTaskCardLayout());
         }
     }
 }

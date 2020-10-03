@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "RESIDENT_ACCOUNT")
 @PrimaryKeyJoinColumns(
     {
         @PrimaryKeyJoinColumn(name = "id")

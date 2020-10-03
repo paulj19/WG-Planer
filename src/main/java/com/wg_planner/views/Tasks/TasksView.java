@@ -1,9 +1,11 @@
 package com.wg_planner.views.Tasks;
 
 import com.wg_planner.backend.Service.AccountService;
+import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Account;
+import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.views.main.MainView;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -25,12 +27,12 @@ public class TasksView extends VerticalLayout {
     VerticalLayout allTaskLayout = new VerticalLayout();
 
 //    @Order
-    public TasksView(RoomService roomService, AccountService accountService , TaskService taskService) {
+    public TasksView(RoomService roomService, AccountService accountService , TaskService taskService, ResidentAccountService residentAccountService) {
         tasksPresenter = new TasksPresenter();
         Account currentAccount ;
 //        Room room = roomService.findByRoomNumber("311");
 //        Room room = new Room()
-        tasksPresenter.init(currentAccount, taskService, allTaskLayout);
+        tasksPresenter.init(residentAccountService, taskService, allTaskLayout);
         add(allTaskLayout);
     }
 }

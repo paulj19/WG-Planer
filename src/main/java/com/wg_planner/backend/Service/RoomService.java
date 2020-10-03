@@ -28,7 +28,7 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public Room findByRoomNumber(String roomNumber) {
+    public Room getRoomByRoomNumber(String roomNumber) {
         if(roomNumber == null || roomNumber.isEmpty()) {
             return null;
         } else {
@@ -37,6 +37,10 @@ public class RoomService {
     }
 
     public long count() { return roomRepository.count(); }
+
+    public Room getMyRoom(ResidentAccount residentAccount) {
+        return roomRepository.getMyRoom(residentAccount.getId());
+    }
 
     @PostConstruct
     public void populateTestData() {
@@ -58,11 +62,5 @@ public class RoomService {
                         return room;
                     }).collect(Collectors.toList()));
         }
-        Room room = roomRepository.search("311");
-        ResidentAccount residentAccount = new ResidentAccount(room);
-        residentAccount.
-        Account account = new Account();
-        accountRepository.save(account);
     }
-
 }
