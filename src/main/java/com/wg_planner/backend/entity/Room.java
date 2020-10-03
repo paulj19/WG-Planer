@@ -20,8 +20,10 @@ public class Room extends AbstractEntity implements Cloneable {
     @ManyToOne
     private Floor floor;
 
+    private Boolean occupied;
+
     @OneToOne
-    private Resident resident;
+    private ResidentAccount residentAccount;
 
 //    public Room(@NotNull @NotEmpty String roomNumber) {
 //        this.roomNumber = roomNumber;
@@ -34,10 +36,10 @@ public class Room extends AbstractEntity implements Cloneable {
         this.floor = floor;
     }
 
-    public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor, Resident resident) {
+    public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor, ResidentAccount residentAccount) {
         this.roomNumber = roomNumber;
         this.floor = floor;
-        this.resident = resident;
+        this.residentAccount = residentAccount;
     }
 
     public String getRoomNumber() {
@@ -61,11 +63,19 @@ public class Room extends AbstractEntity implements Cloneable {
         this.floor = floor;
     }
 
-    public Resident getResident() {
-        return resident;
+    public ResidentAccount getResidentAccount() {
+        return residentAccount;
     }
 
-    public void setResident(Resident resident) {
-        this.resident = resident;
+    public void setResidentAccount(ResidentAccount residentAccount) {
+        this.residentAccount = residentAccount;
+    }
+
+    public Boolean isOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(Boolean occupied) {
+        this.occupied = occupied;
     }
 }

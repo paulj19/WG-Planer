@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO change members to final
 @Entity
 public class Floor extends AbstractEntity implements Cloneable {
     @Id
@@ -26,7 +27,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     private String roomStartIndex;
 
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER)
-    private List<Room> rooms = new ArrayList<>();
+    private List<Room> rooms;
 
     @OneToMany
     private List<Task> tasks = new ArrayList<>();
@@ -34,47 +35,78 @@ public class Floor extends AbstractEntity implements Cloneable {
     public Floor() {
     }
 
-    public Floor(@NotNull @NotEmpty String floorNumber, @NotNull @NotEmpty String numberOfRooms, @NotNull @NotEmpty String roomStartIndex) {
-        this.floorNumber = floorNumber;
-        this.numberOfRooms = numberOfRooms;
-        this.roomStartIndex = roomStartIndex;
+    public static class FloorBuilder {
+        private final String floorNumber;
+
+        private final String numberOfRooms;
+
+        private final String roomStartIndex;
+
+        private List<Room> rooms;
+
+        private List<Task> tasks;
+
+        public FloorBuilder(String floorNumber, String numberOfRooms, String roomStartIndex) {
+            this.floorNumber = floorNumber;
+            this.numberOfRooms = numberOfRooms;
+            this.roomStartIndex = roomStartIndex;
+        }
+
+        public void setRooms(List<Room> rooms) {
+            this.rooms = rooms;
+        }
+
+        public FloorBuilder setTasks(List<Task> tasks) {
+            this.tasks = tasks;
+            return  this;
+        }
+
+        public Floor build() {
+            return new Floor(this);
+        }
     }
 
-    public Floor(Long id, @NotNull @NotEmpty String floorNumber, @NotNull @NotEmpty String numberOfRooms, @NotNull @NotEmpty String roomStartIndex, List<Room> rooms) {
-        this.id = id;
-        this.floorNumber = floorNumber;
-        this.numberOfRooms = numberOfRooms;
-        this.roomStartIndex = roomStartIndex;
-        this.rooms = rooms;
+    private Floor(FloorBuilder builder) {
+        this.floorNumber = builder.floorNumber;
+        this.numberOfRooms = builder.numberOfRooms;
+        this.roomStartIndex = builder.roomStartIndex;
+        this.rooms = builder.rooms;
+        this.tasks = builder.tasks;
     }
 
-    public Floor(Long id, @NotNull @NotEmpty String floorNumber, @NotNull @NotEmpty String numberOfRooms, @NotNull @NotEmpty String roomStartIndex, List<Room> rooms, List<Task> tasks) {
-        this.id = id;
-        this.floorNumber = floorNumber;
-        this.numberOfRooms = numberOfRooms;
-        this.roomStartIndex = roomStartIndex;
-        this.rooms = rooms;
-        this.tasks = tasks;
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
     public String getFloorNumber() {
         return floorNumber;
     }
 
-    public void setFloorNumber(String floorNumber) {
-        this.floorNumber = floorNumber;
+    public String getNumberOfRooms() {
+        return numberOfRooms;
     }
 
-    public void addRooms(Room room) {
-        rooms.add(room);
+    public String getRoomStartIndex() {
+        return roomStartIndex;
     }
 
-    public void addTask(Task task) {
-        tasks.add(task);
+    public List<Room> getRooms() {
+        return rooms;
     }
 
     public List<Task> getTasks() {
         return tasks;
     }
 
+    public void addRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public void addTask(Task task) {
+        tasks.add(task);
+
+
+    }
 }

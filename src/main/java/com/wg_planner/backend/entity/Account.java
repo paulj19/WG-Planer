@@ -1,5 +1,7 @@
 package com.wg_planner.backend.entity;
 
+import com.wg_planner.backend.utils.AccountType;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,36 +10,33 @@ public class Account extends AbstractEntity implements Cloneable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-//    public Account(Room room) {
-//        this.room = room;
-//    }
+    AccountType accountType;
 
-//    private String roomNumber;
-//
-//    public String getRoom() {
-//        return roomNumber;
-//    }
-//
-//    public void setRoom(String roomNumber) {
-//        this.roomNumber = roomNumber;
-//    }
-
-    @OneToOne
-    @JoinColumn(name = "roomId")
-    private Room room;
+    //TODO remove this
+//    @OneToOne
+//    @JoinColumn(name = "roomId")
+//    private Room room;
 
     public Account() {
     }
 
-    public Account(Room room) {
-        this.room = room;
+//    public Account(Room room) {
+//        this.room = room;
+//    }
+
+//    public Room getRoom() {
+//        return room;
+//    }
+
+//    public void setRoom(Room room) {
+//        this.room = room;
+//    }
+
+    public AccountType getAccountType() {
+        return accountType;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 }

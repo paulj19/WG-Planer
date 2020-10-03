@@ -5,7 +5,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Resident extends Account implements Cloneable {
+@PrimaryKeyJoinColumns(
+    {
+        @PrimaryKeyJoinColumn(name = "id")
+    }
+)
+public class ResidentAccount extends Account implements Cloneable {
 
     private Boolean away = false;
 
@@ -14,10 +19,10 @@ public class Resident extends Account implements Cloneable {
     @OneToOne
     private Room room;
 
-    public Resident() {
+    public ResidentAccount() {
     }
 
-    public Resident(@NotNull @NotEmpty Room room) {
+    public ResidentAccount(@NotNull @NotEmpty Room room) {
         this.room = room;
     }
 

@@ -2,6 +2,7 @@ package com.wg_planner.backend.Service;
 
 import com.wg_planner.backend.Repository.AccountRepository;
 import com.wg_planner.backend.Repository.RoomRepository;
+import com.wg_planner.backend.entity.Account;
 import com.wg_planner.backend.entity.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class AccountService {
         this.roomRepository = roomRepository;
     }
 
+    public Account getAccount(Long accountId) {
+        return accountRepository.getAccount(accountId);
+    }
+
 //    @PostConstruct
 //    public void populateTestData() {
 //        Room room = roomRepository.search("311");
@@ -27,7 +32,7 @@ public class AccountService {
 ////        accountRepository.save(account);
 //    }
 
-    public Room getMyRoom() {
-        return accountRepository.findMyAccount().getRoom();
-    }
+//    public Room getMyRoom() {
+//        return accountRepository.findMyAccount().getRoom();
+//    }
 }
