@@ -32,7 +32,7 @@ public class TasksView extends VerticalLayout {
         Account currentAccount ;
 //        Room room = roomService.findByRoomNumber("311");
 //        Room room = new Room()
-        tasksPresenter.init(residentAccountService, taskService, allTaskLayout);
+        tasksPresenter.init(residentAccountService, taskService, roomService, allTaskLayout);
         add(allTaskLayout);
     }
 }

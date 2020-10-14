@@ -1,5 +1,7 @@
 package com.wg_planner.backend.entity;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -22,7 +24,9 @@ public class Room extends AbstractEntity implements Cloneable {
 
     private Boolean occupied;
 
-    @OneToOne
+    //owning side, referencing side
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room")
+//    @OneToOne
     private ResidentAccount residentAccount;
 
 //    public Room(@NotNull @NotEmpty String roomNumber) {
@@ -40,6 +44,11 @@ public class Room extends AbstractEntity implements Cloneable {
         this.roomNumber = roomNumber;
         this.floor = floor;
         this.residentAccount = residentAccount;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
     public String getRoomNumber() {

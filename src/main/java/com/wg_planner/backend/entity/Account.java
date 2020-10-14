@@ -5,7 +5,8 @@ import com.wg_planner.backend.utils.AccountType;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "account")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Account extends AbstractEntity implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +22,10 @@ public class Account extends AbstractEntity implements Cloneable {
     public Account() {
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
 //    public Account(Room room) {
 //        this.room = room;
 //    }

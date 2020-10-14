@@ -29,19 +29,19 @@ public class TaskService {
 
     public long count() { return taskRepository.count(); }
 
-    @PostConstruct
-    public void populateTestData() {
-        if(taskRepository.count() == 0) {
-            Random r = new Random(0);
-
-            List<Room> allRooms = roomRepository.findAll();
-            taskRepository.saveAll(Stream.of("Biomüll", "Restmüll", "Gelbersack", "Ofen Reinigen", "Mikrowelle Reinigen")
-                    .map(taskName -> {
-                        Task task = new Task();
-                        task.setTaskName(taskName);
-                        task.setAssignedRoom(allRooms.get(r.nextInt(allRooms.size())));
-                        return task;
-                    }).collect(Collectors.toList()));
-        }
-    }
+//    @PostConstruct
+//    public void populateTestData() {
+//        if(taskRepository.count() == 0) {
+//            Random r = new Random(0);
+//
+//            List<Room> allRooms = roomRepository.findAll();
+//            taskRepository.saveAll(Stream.of("Biomüll", "Restmüll", "Gelbersack", "Ofen Reinigen", "Mikrowelle Reinigen")
+//                    .map(taskName -> {
+//                        Task task = new Task();
+//                        task.setTaskName(taskName);
+//                        task.setAssignedRoom(allRooms.get(r.nextInt(allRooms.size())));
+//                        return task;
+//                    }).collect(Collectors.toList()));
+//        }
+//    }
 }

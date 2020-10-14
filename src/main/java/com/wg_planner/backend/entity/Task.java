@@ -2,10 +2,12 @@ package com.wg_planner.backend.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "task")
 public class Task extends AbstractEntity {
 
     @NotNull

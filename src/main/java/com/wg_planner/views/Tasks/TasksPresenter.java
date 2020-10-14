@@ -16,11 +16,10 @@ import java.util.List;
 @Scope("prototype")
 public class TasksPresenter {
 
-    @Autowired
     RoomService roomService;
 
     @Autowired
-    TasksView allTasksView;
+    TasksView allTasksView; //Todo check
     AccountService accountService;
     ResidentAccountService residentAccountService;
     TaskService taskService;
@@ -31,13 +30,14 @@ public class TasksPresenter {
     List<Task> tasks;
 
 
-    public void init(ResidentAccountService residentAccountService, TaskService taskService, VerticalLayout allTaskLayout) {
+    public void init(ResidentAccountService residentAccountService, TaskService taskService, RoomService roomService, VerticalLayout allTaskLayout) {
         this.accountService = accountService;
         this.taskService = taskService;
         this.residentAccountService = residentAccountService;
+        this.roomService = roomService;
 //        todo the id of the resident account should be passed here to get the current residents room
 //        residentAccount = residentAccountService.getResidentAccount(currentAccount.getId());
-        residentAccount = residentAccountService.getResidentAccountByRoom(roomService.getRoomByRoomNumber("310"));
+        residentAccount = residentAccountService.getResidentAccountByRoom(roomService.getRoomByRoomNumber("309"));
         tasks = taskService.findAll();
         for (Task task :
                 tasks) {
