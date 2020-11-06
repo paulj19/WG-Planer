@@ -20,7 +20,7 @@ public class ResidentAccount extends Account implements Cloneable {
 //    @JoinColumn(name = "room_id")//this id to be used in select?
     @OneToOne
     private Room room;
-    private User user;
+//    private User user;
     @Column(unique=true)
     String userName;
     //
