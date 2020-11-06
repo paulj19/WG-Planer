@@ -1,10 +1,8 @@
 package com.wg_planner.views.Tasks;
 
-import com.wg_planner.backend.Service.AccountService;
-import com.wg_planner.backend.Service.ResidentAccountService;
-import com.wg_planner.backend.Service.RoomService;
-import com.wg_planner.backend.Service.TaskService;
+import com.wg_planner.backend.Service.*;
 import com.wg_planner.backend.entity.Account;
+import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.views.main.MainView;
@@ -27,12 +25,15 @@ public class TasksView extends VerticalLayout {
     VerticalLayout allTaskLayout = new VerticalLayout();
 
 //    @Order
-    public TasksView(RoomService roomService, AccountService accountService , TaskService taskService, ResidentAccountService residentAccountService) {
+    public TasksView(RoomService roomService, AccountService accountService , TaskService taskService, FloorService floorService, ResidentAccountService residentAccountService) {
         tasksPresenter = new TasksPresenter();
         Account currentAccount ;
-//        Room room = roomService.findByRoomNumber("311");
+        Room room = roomService.getRoomByNumber("315");
+
+        Floor floor = room.getFloor();
+        Room room1 = floorService.getNextAvailableRoom(floor, room);
 //        Room room = new Room()
-        tasksPresenter.init(residentAccountService, taskService, roomService, allTaskLayout);
+        tasksPresenter.init(residentAccountService, taskService, roomService, floorService, allTaskLayout);
         add(allTaskLayout);
     }
 }

@@ -5,8 +5,8 @@ import com.wg_planner.backend.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.*;
 
 @Service
 public class FloorService {
@@ -35,6 +35,27 @@ public class FloorService {
         List<ResidentAccount> residents = new ArrayList<>();
         floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(residents::add);
         return residents;
+    }
+    public List<Room> getAllAvailableRooms(Floor floor) {
+        List<Room> rooms = new ArrayList<>();
+//        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(rooms::add);
+        floorRepository.findAllRoomsInFloor(floor.getId()).stream().filter(room -> !room.getResidentAccount().isAway()).forEach(rooms::add);
+        return rooms;
+    }
+
+    public Room getNextAvailableRoom(Floor floor, Room room) {
+        List<Room> roomsInFloor = getAllAvailableRooms(floor);
+        roomsInFloor.sort(Comparator.comparing(Room::getRoomNumber));
+        if(roomsInFloor.contains(room)) {
+            int idx = roomsInFloor.indexOf(room);
+            if(idx+1 == roomsInFloor.size()) {
+                return roomsInFloor.get(0);
+            } else {
+                return roomsInFloor.get(idx+1);
+            }
+        } else {
+            return null;
+        }
     }
 
     public List<Task> getAllTasks(Floor floor) {

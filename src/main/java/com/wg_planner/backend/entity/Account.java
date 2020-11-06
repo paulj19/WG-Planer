@@ -1,6 +1,7 @@
 package com.wg_planner.backend.entity;
 
 import com.wg_planner.backend.utils.AccountType;
+import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
 
@@ -12,6 +13,8 @@ public class Account extends AbstractEntity implements Cloneable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
+//    User user;
+
     AccountType accountType;
 
     //TODO remove this
@@ -21,6 +24,18 @@ public class Account extends AbstractEntity implements Cloneable {
 
     public Account() {
     }
+
+//    public Account(User user) {
+//        this.user = user;
+//    }
+
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     @Override
     public Long getId() {

@@ -1,5 +1,7 @@
 package com.wg_planner.backend.entity;
 
+import org.springframework.security.core.userdetails.User;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,16 +17,40 @@ public class ResidentAccount extends Account implements Cloneable {
 
     private Boolean away = false;
 
-    @OneToOne
 //    @JoinColumn(name = "room_id")//this id to be used in select?
+    @OneToOne
     private Room room;
-
+    private User user;
+    @Column(unique=true)
+    String userName;
+    //
     public ResidentAccount() {
     }
-
-    public ResidentAccount(@NotNull @NotEmpty Room room) {
+//    public ResidentAccount(String username, String password,
+//                   Collection<? extends GrantedAuthority> authorities) {
+//        super(username, password, authorities);
+//    }
+    public ResidentAccount(@NotNull @NotEmpty Room room, String userName) {
         this.room = room;
+        this.userName = userName;
     }
+
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
 
 //    @Id
 //    public Long getId() {

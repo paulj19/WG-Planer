@@ -35,6 +35,10 @@ public class ResidentAccountService {
         return residentAccountRepository.getResidentAccountByRoom(room.getId());
     }
 
+    public ResidentAccount getResidentAccountByUsername(String username) {
+        return residentAccountRepository.getResidentAccountByUsername(username);
+    }
+
     public Room getMyRoom(ResidentAccount residentAccount) {
         return roomRepository.getMyRoom(residentAccount.getId());
     }

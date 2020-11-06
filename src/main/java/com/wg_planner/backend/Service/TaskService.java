@@ -4,17 +4,22 @@ import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.Repository.TaskRepository;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.views.Tasks.TaskCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 public class TaskService {
+    private static final Logger LOGGER = Logger.getLogger(TaskService.class
+            .getName());
     private final TaskRepository taskRepository;
     private final RoomRepository roomRepository;
 
@@ -28,6 +33,14 @@ public class TaskService {
     }
 
     public long count() { return taskRepository.count(); }
+
+    public void save(Task task) {
+        if(task == null) {
+            LOGGER.log(Level.SEVERE, "task to save in taskService::save is null");
+            return;
+        }
+        taskRepository.save(task);
+    }
 
 //    @PostConstruct
 //    public void populateTestData() {
