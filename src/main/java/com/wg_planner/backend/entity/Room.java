@@ -17,8 +17,8 @@ public class Room extends AbstractEntity implements Cloneable {
 //    @UniqueConstraint("roomNumber")
     private String roomNumber;
 
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     @ManyToOne
     private Floor floor;
 

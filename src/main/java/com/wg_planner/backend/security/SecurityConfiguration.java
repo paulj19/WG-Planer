@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,25 +37,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
     }
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withUsername("user")
-//                        .password("{noop}password")
-//                        .roles("USER")
-//                        .build();
-        List<UserDetails> users = new ArrayList<>();
-        for(int i= 0 ; i < 9 ; i++) {
-            users.add(
-                    User.withUsername(i + "@example.com")
-                            .password("{noop}password")
-                            .roles("USER")
-                            .build());
-        }
-
-        return new InMemoryUserDetailsManager(users);
-    }
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsService() {
+////        UserDetails user =
+////                User.withUsername("user")
+////                        .password("{noop}password")
+////                        .roles("USER")
+////                        .build();
+//        List<UserDetails> users = new ArrayList<>();
+//        for(int i= 0 ; i < 9 ; i++) {
+//            users.add(
+//                    User.withUsername(i + "@example.com")
+//                            .password("{noop}password")
+//                            .roles("USER")
+//                            .build());
+//        }
+//
+//        return new InMemoryUserDetailsManager(users);
+//    }
 
     @Override
     public void configure(WebSecurity web) {

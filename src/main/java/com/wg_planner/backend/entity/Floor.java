@@ -9,9 +9,11 @@ import java.util.List;
 //TODO change members to final
 @Entity
 public class Floor extends AbstractEntity implements Cloneable {
+    //TODO remove this id because it already inherits from AbstractEntity
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
 
     //    @UniqueConstraint("roomNumber")
     @NotNull

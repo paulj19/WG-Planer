@@ -21,4 +21,6 @@ public interface FloorRepository extends JpaRepository<Floor, Long> {
     @Query("select r from Room r " +
             "where r.floor = :floorIdToSearch and r.residentAccount.away = false ")
     List<Room> findAllAvailableRooms(@Param("floorIdToSearch") Long floorIdToSearch);
+     @Query("select f from Floor f where f.floorNumber = :floorNumber")
+    Floor findFloorByNumber(@Param("floorNumber") String floorNumber);
 }

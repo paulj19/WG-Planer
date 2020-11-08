@@ -14,6 +14,6 @@ public interface ResidentAccountRepository extends JpaRepository<ResidentAccount
 //    @Query(value = "select ra from ResidentAccount ra where ra.room.id = :roomId ", nativeQuery = true)
     @Query(value = "select ra from ResidentAccount ra where ra.room.id = :roomId ")
     ResidentAccount getResidentAccountByRoom(Long roomId);
-    @Query(value = "select ra from ResidentAccount ra where ra.userName LIKE :username")
-    ResidentAccount getResidentAccountByUsername(String username);
+//    @Query(value = "select ra from Account ra where ra.userName LIKE :username")
+//    ResidentAccount getResidentAccountByUsername(String username);
 }

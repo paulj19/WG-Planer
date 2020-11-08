@@ -24,10 +24,10 @@ import java.util.stream.Stream;
 @Service
 public class RoomService {
     private final RoomRepository roomRepository;
-    private final AccountRepository accountRepository;
     private final FloorRepository floorRepository;
     private final TaskRepository taskRepository;
     private final ResidentAccountRepository residentAccountRepository;
+    private final AccountRepository accountRepository;
 
     @Autowired
     public RoomService(RoomRepository roomRepository, AccountRepository accountRepository, FloorRepository floorRepository, TaskRepository taskRepository, ResidentAccountRepository residentAccountRepository) {
@@ -37,7 +37,6 @@ public class RoomService {
         this.taskRepository = taskRepository;
         this.residentAccountRepository = residentAccountRepository;
     }
-
 
     public List<Room> findAll() {
         return roomRepository.findAll();
@@ -67,15 +66,16 @@ public class RoomService {
                     .map(taskName -> {
                         Task task = new Task();
                         task.setTaskName(taskName);
-//                        task.setAssignedRoom(allRooms.get(r.nextInt(allRooms.size())));
                         return task;
                     }).collect(Collectors.toList()));
-        List<Task> tasks = taskRepository.findAll();
-
-        Floor floor = new Floor.FloorBuilder("2A", "9", "300").setTasks(tasks).build();
-        floorRepository.save(floor);
-
+        }
+        if (floorRepository.count() == 0) {
+            List<Task> tasks = taskRepository.findAll();
+            Floor floor = new Floor.FloorBuilder("2A", "9", "300").setTasks(tasks).build();
+            floorRepository.save(floor);
+        }
         if (roomRepository.count() == 0) {
+            Floor floor = floorRepository.findFloorByNumber("2A");
             roomRepository.saveAll(Stream.of("307", "308", "309", "310", "311", "312", "313", "314", "315")
                     .map(roomName -> {
                         Room room = new Room(roomName, floor);
@@ -84,35 +84,21 @@ public class RoomService {
                     }).collect(Collectors.toList()));
             List<Room> rooms = roomRepository.findAll();
             Random r = new Random(0);
+            List<Task> tasks = taskRepository.findAll();
             for (Task task : tasks) {
                 task.setAssignedRoom(rooms.get(r.nextInt(rooms.size())));
                 taskRepository.save(task);
             }
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        }
+        if (residentAccountRepository.count() == 0) {
+            List<Room> rooms = roomRepository.findAll();
             List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             authorities.add(new SimpleGrantedAuthority("USER"));
-//        User user = new User("user@example.com", passwordEncoder.encode("s3cr3t"), authorities);
-//            for(int i= 0 ; i < 9 ; i++) {
-//                UserDetails user =
-//                        User.withUsername(i + "@example.com")
-//                                .password("{noop}password")
-//                                .roles("USER")
-//                                .build();
-//            }
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            UserDetails userDetail = (UserDetails) auth.getPrincipal();
-            SecurityConfiguration securityConfiguration = new SecurityConfiguration();
-            List<User> users = new ArrayList<>();
-
-            for (int i = 0; i < 9; i++) {
-                users.add((User) securityConfiguration.userDetailsService().loadUserByUsername(i + "@example.com"));
-            }
             int i = 0;
             for (Room room : rooms) {
                 List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
-                ResidentAccount residentAccount = new ResidentAccount(room, users.get(i++).getUsername());
+                ResidentAccount residentAccount = new ResidentAccount(room, i++ + "@example.com", "{noop}password", authorities);
                 residentAccountRepository.save(residentAccount);
-//            ResidentAccount residentAccount1 = (room.getId());
             }
             Room room2 = getRoomByNumber("307");
             room2.getResidentAccount().setAway(true);
@@ -120,23 +106,8 @@ public class RoomService {
             Room room3 = getRoomByNumber("308");
             room3.getResidentAccount().setAway(true);
             roomRepository.saveAndFlush(room3);
-//            roomRepository.
-//            ResidentAccount residentAccount = room2.getResidentAccount();
-//            residentAccountRepository.save(room2.getResidentAccount());
-//            int ix = 1;
-//            for (Task task : tasks) {
-//                if(ix == 1){
-//                    ix += 1;
-//                    continue;
-//                }
-//                task.setAssignedRoom(getRoomByNumber("309"));
-//                taskRepository.save(task);
-//            }
-//            roomRepository.findAll().stream().forEach(room -> residentAccountRepository.save(new ResidentAccount(room)));
             List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
             List<ResidentAccount> residentAccountsx = residentAccountRepository.findAll();
-        }
-
         }
     }
 }

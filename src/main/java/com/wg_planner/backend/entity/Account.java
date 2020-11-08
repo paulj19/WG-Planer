@@ -6,7 +6,6 @@ import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,16 +19,17 @@ import java.util.function.Function;
 @Entity
 @Table(name = "account")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Account implements UserDetails, CredentialsContainer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+//account is of type UserDetails?
+public class Account extends AbstractEntity implements UserDetails, CredentialsContainer, Cloneable {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    Long id;
 
     private static final Log logger = LogFactory.getLog(Account.class);
 
     private String password;
     private String username;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<GrantedAuthority> authorities;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
@@ -167,7 +167,7 @@ public class Account implements UserDetails, CredentialsContainer {
     }
 
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
     public static class AccountBuilder {
@@ -255,7 +255,7 @@ public class Account implements UserDetails, CredentialsContainer {
 
         public UserDetails build() {
             String encodedPassword = (String) this.passwordEncoder.apply(this.password);
-            return new User(this.username, encodedPassword, !this.disabled, !this.accountExpired, !this.credentialsExpired, !this.accountLocked, this.authorities);
+            return new Account(this.username, encodedPassword, !this.disabled, !this.accountExpired, !this.credentialsExpired, !this.accountLocked, this.authorities);
         }
     }
 

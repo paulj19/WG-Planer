@@ -19,7 +19,6 @@ public class TasksPresenter {
 
     @Autowired
     TasksView allTasksView; //Todo check
-    AccountService accountService;
     FloorService floorService;
     ResidentAccountService residentAccountService;
     TaskService taskService;
@@ -34,7 +33,6 @@ public class TasksPresenter {
 
 
     public void init(ResidentAccountService residentAccountService, TaskService taskService, RoomService roomService, FloorService floorService, VerticalLayout allTaskLayout) {
-        this.accountService = accountService;
         this.taskService = taskService;
         this.residentAccountService = residentAccountService;
         this.roomService = roomService;
