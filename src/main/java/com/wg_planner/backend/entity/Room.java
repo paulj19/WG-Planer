@@ -22,7 +22,7 @@ public class Room extends AbstractEntity implements Cloneable {
     @ManyToOne
     private Floor floor;
 
-    private Boolean occupied;
+    private Boolean occupied = false;
 
     //owning side, referencing side
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)

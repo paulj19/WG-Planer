@@ -9,6 +9,7 @@ import java.util.*;
 
 @Service
 public class FloorService {
+    private static FloorRepository floorRepositoryStaic;
     private final RoomRepository roomRepository;
     private final TaskRepository taskRepository;
     private final FloorRepository floorRepository;
@@ -20,6 +21,7 @@ public class FloorService {
         this.roomRepository = roomRepository;
         this.taskRepository = taskRepository;
         this.floorRepository = floorRepository;
+        floorRepositoryStaic = floorRepository;
         this.accountRepository = accountRepository;
         this.residentAccountRepository = residentAccountRepository;
     }
@@ -28,6 +30,14 @@ public class FloorService {
         List<ResidentAccount> residents = new ArrayList<>();
         floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).forEach(residents::add);
         return residents;
+    }
+
+    public static List<Floor> getAllFloors() {
+        return floorRepositoryStaic.findAllFloors();
+    }
+
+    public static List<Room> getAllNonOccupiedRoomsInFloor(Floor floor) {
+        return floorRepositoryStaic.findAllNonOccupiedRoomsInFloor(floor.getId());
     }
 
     public List<ResidentAccount> getAllAvailableResidents(Floor floor) {

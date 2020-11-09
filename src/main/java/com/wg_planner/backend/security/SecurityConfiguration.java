@@ -21,6 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_PROCESSING_URL = "/login";
     private static final String LOGIN_FAILURE_URL = "/login?error";
     private static final String LOGIN_URL = "/login";
+    private static final String SIGNUP_URL = "/signup";
     private static final String LOGOUT_SUCCESS_URL = "/login";
 
     @Override
@@ -28,6 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .requestCache().requestCache(new CustomRequestCache())
                 .and().authorizeRequests()
+                .antMatchers("/register").permitAll()
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()

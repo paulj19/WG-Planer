@@ -97,7 +97,7 @@ public class RoomService {
             int i = 0;
             for (Room room : rooms) {
                 List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
-                ResidentAccount residentAccount = new ResidentAccount(room, i++ + "@example.com", "{noop}password", authorities);
+                ResidentAccount residentAccount = new ResidentAccount("foo","bar", i++ + "@example.com", i++ + "@example.com", "{noop}password", room, authorities);
                 residentAccountRepository.save(residentAccount);
             }
             Room room2 = getRoomByNumber("307");

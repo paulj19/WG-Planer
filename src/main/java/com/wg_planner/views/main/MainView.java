@@ -50,6 +50,7 @@ public class MainView extends AppLayout {
         HorizontalLayout layout = new HorizontalLayout();
         Anchor logout = new Anchor("logout", "Log out");
 
+
         layout.setId("header");
         layout.getThemeList().set("dark", true);
         layout.setWidthFull();

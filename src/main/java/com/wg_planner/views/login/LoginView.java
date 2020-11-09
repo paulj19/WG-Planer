@@ -1,5 +1,7 @@
 package com.wg_planner.views.login;
 
+import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -7,6 +9,7 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.wg_planner.views.main.MainView;
 
 @Route("login")
 @PageTitle("login | WG Planner")
@@ -19,10 +22,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         addClassName("login-view");
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
+        Anchor signup = new Anchor("signup", "Sign Up");
 
         loginForm.setAction("login");
 
-        add(new H1("WG Planner"), loginForm);
+        add(new H1("WG Planner"), loginForm, signup);
     }
 
     @Override

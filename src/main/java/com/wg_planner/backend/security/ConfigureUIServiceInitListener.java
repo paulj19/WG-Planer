@@ -5,7 +5,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
-import com.wg_planner.views.login.LoginView;
+import com.wg_planner.views.signup.RegisterView;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,6 +19,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     }
     private void authenticateNavigation(BeforeEnterEvent event) {
         if (!LoginView.class.equals(event.getNavigationTarget())
+                && !RegisterView.class.equals(event.getNavigationTarget())
                 && !SecurityUtils.isUserLoggedIn()) {
             event.rerouteTo(LoginView.class);
         }

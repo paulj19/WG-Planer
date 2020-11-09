@@ -1,0 +1,11 @@
+.list-view .content {
+    display: flex;
+
+}
+
+.list-view .register-form {
+    flex-direction: column;
+    /*flex: 2;*/
+    justify-content: center;
+    padding: var(--lumo-space-m);
+}

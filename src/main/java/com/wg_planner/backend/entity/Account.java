@@ -27,6 +27,9 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
 
     private static final Log logger = LogFactory.getLog(Account.class);
 
+    private String firstName;
+    private String lastName;
+    private String email;
     private String password;
     private String username;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -40,12 +43,15 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     public Account() {
     }
 
-    public Account(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        this(username, password, true, true, true, true, authorities);
+    public Account(String firstName, String lastName, String email, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        this(firstName, lastName, email, username, password, true, true, true, true, authorities);
     }
 
-    public Account(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public Account(String firstName, String lastName, String email, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         if (username != null && !"".equals(username) && password != null) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
             this.username = username;
             this.password = password;
             this.enabled = enabled;
@@ -56,6 +62,30 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         } else {
             throw new IllegalArgumentException("Cannot pass null or empty values to constructor");
         }
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Collection<GrantedAuthority> getAuthorities() {
@@ -171,6 +201,9 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     public static class AccountBuilder {
+        private String firstName;
+        private String lastName;
+        private String email;
         private String username;
         private String password;
         private List<GrantedAuthority> authorities;
@@ -179,11 +212,39 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         private boolean credentialsExpired;
         private boolean disabled;
         private Function<String, String> passwordEncoder;
+        private static final String EMAIL_PATTERN =
+                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
         private AccountBuilder() {
             this.passwordEncoder = (password) -> {
                 return password;
             };
+        }
+
+        public Account.AccountBuilder firstName(String firstName) {
+            Assert.notNull(firstName, "firstName cannot be null");
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Account.AccountBuilder lastName(String lastName) {
+            Assert.notNull(lastName, "lastName cannot be null");
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Account.AccountBuilder email(String email) {
+            boolean emailValid;
+            Assert.notNull(email, "email cannot be null");
+            if (!email.matches(EMAIL_PATTERN)) {
+                emailValid = false;
+            } else {
+                emailValid = true;
+            }
+            Assert.isTrue(emailValid, "invalid email address format");
+            this.email = email;
+            return this;
         }
 
         public Account.AccountBuilder username(String username) {
@@ -255,7 +316,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
 
         public UserDetails build() {
             String encodedPassword = (String) this.passwordEncoder.apply(this.password);
-            return new Account(this.username, encodedPassword, !this.disabled, !this.accountExpired, !this.credentialsExpired, !this.accountLocked, this.authorities);
+            return new Account(this.firstName, this.lastName, this.email, this.username, encodedPassword, !this.disabled, !this.accountExpired, !this.credentialsExpired, !this.accountLocked, this.authorities);
         }
     }
 
