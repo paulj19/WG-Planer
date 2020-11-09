@@ -5,31 +5,40 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.Service.FloorService;
+import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.entity.Account;
 import com.wg_planner.backend.entity.Floor;
+import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //todo registration form for different roles(combo box options) this is for residents, change name accordingly?
+// todo are you currently in the room and ready to take the tasks
 public class RegisterForm extends FormLayout {
+    @Autowired
+    RoomService roomService;
+
     TextField firstName = new TextField("First Name", "please enter your first name");
     TextField lastName = new TextField("Last Name", "please enter your last name");
     EmailField email = new EmailField("Email", "enter your company email address");
     TextField username = new TextField("Username", "please enter a user name");
     PasswordField password = new PasswordField("Password", "min 6 characters");
-    //    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor");
-//    ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room");
+    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor");
+    ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room");
     Account account;
     Floor selectedFloor;
     Room selectedRoom;
@@ -50,23 +59,40 @@ public class RegisterForm extends FormLayout {
 //        binder.bindInstanceFields(this);
 //        rooms = FloorService.getAllNonOccupiedRoomsInFloor(floors.get(0));
 //
-//        floorComboBox.setItems(floors);
-//        floorComboBox.setItemLabelGenerator(Floor::getFloorNumber);
-//        floorComboBox.addValueChangeListener(event -> {
-//            selectedFloor = event.getValue();
-//            rooms = FloorService.getAllNonOccupiedRoomsInFloor(selectedFloor);
-//            roomsRoomComboBox.setItems(rooms);
-//            roomsRoomComboBox.setItemLabelGenerator(Room::getRoomNumber);
-//        });
-//        roomsRoomComboBox.addFocusListener(event -> {
-//            if (selectedFloor == null) {
-//                //TODO not working
-//                roomsRoomComboBox.setErrorMessage("please select a floor");
-//            }
-//        });
-//        roomsRoomComboBox.addValueChangeListener(event -> {
-//            selectedRoom = event.getValue();
-//        });
+        floorComboBox.setItems(floors);
+        floorComboBox.setItemLabelGenerator(Floor::getFloorNumber);
+        floorComboBox.setAllowCustomValue(false);
+
+        floorComboBox.addValueChangeListener(event -> {
+            selectedFloor = event.getValue();
+            if (selectedFloor != null) {
+                rooms = FloorService.getAllNonOccupiedRoomsInFloor(selectedFloor);
+                roomsRoomComboBox.setItems(rooms);
+                roomsRoomComboBox.setItemLabelGenerator(Room::getRoomNumber);
+                floorComboBox.setInvalid(false);
+            } else {
+                floorComboBox.setInvalid(true);
+            }
+        });
+        roomsRoomComboBox.setRequiredIndicatorVisible(true);
+        roomsRoomComboBox.addFocusListener(event -> {
+            if (selectedFloor == null) {
+                //TODO not working
+                floorComboBox.setErrorMessage("floor not selected");
+                floorComboBox.setInvalid(true);
+            } else {
+                floorComboBox.setInvalid(false);
+            }
+        });
+        roomsRoomComboBox.addValueChangeListener(event -> {
+            selectedRoom = event.getValue();
+            if (selectedRoom == null) {
+                roomsRoomComboBox.setErrorMessage("room not selected");
+                floorComboBox.setInvalid(true);
+            } else {
+                floorComboBox.setInvalid(false);
+            }
+        });
         firstName.setValueChangeMode(ValueChangeMode.EAGER);
         firstName.addValueChangeListener(textFieldBlurEvent -> {
             if (!isNameValid(firstName.getValue())) {
@@ -87,10 +113,10 @@ public class RegisterForm extends FormLayout {
             }
             checkAndSetRegisterButton();
         });
-        email.setValueChangeMode(ValueChangeMode.EAGER);
+//        email.setValueChangeMode(ValueChangeMode.EAGER);
         email.addValueChangeListener(textFieldBlurEvent -> {
             if (!isEmailValid(email.getValue())) {
-                email.setErrorMessage("invalid name");
+                email.setErrorMessage("invalid email address");
                 email.setInvalid(true);
             } else {
                 email.setInvalid(false);
@@ -101,7 +127,7 @@ public class RegisterForm extends FormLayout {
         username.setValueChangeMode(ValueChangeMode.EAGER);
         username.addValueChangeListener(textFieldBlurEvent -> {
             if (!isUsernameValid(username.getValue())) {
-                username.setErrorMessage("invalid name");
+                username.setErrorMessage("invalid username");
                 username.setInvalid(true);
             } else {
                 username.setInvalid(false);
@@ -112,7 +138,7 @@ public class RegisterForm extends FormLayout {
         password.setValueChangeMode(ValueChangeMode.EAGER);
         password.addValueChangeListener(textFieldBlurEvent -> {
             if (!isPasswordValid(password.getValue())) {
-                password.setErrorMessage("invalid name");
+                password.setErrorMessage("invalid password");
                 password.setInvalid(true);
             } else {
                 password.setInvalid(false);
@@ -121,7 +147,7 @@ public class RegisterForm extends FormLayout {
         });
         setWidth("500px");
 //        floorComboBox, roomsRoomComboBox,
-        add(firstName, lastName, email, username, password, createButtonLayout());
+        add(firstName, lastName, email, username, password, floorComboBox, roomsRoomComboBox, createButtonLayout());
     }
 
     private void checkAndSetRegisterButton() {
@@ -171,23 +197,38 @@ public class RegisterForm extends FormLayout {
         return true;
     }
 
-    private void getEnteredValuesAsAccount() throws ValidationException {
-//        Account account;
-        String firstNameValue = firstName.getValue();
-//        valid = firstName.getValue();
-//        lastName.getValue();
-//        return account;
+    //    private Room getSelectedRoomByName(String roomName) throws RuntimeException {
+//        if (roomName != null && !roomName.trim().isEmpty()) {
+//            return roomService.getRoomByNumber(roomName);
+//        } else {
+//            throw new RuntimeException("roomName is invalid");
+//        }
+//    }
+    private Room getSelectedRoom() throws RuntimeException {
+        Room selectedRoom = roomsRoomComboBox.getValue();
+        Floor selectedFloor = floorComboBox.getValue();
+        if (selectedRoom == null || selectedFloor == null) {
+            throw new RuntimeException("selected room or floor null");
+        }
+        selectedRoom.setFloor(selectedFloor);
+        return selectedRoom;
+    }
 
+    private List<GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("USER"));
+        return authorities;
+    }
+
+    private Account getEnteredValuesAsAccount() {
+        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(), email.getValue(), username.getValue(), password.getValue(), getSelectedRoom(), getAuthorities());
+        return residentAccount;
     }
 
     private void validateAndSave() {
-        try {
-            getEnteredValuesAsAccount();
+        account = getEnteredValuesAsAccount();
 //            binder.writeBean(account);
-            fireEvent(new RegisterFormEvent.SaveEvent(this, account, selectedFloor, selectedRoom));
-        } catch (ValidationException e) {
-            e.printStackTrace();
-        }
+        fireEvent(new RegisterFormEvent.SaveEvent(this, account, selectedFloor, selectedRoom));
     }
 
     public static abstract class RegisterFormEvent extends ComponentEvent<RegisterForm> {
@@ -202,7 +243,7 @@ public class RegisterForm extends FormLayout {
             this.selectedRoom = selectedRoom;
         }
 
-        public Account getContact() {
+        public Account getAccount() {
             return account;
         }
 

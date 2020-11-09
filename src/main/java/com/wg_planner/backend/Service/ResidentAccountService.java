@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 
 public class ResidentAccountService {
+    private static final Logger LOGGER = Logger.getLogger(ResidentAccountService.class
+            .getName());
     private final ResidentAccountRepository residentAccountRepository;
     private final RoomRepository roomRepository;
     private final AccountRepository accountRepository;
@@ -44,6 +48,13 @@ public class ResidentAccountService {
         return roomRepository.getMyRoom(residentAccount.getId());
     }
 
+    public void save(ResidentAccount residentAccount) {
+        if(residentAccount == null) {
+            LOGGER.log(Level.SEVERE, "ResidentAccount Service: residentAccount passed to save is null");
+            return;
+        }
+        residentAccountRepository.save(residentAccount);
+    }
 //    @PostConstruct
 //    public void populateTestData() {
 //        List<Room> rooms = roomRepository.findAll();

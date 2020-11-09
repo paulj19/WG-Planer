@@ -6,9 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.hibernate.bytecode.BytecodeLogger.LOGGER;
 
 @Service
 public class FloorService {
+    private static final Logger LOGGER = Logger.getLogger(FloorService.class
+            .getName());
     private static FloorRepository floorRepositoryStaic;
     private final RoomRepository roomRepository;
     private final TaskRepository taskRepository;
@@ -37,7 +43,12 @@ public class FloorService {
     }
 
     public static List<Room> getAllNonOccupiedRoomsInFloor(Floor floor) {
-        return floorRepositoryStaic.findAllNonOccupiedRoomsInFloor(floor.getId());
+        if (floor != null) {
+            return floorRepositoryStaic.findAllNonOccupiedRoomsInFloor(floor.getId());
+        } else {
+            LOGGER.log(Level.SEVERE, "getAllNonOccupiedRoomsInFloor: floor parameter is null");
+            return null;
+        }
     }
 
     public List<ResidentAccount> getAllAvailableResidents(Floor floor) {
@@ -45,6 +56,7 @@ public class FloorService {
         floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(residents::add);
         return residents;
     }
+
     public List<Room> getAllAvailableRooms(Floor floor) {
         List<Room> rooms = new ArrayList<>();
 //        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(rooms::add);
@@ -55,12 +67,12 @@ public class FloorService {
     public Room getNextAvailableRoom(Floor floor, Room room) {
         List<Room> roomsInFloor = getAllAvailableRooms(floor);
         roomsInFloor.sort(Comparator.comparing(Room::getRoomNumber));
-        if(roomsInFloor.contains(room)) {
+        if (roomsInFloor.contains(room)) {
             int idx = roomsInFloor.indexOf(room);
-            if(idx+1 == roomsInFloor.size()) {
+            if (idx + 1 == roomsInFloor.size()) {
                 return roomsInFloor.get(0);
             } else {
-                return roomsInFloor.get(idx+1);
+                return roomsInFloor.get(idx + 1);
             }
         } else {
             return null;
