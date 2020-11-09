@@ -29,9 +29,6 @@ import java.util.List;
 //todo registration form for different roles(combo box options) this is for residents, change name accordingly?
 // todo are you currently in the room and ready to take the tasks
 public class RegisterForm extends FormLayout {
-    @Autowired
-    RoomService roomService;
-
     TextField firstName = new TextField("First Name", "please enter your first name");
     TextField lastName = new TextField("Last Name", "please enter your last name");
     EmailField email = new EmailField("Email", "enter your company email address");
