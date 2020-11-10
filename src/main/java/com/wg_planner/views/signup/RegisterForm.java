@@ -208,6 +208,7 @@ public class RegisterForm extends FormLayout {
             throw new RuntimeException("selected room or floor null");
         }
         selectedRoom.setFloor(selectedFloor);
+        selectedRoom.setOccupied(true);
         return selectedRoom;
     }
 
