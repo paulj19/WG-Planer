@@ -12,6 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
@@ -21,17 +25,29 @@ import java.util.function.Function;
 @Inheritance(strategy = InheritanceType.JOINED)
 //account is of type UserDetails?
 public class Account extends AbstractEntity implements UserDetails, CredentialsContainer, Cloneable {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    Long id;
-
     private static final Log logger = LogFactory.getLog(Account.class);
 
+    @NotBlank
+    @Size(max = 255)
     private String firstName;
+
+    @NotBlank
+    @Size(max = 255)
     private String lastName;
+
+    @Email
+    @Size(max = 255)
+    @Column(unique = true)
     private String email;
-    private String password;
+
+    @NotBlank
+    @Size(max = 255)
     private String username;
+
+    @NotNull
+    @Size(min = 6, max = 255)
+    private String passwordHash;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<GrantedAuthority> authorities;
     private boolean accountNonExpired;
@@ -43,17 +59,17 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     public Account() {
     }
 
-    public Account(String firstName, String lastName, String email, String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        this(firstName, lastName, email, username, password, true, true, true, true, authorities);
+    public Account(String firstName, String lastName, String email, String username, String passwordHash, Collection<? extends GrantedAuthority> authorities) {
+        this(firstName, lastName, email, username, passwordHash, true, true, true, true, authorities);
     }
 
-    public Account(String firstName, String lastName, String email, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        if (username != null && !"".equals(username) && password != null) {
+    public Account(String firstName, String lastName, String email, String username, String passwordHash, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+        if (username != null && !"".equals(username) && passwordHash != null) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
             this.username = username;
-            this.password = password;
+            this.passwordHash = passwordHash;
             this.enabled = enabled;
             this.accountNonExpired = accountNonExpired;
             this.credentialsNonExpired = credentialsNonExpired;
@@ -88,12 +104,18 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         this.email = email;
     }
 
+    @PrePersist
+    @PreUpdate
+    private void prepareData() {
+        this.email = email == null ? null : email.toLowerCase();
+    }
+
     public Collection<GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
 
     public String getPassword() {
-        return this.password;
+        return this.passwordHash;
     }
 
     public String getUsername() {
@@ -117,7 +139,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     public void eraseCredentials() {
-        this.password = null;
+        this.passwordHash = null;
     }
 
     private static SortedSet<GrantedAuthority> sortAuthorities(Collection<? extends GrantedAuthority> authorities) {

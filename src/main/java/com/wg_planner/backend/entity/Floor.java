@@ -3,21 +3,17 @@ package com.wg_planner.backend.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 //TODO change members to final
 @Entity
 public class Floor extends AbstractEntity implements Cloneable {
-    //TODO remove this id because it already inherits from AbstractEntity
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-
-
-    //    @UniqueConstraint("roomNumber")
     @NotNull
     @NotEmpty
+    @Size(max = 255)
+    @Column(unique = true)
     private String floorNumber;
 
     @NotNull
@@ -60,7 +56,7 @@ public class Floor extends AbstractEntity implements Cloneable {
 
         public FloorBuilder setTasks(List<Task> tasks) {
             this.tasks = tasks;
-            return  this;
+            return this;
         }
 
         public Floor build() {
@@ -74,12 +70,6 @@ public class Floor extends AbstractEntity implements Cloneable {
         this.roomStartIndex = builder.roomStartIndex;
         this.rooms = builder.rooms;
         this.tasks = builder.tasks;
-    }
-
-
-    @Override
-    public Long getId() {
-        return id;
     }
 
     public String getFloorNumber() {
@@ -108,7 +98,6 @@ public class Floor extends AbstractEntity implements Cloneable {
 
     public void addTask(Task task) {
         tasks.add(task);
-
 
     }
 }
