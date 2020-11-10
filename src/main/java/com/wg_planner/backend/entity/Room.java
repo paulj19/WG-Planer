@@ -14,11 +14,10 @@ public class Room extends AbstractEntity implements Cloneable {
 
     @NotNull
     @NotEmpty
-//    @UniqueConstraint("roomNumber")
     private String roomNumber;
 
-//    @NotNull
-//    @NotEmpty
+    @NotNull
+    @NotEmpty
     @ManyToOne
     private Floor floor;
 
@@ -26,7 +25,6 @@ public class Room extends AbstractEntity implements Cloneable {
 
     //owning side, referencing side
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
-//    @OneToOne
     private ResidentAccount residentAccount;
 
 //    public Room(@NotNull @NotEmpty String roomNumber) {
