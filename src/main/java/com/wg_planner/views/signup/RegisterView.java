@@ -14,10 +14,8 @@ import com.wg_planner.backend.entity.ResidentAccount;
 @PageTitle("Register | WG Planner")
 @CssImport("./styles/views/register/register-view.css")
 public class RegisterView extends VerticalLayout implements BeforeEnterObserver {
-
     ResidentAccountService residentAccountService;
     private RegisterForm registerForm = new RegisterForm();
-
 
     public RegisterView(ResidentAccountService residentAccountService) {
         this.residentAccountService = residentAccountService;
@@ -26,7 +24,6 @@ public class RegisterView extends VerticalLayout implements BeforeEnterObserver 
         registerForm.addListener(RegisterForm.RegisterFormEvent.SaveEvent.class, this::saveAccount);
         registerForm.addListener(RegisterForm.RegisterFormEvent.CancelEvent.class, this::clearRegistrationForm);
         add(new H1("Register"), registerForm);
-
     }
 
     private void saveAccount(RegisterForm.RegisterFormEvent.SaveEvent event) {
