@@ -1,13 +1,12 @@
 package com.wg_planner.backend.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "task")
+//todo composite f.k(floor_id, room_id)
 public class Task extends AbstractEntity {
 
     @NotNull
@@ -16,10 +15,12 @@ public class Task extends AbstractEntity {
 
     @NotNull
     @NotEmpty
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "floor_id")
     private Floor floor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
     private Room assignedRoom;
 
     public String getTaskName() {

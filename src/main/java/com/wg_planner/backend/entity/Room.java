@@ -5,21 +5,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 public class Room extends AbstractEntity implements Cloneable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
 
     @NotNull
     @NotEmpty
     private String roomNumber;
-
-    @NotNull
-    @NotEmpty
-    @ManyToOne
-    private Floor floor;
 
     private Boolean occupied = false;
 
@@ -27,11 +20,18 @@ public class Room extends AbstractEntity implements Cloneable {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
     private ResidentAccount residentAccount;
 
-//    public Room(@NotNull @NotEmpty String roomNumber) {
-//        this.roomNumber = roomNumber;
-//    }
+    @NotNull
+    @NotEmpty
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "floor_id")
+    private Floor floor;
 
-    public Room() { }
+    @OneToMany(mappedBy = "assignedRoom",fetch = FetchType.LAZY)
+    List<Task> assignedTasks;
+
+
+    public Room() {
+    }
 
     public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor) {
         this.roomNumber = roomNumber;
@@ -42,11 +42,6 @@ public class Room extends AbstractEntity implements Cloneable {
         this.roomNumber = roomNumber;
         this.floor = floor;
         this.residentAccount = residentAccount;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
     }
 
     public String getRoomNumber() {

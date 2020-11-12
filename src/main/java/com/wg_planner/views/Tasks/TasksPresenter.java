@@ -31,7 +31,7 @@ public class TasksPresenter {
     List<Task> tasks;
     VerticalLayout allTaskLayout;
 
-
+    //Todo!!! Task for each floor
     public void init(ResidentAccountService residentAccountService, TaskService taskService, RoomService roomService, FloorService floorService, VerticalLayout allTaskLayout) {
         this.taskService = taskService;
         this.residentAccountService = residentAccountService;

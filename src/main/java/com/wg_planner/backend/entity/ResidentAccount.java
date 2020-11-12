@@ -10,16 +10,12 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "resident_account")
-@PrimaryKeyJoinColumns(
-        {
-                @PrimaryKeyJoinColumn(name = "id")
-        }
-)
 public class ResidentAccount extends Account implements Cloneable {
 
     private Boolean away = false;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)//normally room is always gotten from ResidentAccount
+    @JoinColumn(name = "room_id")
     private Room room;
 
     public ResidentAccount() {
