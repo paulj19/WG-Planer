@@ -52,7 +52,7 @@ public class TasksPresenter {
         allTaskLayout.removeAll();
         for (Task task :
                 tasks) {
-            TaskCard taskCard = new TaskCard(task, myRoom.getRoomNumber().equals(task.getAssignedRoom().toString()));
+            TaskCard taskCard = new TaskCard(task, myRoom.getRoomNumber().equals(task.getAssignedRoom().getRoomNumber()));
             taskCard.addListener(TaskCard.TaskCardEvent.DoneEvent.class, this::taskDone);
             taskCard.addListener(TaskCard.TaskCardEvent.RemindEvent.class, this::taskRemind);
             allTaskLayout.add(taskCard.getTaskCardLayout());

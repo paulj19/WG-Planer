@@ -1,5 +1,6 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.persistence.*;
@@ -52,10 +53,10 @@ public class Room extends AbstractEntity implements Cloneable {
         this.roomNumber = roomNumber;
     }
 
-    @Override
-    public String toString() {
-        return roomNumber;
-    }
+//    @Override
+//    public String toString() {
+//        return roomNumber;
+//    }
 
     public Floor getFloor() {
         return floor;
@@ -79,5 +80,14 @@ public class Room extends AbstractEntity implements Cloneable {
 
     public void setOccupied(Boolean occupied) {
         this.occupied = occupied;
+    }
+
+    public String toString() {
+        return new ToStringBuilder(this).
+                append("room number", roomNumber).
+                append("occupied", occupied).
+                append("resident account", residentAccount).
+                append("floor", floor).
+                append("assigned tasks", assignedTasks).toString();
     }
 }

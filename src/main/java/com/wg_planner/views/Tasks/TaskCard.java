@@ -26,7 +26,7 @@ public class TaskCard extends HorizontalLayout {
         taskName.setMinWidth("500px");
         assignedRoom.setMinWidth("500px");
         taskName.setText(task.getTaskName());
-        assignedRoom.setText(task.getAssignedRoom().toString());
+        assignedRoom.setText(task.getAssignedRoom().getRoomNumber());
 
         taskCardLayout.add(taskName, assignedRoom);
         createButtonLayout();
