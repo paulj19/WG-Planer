@@ -3,6 +3,7 @@ package com.wg_planner.backend.Service;
 import com.wg_planner.backend.Repository.*;
 import com.wg_planner.backend.entity.*;
 import com.wg_planner.backend.security.SecurityConfiguration;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,11 +39,10 @@ public class RoomService {
         this.residentAccountRepository = residentAccountRepository;
     }
 
-    public List<Room> findAll() {
-        return roomRepository.findAll();
-    }
-
     public Room getRoomByNumber(String roomNumber) {
+//        checkNotNull()//guava
+//        Validate.notNull(roomNumber, "")
+
         if (roomNumber == null || roomNumber.isEmpty()) {
             return null;
         } else {

@@ -1,5 +1,6 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -47,5 +48,14 @@ public class ResidentAccount extends Account implements Cloneable {
             room.setResidentAccount(this);
         }
         this.room = room;
+    }
+
+    public String toString() {
+        return new ToStringBuilder(this).
+                append("room number", room.getRoomNumber()).
+                append("floor number", room.getFloor().getFloorNumber()).
+                append("away", away).
+                append(super.toString()).
+                toString();
     }
 }
