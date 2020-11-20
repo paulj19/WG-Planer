@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
@@ -39,6 +42,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
 //    @Bean
 //    @Override
 //    public UserDetailsService userDetailsService() {
@@ -49,6 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 ////                        .build();
 //        List<UserDetails> users = new ArrayList<>();
 //        for(int i= 0 ; i < 9 ; i++) {
+//            users.add(
 //            users.add(
 //                    User.withUsername(i + "@example.com")
 //                            .password("{noop}password")

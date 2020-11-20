@@ -27,7 +27,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     @OneToMany(mappedBy = "floor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Room> rooms;
 
-    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Task> tasks = new ArrayList<>();
 
     public Floor() {

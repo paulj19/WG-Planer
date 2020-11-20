@@ -173,6 +173,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         sb.append("AccountNonExpired: ").append(this.accountNonExpired).append("; ");
         sb.append("credentialsNonExpired: ").append(this.credentialsNonExpired).append("; ");
         sb.append("AccountNonLocked: ").append(this.accountNonLocked).append("; ");
+//        sb.append(super.toString());
         if (!this.authorities.isEmpty()) {
             sb.append("Granted Authorities: ");
             boolean first = true;

@@ -1,6 +1,10 @@
 package com.wg_planner.backend.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.persistence.*;
@@ -27,7 +31,9 @@ public class Room extends AbstractEntity implements Cloneable {
     @JoinColumn(name = "floor_id")
     private Floor floor;
 
-    @OneToMany(mappedBy = "assignedRoom",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER)
+//    @LazyCollection(LazyCollectionOption.FALSE)
+    @Fetch(value = FetchMode.SUBSELECT)
     List<Task> assignedTasks;
 
 
@@ -82,12 +88,25 @@ public class Room extends AbstractEntity implements Cloneable {
         this.occupied = occupied;
     }
 
+    public List<Task> getAssignedTasks() {
+        return assignedTasks;
+    }
+
+    public void setAssignedTasks(List<Task> assignedTasks) {
+        this.assignedTasks = assignedTasks;
+    }
+
     public String toString() {
-        return new ToStringBuilder(this).
+        ToStringBuilder toStringBuilder = new ToStringBuilder(this).
                 append("room number", roomNumber).
                 append("occupied", occupied).
                 append("resident account", residentAccount).
                 append("floor", floor).
-                append("assigned tasks", assignedTasks).toString();
+                append("assigned tasks");
+        for (Task task : assignedTasks) {
+            toStringBuilder.append(task.getTaskName());
+        }
+//        if(assignedTasks)
+        return toStringBuilder.toString();
     }
 }

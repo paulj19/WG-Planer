@@ -19,11 +19,15 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 public class RoomService {
+    private static final Logger LOGGER = Logger.getLogger(Room.class
+            .getName());
     private final RoomRepository roomRepository;
     private final FloorRepository floorRepository;
     private final TaskRepository taskRepository;
@@ -54,18 +58,29 @@ public class RoomService {
         return roomRepository.count();
     }
 
+    public void save(Room room) {
+        if(room == null) {
+            LOGGER.log(Level.SEVERE, "failed to save room in RoomService. room parameter is null");
+            return;
+        }
+        roomRepository.save(room);
+    }
+
     public Room getMyRoom(ResidentAccount residentAccount) {
         return roomRepository.getMyRoom(residentAccount.getId());
     }
 
     @PostConstruct
     public void populateTestData() {
+//        System.out.println(getRoomByNumber("313").toString());
+
         if (taskRepository.count() == 0) {
 
             taskRepository.saveAll(Stream.of("Biomüll", "Restmüll", "Gelbersack", "Ofen Reinigen", "Mikrowelle Reinigen")
                     .map(taskName -> {
                         Task task = new Task();
                         task.setTaskName(taskName);
+
                         return task;
                     }).collect(Collectors.toList()));
         }
@@ -87,6 +102,7 @@ public class RoomService {
             List<Task> tasks = taskRepository.findAll();
             for (Task task : tasks) {
                 task.setAssignedRoom(rooms.get(r.nextInt(rooms.size())));
+                task.setFloor(floor);
                 taskRepository.save(task);
             }
         }
@@ -95,19 +111,19 @@ public class RoomService {
             List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             authorities.add(new SimpleGrantedAuthority("USER"));
             int i = 0;
-            for (Room room : rooms) {
-                List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
-                ResidentAccount residentAccount = new ResidentAccount("foo","bar", i++ + "@example.com", i++ + "@example.com", "{noop}password", room, authorities);
-                residentAccountRepository.save(residentAccount);
-            }
-            Room room2 = getRoomByNumber("307");
-            room2.getResidentAccount().setAway(true);
-            roomRepository.saveAndFlush(room2);
-            Room room3 = getRoomByNumber("308");
-            room3.getResidentAccount().setAway(true);
-            roomRepository.saveAndFlush(room3);
-            List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
-            List<ResidentAccount> residentAccountsx = residentAccountRepository.findAll();
+//            for (Room room : rooms) {
+//                List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
+//                ResidentAccount residentAccount = new ResidentAccount("foo","bar", i++ + "@example.com", i++ + "@example.com", "{noop}password", room, authorities);
+//                residentAccountRepository.save(residentAccount);
+//            }
+//            Room room2 = getRoomByNumber("307");
+//            room2.getResidentAccount().setAway(true);
+//            roomRepository.saveAndFlush(room2);
+//            Room room3 = getRoomByNumber("308");
+//            room3.getResidentAccount().setAway(true);
+//            roomRepository.saveAndFlush(room3);
+//            List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
+//            List<ResidentAccount> residentAccountsx = residentAccountRepository.findAll();
         }
     }
 }

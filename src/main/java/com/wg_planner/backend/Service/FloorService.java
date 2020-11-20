@@ -60,7 +60,12 @@ public class FloorService {
     public List<Room> getAllAvailableRooms(Floor floor) {
         List<Room> rooms = new ArrayList<>();
 //        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(rooms::add);
-        floorRepository.findAllRoomsInFloor(floor.getId()).stream().filter(room -> !room.getResidentAccount().isAway()).forEach(rooms::add);
+        floorRepository.findAllRoomsInFloor(floor.getId()).stream().filter(room -> {
+            if (room.isOccupied()) {
+                return !room.getResidentAccount().isAway();
+            }
+            return false;
+        }).forEach(rooms::add);
         return rooms;
     }
 
