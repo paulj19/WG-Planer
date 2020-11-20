@@ -1,5 +1,6 @@
 package com.wg_planner.views.signup;
 
+import antlr.BaseAST;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
@@ -22,6 +23,8 @@ import com.wg_planner.backend.entity.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,10 @@ import java.util.List;
 //todo registration form for different roles(combo box options) this is for residents, change name accordingly?
 // todo are you currently in the room and ready to take the tasks
 public class RegisterForm extends FormLayout {
+    //todo check why autowired not working
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     TextField firstName = new TextField("First Name", "please enter your first name");
     TextField lastName = new TextField("Last Name", "please enter your last name");
     EmailField email = new EmailField("Email", "enter your company email address");
@@ -207,7 +214,7 @@ public class RegisterForm extends FormLayout {
         if (selectedRoom == null || selectedFloor == null) {
             throw new RuntimeException("selected room or floor null");
         }
-        selectedRoom.setFloor(selectedFloor);
+//        selectedRoom.setFloor(selectedFloor);//was a bug?
         selectedRoom.setOccupied(true);
         return selectedRoom;
     }
@@ -219,7 +226,8 @@ public class RegisterForm extends FormLayout {
     }
 
     private Account getEnteredValuesAsAccount() {
-        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(), email.getValue(), username.getValue(), password.getValue(), getSelectedRoom(), getAuthorities());
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(), email.getValue(), username.getValue(), encoder.encode(password.getValue()), getSelectedRoom(), getAuthorities());
         return residentAccount;
     }
 
