@@ -102,11 +102,10 @@ public class Room extends AbstractEntity implements Cloneable {
                 append("occupied", occupied).
                 append("resident account", residentAccount).
                 append("floor", floor).
-                append("assigned tasks");
+                append("assigned tasks: ");
         for (Task task : assignedTasks) {
             toStringBuilder.append(task.getTaskName());
         }
-//        if(assignedTasks)
         return toStringBuilder.toString();
     }
 }

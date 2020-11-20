@@ -88,6 +88,13 @@ public class FloorService {
         return new ArrayList<>(floorRepository.findAllTasksInFloor(floor.getId()));
     }
 
+    public Floor getFloorByNumber(String floorNumber) {
+        if(floorNumber == null) {
+
+        }
+        return floorRepository.findFloorByNumber(floorNumber);
+    }
+
 //    @PostConstruct
 //    public void populateTestData() {
 //        if(roomRepository.count() == 0) {

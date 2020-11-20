@@ -72,7 +72,7 @@ public class RoomService {
 
     @PostConstruct
     public void populateTestData() {
-//        System.out.println(getRoomByNumber("313").toString());
+        System.out.println(floorRepository.findFloorByNumber("2A").toString());
 
         if (taskRepository.count() == 0) {
 

@@ -1,5 +1,10 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -24,10 +29,12 @@ public class Floor extends AbstractEntity implements Cloneable {
     @NotEmpty
     private String roomStartIndex;
 
-    @OneToMany(mappedBy = "floor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    @Fetch(value = FetchMode.SUBSELECT)
     private List<Room> rooms;
 
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Task> tasks = new ArrayList<>();
 
     public Floor() {
@@ -99,5 +106,22 @@ public class Floor extends AbstractEntity implements Cloneable {
     public void addTask(Task task) {
         tasks.add(task);
 
+    }
+
+    //this would print all the floor info
+    public String toString() {
+        ToStringBuilder floorAsString = new ToStringBuilder(this).
+                append("floor number", floorNumber).
+                append("number of rooms", numberOfRooms).
+                append("room start index", roomStartIndex).
+                append("rooms: ");
+        for (Room room : rooms) {
+            floorAsString.append(room.toString());
+        }
+        floorAsString.append("tasks: ");
+        for (Task task : tasks) {
+            floorAsString.append(task.toString());
+        }
+        return floorAsString.toString();
     }
 }

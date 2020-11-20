@@ -17,7 +17,7 @@ public class Task extends AbstractEntity {
 
     @NotNull
     @NotEmpty
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne//lazy not working (fetch = FetchType.LAZY)
     @JoinColumn(name = "floor_id")
     private Floor floor;
 
