@@ -2,14 +2,14 @@ package com.wg_planner.backend.Service;
 
 import com.wg_planner.backend.Repository.*;
 import com.wg_planner.backend.entity.*;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.hibernate.bytecode.BytecodeLogger.LOGGER;
 
 @Service
 public class FloorService {
@@ -32,7 +32,9 @@ public class FloorService {
         this.residentAccountRepository = residentAccountRepository;
     }
 
-    public List<ResidentAccount> getAllResidents(Floor floor) {
+    public List<ResidentAccount> getAllResidents(@NotNull Floor floor) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
+
         List<ResidentAccount> residents = new ArrayList<>();
         floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).forEach(residents::add);
         return residents;
@@ -42,24 +44,27 @@ public class FloorService {
         return floorRepositoryStaic.findAllFloors();
     }
 
-    public static List<Room> getAllNonOccupiedRoomsInFloor(Floor floor) {
-        if (floor != null) {
-            return floorRepositoryStaic.findAllNonOccupiedRoomsInFloor(floor.getId());
-        } else {
-            LOGGER.log(Level.SEVERE, "getAllNonOccupiedRoomsInFloor: floor parameter is null");
-            return null;
+    public static List<Room> getAllNonOccupiedRoomsInFloor(@NotNull Floor floor) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
+        List<Room> nonOccupiedRoomsInFloor = floorRepositoryStaic.findAllNonOccupiedRoomsInFloor(floor.getId());
+        if (nonOccupiedRoomsInFloor == null) {
+            LOGGER.log(Level.WARNING, "the list of non occupied rooms in floor from DB is null");
+        } else if (nonOccupiedRoomsInFloor.isEmpty()) {
+            LOGGER.log(Level.INFO, "the list of non occupied rooms in floor from DB is empty");
         }
+        return nonOccupiedRoomsInFloor;
     }
 
-    public List<ResidentAccount> getAllAvailableResidents(Floor floor) {
+    public List<ResidentAccount> getAllAvailableResidentsInFloor(@NotNull Floor floor) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
         List<ResidentAccount> residents = new ArrayList<>();
         floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(residents::add);
         return residents;
     }
 
-    public List<Room> getAllAvailableRooms(Floor floor) {
+    public List<Room> getAllAvailableRooms(@NotNull Floor floor) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
         List<Room> rooms = new ArrayList<>();
-//        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(rooms::add);
         floorRepository.findAllRoomsInFloor(floor.getId()).stream().filter(room -> {
             if (room.isOccupied()) {
                 return !room.getResidentAccount().isAway();
@@ -70,28 +75,31 @@ public class FloorService {
     }
 
     public Room getNextAvailableRoom(Floor floor, Room room) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
+        Validate.notNull(room, "parameter room must not be %s", null);
+
         List<Room> roomsInFloor = getAllAvailableRooms(floor);
+        Validate.notNull(roomsInFloor, "getAllAvailableRooms() returned %s", null);
+        Validate.notEmpty(roomsInFloor, "getAllAvailableRooms() returned empty list");
+
         roomsInFloor.sort(Comparator.comparing(Room::getRoomNumber));
+        //returns the room with the next index after the passed room
         if (roomsInFloor.contains(room)) {
-            int idx = roomsInFloor.indexOf(room);
-            if (idx + 1 == roomsInFloor.size()) {
-                return roomsInFloor.get(0);
-            } else {
-                return roomsInFloor.get(idx + 1);
-            }
+            return roomsInFloor.get((roomsInFloor.indexOf(room) + 1) % roomsInFloor.size());
         } else {
-            return null;
+            throw new IllegalStateException("failed to return next available room in getNextAvailableRoom. parameter" + room.toString() + "not found in set of available rooms in floor" + floor.toString());
         }
     }
 
     public List<Task> getAllTasks(Floor floor) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
         return new ArrayList<>(floorRepository.findAllTasksInFloor(floor.getId()));
     }
 
     public Floor getFloorByNumber(String floorNumber) {
-        if(floorNumber == null) {
+        Validate.notNull(floorNumber, "parameter floor must not be %s", null);
+        Validate.notEmpty(floorNumber, "parameter floor number must not be empty");
 
-        }
         return floorRepository.findFloorByNumber(floorNumber);
     }
 

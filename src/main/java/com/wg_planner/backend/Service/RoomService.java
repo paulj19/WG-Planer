@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -44,14 +45,9 @@ public class RoomService {
     }
 
     public Room getRoomByNumber(String roomNumber) {
-//        checkNotNull()//guava
-//        Validate.notNull(roomNumber, "")
-
-        if (roomNumber == null || roomNumber.isEmpty()) {
-            return null;
-        } else {
-            return roomRepository.search(roomNumber);
-        }
+        Validate.notNull(roomNumber, "parameter room number must not be %s", null);
+        Validate.notEmpty(roomNumber, "parameter room number must not be empty");
+        return roomRepository.search(roomNumber);
     }
 
     public long count() {
@@ -59,14 +55,12 @@ public class RoomService {
     }
 
     public void save(Room room) {
-        if(room == null) {
-            LOGGER.log(Level.SEVERE, "failed to save room in RoomService. room parameter is null");
-            return;
-        }
+        Validate.notNull(room, "parameter room to save must not be %s", null);
         roomRepository.save(room);
     }
 
     public Room getMyRoom(ResidentAccount residentAccount) {
+        Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
         return roomRepository.getMyRoom(residentAccount.getId());
     }
 

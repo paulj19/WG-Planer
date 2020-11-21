@@ -5,6 +5,7 @@ import com.wg_planner.backend.Repository.TaskRepository;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.Tasks.TaskCard;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +32,7 @@ public class TaskService {
     public long count() { return taskRepository.count(); }
 
     public void save(Task task) {
-        if(task == null) {
-            LOGGER.log(Level.SEVERE, "task to save in taskService::save is null");
-            return;
-        }
+        Validate.notNull(task, "parameter task to save must not be %s", null);
         taskRepository.save(task);
     }
 

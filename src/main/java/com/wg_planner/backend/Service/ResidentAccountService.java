@@ -5,15 +5,12 @@ import com.wg_planner.backend.Repository.ResidentAccountRepository;
 import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
-
 public class ResidentAccountService {
     private static final Logger LOGGER = Logger.getLogger(ResidentAccountService.class
             .getName());
@@ -29,30 +26,28 @@ public class ResidentAccountService {
     }
 
     public ResidentAccount getResidentAccount(Long accountId) {
+        Validate.notNull(accountId, "parameter account id must not be %s", null);
         return residentAccountRepository.getResidentAccount(accountId);
     }
 
     public ResidentAccount getResidentAccountByRoom(Room room) {
-//        return residentAccountRepository.findAll().stream().filter(residentAccount -> residentAccount.getRoom().getId().equals(room.getId())).findFirst().get();
-        List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
-        Long id = room.getId();
-
+        Validate.notNull(room, "parameter room must not be %s", null);
         return residentAccountRepository.getResidentAccountByRoom(room.getId());
     }
 
     public ResidentAccount getResidentAccountByUsername(String username) {
+        Validate.notNull(username, "parameter username must not be %s", null);
+        Validate.notEmpty(username, "parameter username must not be empty");
         return (ResidentAccount) accountRepository.findAccountByUsername(username);
     }
 
     public Room getMyRoom(ResidentAccount residentAccount) {
+        Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
         return roomRepository.getMyRoom(residentAccount.getId());
     }
 
     public void save(ResidentAccount residentAccount) {
-        if(residentAccount == null) {
-            LOGGER.log(Level.SEVERE, "ResidentAccount Service: residentAccount passed to save is null");
-            return;
-        }
+        Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
         residentAccountRepository.save(residentAccount);
     }
 //    @PostConstruct

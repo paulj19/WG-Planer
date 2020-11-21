@@ -3,6 +3,7 @@ package com.wg_planner.backend.Service;
 import com.wg_planner.backend.Repository.AccountRepository;
 import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.entity.Account;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -51,11 +52,8 @@ public class AccountDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
-        if (username == null) {
-            LOGGER.log(Level.SEVERE,
-                    "Username is null.");
-            return null;
-        }
+        Validate.notNull(username, "parameter username must not be %s", null);
+        Validate.notEmpty(username, "parameter username must not be empty");
         return accountRepository.findAccountByUsername(username);
     }
 }
