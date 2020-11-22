@@ -3,7 +3,9 @@ package com.wg_planner.views.Tasks;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.Service.*;
 import com.wg_planner.backend.entity.*;
+import com.wg_planner.backend.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,14 +16,14 @@ import java.util.List;
 @Controller
 @Scope("prototype")
 public class TasksPresenter {
-
-    RoomService roomService;
-
     @Autowired
-    TasksView allTasksView; //Todo check
     FloorService floorService;
+    @Autowired
     ResidentAccountService residentAccountService;
+    @Autowired
     TaskService taskService;
+    @Autowired
+    RoomService roomService;
 
     Floor floor;
     Room room;
@@ -32,11 +34,7 @@ public class TasksPresenter {
     VerticalLayout allTaskLayout;
 
     //Todo!!! Task for each floor
-    public void init(ResidentAccountService residentAccountService, TaskService taskService, RoomService roomService, FloorService floorService, VerticalLayout allTaskLayout) {
-        this.taskService = taskService;
-        this.residentAccountService = residentAccountService;
-        this.roomService = roomService;
-        this.floorService = floorService;
+    public void init(VerticalLayout allTaskLayout) {
         this.allTaskLayout = allTaskLayout;
 //        todo the id of the resident account should be passed here to get the current residents room
 //        residentAccount = residentAccountService.getResidentAccount(currentAccount.getId());

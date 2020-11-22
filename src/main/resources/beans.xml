@@ -30,6 +30,14 @@
 <!--            </list>-->
 <!--        </property>-->
     </bean>
+<!--    <bean id="tasksView" class="com.wg_planner.views.Tasks.TasksView" >-->
+<!--        <constructor-arg index="0" ref="com.wg_planner.A"/>-->
+<!--        <constructor-arg index="1" ref=""/>-->
+<!--        <constructor-arg index="2" ref=""/>-->
+<!--        <constructor-arg index="3" ref=""/>-->
+<!--        <constructor-arg index="4" ref=""/>-->
+<!--        <constructor-arg index="5" ref=""/>-->
+<!--    </bean>-->
 
 
 <!--    <context:component-scan base-package="com.wg_planner.backend.entity" />-->
