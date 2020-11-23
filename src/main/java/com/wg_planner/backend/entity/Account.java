@@ -29,19 +29,22 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
 
     @NotBlank
     @Size(max = 255)
+    @Column(nullable = false)
     private String firstName;
 
     @NotBlank
     @Size(max = 255)
+    @Column(nullable = false)
     private String lastName;
 
     @Email
     @Size(max = 255)
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @NotBlank
     @Size(max = 255)
+    @Column(unique = true, nullable = false)
     private String username;
 
     @NotNull
