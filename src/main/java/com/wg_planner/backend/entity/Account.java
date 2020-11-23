@@ -49,6 +49,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
 
     @NotNull
     @Size(min = 6, max = 255)
+    @Column(nullable = false)
     private String passwordHash;
 
     @ElementCollection(fetch = FetchType.EAGER)
