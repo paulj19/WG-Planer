@@ -3,9 +3,7 @@ package com.wg_planner.views.Tasks;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.Service.*;
 import com.wg_planner.backend.entity.*;
-import com.wg_planner.backend.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,11 +34,8 @@ public class TasksPresenter {
     //Todo!!! Task for each floor
     public void init(VerticalLayout allTaskLayout) {
         this.allTaskLayout = allTaskLayout;
-//        todo the id of the resident account should be passed here to get the current residents room
-//        residentAccount = residentAccountService.getResidentAccount(currentAccount.getId());
-//        myResidentAccount = residentAccountService.getResidentAccountByRoom(roomService.getRoomByNumber("309"));
         myResidentAccount = residentAccountService.getResidentAccountByUsername(getUserName());
-        myRoom = residentAccountService.getMyRoom(myResidentAccount);
+        myRoom = residentAccountService.getRoom(myResidentAccount);
         myFloor = myRoom.getFloor();
         tasks = taskService.findAll();
         addAllTasks();

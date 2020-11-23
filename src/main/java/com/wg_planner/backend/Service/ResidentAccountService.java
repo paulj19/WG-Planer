@@ -41,9 +41,9 @@ public class ResidentAccountService {
         return (ResidentAccount) accountRepository.findAccountByUsername(username);
     }
 
-    public Room getMyRoom(ResidentAccount residentAccount) {
+    public Room getRoom(ResidentAccount residentAccount) {
         Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
-        return roomRepository.getMyRoom(residentAccount.getId());
+        return roomRepository.findRoomByResidentId(residentAccount.getId());
     }
 
     public void save(ResidentAccount residentAccount) {

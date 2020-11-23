@@ -2,25 +2,16 @@ package com.wg_planner.backend.Service;
 
 import com.wg_planner.backend.Repository.*;
 import com.wg_planner.backend.entity.*;
-import com.wg_planner.backend.security.SecurityConfiguration;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -61,27 +52,26 @@ public class RoomService {
 
     public Room getMyRoom(ResidentAccount residentAccount) {
         Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
-        return roomRepository.getMyRoom(residentAccount.getId());
+        return roomRepository.findRoomByResidentId(residentAccount.getId());
     }
 
     @PostConstruct
     public void populateTestData() {
-        System.out.println(floorRepository.findFloorByNumber("2A").toString());
-
+//        System.out.println(floorRepository.findFloorByNumber("2A").toString());
+        if (floorRepository.count() == 0) {
+            List<Task> tasks = taskRepository.findAll();
+            Floor floor = new Floor.FloorBuilder("2A", "9", "300").build();
+            floorRepository.save(floor);
+        }
         if (taskRepository.count() == 0) {
-
             taskRepository.saveAll(Stream.of("Biomüll", "Restmüll", "Gelbersack", "Ofen Reinigen", "Mikrowelle Reinigen")
                     .map(taskName -> {
                         Task task = new Task();
                         task.setTaskName(taskName);
-
+                        task.setFloor(floorRepository.findFloorByNumber("2A"));
+                        task.setAssignedRoom(getRoomByNumber("310"));
                         return task;
                     }).collect(Collectors.toList()));
-        }
-        if (floorRepository.count() == 0) {
-            List<Task> tasks = taskRepository.findAll();
-            Floor floor = new Floor.FloorBuilder("2A", "9", "300").setTasks(tasks).build();
-            floorRepository.save(floor);
         }
         if (roomRepository.count() == 0) {
             Floor floor = floorRepository.findFloorByNumber("2A");

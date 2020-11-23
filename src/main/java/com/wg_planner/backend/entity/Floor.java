@@ -108,6 +108,11 @@ public class Floor extends AbstractEntity implements Cloneable {
 
     }
 
+    //todo: see spring auto save for setters and value change
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     //this would print all the floor info
     public String toString() {
         ToStringBuilder floorAsString = new ToStringBuilder(this).
