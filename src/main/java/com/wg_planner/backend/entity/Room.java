@@ -17,6 +17,7 @@ public class Room extends AbstractEntity implements Cloneable {
 
     @NotNull
     @NotEmpty
+    @Column(nullable = false)
     private String roomNumber;
 
     private Boolean occupied = false;

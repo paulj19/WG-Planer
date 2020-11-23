@@ -16,7 +16,7 @@ public class ResidentAccount extends Account implements Cloneable {
     private Boolean away = false;
 
     @OneToOne(fetch = FetchType.EAGER)//normally room is always gotten from ResidentAccount
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
     public ResidentAccount() {

@@ -18,7 +18,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     @NotNull
     @NotEmpty
     @Size(max = 255)
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String floorNumber;
 
     @NotNull
