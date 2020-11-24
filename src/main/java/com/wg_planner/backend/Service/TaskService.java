@@ -25,6 +25,7 @@ public class TaskService {
         this.taskRepository = taskRepository;
         this.roomRepository = roomRepository;
     }
+
     public List<Task> findAll() {
         return taskRepository.findAll();
     }

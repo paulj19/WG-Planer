@@ -91,7 +91,7 @@ public class FloorService {
         }
     }
 
-    public List<Task> getAllTasks(Floor floor) {
+    public List<Task> getAllTasksInFloor(Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         return new ArrayList<>(floorRepository.findAllTasksInFloor(floor.getId()));
     }
