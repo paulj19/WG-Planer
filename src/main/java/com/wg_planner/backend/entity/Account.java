@@ -1,5 +1,6 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.CredentialsContainer;
@@ -58,6 +59,9 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
+    private static final String EMAIL_PATTERN =
+            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 
     public Account() {
@@ -68,7 +72,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     public Account(String firstName, String lastName, String email, String username, String passwordHash, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        if (username != null && !"".equals(username) && passwordHash != null) {
+        if (username != null && !"".equals(username) && passwordHash != null && email.matches(EMAIL_PATTERN)) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
@@ -147,13 +151,13 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     private static SortedSet<GrantedAuthority> sortAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        Assert.notNull(authorities, "Cannot pass a null GrantedAuthority collection");
+        Validate.notNull(authorities, "Cannot pass a null GrantedAuthority collection");
         SortedSet<GrantedAuthority> sortedAuthorities = new TreeSet(new Account.AuthorityComparator());
         Iterator var2 = authorities.iterator();
 
         while (var2.hasNext()) {
             GrantedAuthority grantedAuthority = (GrantedAuthority) var2.next();
-            Assert.notNull(grantedAuthority, "GrantedAuthority list cannot contain any null elements");
+            Validate.notNull(grantedAuthority, "GrantedAuthority list cannot contain any null elements");
             sortedAuthorities.add(grantedAuthority);
         }
 
@@ -161,7 +165,12 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     public boolean equals(Object rhs) {
-        return rhs instanceof Account ? this.username.equals(((Account) rhs).username) : false;
+        return rhs instanceof Account && this.firstName.equals(((Account) rhs).firstName) &&
+                this.lastName.equals(((Account) rhs).lastName) &&
+                this.email.equals(((Account) rhs).lastName) &&
+                this.username.equals(((Account) rhs).username) &&
+                this.passwordHash.equals(((Account) rhs).passwordHash) &&
+                this.authorities.equals(((Account) rhs).authorities);
     }
 
     public int hashCode() {
@@ -181,10 +190,8 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         if (!this.authorities.isEmpty()) {
             sb.append("Granted Authorities: ");
             boolean first = true;
-            Iterator var3 = this.authorities.iterator();
 
-            while (var3.hasNext()) {
-                GrantedAuthority auth = (GrantedAuthority) var3.next();
+            for (GrantedAuthority auth : this.authorities) {
                 if (!first) {
                     sb.append(",");
                 }
@@ -250,44 +257,40 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         }
 
         public Account.AccountBuilder firstName(String firstName) {
-            Assert.notNull(firstName, "firstName cannot be null");
+            Validate.notNull(firstName, "firstName cannot be null");
             this.firstName = firstName;
             return this;
         }
 
         public Account.AccountBuilder lastName(String lastName) {
-            Assert.notNull(lastName, "lastName cannot be null");
+            Validate.notNull(lastName, "lastName cannot be null");
             this.lastName = lastName;
             return this;
         }
 
         public Account.AccountBuilder email(String email) {
             boolean emailValid;
-            Assert.notNull(email, "email cannot be null");
-            if (!email.matches(EMAIL_PATTERN)) {
-                emailValid = false;
-            } else {
-                emailValid = true;
-            }
-            Assert.isTrue(emailValid, "invalid email address format");
+            Validate.notNull(email, "email cannot be null");
+            emailValid = email.matches(EMAIL_PATTERN);
+            Validate.isTrue(emailValid, "invalid email address format");
             this.email = email;
             return this;
         }
 
         public Account.AccountBuilder username(String username) {
-            Assert.notNull(username, "username cannot be null");
+            Validate.notNull(username, "username cannot be null");
             this.username = username;
             return this;
         }
 
         public Account.AccountBuilder password(String password) {
-            Assert.notNull(password, "password cannot be null");
+            Validate.notNull(password, "password cannot be null");
             this.password = password;
             return this;
         }
 
         public Account.AccountBuilder passwordEncoder(Function<String, String> encoder) {
-            Assert.notNull(encoder, "encoder cannot be null");
+            Validate.notNull(encoder, "encoder cannot be null");
             this.passwordEncoder = encoder;
             return this;
         }

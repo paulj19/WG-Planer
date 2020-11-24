@@ -1,5 +1,7 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -56,4 +58,28 @@ public class Task extends AbstractEntity {
                 append("assigned room", assignedRoom).
                 toString();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this)
+            return true;
+        if (!(other instanceof Task))
+            return false;
+        Task otherTask = (Task) other;
+        return new EqualsBuilder()
+                .append(taskName, otherTask.taskName)
+                .append(floor, otherTask.floor)
+                .append(assignedRoom, otherTask.assignedRoom)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(taskName)
+                .append(floor)
+                .append(assignedRoom)
+                .toHashCode();
+    }
+
 }

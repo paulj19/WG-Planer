@@ -94,6 +94,7 @@ public class RegisterForm extends FormLayout {
             }
         });
         firstName.setValueChangeMode(ValueChangeMode.EAGER);
+        firstName.setMaxLength(250);
         firstName.addValueChangeListener(textFieldBlurEvent -> {
             if (!isNameValid(firstName.getValue())) {
                 firstName.setErrorMessage("invalid name");
@@ -104,6 +105,7 @@ public class RegisterForm extends FormLayout {
             checkAndSetRegisterButton();
         });
         lastName.setValueChangeMode(ValueChangeMode.EAGER);
+        lastName.setMaxLength(250);
         lastName.addValueChangeListener(textFieldBlurEvent -> {
             if (!isNameValid(lastName.getValue())) {
                 lastName.setErrorMessage("invalid name");
@@ -123,6 +125,7 @@ public class RegisterForm extends FormLayout {
             checkAndSetRegisterButton();
         });
         username.setValueChangeMode(ValueChangeMode.EAGER);
+        username.setMaxLength(250);
         username.addValueChangeListener(textFieldBlurEvent -> {
             if (!isUsernameValid(username.getValue())) {
                 username.setErrorMessage("invalid username");
@@ -133,6 +136,7 @@ public class RegisterForm extends FormLayout {
             checkAndSetRegisterButton();
         });
         password.setValueChangeMode(ValueChangeMode.EAGER);
+        password.setMinLength(8);
         password.addValueChangeListener(textFieldBlurEvent -> {
             if (!isPasswordValid(password.getValue())) {
                 password.setErrorMessage("invalid password");

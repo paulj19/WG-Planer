@@ -1,5 +1,7 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -128,5 +130,32 @@ public class Floor extends AbstractEntity implements Cloneable {
             floorAsString.append(task.toString());
         }
         return floorAsString.toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == this)
+            return true;
+        if(!(other instanceof  Floor))
+            return false;
+        Floor otherFloor = (Floor) other;
+        return new EqualsBuilder()
+                .append(numberOfRooms, otherFloor.numberOfRooms)
+                .append(floorNumber, otherFloor.floorNumber)
+                .append(roomStartIndex, otherFloor.roomStartIndex)
+                .append(rooms, otherFloor.rooms)
+                .append(tasks, otherFloor.tasks)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(floorNumber)
+                .append(numberOfRooms)
+                .append(roomStartIndex)
+                .append(rooms)
+                .append(tasks)
+                .toHashCode();
     }
 }

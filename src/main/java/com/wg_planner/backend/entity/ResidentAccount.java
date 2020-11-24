@@ -1,5 +1,7 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -57,5 +59,27 @@ public class ResidentAccount extends Account implements Cloneable {
                 append("away", away).
                 append(super.toString()).
                 toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == this)
+            return true;
+        if(!(other instanceof  ResidentAccount))
+            return false;
+        ResidentAccount otherResidentAccount = (ResidentAccount) other;
+        return new EqualsBuilder()
+                .append(room, otherResidentAccount.room)
+                .append(away, otherResidentAccount.away)
+                .isEquals() && super.equals(otherResidentAccount);
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(room)
+                .append(away)
+                .append(super.hashCode())//TODo verify
+                .toHashCode();
     }
 }
