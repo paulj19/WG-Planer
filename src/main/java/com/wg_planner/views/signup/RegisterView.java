@@ -40,7 +40,6 @@ public class RegisterView extends VerticalLayout implements BeforeEnterObserver 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         if (beforeEnterEvent.getLocation().getQueryParameters().getParameters().containsKey("error")) {
-//            loginForm.setError(true);
         }
     }
 }

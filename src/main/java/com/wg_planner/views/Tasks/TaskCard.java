@@ -11,8 +11,6 @@ import com.wg_planner.backend.entity.Task;
 public class TaskCard extends HorizontalLayout {
 
     Task task;
-    //    TextField taskName = new TextField();
-//    TextField assignedRoom = new TextField();
     Span taskName = new Span();
     Span assignedRoom = new Span();
     Button buttonDone = new Button("Done");
@@ -21,8 +19,6 @@ public class TaskCard extends HorizontalLayout {
 
     public TaskCard(Task task, Boolean isTaskAssignedToCurrentAccount) {
         this.task = task;
-//        this.taskName.setLabel(task.getTaskName());
-//        this.assignedRoom.setLabel(task.getAssignedRoom().toString());
         taskName.setMinWidth("500px");
         assignedRoom.setMinWidth("500px");
         taskName.setText(task.getTaskName());
@@ -38,7 +34,6 @@ public class TaskCard extends HorizontalLayout {
     }
 
     private void createButtonLayout() {
-        //TODO add theme for the button
         buttonDone.addClickListener(event -> fireEvent(new TaskCardEvent.DoneEvent(this, task)));
         buttonRemind.addClickListener(event -> fireEvent(new TaskCardEvent.RemindEvent(this, task)));
     }

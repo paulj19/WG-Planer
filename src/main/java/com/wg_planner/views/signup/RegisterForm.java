@@ -51,7 +51,6 @@ public class RegisterForm extends FormLayout {
     Button register = new Button("Register");
     Button cancel = new Button("Cancel");
 
-    //    Binder<Account> binder = new BeanValidationBinder<>(Account.class);
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -60,9 +59,6 @@ public class RegisterForm extends FormLayout {
         addClassName("register-form");
         List<Floor> floors = FloorService.getAllFloors();
 
-//        binder.bindInstanceFields(this);
-//        rooms = FloorService.getAllNonOccupiedRoomsInFloor(floors.get(0));
-//
         floorComboBox.setItems(floors);
         floorComboBox.setItemLabelGenerator(Floor::getFloorNumber);
         floorComboBox.setAllowCustomValue(false);
@@ -117,7 +113,6 @@ public class RegisterForm extends FormLayout {
             }
             checkAndSetRegisterButton();
         });
-//        email.setValueChangeMode(ValueChangeMode.EAGER);
         email.addValueChangeListener(textFieldBlurEvent -> {
             if (!isEmailValid(email.getValue())) {
                 email.setErrorMessage("invalid email address");
@@ -127,7 +122,6 @@ public class RegisterForm extends FormLayout {
             }
             checkAndSetRegisterButton();
         });
-//        username.addValueChangeListener()
         username.setValueChangeMode(ValueChangeMode.EAGER);
         username.addValueChangeListener(textFieldBlurEvent -> {
             if (!isUsernameValid(username.getValue())) {
@@ -138,7 +132,6 @@ public class RegisterForm extends FormLayout {
             }
             checkAndSetRegisterButton();
         });
-//        password.addFocusListener()
         password.setValueChangeMode(ValueChangeMode.EAGER);
         password.addValueChangeListener(textFieldBlurEvent -> {
             if (!isPasswordValid(password.getValue())) {
@@ -150,7 +143,6 @@ public class RegisterForm extends FormLayout {
             checkAndSetRegisterButton();
         });
         setWidth("500px");
-//        floorComboBox, roomsRoomComboBox,
         add(firstName, lastName, email, username, password, floorComboBox, roomsRoomComboBox, createButtonLayout());
     }
 
@@ -165,7 +157,6 @@ public class RegisterForm extends FormLayout {
 
     private boolean isAllFieldsFilled() {
         return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !username.isEmpty() && !password.isEmpty();
-//!floorComboBox.isEmpty() && !roomComboBox.isEmpty();
     }
 
     private HorizontalLayout createButtonLayout() {
@@ -201,20 +192,12 @@ public class RegisterForm extends FormLayout {
         return true;
     }
 
-    //    private Room getSelectedRoomByName(String roomName) throws RuntimeException {
-//        if (roomName != null && !roomName.trim().isEmpty()) {
-//            return roomService.getRoomByNumber(roomName);
-//        } else {
-//            throw new RuntimeException("roomName is invalid");
-//        }
-//    }
     private Room getSelectedRoom() throws RuntimeException {
         Room selectedRoom = roomsRoomComboBox.getValue();
         Floor selectedFloor = floorComboBox.getValue();
         if (selectedRoom == null || selectedFloor == null) {
             throw new RuntimeException("selected room or floor null");
         }
-//        selectedRoom.setFloor(selectedFloor);//was a bug?
         selectedRoom.setOccupied(true);
         return selectedRoom;
     }
@@ -233,7 +216,6 @@ public class RegisterForm extends FormLayout {
 
     private void validateAndSave() {
         account = getEnteredValuesAsAccount();
-//            binder.writeBean(account);
         fireEvent(new RegisterFormEvent.SaveEvent(this, account, selectedFloor, selectedRoom));
     }
 
