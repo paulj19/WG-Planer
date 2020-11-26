@@ -115,19 +115,18 @@ public class Room extends AbstractEntity implements Cloneable {
 
     @Override
     public boolean equals(Object other) {
-        return false;
-//        if (other == this)
-//            return true;
-//        if (!(other instanceof Room))
-//            return false;
-//        Room otherRoom = (Room) other;
-//        return new EqualsBuilder()
-//                .append(roomNumber, otherRoom.roomNumber)
-//                .append(occupied, otherRoom.occupied)
-//                .append(residentAccount.getId(), otherRoom.residentAccount.getId())
-//                .append(floor.getId(), otherRoom.floor.getId())
-//                .append(assignedTasks, otherRoom.assignedTasks)
-//                .isEquals();
+        if (other == this)
+            return true;
+        if (!(other instanceof Room))
+            return false;
+        Room otherRoom = (Room) other;
+        return new EqualsBuilder()
+                .append(roomNumber, otherRoom.roomNumber)
+                .append(occupied, otherRoom.occupied)
+                .append(residentAccount.getId(), otherRoom.residentAccount.getId())
+                .append(floor.getId(), otherRoom.floor.getId())
+                .append(assignedTasks, otherRoom.assignedTasks)
+                .isEquals();
     }
 
     @Override
