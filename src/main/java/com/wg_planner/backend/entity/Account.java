@@ -72,7 +72,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     public Account(String firstName, String lastName, String email, String username, String passwordHash, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        if (username != null && !"".equals(username) && passwordHash != null && email.matches(EMAIL_PATTERN)) {
+        if (notNullOrEmpty(username) && notNullOrEmpty(passwordHash) && notNullOrEmpty(firstName) && notNullOrEmpty(lastName) && notNullOrEmpty(email) && email.matches(EMAIL_PATTERN)) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
@@ -86,6 +86,10 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         } else {
             throw new IllegalArgumentException("Cannot pass null or empty values to constructor");
         }
+    }
+
+    public boolean notNullOrEmpty(String param) {
+        return param != null && !param.isEmpty();
     }
 
     public String getFirstName() {
