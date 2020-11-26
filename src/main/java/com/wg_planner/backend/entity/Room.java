@@ -25,13 +25,13 @@ public class Room extends AbstractEntity implements Cloneable {
     private Boolean occupied = false;
 
     //owning side, referencing side
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.MERGE)
     private ResidentAccount residentAccount;
 
     @NotNull
     @NotEmpty
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "floor_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
     @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER)
@@ -99,6 +99,7 @@ public class Room extends AbstractEntity implements Cloneable {
         this.assignedTasks = assignedTasks;
     }
 
+    @Override
     public String toString() {
         ToStringBuilder toStringBuilder = new ToStringBuilder(this).
                 append("room number", roomNumber).
@@ -114,18 +115,19 @@ public class Room extends AbstractEntity implements Cloneable {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this)
-            return true;
-        if (!(other instanceof Room))
-            return false;
-        Room otherRoom = (Room) other;
-        return new EqualsBuilder()
-                .append(roomNumber, otherRoom.roomNumber)
-                .append(occupied, otherRoom.occupied)
-                .append(residentAccount, otherRoom.residentAccount)
-                .append(floor, otherRoom.floor)
-                .append(assignedTasks, otherRoom.assignedTasks)
-                .isEquals();
+        return false;
+//        if (other == this)
+//            return true;
+//        if (!(other instanceof Room))
+//            return false;
+//        Room otherRoom = (Room) other;
+//        return new EqualsBuilder()
+//                .append(roomNumber, otherRoom.roomNumber)
+//                .append(occupied, otherRoom.occupied)
+//                .append(residentAccount.getId(), otherRoom.residentAccount.getId())
+//                .append(floor.getId(), otherRoom.floor.getId())
+//                .append(assignedTasks, otherRoom.assignedTasks)
+//                .isEquals();
     }
 
     @Override

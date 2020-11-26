@@ -3,12 +3,16 @@ package com.wg_planner.backend.entity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SpringBootTest
+@ActiveProfiles("test")
 public class FloorTest {
     private List<Room> rooms;
     private List<Task> tasks;
@@ -23,7 +27,7 @@ public class FloorTest {
                     return task;
                 }).collect(Collectors.toList());
     }
-
+    //todo always save and retrieve
     @Test
     public void createFloor() {
         Floor floor = new Floor.FloorBuilder("2A", "9", "300").setTasks(tasks).build();

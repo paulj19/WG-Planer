@@ -167,7 +167,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     public boolean equals(Object rhs) {
         return rhs instanceof Account && this.firstName.equals(((Account) rhs).firstName) &&
                 this.lastName.equals(((Account) rhs).lastName) &&
-                this.email.equals(((Account) rhs).lastName) &&
+                this.email.equals(((Account) rhs).email) &&
                 this.username.equals(((Account) rhs).username) &&
                 this.passwordHash.equals(((Account) rhs).passwordHash) &&
                 this.authorities.equals(((Account) rhs).authorities);
@@ -177,34 +177,34 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         return this.username.hashCode();
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(super.toString()).append(": ");
-        sb.append("Username: ").append(this.username).append("; ");
-        sb.append("Password: [PROTECTED]; ");
-        sb.append("Enabled: ").append(this.enabled).append("; ");
-        sb.append("AccountNonExpired: ").append(this.accountNonExpired).append("; ");
-        sb.append("credentialsNonExpired: ").append(this.credentialsNonExpired).append("; ");
-        sb.append("AccountNonLocked: ").append(this.accountNonLocked).append("; ");
-//        sb.append(super.toString());
-        if (!this.authorities.isEmpty()) {
-            sb.append("Granted Authorities: ");
-            boolean first = true;
-
-            for (GrantedAuthority auth : this.authorities) {
-                if (!first) {
-                    sb.append(",");
-                }
-
-                first = false;
-                sb.append(auth);
-            }
-        } else {
-            sb.append("Not granted any authorities");
-        }
-
-        return sb.toString();
-    }
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(super.toString()).append(": ");
+//        sb.append("Username: ").append(this.username).append("; ");
+//        sb.append("Password: [PROTECTED]; ");
+//        sb.append("Enabled: ").append(this.enabled).append("; ");
+//        sb.append("AccountNonExpired: ").append(this.accountNonExpired).append("; ");
+//        sb.append("credentialsNonExpired: ").append(this.credentialsNonExpired).append("; ");
+//        sb.append("AccountNonLocked: ").append(this.accountNonLocked).append("; ");
+////        sb.append(super.toString());
+//        if (!this.authorities.isEmpty()) {
+//            sb.append("Granted Authorities: ");
+//            boolean first = true;
+//
+//            for (GrantedAuthority auth : this.authorities) {
+//                if (!first) {
+//                    sb.append(",");
+//                }
+//
+//                first = false;
+//                sb.append(auth);
+//            }
+//        } else {
+//            sb.append("Not granted any authorities");
+//        }
+//
+//        return sb.toString();
+//    }
 
     public static Account.AccountBuilder withUsername(String username) {
         return builder().username(username);

@@ -103,6 +103,10 @@ public class FloorService {
         return floorRepository.findFloorByNumber(floorNumber);
     }
 
+    public void save(Floor floorToSave) {
+        floorRepository.save(floorToSave);
+    }
+
 //    @PostConstruct
 //    public void populateTestData() {
 //        if(roomRepository.count() == 0) {

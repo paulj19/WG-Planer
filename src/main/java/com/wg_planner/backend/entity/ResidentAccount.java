@@ -16,8 +16,8 @@ import java.util.Collection;
 public class ResidentAccount extends Account implements Cloneable {
 
     private Boolean away = false;
-
-    @OneToOne(fetch = FetchType.EAGER)//normally room is always gotten from ResidentAccount
+//, cascade = CascadeType.ALL
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//normally room is always gotten from ResidentAccount
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
@@ -77,7 +77,7 @@ public class ResidentAccount extends Account implements Cloneable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(room)
+//                .append(room)
                 .append(away)
                 .append(super.hashCode())//TODo verify
                 .toHashCode();

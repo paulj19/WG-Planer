@@ -68,8 +68,8 @@ public class Task extends AbstractEntity {
         Task otherTask = (Task) other;
         return new EqualsBuilder()
                 .append(taskName, otherTask.taskName)
-                .append(floor, otherTask.floor)
-                .append(assignedRoom, otherTask.assignedRoom)
+                .append(floor.getId(), otherTask.floor.getId())
+                .append(assignedRoom.getId(), otherTask.assignedRoom.getId())
                 .isEquals();
     }
 
