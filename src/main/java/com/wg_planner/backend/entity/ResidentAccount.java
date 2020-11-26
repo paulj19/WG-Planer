@@ -1,5 +1,6 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.awt.geom.IllegalPathStateException;
 import java.util.Collection;
 
 @Entity
@@ -16,7 +18,7 @@ import java.util.Collection;
 public class ResidentAccount extends Account implements Cloneable {
 
     private Boolean away = false;
-//, cascade = CascadeType.ALL
+    //, cascade = CascadeType.ALL
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//normally room is always gotten from ResidentAccount
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
@@ -24,9 +26,12 @@ public class ResidentAccount extends Account implements Cloneable {
     public ResidentAccount() {
     }
 
-    public ResidentAccount(String firstName, String lastName, String email, String username, String password, @NotNull @NotEmpty Room room, Collection<? extends GrantedAuthority> authorities) {
+    public ResidentAccount(String firstName, String lastName, String email, String username, String password, @NotNull @NotEmpty Room room, boolean away, Collection<? extends GrantedAuthority> authorities) {
         super(firstName, lastName, email, username, password, authorities);
+        Validate.notNull(room);
+        Validate.notNull(away);
         this.room = room;
+        this.away = away;
     }
 
     public Boolean isAway() {
@@ -63,9 +68,9 @@ public class ResidentAccount extends Account implements Cloneable {
 
     @Override
     public boolean equals(Object other) {
-        if(other == this)
+        if (other == this)
             return true;
-        if(!(other instanceof  ResidentAccount))
+        if (!(other instanceof ResidentAccount))
             return false;
         ResidentAccount otherResidentAccount = (ResidentAccount) other;
         return new EqualsBuilder()

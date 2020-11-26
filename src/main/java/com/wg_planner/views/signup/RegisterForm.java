@@ -1,11 +1,11 @@
 package com.wg_planner.views.signup;
 
-import antlr.BaseAST;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -15,7 +15,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.Service.FloorService;
-import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.entity.Account;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
@@ -43,6 +42,8 @@ public class RegisterForm extends FormLayout {
     PasswordField password = new PasswordField("Password", "min 6 characters");
     ComboBox<Floor> floorComboBox = new ComboBox<>("Floor");
     ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room");
+    Checkbox isReadyToAcceptTasks = new Checkbox();
+    boolean isAway = true;
     Account account;
     Floor selectedFloor;
     Room selectedRoom;
@@ -146,8 +147,10 @@ public class RegisterForm extends FormLayout {
             }
             checkAndSetRegisterButton();
         });
+        isReadyToAcceptTasks.setLabel("I am in the room and ready to accept tasks");
+        isReadyToAcceptTasks.addValueChangeListener(checkboxBooleanComponentValueChangeEvent -> isAway = !checkboxBooleanComponentValueChangeEvent.getValue());
         setWidth("500px");
-        add(firstName, lastName, email, username, password, floorComboBox, roomsRoomComboBox, createButtonLayout());
+        add(firstName, lastName, email, username, password, floorComboBox, roomsRoomComboBox, isReadyToAcceptTasks, createButtonLayout());
     }
 
     private void checkAndSetRegisterButton() {
@@ -214,7 +217,7 @@ public class RegisterForm extends FormLayout {
 
     private Account getEnteredValuesAsAccount() {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(), email.getValue(), username.getValue(), encoder.encode(password.getValue()), getSelectedRoom(), getAuthorities());
+        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(), email.getValue(), username.getValue(), encoder.encode(password.getValue()), getSelectedRoom(), isAway, getAuthorities());
         return residentAccount;
     }
 
