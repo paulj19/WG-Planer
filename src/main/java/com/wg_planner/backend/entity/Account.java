@@ -72,7 +72,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     public Account(String firstName, String lastName, String email, String username, String passwordHash, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        if (notNullOrEmpty(username) && notNullOrEmpty(passwordHash) && notNullOrEmpty(firstName) && notNullOrEmpty(lastName) && notNullOrEmpty(email) && email.matches(EMAIL_PATTERN)) {
+        if (notNullOrEmptyOrLt250Chars(username) && notNullOrEmpty(passwordHash) && notNullOrEmptyOrLt250Chars(firstName) && notNullOrEmptyOrLt250Chars(lastName) && notNullOrEmpty(email) && email.matches(EMAIL_PATTERN) && authorities != null && !authorities.isEmpty()) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
@@ -84,12 +84,16 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
             this.accountNonLocked = accountNonLocked;
             this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
         } else {
-            throw new IllegalArgumentException("Cannot pass null or empty values to constructor");
+            throw new IllegalArgumentException("Cannot pass null or empty values or invalid parameters to constructor");
         }
     }
 
     public boolean notNullOrEmpty(String param) {
         return param != null && !param.isEmpty();
+    }
+
+    public boolean notNullOrEmptyOrLt250Chars(String param) {
+        return notNullOrEmpty(param) && param.length() <= 250;
     }
 
     public String getFirstName() {

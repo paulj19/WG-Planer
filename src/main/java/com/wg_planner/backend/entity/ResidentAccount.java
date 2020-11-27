@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.awt.geom.IllegalPathStateException;
 import java.util.Collection;
 
 @Entity
@@ -26,7 +25,8 @@ public class ResidentAccount extends Account implements Cloneable {
     public ResidentAccount() {
     }
 
-    public ResidentAccount(String firstName, String lastName, String email, String username, String password, @NotNull @NotEmpty Room room, boolean away, Collection<? extends GrantedAuthority> authorities) {
+    public ResidentAccount(String firstName, String lastName, String email, String username, String password, @NotNull @NotEmpty Room room,
+                           boolean away, Collection<? extends GrantedAuthority> authorities) {
         super(firstName, lastName, email, username, password, authorities);
         Validate.notNull(room);
         Validate.notNull(away);
@@ -47,13 +47,7 @@ public class ResidentAccount extends Account implements Cloneable {
     }
 
     public void setRoom(Room room) {
-        if (room == null) {
-            if (this.room != null) {
-                this.room.setResidentAccount(null);
-            }
-        } else {
-            room.setResidentAccount(this);
-        }
+        Validate.notNull(room);
         this.room = room;
     }
 
