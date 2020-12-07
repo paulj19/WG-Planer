@@ -1,5 +1,6 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -54,16 +55,22 @@ public class Floor extends AbstractEntity implements Cloneable {
         private List<Task> tasks;
 
         public FloorBuilder(String floorNumber, String numberOfRooms, String roomStartIndex) {
+            Validate.notNull(floorNumber, "parameter floorNumber must not be %s", null);
+            Validate.notNull(numberOfRooms, "parameter numberOfRooms must not be %s", null);
+            Validate.notNull(roomStartIndex, "parameter roomStartIndex must not be %s", null);
+
             this.floorNumber = floorNumber;
             this.numberOfRooms = numberOfRooms;
             this.roomStartIndex = roomStartIndex;
         }
 
         public void setRooms(List<Room> rooms) {
+            Validate.notNull(rooms, "parameter rooms must not be %s", null);
             this.rooms = rooms;
         }
 
         public FloorBuilder setTasks(List<Task> tasks) {
+            Validate.notNull(tasks, "parameter tasks to add must not be %s", null);
             this.tasks = tasks;
             return this;
         }
@@ -101,18 +108,25 @@ public class Floor extends AbstractEntity implements Cloneable {
         return tasks;
     }
 
-    public void addRooms(List<Room> rooms) {
+    public void setRooms(List<Room> rooms)
+    {
+        Validate.notNull(rooms, "parameter rooms must not be %s", null);
         this.rooms = rooms;
     }
-
-    public void addTask(Task task) {
-        tasks.add(task);
-
+    public void addRoom(Room room) {
+        Validate.notNull(room, "parameter room to add must not be %s", null);
+        rooms.add(room);
     }
 
     //todo: see spring auto save for setters and value change
     public void setTasks(List<Task> tasks) {
+        Validate.notNull(tasks, "parameter tasks to add must not be %s", null);
         this.tasks = tasks;
+    }
+
+    public void addTask(Task task) {
+        Validate.notNull(task, "parameter task to add must not be %s", null);
+        tasks.add(task);
     }
 
     //this would print all the floor info
@@ -134,9 +148,9 @@ public class Floor extends AbstractEntity implements Cloneable {
 
     @Override
     public boolean equals(Object other) {
-        if(other == this)
+        if (other == this)
             return true;
-        if(!(other instanceof  Floor))
+        if (!(other instanceof Floor))
             return false;
         Floor otherFloor = (Floor) other;
         return new EqualsBuilder()
