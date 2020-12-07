@@ -8,6 +8,7 @@ import com.wg_planner.backend.entity.Room;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.logging.Logger;
 
 @Service
@@ -20,19 +21,27 @@ public class ResidentAccountService {
 
     @Autowired
     public ResidentAccountService(ResidentAccountRepository residentAccountRepository, RoomRepository roomRepository, AccountRepository accountRepository) {
+        Validate.notNull(residentAccountRepository);
+        Validate.notNull(roomRepository);
+        Validate.notNull(accountRepository);
         this.residentAccountRepository = residentAccountRepository;
         this.roomRepository = roomRepository;
         this.accountRepository = accountRepository;
     }
 
-    public ResidentAccount getResidentAccount(Long accountId) {
-        Validate.notNull(accountId, "parameter account id must not be %s", null);
-        return residentAccountRepository.getResidentAccount(accountId);
-    }
+//    public ResidentAccount getResidentAccount(Long accountId) {
+//        Validate.notNull(accountId, "parameter account id must not be %s", null);
+//        return residentAccountRepository.getResidentAccount(accountId);
+//    }
 
     public ResidentAccount getResidentAccountByRoom(Room room) {
         Validate.notNull(room, "parameter room must not be %s", null);
         return residentAccountRepository.getResidentAccountByRoom(room.getId());
+    }
+
+    public Room getRoomByResidentAccount(ResidentAccount residentAccount) {
+        Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
+        return roomRepository.findRoomByResidentId(residentAccount.getId());
     }
 
     public ResidentAccount getResidentAccountByUsername(String username) {
@@ -41,22 +50,9 @@ public class ResidentAccountService {
         return (ResidentAccount) accountRepository.findAccountByUsername(username);
     }
 
-    public Room getRoom(ResidentAccount residentAccount) {
-        Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
-        return roomRepository.findRoomByResidentId(residentAccount.getId());
-    }
 
     public void save(ResidentAccount residentAccount) {
         Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
         residentAccountRepository.save(residentAccount);
     }
-//    @PostConstruct
-//    public void populateTestData() {
-//        List<Room> rooms = roomRepository.findAll();
-//        roomRepository.findAll().forEach(room -> residentAccountRepository.save(new ResidentAccount(room)));
-//        List<Account> residentAccounts = residentAccountRepository.findAll();
-//        Room room = roomRepository.search("311");
-//        ResidentAccount residentAccount = new ResidentAccount(room);
-//        residentAccountRepository.save(residentAccount);
-//    }
 }

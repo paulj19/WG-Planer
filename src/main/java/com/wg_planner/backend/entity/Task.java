@@ -61,6 +61,7 @@ public class Task extends AbstractEntity {
 
     @Override
     public boolean equals(Object other) {
+        //object taken from the database is the same as the created one
         if (other == this)
             return true;
         if (!(other instanceof Task))

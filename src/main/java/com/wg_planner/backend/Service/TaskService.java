@@ -36,6 +36,10 @@ public class TaskService {
         Validate.notNull(task, "parameter task to save must not be %s", null);
         taskRepository.save(task);
     }
+    public void saveAll(List<Task> tasks) {
+        Validate.notNull(tasks, "parameter task to save must not be %s", null);
+        taskRepository.saveAll(tasks);
+    }
 
 //    @PostConstruct
 //    public void populateTestData() {

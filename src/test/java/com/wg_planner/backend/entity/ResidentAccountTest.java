@@ -27,7 +27,6 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-//@RunWith( SpringRunner.class )
 @Transactional
 public class ResidentAccountTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired
@@ -49,7 +48,7 @@ public class ResidentAccountTest extends AbstractTransactionalJUnit4SpringContex
     }
 
     @Test
-    public void ResidentAccount_ValidParameters_AccountCreatedAndReturned() {
+    public void ResidentAccount_ValidParameters_AccountCreatedSavedAndReturned() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("USER"));
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -62,13 +61,11 @@ public class ResidentAccountTest extends AbstractTransactionalJUnit4SpringContex
         ResidentAccount residentAccountCreatedRetrieved =
                 residentAccountService.getResidentAccountByUsername(
                         "testValid_username");
-        System.out.println(residentAccount);
-        System.out.println(residentAccountCreatedRetrieved);
         Assert.assertEquals(residentAccount, residentAccountCreatedRetrieved);
     }
 
     @Test
-    public void ResidentAccount_ValidParameters_AccountCreatedAndReturnedWithValidFields() {
+    public void ResidentAccount_ValidParameters_AccountCreatedAndReturnedWithAllFieldsValid() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("USER"));
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -115,6 +112,20 @@ public class ResidentAccountTest extends AbstractTransactionalJUnit4SpringContex
                 "testValid_password"), testRoom,
                 false, authorities);
         Assert.assertThrows(RuntimeException.class, () -> testResidentAccount.setRoom(null));
+    }
+
+    @Test
+    public void Account_CreateWithEmailRedundant_ThrowRuntimeException() {
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("USER"));
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        ResidentAccount residentAccount = new ResidentAccount("testValid_first_name", "testValid_last_name", "testValid@testCreate.com", "testValid_username", encoder.encode("testValid_password"), testRoom, false, authorities);
+        residentAccountService.save(residentAccount);
+        List<GrantedAuthority> authorities_redundant = new ArrayList<GrantedAuthority>();
+        authorities_redundant.add(new SimpleGrantedAuthority("USER"));
+        ResidentAccount residentAccountRedundant = new ResidentAccount("testValid_first_name_redundant", "testValid_last_name_redundant", "testValid@testCreate.com", "testValid_username_redundant", encoder.encode("testValid_password_redundant"),testRoom, false,authorities_redundant);
+//        residentAccountService.save(residentAccountRedundant);
+        Assert.assertThrows(RuntimeException.class, () -> residentAccountService.save(residentAccountRedundant));
     }
     //todo
 //    @Test

@@ -43,7 +43,7 @@ public class TasksPresenter {
             LOGGER.log(Level.SEVERE, "Logged in Account: " + ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).toString());
             throw new NullPointerException("myResidentAccount returned after fetching username from getUsername is null");
         }
-        myRoom = residentAccountService.getRoom(myResidentAccount);
+        myRoom = residentAccountService.getRoomByResidentAccount(myResidentAccount);
         myFloor = myRoom.getFloor();
         if (myFloor == null) {
             LOGGER.log(Level.SEVERE, "Logged in Resident Account: " + myResidentAccount.toString());

@@ -1,10 +1,12 @@
 package com.wg_planner.backend.entity;
 
+import com.wg_planner.backend.Service.ResidentAccountService;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -135,7 +137,7 @@ public class AccountTest {
         }
 
         @Test
-        public void Account_CreateWithAuthorituesEmpty_RuntimeExceptionThrown() {
+        public void Account_CreateWithAuthoritiesEmpty_RuntimeExceptionThrown() {
             List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
             Assert.assertThrows(IllegalArgumentException.class, () -> new Account("testValid_first_name", "testValid_last_name", "", "testValid_username", encoder.encode("testValid_password"), authorities));
