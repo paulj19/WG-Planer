@@ -75,8 +75,8 @@ public class ResidentAccountTest extends AbstractTransactionalJUnit4SpringContex
                 false, authorities);
         residentAccountService.save(residentAccount);
         ResidentAccount residentAccountCreatedRetrieved = residentAccountService.getResidentAccountByUsername("testValid_username");
-        System.out.println(residentAccount);
-        System.out.println(residentAccountCreatedRetrieved);
+//        System.out.println(residentAccount);
+//        System.out.println(residentAccountCreatedRetrieved);
         Assert.assertEquals("testValid_first_name", residentAccountCreatedRetrieved.getFirstName());
         Assert.assertEquals("testValid_last_name", residentAccountCreatedRetrieved.getLastName());
         Assert.assertEquals("testValid@testCreate.com".toLowerCase(),

@@ -27,6 +27,21 @@ public class Task extends AbstractEntity {
     @JoinColumn(name = "room_id")
     private Room assignedRoom;
 
+    public Task() {
+
+    }
+
+    public Task(@NotNull @NotEmpty String taskName, @NotNull @NotEmpty Floor floor) {
+        this.taskName = taskName;
+        this.floor = floor;
+    }
+
+    public Task(@NotNull @NotEmpty String taskName, @NotNull @NotEmpty Floor floor, Room assignedRoom) {
+        this(taskName, floor);
+        this.assignedRoom = assignedRoom;
+    }
+
+
     public String getTaskName() {
         return taskName;
     }
@@ -62,16 +77,28 @@ public class Task extends AbstractEntity {
     @Override
     public boolean equals(Object other) {
         //object taken from the database is the same as the created one
+        boolean isEqual = true;
         if (other == this)
             return true;
         if (!(other instanceof Task))
             return false;
         Task otherTask = (Task) other;
-        return new EqualsBuilder()
-                .append(taskName, otherTask.taskName)
-                .append(floor.getId(), otherTask.floor.getId())
-                .append(assignedRoom.getId(), otherTask.assignedRoom.getId())
-                .isEquals();
+        EqualsBuilder equalsBuilder = new EqualsBuilder()
+                .append(taskName, otherTask.taskName);
+        if (floor != null && otherTask.floor != null)
+            equalsBuilder.append(floor.getId(), otherTask.floor.getId());
+        else if (floor == null && otherTask.floor == null)
+            isEqual = isEqual & true;
+        else
+            isEqual = isEqual & false;
+        if (assignedRoom != null && otherTask.assignedRoom != null)
+            equalsBuilder.append(assignedRoom.getId(), otherTask.assignedRoom.getId());
+        else if (assignedRoom == null && otherTask.assignedRoom == null)
+            isEqual = isEqual & true;
+        else
+            isEqual = isEqual & false;
+
+        return equalsBuilder.isEquals() && isEqual;
     }
 
     @Override
