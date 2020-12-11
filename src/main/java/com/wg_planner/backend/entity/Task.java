@@ -1,5 +1,7 @@
 package com.wg_planner.backend.entity;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -32,13 +34,13 @@ public class Task extends AbstractEntity {
     }
 
     public Task(@NotNull @NotEmpty String taskName, @NotNull @NotEmpty Floor floor) {
-        this.taskName = taskName;
-        this.floor = floor;
+        setTaskName(taskName);
+        setFloor(floor);
     }
 
     public Task(@NotNull @NotEmpty String taskName, @NotNull @NotEmpty Floor floor, Room assignedRoom) {
         this(taskName, floor);
-        this.assignedRoom = assignedRoom;
+        setAssignedRoom(assignedRoom);
     }
 
 
@@ -47,6 +49,9 @@ public class Task extends AbstractEntity {
     }
 
     public void setTaskName(String taskName) {
+        Validate.notNull(taskName, "parameter taskName must not be %s", (Object) null);
+        Validate.notEmpty(taskName, "parameter taskName must not be empty");
+        Validate.isTrue(taskName.length() <= 250, "length of task name must not exceed 250 chars");
         this.taskName = taskName;
     }
 
@@ -55,6 +60,7 @@ public class Task extends AbstractEntity {
     }
 
     public void setAssignedRoom(Room assignedRoom) {
+        Validate.notNull(assignedRoom, "parameter assignedRoom must not be %s", (Object) null);
         this.assignedRoom = assignedRoom;
     }
 
@@ -63,6 +69,7 @@ public class Task extends AbstractEntity {
     }
 
     public void setFloor(Floor floor) {
+        Validate.notNull(floor, "parameter floor must not be %s", (Object) null);
         this.floor = floor;
     }
 
