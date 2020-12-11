@@ -3,6 +3,7 @@ package com.wg_planner.backend.entity;
 import com.wg_planner.backend.Repository.TaskRepository;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
+import com.wg_planner.backend.Service.TaskService;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,6 +33,8 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
     FloorService floorService;
     @Autowired
     RoomService roomService;
+    @Autowired
+    TaskService taskService;
     @Autowired
     TaskRepository taskRepository;
     @Test
@@ -117,17 +120,43 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
                     return task1;
                 }).collect(Collectors.toList());
         taskRepository.saveAll(tasks);
-        List<Task> tasksCopy = new ArrayList<>(tasks);
         testRoom.setAssignedTasks(tasks);
         roomService.save(testRoom);
         Assert.assertEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
         Assert.assertNotEquals(tasks1, roomService.getRoomByNumber("222").getAssignedTasks());
         testRoom.addAssignedTasks(task);
         roomService.save(testRoom);
+        List<Task> tasksCopy = new ArrayList<>(tasks);
         tasks.add(task);
         Assert.assertEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
         Assert.assertNotEquals(tasksCopy, roomService.getRoomByNumber("222").getAssignedTasks());
     }
+    @Test
+    public void Room_RemoveTasks_RoomWithTaskRemovedSavedAndReturned() {
+        Floor testFloor = createAndReturnFloor();
+        floorService.save(testFloor);
+        Room testRoom = new Room("222", testFloor);
+        roomService.save(testRoom);
+        Task task = new Task("Biomüll", testFloor, testRoom);
+        List<Task> tasks = Stream.of("Restmüll", "Gelbersack", "ofen")
+                .map(taskname -> {
+                    Task taskx = new Task();
+                    taskx.setFloor(testFloor);
+                    taskx.setTaskName(taskname);
+                    return taskx;
+                }).collect(Collectors.toList());
+        taskRepository.save(task);
+        tasks.add(task);
+        taskRepository.saveAll(tasks);
+        testRoom.setAssignedTasks(tasks);
+        roomService.save(testRoom);
+        Assert.assertEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
+        testRoom.removeAssignedTask(task);
+        roomService.save(testRoom);
+        Assert.assertNotEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
+        Assert.assertFalse(roomService.getRoomByNumber("222").getAssignedTasks().contains(task));
+    }
+
     public Floor createAndReturnFloor() {
         return new Floor.FloorBuilder("3A", "9", "300").build();
     }

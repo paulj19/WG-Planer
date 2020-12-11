@@ -114,6 +114,12 @@ public class Room extends AbstractEntity implements Cloneable {
         assignedTasks.add(task);
     }
 
+    public void removeAssignedTask(Task task) {
+        Validate.notNull(task, "parameter task to add must not be %s", null);
+        Validate.isTrue(assignedTasks.contains(task), "task to add must already be added");
+        assignedTasks.remove(task);
+    }
+
 
     @Override
     public String toString() {

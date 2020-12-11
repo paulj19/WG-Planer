@@ -2,6 +2,7 @@ package com.wg_planner.backend.Service;
 
 import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.Repository.TaskRepository;
+import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.Tasks.TaskCard;
