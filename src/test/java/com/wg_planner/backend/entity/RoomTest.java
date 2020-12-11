@@ -1,5 +1,6 @@
 package com.wg_planner.backend.entity;
 
+import com.wg_planner.backend.Repository.TaskRepository;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,8 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
     FloorService floorService;
     @Autowired
     RoomService roomService;
+    @Autowired
+    TaskRepository taskRepository;
     @Test
     public void Room_CreateInValidParams_RuntimeExceptionThrown() {
         Assert.assertThrows(RuntimeException.class, () -> new Room(null, createAndReturnFloor()));
@@ -102,6 +105,7 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
         List<Task> tasks = Stream.of("Restmüll", "Gelbersack", "ofen")
                 .map(taskname -> {
                     Task taskx = new Task();
+                    taskx.setFloor(testFloor);
                     taskx.setTaskName(taskname);
                     return taskx;
                 }).collect(Collectors.toList());
@@ -111,6 +115,7 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
                     task1.setTaskName(taskname);
                     return task1;
                 }).collect(Collectors.toList());
+        taskRepository.saveAll(tasks);
         List<Task> tasksCopy = tasks;
         testRoom.setAssignedTasks(tasks);
         roomService.save(testRoom);
@@ -118,7 +123,6 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
         Assert.assertNotEquals(tasks1, roomService.getRoomByNumber("222").getAssignedTasks());
         testRoom.addAssignedTasks(task);
         roomService.save(testRoom);
-        ;
         tasks.add(task);
         Assert.assertEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
         Assert.assertNotEquals(tasksCopy, roomService.getRoomByNumber("222").getAssignedTasks());
