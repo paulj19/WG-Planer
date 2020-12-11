@@ -48,25 +48,29 @@ public class Floor extends AbstractEntity implements Cloneable {
 
         private final String numberOfRooms;
 
-        private final String roomStartIndex;
+        private  String roomStartIndex;
 
         private List<Room> rooms;
 
         private List<Task> tasks;
 
-        public FloorBuilder(String floorNumber, String numberOfRooms, String roomStartIndex) {
+        public FloorBuilder(String floorNumber, String numberOfRooms) {
             Validate.notNull(floorNumber, "parameter floorNumber must not be %s", null);
             Validate.notNull(numberOfRooms, "parameter numberOfRooms must not be %s", null);
-            Validate.notNull(roomStartIndex, "parameter roomStartIndex must not be %s", null);
 
             this.floorNumber = floorNumber;
             this.numberOfRooms = numberOfRooms;
-            this.roomStartIndex = roomStartIndex;
         }
 
         public void setRooms(List<Room> rooms) {
             Validate.notNull(rooms, "parameter rooms must not be %s", null);
             this.rooms = new ArrayList<>(rooms);
+        }
+
+        public void setRoomStartIndex(String roomStartIndex) {
+            Validate.notNull(roomStartIndex, "parameter roomStartIndex must not be %s", null);
+            Validate.notEmpty(roomStartIndex, "parameter roomStartIndex must not be empty");
+            this.roomStartIndex = roomStartIndex;
         }
 
         public FloorBuilder setTasks(List<Task> tasks) {
@@ -127,6 +131,12 @@ public class Floor extends AbstractEntity implements Cloneable {
     public void addTask(Task task) {
         Validate.notNull(task, "parameter task to add must not be %s", null);
         tasks.add(task);
+    }
+
+    public void setRoomStartIndex(String roomStartIndex) {
+        Validate.notNull(roomStartIndex, "parameter roomStartIndex must not be %s", null);
+        Validate.notEmpty(roomStartIndex, "parameter roomStartIndex must not be empty");
+        this.roomStartIndex = roomStartIndex;
     }
 
     //this would print all the floor info

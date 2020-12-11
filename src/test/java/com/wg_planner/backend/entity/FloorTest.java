@@ -38,7 +38,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_ValidParamsWithoutRoomsAndTasks_FloorCreatedSavedAndReturned() {
-        Floor floor = new Floor.FloorBuilder("3A", "9", "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", "9").build();
         Assert.assertEquals("3A", floor.getFloorNumber());
         Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
@@ -49,7 +49,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_CreateFloorAndSetTask_FloorCreatedSetTaskSuccessful() {
-        Floor floor = new Floor.FloorBuilder("3A", "9", "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", "9").build();
         Assert.assertEquals("3A", floor.getFloorNumber());
         Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
@@ -68,7 +68,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_CreateFloorAndAddTask_FloorCreatedAddTaskSuccessful() {
-        Floor floor = new Floor.FloorBuilder("3A", "9", "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", "9").build();
         Assert.assertEquals("3A", floor.getFloorNumber());
         Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
@@ -87,7 +87,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_CreateFloorAndSetRoom_FloorCreatedSetRoomSuccessful() {
-        Floor floor = new Floor.FloorBuilder("3A", "9", "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", "9").build();
         Assert.assertEquals("3A", floor.getFloorNumber());
         Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
@@ -106,7 +106,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_CreateFloorAndSetRoomFloorNullAndEmpty_RuntimeExceptionThrown() {
-        Floor floor = new Floor.FloorBuilder("3A", "9", "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", "9").build();
         Assert.assertEquals("3A", floor.getFloorNumber());
         Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());

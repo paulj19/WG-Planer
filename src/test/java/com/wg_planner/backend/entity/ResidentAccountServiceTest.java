@@ -40,7 +40,7 @@ public class ResidentAccountServiceTest extends AbstractTransactionalJUnit4Sprin
     @Autowired
     ResidentAccountService testResidentAccountService;
 
-    Floor testFloor = new Floor.FloorBuilder("3A", "9", "300").build();
+    Floor testFloor = new Floor.FloorBuilder("3A", "9").build();
     Room testRoom = new Room("310", testFloor);
 
     List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();

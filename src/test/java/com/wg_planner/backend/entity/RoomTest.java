@@ -158,7 +158,7 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
     }
 
     public Floor createAndReturnFloor() {
-        return new Floor.FloorBuilder("3A", "9", "300").build();
+        return new Floor.FloorBuilder("3A", "9").build();
     }
     public ResidentAccount createAndReturnResidentAccount(Room testRoom) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
