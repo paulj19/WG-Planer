@@ -17,6 +17,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -104,7 +105,7 @@ public class Room extends AbstractEntity implements Cloneable {
 
     public void setAssignedTasks(List<Task> assignedTasks) {
         Validate.notNull(assignedTasks, "parameter assignedTasks to add must not be %s", null);
-        this.assignedTasks = assignedTasks;
+        this.assignedTasks = new ArrayList<>(assignedTasks);
     }
 
     public void addAssignedTasks(Task task) {

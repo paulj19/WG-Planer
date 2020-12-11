@@ -38,7 +38,7 @@ public class Floor extends AbstractEntity implements Cloneable {
 
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks;
 
     public Floor() {
     }
@@ -66,12 +66,12 @@ public class Floor extends AbstractEntity implements Cloneable {
 
         public void setRooms(List<Room> rooms) {
             Validate.notNull(rooms, "parameter rooms must not be %s", null);
-            this.rooms = rooms;
+            this.rooms = new ArrayList<>(rooms);
         }
 
         public FloorBuilder setTasks(List<Task> tasks) {
             Validate.notNull(tasks, "parameter tasks to add must not be %s", null);
-            this.tasks = tasks;
+            this.tasks = new ArrayList<>(tasks);
             return this;
         }
 
@@ -111,7 +111,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     public void setRooms(List<Room> rooms)
     {
         Validate.notNull(rooms, "parameter rooms must not be %s", null);
-        this.rooms = rooms;
+        this.rooms = new ArrayList<>(rooms);
     }
     public void addRoom(Room room) {
         Validate.notNull(room, "parameter room to add must not be %s", null);
@@ -121,7 +121,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     //todo: see spring auto save for setters and value change
     public void setTasks(List<Task> tasks) {
         Validate.notNull(tasks, "parameter tasks to add must not be %s", null);
-        this.tasks = tasks;
+        this.tasks = new ArrayList<>(tasks);
     }
 
     public void addTask(Task task) {

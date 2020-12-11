@@ -102,6 +102,7 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
         Room testRoom = new Room("222", testFloor);
         roomService.save(testRoom);
         Task task = new Task("Biomüll", testFloor, testRoom);
+        taskRepository.save(task);
         List<Task> tasks = Stream.of("Restmüll", "Gelbersack", "ofen")
                 .map(taskname -> {
                     Task taskx = new Task();
@@ -116,7 +117,7 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
                     return task1;
                 }).collect(Collectors.toList());
         taskRepository.saveAll(tasks);
-        List<Task> tasksCopy = tasks;
+        List<Task> tasksCopy = new ArrayList<>(tasks);
         testRoom.setAssignedTasks(tasks);
         roomService.save(testRoom);
         Assert.assertEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
