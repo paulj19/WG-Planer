@@ -44,7 +44,7 @@ public class Room extends AbstractEntity implements Cloneable {
     @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER)
 //    @LazyCollection(LazyCollectionOption.FALSE)
     @Fetch(value = FetchMode.SUBSELECT)
-    List<Task> assignedTasks;
+    List<Task> assignedTasks = new ArrayList<>();
 
 
     public Room() {
@@ -53,6 +53,10 @@ public class Room extends AbstractEntity implements Cloneable {
     public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor) {
         setRoomNumber(roomNumber);
         setFloor(floor);
+    }
+    public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor, boolean isOccupied) {
+        this(roomNumber, floor);
+        setOccupied(isOccupied);
     }
 
 //    public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor, ResidentAccount residentAccount) {
