@@ -54,7 +54,7 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
         Room testRoom = new Room("222", testFloor);
         roomService.save(testRoom);
         //room number not unique but within floor room number is unique, testing the floor should return only the currently created room not any previously created ones
-        Room createdRoom = roomService.getRoomByNumber("222");
+        Room createdRoom = roomService.getRoomByNumber("222", testFloor);
         Assert.assertEquals(testRoom.getRoomNumber(), createdRoom.getRoomNumber());
         Assert.assertEquals(testRoom.getFloor(), createdRoom.getFloor());
     }
@@ -68,7 +68,7 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
         ResidentAccount residentAccount = createAndReturnResidentAccount(testRoom);
         testRoom.setResidentAccount(residentAccount);
         roomService.save(testRoom);
-        Room room = roomService.getRoomByNumber("222");
+        Room room = roomService.getRoomByNumber("222", testFloor);
         Assert.assertEquals(testRoom.getRoomNumber(), room.getRoomNumber());
         Assert.assertEquals(testRoom.getFloor(), room.getFloor());
         Assert.assertEquals(residentAccount, room.getResidentAccount());
@@ -95,8 +95,8 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
                 }).collect(Collectors.toList());
         testRoom.setAssignedTasks(tasks);
         roomService.save(testRoom);
-        Assert.assertEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
-        Assert.assertNotEquals(tasks1, roomService.getRoomByNumber("222").getAssignedTasks());
+        Assert.assertEquals(tasks, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
+        Assert.assertNotEquals(tasks1, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
     }
     @Test
     public void Room_AddTasks_RoomWithTaskAddedSavedAndReturned() {
@@ -122,14 +122,14 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
         taskRepository.saveAll(tasks);
         testRoom.setAssignedTasks(tasks);
         roomService.save(testRoom);
-        Assert.assertEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
-        Assert.assertNotEquals(tasks1, roomService.getRoomByNumber("222").getAssignedTasks());
+        Assert.assertEquals(tasks, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
+        Assert.assertNotEquals(tasks1, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
         testRoom.addAssignedTasks(task);
         roomService.save(testRoom);
         List<Task> tasksCopy = new ArrayList<>(tasks);
         tasks.add(task);
-        Assert.assertEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
-        Assert.assertNotEquals(tasksCopy, roomService.getRoomByNumber("222").getAssignedTasks());
+        Assert.assertEquals(tasks, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
+        Assert.assertNotEquals(tasksCopy, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
     }
     @Test
     public void Room_RemoveTasks_RoomWithTaskRemovedSavedAndReturned() {
@@ -150,11 +150,11 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
         taskRepository.saveAll(tasks);
         testRoom.setAssignedTasks(tasks);
         roomService.save(testRoom);
-        Assert.assertEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
+        Assert.assertEquals(tasks, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
         testRoom.removeAssignedTask(task);
         roomService.save(testRoom);
-        Assert.assertNotEquals(tasks, roomService.getRoomByNumber("222").getAssignedTasks());
-        Assert.assertFalse(roomService.getRoomByNumber("222").getAssignedTasks().contains(task));
+        Assert.assertNotEquals(tasks, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
+        Assert.assertFalse(roomService.getRoomByNumber("222", testFloor).getAssignedTasks().contains(task));
     }
 
     public Floor createAndReturnFloor() {

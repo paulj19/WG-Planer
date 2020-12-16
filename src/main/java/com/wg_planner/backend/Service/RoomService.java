@@ -35,10 +35,10 @@ public class RoomService {
         this.residentAccountRepository = residentAccountRepository;
     }
 
-    public Room getRoomByNumber(String roomNumber) {
+    public Room getRoomByNumber(String roomNumber, Floor floorToSearch) {
         Validate.notNull(roomNumber, "parameter room number must not be %s", null);
         Validate.notEmpty(roomNumber, "parameter room number must not be empty");
-        return roomRepository.search(roomNumber);
+        return roomRepository.findRoomByNumber(roomNumber, floorToSearch.getId());
     }
 
     public long count() {
@@ -69,7 +69,7 @@ public class RoomService {
                         Task task = new Task();
                         task.setTaskName(taskName);
                         task.setFloor(floorRepository.findFloorByNumber("2A"));
-                        task.setAssignedRoom(getRoomByNumber("310"));
+//                        task.setAssignedRoom(getRoomByNumber("310"));
                         return task;
                     }).collect(Collectors.toList()));
         }
