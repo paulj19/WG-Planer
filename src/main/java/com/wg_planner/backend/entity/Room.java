@@ -26,7 +26,8 @@ public class Room extends AbstractEntity implements Cloneable {
     private Boolean occupied = false;
 
     //owning side, referencing side
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade =  CascadeType.ALL)
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade =  CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room")
     private ResidentAccount residentAccount;
 
     @NotNull

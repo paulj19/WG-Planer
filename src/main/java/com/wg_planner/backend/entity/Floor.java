@@ -33,7 +33,8 @@ public class Floor extends AbstractEntity implements Cloneable {
     @NotEmpty
     private String roomStartIndex;
 
-    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER)
 //    @Fetch(value = FetchMode.SUBSELECT)
     private List<Room> rooms = new ArrayList<>();
 
