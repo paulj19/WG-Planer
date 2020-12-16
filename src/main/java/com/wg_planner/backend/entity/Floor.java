@@ -1,5 +1,6 @@
 package com.wg_planner.backend.entity;
 
+import com.wg_planner.backend.helpers.ValidationChecks;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -34,11 +35,11 @@ public class Floor extends AbstractEntity implements Cloneable {
 
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 //    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
 
     public Floor() {
     }
@@ -146,11 +147,11 @@ public class Floor extends AbstractEntity implements Cloneable {
                 append("number of rooms", numberOfRooms).
                 append("room start index", roomStartIndex).
                 append("rooms: ");
-        for (Room room : rooms) {
+        for (Room room : ValidationChecks.safe(rooms)) {
             floorAsString.append(room.toString());
         }
         floorAsString.append("tasks: ");
-        for (Task task : tasks) {
+        for (Task task : ValidationChecks.safe(tasks)) {
             floorAsString.append(task.toString());
         }
         return floorAsString.toString();

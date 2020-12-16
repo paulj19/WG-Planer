@@ -1,6 +1,5 @@
 package com.wg_planner.backend.entity;
 
-import com.wg_planner.backend.helpers.ValidationChecks;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -8,11 +7,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -32,7 +26,7 @@ public class Room extends AbstractEntity implements Cloneable {
     private Boolean occupied = false;
 
     //owning side, referencing side
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade =  CascadeType.ALL)
     private ResidentAccount residentAccount;
 
     @NotNull
