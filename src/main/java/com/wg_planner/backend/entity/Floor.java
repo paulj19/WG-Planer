@@ -7,7 +7,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -33,12 +32,15 @@ public class Floor extends AbstractEntity implements Cloneable {
     @NotEmpty
     private String roomStartIndex;
 
-//    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER)
+    //    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER)
 //    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 
-    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    //    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER)
+//    @OneToMany(mappedBy = "floor")
+    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Task> tasks = new ArrayList<>();
 
@@ -50,7 +52,7 @@ public class Floor extends AbstractEntity implements Cloneable {
 
         private final String numberOfRooms;
 
-        private  String roomStartIndex;
+        private String firstRoomNumber;
 
         private List<Room> rooms;
 
@@ -66,13 +68,15 @@ public class Floor extends AbstractEntity implements Cloneable {
 
         public void setRooms(List<Room> rooms) {
             Validate.notNull(rooms, "parameter rooms must not be %s", null);
+            if (!rooms.isEmpty())
+                setFirstRoomNumber(rooms.get(0).getRoomNumber());
             this.rooms = new ArrayList<>(rooms);
         }
 
-        public void setRoomStartIndex(String roomStartIndex) {
-            Validate.notNull(roomStartIndex, "parameter roomStartIndex must not be %s", null);
-            Validate.notEmpty(roomStartIndex, "parameter roomStartIndex must not be empty");
-            this.roomStartIndex = roomStartIndex;
+        public void setFirstRoomNumber(String firstRoomNumber) {
+            Validate.notNull(firstRoomNumber, "parameter roomStartIndex must not be %s", null);
+            Validate.notEmpty(firstRoomNumber, "parameter roomStartIndex must not be empty");
+            this.firstRoomNumber = firstRoomNumber;
         }
 
         public FloorBuilder setTasks(List<Task> tasks) {
@@ -89,7 +93,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     private Floor(FloorBuilder builder) {
         this.floorNumber = builder.floorNumber;
         this.numberOfRooms = builder.numberOfRooms;
-        this.roomStartIndex = builder.roomStartIndex;
+        this.roomStartIndex = builder.firstRoomNumber;
         this.rooms = builder.rooms;
         this.tasks = builder.tasks;
     }
@@ -114,11 +118,13 @@ public class Floor extends AbstractEntity implements Cloneable {
         return tasks;
     }
 
-    public void setRooms(List<Room> rooms)
-    {
+    public void setRooms(List<Room> rooms) {
         Validate.notNull(rooms, "parameter rooms must not be %s", null);
+        if (!rooms.isEmpty())
+            setFirstRoomNumber(rooms.get(0).getRoomNumber());
         this.rooms = new ArrayList<>(rooms);
     }
+
     public void addRoom(Room room) {
         Validate.notNull(room, "parameter room to add must not be %s", null);
         rooms.add(room);
@@ -135,7 +141,14 @@ public class Floor extends AbstractEntity implements Cloneable {
         tasks.add(task);
     }
 
-    public void setRoomStartIndex(String roomStartIndex) {
+    public void removeTaskFromFloor(Task task) {
+        Validate.notNull(task, "parameter task to add must not be %s", null);
+        Validate.notNull(tasks, "list of tasks in floor must not be null");
+        Validate.isTrue(tasks.contains(task), "list of tasks in floor must contain the task to remove");
+        tasks.remove(task);
+    }
+
+    public void setFirstRoomNumber(String roomStartIndex) {
         Validate.notNull(roomStartIndex, "parameter roomStartIndex must not be %s", null);
         Validate.notEmpty(roomStartIndex, "parameter roomStartIndex must not be empty");
         this.roomStartIndex = roomStartIndex;

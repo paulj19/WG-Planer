@@ -26,18 +26,20 @@ public class Room extends AbstractEntity implements Cloneable {
     private Boolean occupied = false;
 
     //owning side, referencing side
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade =  CascadeType.ALL)
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room")
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade =  CascadeType.ALL)
     private ResidentAccount residentAccount;
 
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @NotNull
     @NotEmpty
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
-    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER)
+//    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = CascadeType.ALL)//removing the task when a room is removed is bad
 //    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @Fetch(value = FetchMode.SUBSELECT)
     List<Task> assignedTasks = new ArrayList<>();
 
@@ -107,7 +109,7 @@ public class Room extends AbstractEntity implements Cloneable {
         this.assignedTasks = new ArrayList<>(assignedTasks);
     }
 
-    public void addAssignedTasks(Task task) {
+    public void addToAssignedTasks(Task task) {
         Validate.notNull(task, "parameter task to add must not be %s", null);
         Validate.isTrue(!assignedTasks.contains(task), "task to add must not already be added");
         assignedTasks.add(task);

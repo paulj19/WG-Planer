@@ -5,6 +5,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -21,11 +22,11 @@ public class Task extends AbstractEntity {
 
     @NotNull
     @NotEmpty
-    @ManyToOne//lazy not working (fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE)//lazy not working (fetch = FetchType.LAZY)
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
-    @ManyToOne//lazy not working
+    @ManyToOne(cascade = CascadeType.MERGE)//lazy not working
     @JoinColumn(name = "room_id")
     private Room assignedRoom;
 
