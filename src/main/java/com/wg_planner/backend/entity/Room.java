@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -27,19 +28,21 @@ public class Room extends AbstractEntity implements Cloneable {
 
     //owning side, referencing side
 //    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room")
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade =  CascadeType.ALL)
+    //resident account operations always by getting it from room and doing operations and always needs to be saved
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
     private ResidentAccount residentAccount;
 
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    //    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @NotNull
     @NotEmpty
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
-//    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = CascadeType.ALL)//removing the task when a room is removed is bad
 //    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    //task assigning and status changed from Room
+    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @Fetch(value = FetchMode.SUBSELECT)
     List<Task> assignedTasks = new ArrayList<>();
 
@@ -51,6 +54,7 @@ public class Room extends AbstractEntity implements Cloneable {
         setRoomNumber(roomNumber);
         setFloor(floor);
     }
+
     public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor, boolean isOccupied) {
         this(roomNumber, floor);
         setOccupied(isOccupied);

@@ -22,11 +22,16 @@ public class Task extends AbstractEntity {
 
     @NotNull
     @NotEmpty
-    @ManyToOne(cascade = CascadeType.MERGE)//lazy not working (fetch = FetchType.LAZY)
+//    @ManyToOne(cascade = CascadeType.MERGE)//lazy not working (fetch = FetchType.LAZY)
+    //floor does not track track anything of the task except the list of tasks in the floor
+    //hence unnecessary to save or refresh floor tasks when floor is saved
+    //and also nothing really is done by taking floor from task but other way around
+    @ManyToOne
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
-    @ManyToOne(cascade = CascadeType.MERGE)//lazy not working
+//    @ManyToOne(cascade = CascadeType.MERGE)//lazy not working
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})//lazy not working
     @JoinColumn(name = "room_id")
     private Room assignedRoom;
 
