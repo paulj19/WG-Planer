@@ -5,6 +5,7 @@ import com.wg_planner.backend.entity.*;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -32,13 +33,13 @@ public class FloorService {
         this.residentAccountRepository = residentAccountRepository;
     }
 
-    public List<ResidentAccount> getAllResidents(@NotNull Floor floor) {
-        Validate.notNull(floor, "parameter floor must not be %s", null);
-
-        List<ResidentAccount> residents = new ArrayList<>();
-        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).forEach(residents::add);
-        return residents;
-    }
+//    public List<ResidentAccount> getAllResidents(@NotNull Floor floor) {
+//        Validate.notNull(floor, "parameter floor must not be %s", null);
+//
+//        List<ResidentAccount> residents = new ArrayList<>();
+//        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).forEach(residents::add);
+//        return residents;
+//    }
 
     public static List<Floor> getAllFloors() {
         return floorRepositoryStaic.findAllFloors();
@@ -62,33 +63,29 @@ public class FloorService {
         return residents;
     }
 
-    public List<Room> getAllAvailableRooms(@NotNull Floor floor) {
+
+    public List<Room> getAllRoomsInFloor(@NotNull Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
-        List<Room> rooms = new ArrayList<>();
-        floorRepository.findAllRoomsInFloor(floor.getId()).stream().filter(room -> {
-            if (room.isOccupied()) {
-                return !room.getResidentAccount().isAway();
-            }
-            return false;
-        }).forEach(rooms::add);
-        return rooms;
+        return floorRepository.findAllRoomsInFloor(floor.getId());
+    }
+
+    public List<Room> getAllOccupiedAndResidentNotAwayRooms(@NotNull Floor floor) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
+        return floorRepository.findAllOccupiedAndResidentNotAwayRoomsInFloor(floor.getId());
     }
 
     public Room getNextAvailableRoom(Floor floor, Room room) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         Validate.notNull(room, "parameter room must not be %s", null);
 
-        List<Room> roomsInFloor = getAllAvailableRooms(floor);
+        List<Room> roomsInFloor = getAllOccupiedAndResidentNotAwayRooms(floor);
         Validate.notNull(roomsInFloor, "getAllAvailableRooms() returned %s", null);
         Validate.notEmpty(roomsInFloor, "getAllAvailableRooms() returned empty list");
 
         roomsInFloor.sort(Comparator.comparing(Room::getRoomNumber));
         //returns the room with the next index after the passed room
-        if (roomsInFloor.contains(room)) {
-            return roomsInFloor.get((roomsInFloor.indexOf(room) + 1) % roomsInFloor.size());
-        } else {
-            throw new IllegalStateException("failed to return next available room in getNextAvailableRoom. parameter" + room.toString() + "not found in set of available rooms in floor" + floor.toString());
-        }
+        Assert.isTrue(roomsInFloor.contains(room), "failed to return next available room in getNextAvailableRoom. parameter" + room.toString() + "not found in set of available rooms in floor" + floor.toString());
+        return roomsInFloor.get((roomsInFloor.indexOf(room) + 1) % roomsInFloor.size());
     }
 
     public List<Task> getAllTasksInFloor(Floor floor) {
@@ -101,6 +98,16 @@ public class FloorService {
         Validate.notEmpty(floorNumber, "parameter floor number must not be empty");
 
         return floorRepository.findFloorByNumber(floorNumber);
+    }
+
+    public void deleteTaskAndUpdateFloor(Floor floor, Task task) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
+        Validate.notNull(task, "parameter task to delete must not be %s", null);
+        Validate.isTrue(floor.getTasks().contains(task), "floor must contain the task to delete");
+        floor.removeTaskFromFloor(task);
+        task.getAssignedRoom().removeAssignedTask(task);
+        save(floor);
+        taskRepository.delete(task);
     }
 
     public void save(Floor floorToSave) {

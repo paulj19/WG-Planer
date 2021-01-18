@@ -32,10 +32,8 @@ public class Room extends AbstractEntity implements Cloneable {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
     private ResidentAccount residentAccount;
 
-    //    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @NotNull
     @NotEmpty
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
@@ -43,6 +41,7 @@ public class Room extends AbstractEntity implements Cloneable {
 //    @LazyCollection(LazyCollectionOption.FALSE)
     //task assigning and status changed from Room
     @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+//    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
     @Fetch(value = FetchMode.SUBSELECT)
     List<Task> assignedTasks = new ArrayList<>();
 

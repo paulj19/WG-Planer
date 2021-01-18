@@ -37,10 +37,9 @@ public class Floor extends AbstractEntity implements Cloneable {
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 
-    //    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-//    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER)
-//    @OneToMany(mappedBy = "floor")
-    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //persist stops from deleting the task, dont know why. persist in room actually saves the task when saved
+    // from floor. merge in room does not save the task, dont know why
+    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH})
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Task> tasks = new ArrayList<>();
 
