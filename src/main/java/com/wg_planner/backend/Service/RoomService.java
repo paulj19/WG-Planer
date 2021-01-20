@@ -50,12 +50,12 @@ public class RoomService {
         roomRepository.save(room);
     }
 
-    public Room getMyRoom(ResidentAccount residentAccount) {
-        Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
-        return roomRepository.findRoomByResidentId(residentAccount.getId());
-    }
+//    public Room getMyRoom(ResidentAccount residentAccount) {
+//        Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
+//        return roomRepository.findRoomByResidentId(residentAccount.getId());
+//    }
 
-    @PostConstruct
+//    @PostConstruct
     public void populateTestData() {
 //        System.out.println(floorRepository.findFloorByNumber("2A").toString());
         if (floorRepository.count() == 0) {
