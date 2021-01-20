@@ -40,7 +40,6 @@ public class FloorService {
 //        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).forEach(residents::add);
 //        return residents;
 //    }
-
     public static List<Floor> getAllFloors() {
         return floorRepositoryStaic.findAllFloors();
     }
@@ -74,6 +73,7 @@ public class FloorService {
         return floorRepository.findAllOccupiedAndResidentNotAwayRoomsInFloor(floor.getId());
     }
 
+    /**/
     public Room getNextAvailableRoom(Floor floor, Room room) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         Validate.notNull(room, "parameter room must not be %s", null);

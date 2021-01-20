@@ -87,7 +87,7 @@ public class RoomService {
             for (Task task : tasks) {
                 task.setAssignedRoom(rooms.get(r.nextInt(rooms.size())));
                 task.setFloor(floor);
-                taskRepository.save(task);
+//                taskRepository.save(task);
             }
         }
         if (residentAccountRepository.count() == 0) {

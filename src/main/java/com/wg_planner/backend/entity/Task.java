@@ -22,16 +22,18 @@ public class Task extends AbstractEntity {
 
     @NotNull
     @NotEmpty
-//    @ManyToOne(cascade = CascadeType.MERGE)//lazy not working (fetch = FetchType.LAZY)
     //floor does not track track anything of the task except the list of tasks in the floor
     //hence unnecessary to save or refresh floor tasks when floor is saved
     //and also nothing really is done by taking floor from task but other way around
-    @ManyToOne
+    //UPDATE tasks sometimes are saved alone(creation, updation etc)
+    // and change need to reflect on floor BUT change seen on floor without cascading
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
-//    @ManyToOne(cascade = CascadeType.MERGE)//lazy not working
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})//lazy not working
+
+    //BUT change seen on room without cascading
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "room_id")
     private Room assignedRoom;
 
@@ -81,6 +83,7 @@ public class Task extends AbstractEntity {
 
     public String toString() {
         return new ToStringBuilder(this).
+                append("id", getId()).
                 append("task name", taskName).
                 append("floor", floor).
                 append("assigned room", assignedRoom).
@@ -97,6 +100,7 @@ public class Task extends AbstractEntity {
             return false;
         Task otherTask = (Task) other;
         EqualsBuilder equalsBuilder = new EqualsBuilder()
+                .append(getId(), otherTask.getId())
                 .append(taskName, otherTask.taskName);
         if (floor != null && otherTask.floor != null)
             equalsBuilder.append(floor.getId(), otherTask.floor.getId());

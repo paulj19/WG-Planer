@@ -130,6 +130,7 @@ public class Room extends AbstractEntity implements Cloneable {
     @Override
     public String toString() {
         ToStringBuilder toStringBuilder = new ToStringBuilder(this).
+                append("id", getId()).
                 append("room number", roomNumber).
                 append("occupied", occupied).
                 append("resident account", residentAccount).
@@ -149,6 +150,7 @@ public class Room extends AbstractEntity implements Cloneable {
             return false;
         Room otherRoom = (Room) other;
         return new EqualsBuilder()
+                .append(getId(), otherRoom.getId())
                 .append(roomNumber, otherRoom.roomNumber)
                 .append(occupied, otherRoom.occupied)
                 .append(residentAccount.getId(), otherRoom.residentAccount.getId())

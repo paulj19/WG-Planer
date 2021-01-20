@@ -156,6 +156,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     //this would print all the floor info
     public String toString() {
         ToStringBuilder floorAsString = new ToStringBuilder(this).
+                append("id", getId()).
                 append("floor number", floorNumber).
                 append("number of rooms", numberOfRooms).
                 append("room start index", roomStartIndex).
@@ -178,6 +179,7 @@ public class Floor extends AbstractEntity implements Cloneable {
             return false;
         Floor otherFloor = (Floor) other;
         return new EqualsBuilder()
+                .append(getId(), otherFloor.getId())
                 .append(numberOfRooms, otherFloor.numberOfRooms)
                 .append(floorNumber, otherFloor.floorNumber)
                 .append(roomStartIndex, otherFloor.roomStartIndex)

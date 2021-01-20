@@ -36,7 +36,7 @@ public class ResidentAccountTest extends AbstractTransactionalJUnit4SpringContex
     @Autowired
     RoomService roomService;
 
-    Floor testFloor = new Floor.FloorBuilder("3A", "9", "300").build();
+    Floor testFloor = new Floor.FloorBuilder("3A", "9").build();
     Room testRoom = new Room("310", testFloor);
     Room testRoom2 = new Room("311", testFloor);
 
@@ -126,6 +126,21 @@ public class ResidentAccountTest extends AbstractTransactionalJUnit4SpringContex
         ResidentAccount residentAccountRedundant = new ResidentAccount("testValid_first_name_redundant", "testValid_last_name_redundant", "testValid@testCreate.com", "testValid_username_redundant", encoder.encode("testValid_password_redundant"),testRoom, false,authorities_redundant);
 //        residentAccountService.save(residentAccountRedundant);
         Assert.assertThrows(RuntimeException.class, () -> residentAccountService.save(residentAccountRedundant));
+    }
+
+    @Test
+    public void ResidentAccount_setAway_awayCorrectSetSavedAndReturned() {
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("USER"));
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        ResidentAccount residentAccount = new ResidentAccount("testValid_first_name", "testValid_last_name", "testValid@testCreate.com", "testValid_username", encoder.encode("testValid_password"), testRoom, false, authorities);
+        residentAccountService.save(residentAccount);
+//        residentAccount.setAway(true);
+        residentAccountService.save(residentAccount);
+        Assert.assertTrue(residentAccount.isAway());
+        residentAccount.setAway(false);
+        residentAccountService.save(residentAccount);
+        Assert.assertFalse(residentAccount.isAway());
     }
     //todo
 //    @Test

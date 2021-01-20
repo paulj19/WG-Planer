@@ -1,10 +1,13 @@
-package com.wg_planner.backend.entity;
+package com.wg_planner.backend.entity.ServiceTest;
 
 import com.wg_planner.backend.Repository.AccountRepository;
 import com.wg_planner.backend.Repository.FloorRepository;
 import com.wg_planner.backend.Repository.ResidentAccountRepository;
 import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.Service.ResidentAccountService;
+import com.wg_planner.backend.entity.Floor;
+import com.wg_planner.backend.entity.ResidentAccount;
+import com.wg_planner.backend.entity.Room;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +29,6 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-//@RunWith( SpringRunner.class )
 @Transactional
 public class ResidentAccountServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired
@@ -106,7 +108,6 @@ public class ResidentAccountServiceTest extends AbstractTransactionalJUnit4Sprin
     }
 
     @Test
-    @Transactional
     public void ResidentAccount_ValidParameters_AccountCreatedAndReturned() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("USER"));

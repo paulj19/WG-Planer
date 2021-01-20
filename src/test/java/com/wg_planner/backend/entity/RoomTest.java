@@ -124,7 +124,7 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
         roomService.save(testRoom);
         Assert.assertEquals(tasks, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
         Assert.assertNotEquals(tasks1, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
-        testRoom.addAssignedTasks(task);
+        testRoom.addToAssignedTasks(task);
         roomService.save(testRoom);
         List<Task> tasksCopy = new ArrayList<>(tasks);
         tasks.add(task);

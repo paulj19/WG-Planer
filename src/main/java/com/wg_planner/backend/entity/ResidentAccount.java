@@ -56,6 +56,7 @@ public class ResidentAccount extends Account implements Cloneable {
 
     public String toString() {
         return new ToStringBuilder(this).
+                append("id", getId()).
                 append("room number", room.getRoomNumber()).
                 append("floor number", room.getFloor().getFloorNumber()).
                 append("away", away).
@@ -71,6 +72,7 @@ public class ResidentAccount extends Account implements Cloneable {
             return false;
         ResidentAccount otherResidentAccount = (ResidentAccount) other;
         return new EqualsBuilder()
+                .append(getId(), otherResidentAccount.getId())
                 .append(room, otherResidentAccount.room)
                 .append(away, otherResidentAccount.away)
                 .isEquals() && super.equals(otherResidentAccount);
