@@ -1,5 +1,6 @@
 package com.wg_planner.backend.entity;
 
+import com.wg_planner.backend.helpers.ValidationChecks;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -38,7 +39,7 @@ public class Room extends AbstractEntity implements Cloneable {
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
-//    @LazyCollection(LazyCollectionOption.FALSE)
+    //    @LazyCollection(LazyCollectionOption.FALSE)
     //task assigning and status changed from Room
     @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 //    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
@@ -114,8 +115,9 @@ public class Room extends AbstractEntity implements Cloneable {
 
     public void addToAssignedTasks(Task task) {
         Validate.notNull(task, "parameter task to add must not be %s", null);
-        Validate.isTrue(!assignedTasks.contains(task), "task to add must not already be added");
-        assignedTasks.add(task);
+        if (!assignedTasks.contains(task)) {
+            assignedTasks.add(task);
+        }
     }
 
     public void removeAssignedTask(Task task) {
@@ -133,7 +135,7 @@ public class Room extends AbstractEntity implements Cloneable {
                 append("resident account", residentAccount).
                 append("floor", floor).
                 append("assigned tasks: ");
-        for (Task task : assignedTasks) {
+        for (Task task : ValidationChecks.safe(assignedTasks)) {
             toStringBuilder.append(task.getTaskName());
         }
         return toStringBuilder.toString();
@@ -151,7 +153,7 @@ public class Room extends AbstractEntity implements Cloneable {
                 .append(occupied, otherRoom.occupied)
                 .append(residentAccount.getId(), otherRoom.residentAccount.getId())
                 .append(floor.getId(), otherRoom.floor.getId())
-                .append(assignedTasks, otherRoom.assignedTasks)
+//                .append(assignedTasks, otherRoom.assignedTasks)
                 .isEquals();
     }
 
