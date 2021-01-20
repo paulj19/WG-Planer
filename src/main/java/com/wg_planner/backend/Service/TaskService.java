@@ -27,9 +27,9 @@ public class TaskService {
         this.roomRepository = roomRepository;
     }
 
-    public List<Task> findAll() {
-        return taskRepository.findAll();
-    }
+//    public List<Task> findAll() {
+//        return taskRepository.findAll();
+//    }
 
     public long count() { return taskRepository.count(); }
 
