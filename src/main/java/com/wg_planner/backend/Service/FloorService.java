@@ -56,18 +56,18 @@ public class FloorService {
         return nonOccupiedRoomsInFloor;
     }
 
-    public List<ResidentAccount> getAllAvailableResidentsInFloor(@NotNull Floor floor) {
-        Validate.notNull(floor, "parameter floor must not be %s", null);
-        List<ResidentAccount> residents = new ArrayList<>();
-        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(residents::add);
-        return residents;
-    }
-
-
-    public List<Room> getAllRoomsInFloor(@NotNull Floor floor) {
-        Validate.notNull(floor, "parameter floor must not be %s", null);
-        return floorRepository.findAllRoomsInFloor(floor.getId());
-    }
+//    public List<ResidentAccount> getAllAvailableResidentsInFloor(@NotNull Floor floor) {
+//        Validate.notNull(floor, "parameter floor must not be %s", null);
+//        List<ResidentAccount> residents = new ArrayList<>();
+//        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(residents::add);
+//        return residents;
+//    }
+//
+//
+//    public List<Room> getAllRoomsInFloor(@NotNull Floor floor) {
+//        Validate.notNull(floor, "parameter floor must not be %s", null);
+//        return floorRepository.findAllRoomsInFloor(floor.getId());
+//    }
 
     public List<Room> getAllOccupiedAndResidentNotAwayRooms(@NotNull Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
