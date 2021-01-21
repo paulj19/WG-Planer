@@ -20,7 +20,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,7 +30,7 @@ import java.util.stream.Stream;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class RoomTest  {
     @Autowired
     FloorService floorService;
     @Autowired
@@ -71,32 +73,37 @@ public class RoomTest extends AbstractTransactionalJUnit4SpringContextTests {
         Room room = roomService.getRoomByNumber("222", testFloor);
         Assert.assertEquals(testRoom.getRoomNumber(), room.getRoomNumber());
         Assert.assertEquals(testRoom.getFloor(), room.getFloor());
-        Assert.assertEquals(residentAccount, room.getResidentAccount());
+        Assert.assertEquals(residentAccount.getUsername(), room.getResidentAccount().getUsername());
     }
 
     @Test
     public void Room_SetTasks_RoomWithTaskSavedAndReturned() {
         Floor testFloor = createAndReturnFloor();
-        floorService.save(testFloor);
         Room testRoom = new Room("222", testFloor);
+        List<Room> testRoomList = new ArrayList<>();
+        testRoomList.add(testRoom);
+        testFloor.setRooms(testRoomList);
+        floorService.save(testFloor);
         roomService.save(testRoom);
         Task task = new Task("Biomüll", testFloor, testRoom);
         List<Task> tasks = Stream.of("Restmüll", "Gelbersack", "ofen")
-                .map(taskname -> {
-                    Task task1 = new Task();
-                    task1.setTaskName(taskname);
-                    return task1;
-                }).collect(Collectors.toList());
+                .map(taskname -> new Task(taskname, testFloor)).collect(Collectors.toList());
         List<Task> tasks1 = Stream.of("Gelbersack", "ofen")
-                .map(taskname -> {
-                    Task task1 = new Task();
-                    task1.setTaskName(taskname);
-                    return task1;
-                }).collect(Collectors.toList());
+                .map(taskname -> new Task(taskname, testFloor)).collect(Collectors.toList());
         testRoom.setAssignedTasks(tasks);
+        tasks.forEach(task1 -> task1.setAssignedRoom(testRoom));
         roomService.save(testRoom);
-        Assert.assertEquals(tasks, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
-        Assert.assertNotEquals(tasks1, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
+        List<String> tasksNames = tasks.stream()
+                .map(Task::getTaskName)
+                .collect(Collectors.toList());
+        List<String> tasks1Names = tasks1.stream()
+                .map(Task::getTaskName)
+                .collect(Collectors.toList());
+        List<String> roomSavedTasks = tasks.stream()
+                .map(Task::getTaskName)
+                .collect(Collectors.toList());
+        Assert.assertEquals(tasksNames, roomSavedTasks);
+        Assert.assertNotEquals(tasks1Names, roomSavedTasks);
     }
     @Test
     public void Room_AddTasks_RoomWithTaskAddedSavedAndReturned() {

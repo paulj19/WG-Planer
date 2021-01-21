@@ -23,7 +23,6 @@ import java.util.List;
 @ActiveProfiles("test")
 //@RunWith( SpringRunner.class )
 @Transactional
-
 public class AccountTest {
     public static class AccountFieldTest {
         @Test

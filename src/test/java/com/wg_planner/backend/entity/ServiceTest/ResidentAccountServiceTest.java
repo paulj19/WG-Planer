@@ -30,7 +30,7 @@ import java.util.List;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-public class ResidentAccountServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class ResidentAccountServiceTest {
     @Autowired
     private ResidentAccountRepository testResidentAccountRepository;
     @Autowired
@@ -114,7 +114,7 @@ public class ResidentAccountServiceTest extends AbstractTransactionalJUnit4Sprin
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         ResidentAccount residentAccount = new ResidentAccount("testValid_first_name",
                 "testValid_last_name",
-                "testValid@testCreate.com", "testValid_username_redundant", encoder.encode(
+                "testValid1@testCreate.com" , "testValid_username_redundant", encoder.encode(
                 "testValid_password"), testRoom,
                 false, authorities);
         testResidentAccountService.save(residentAccount);

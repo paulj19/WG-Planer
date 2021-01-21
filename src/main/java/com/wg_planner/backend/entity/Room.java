@@ -35,7 +35,7 @@ public class Room extends AbstractEntity implements Cloneable {
 
     @NotNull
     @NotEmpty
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 

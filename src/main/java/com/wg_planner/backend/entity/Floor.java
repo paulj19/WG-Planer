@@ -57,6 +57,10 @@ public class Floor extends AbstractEntity implements Cloneable {
 
         private List<Task> tasks;
 
+        public FloorBuilder(String floorNumber, String numberOfRooms, String roomStartIndex) {
+            this(floorNumber, numberOfRooms);
+            setFirstRoomNumber(roomStartIndex);
+        }
         public FloorBuilder(String floorNumber, String numberOfRooms) {
             Validate.notNull(floorNumber, "parameter floorNumber must not be %s", null);
             Validate.notNull(numberOfRooms, "parameter numberOfRooms must not be %s", null);
