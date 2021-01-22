@@ -29,9 +29,9 @@ public abstract class TasksPresenter {
     protected static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(TasksPresenter.class
             .getName());
 
-    protected Floor floor;
-    protected Room room;
-    protected ResidentAccount myResidentAccount;
+    Floor floor;
+    Room room;
+    ResidentAccount myResidentAccount;
     protected Room myRoom;
     protected Floor myFloor;
     protected List<Task> tasks;
