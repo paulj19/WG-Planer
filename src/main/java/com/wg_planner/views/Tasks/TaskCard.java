@@ -9,10 +9,10 @@ import com.wg_planner.backend.entity.Task;
 
 public class TaskCard extends HorizontalLayout {
 
-    Task task;
+    protected Task task;
     Span taskName = new Span();
     Span assignedRoom = new Span();
-    HorizontalLayout taskCardLayout = new HorizontalLayout();
+    protected HorizontalLayout taskCardLayout = new HorizontalLayout();
 
     public TaskCard(Task task) {
         this.task = task;

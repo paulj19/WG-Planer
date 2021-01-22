@@ -11,13 +11,9 @@ import com.wg_planner.views.Tasks.TaskCard;
 
 public class FloorTaskCard extends TaskCard {
 
-    Task task;
-    Span taskName = new Span();
-    Span assignedRoom = new Span();
     Button buttonDone = new Button("Done");
     Button buttonReset = new Button("Reset");
     Button buttonRemind = new Button("Remind");
-    HorizontalLayout taskCardLayout = new HorizontalLayout();
 
     public FloorTaskCard(Task task, Boolean isTaskAssignedToCurrentAccount) {
         super(task);
