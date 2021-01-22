@@ -2,7 +2,6 @@ package com.wg_planner.views.Tasks;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.shared.Registration;
@@ -13,29 +12,15 @@ public class TaskCard extends HorizontalLayout {
     Task task;
     Span taskName = new Span();
     Span assignedRoom = new Span();
-    Button buttonDone = new Button("Done");
-    Button buttonRemind = new Button("Remind");
     HorizontalLayout taskCardLayout = new HorizontalLayout();
 
-    public TaskCard(Task task, Boolean isTaskAssignedToCurrentAccount) {
+    public TaskCard(Task task) {
         this.task = task;
         taskName.setMinWidth("500px");
         assignedRoom.setMinWidth("500px");
         taskName.setText(task.getTaskName());
         assignedRoom.setText(task.getAssignedRoom().getRoomNumber());
-
         taskCardLayout.add(taskName, assignedRoom);
-        createButtonLayout();
-        if (isTaskAssignedToCurrentAccount) {
-            taskCardLayout.add(buttonDone);
-        } else {
-            taskCardLayout.add(buttonRemind);
-        }
-    }
-
-    private void createButtonLayout() {
-        buttonDone.addClickListener(event -> fireEvent(new TaskCardEvent.DoneEvent(this, task)));
-        buttonRemind.addClickListener(event -> fireEvent(new TaskCardEvent.RemindEvent(this, task)));
     }
 
     public HorizontalLayout getTaskCardLayout() {
@@ -54,14 +39,19 @@ public class TaskCard extends HorizontalLayout {
             return task;
         }
 
-        public static class RemindEvent extends TaskCardEvent {
-            RemindEvent(TaskCard source, Task task) {
+        public static class RemindEvent extends TaskCard.TaskCardEvent {
+            public RemindEvent(TaskCard source, Task task) {
                 super(source, task);
             }
         }
 
-        public static class DoneEvent extends TaskCardEvent {
-            DoneEvent(TaskCard source, Task task) {
+        public static class DoneEvent extends TaskCard.TaskCardEvent {
+            public DoneEvent(TaskCard source, Task task) {
+                super(source, task);
+            }
+        }
+        public static class ResetEvent extends TaskCard.TaskCardEvent {
+            public ResetEvent(TaskCard source, Task task) {
                 super(source, task);
             }
         }
