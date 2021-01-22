@@ -30,7 +30,7 @@
 <!--            </list>-->
 <!--        </property>-->
     </bean>
-<!--    <bean id="tasksView" class="com.wg_planner.views.Tasks.TasksView" >-->
+<!--    <bean id="tasksView" class="com.wg_planner.views.FloorTasks.TasksView" >-->
 <!--        <constructor-arg index="0" ref="com.wg_planner.A"/>-->
 <!--        <constructor-arg index="1" ref=""/>-->
 <!--        <constructor-arg index="2" ref=""/>-->

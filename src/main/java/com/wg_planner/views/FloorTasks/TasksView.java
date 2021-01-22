@@ -1,6 +1,5 @@
-package com.wg_planner.views.Tasks;
+package com.wg_planner.views.FloorTasks;
 
-import com.wg_planner.backend.Service.*;
 import com.wg_planner.views.main.MainView;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,15 +13,15 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 @PageTitle("Tasks")
 @CssImport("./styles/views/tasks/tasks-view.css")
 public class TasksView extends VerticalLayout {
-    TasksPresenter tasksPresenter;
+    FloorTasksPresenter floorTasksPresenter;
     AutowireCapableBeanFactory beanFactory;
     VerticalLayout allTaskLayout = new VerticalLayout();
 
     public TasksView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
-        tasksPresenter = new TasksPresenter();
-        beanFactory.autowireBean(tasksPresenter);
-        tasksPresenter.init(allTaskLayout);
+        floorTasksPresenter = new FloorTasksPresenter();
+        beanFactory.autowireBean(floorTasksPresenter);
+        floorTasksPresenter.init(allTaskLayout);
         add(allTaskLayout);
     }
 }

@@ -2,16 +2,12 @@ package com.wg_planner.backend.Service;
 
 import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.Repository.TaskRepository;
-import com.wg_planner.backend.entity.Floor;
-import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.Tasks.TaskCard;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service

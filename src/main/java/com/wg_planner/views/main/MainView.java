@@ -24,7 +24,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
-import com.wg_planner.views.Tasks.TasksView;
+import com.wg_planner.views.FloorTasks.TasksView;
 import com.wg_planner.views.about.AboutView;
 
 /**
