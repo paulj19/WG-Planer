@@ -29,16 +29,14 @@ public abstract class TasksPresenter {
     protected static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(TasksPresenter.class
             .getName());
 
-    Floor floor;
-    Room room;
     ResidentAccount myResidentAccount;
     protected Room myRoom;
     protected Floor myFloor;
     protected List<Task> tasks;
-    protected VerticalLayout allTaskLayout;
 
-    public void init(VerticalLayout allTaskLayout) {
-        this.allTaskLayout = allTaskLayout;
+    abstract public void addAllTasks();
+
+    public void init() {
         myResidentAccount = residentAccountService.getResidentAccountByUsername(getUserName());
         sanityCheckResidentAccount();
         myRoom = residentAccountService.getRoomByResidentAccount(myResidentAccount);
@@ -49,19 +47,6 @@ public abstract class TasksPresenter {
         sanityCheckTasks();
         addAllTasks();
     }
-
-//
-//    private void addAllTasks() {
-//        allTaskLayout.removeAll();
-//        for (Task task :
-//                tasks) {
-//            FloorTaskCard floorTaskCard = new FloorTaskCard(task, myRoom.getRoomNumber().equals(task.getAssignedRoom().getRoomNumber()));
-//            floorTaskCard.addListener(FloorTaskCard.TaskCardEvent.DoneEvent.class, this::taskDone);
-//            floorTaskCard.addListener(FloorTaskCard.TaskCardEvent.RemindEvent.class, this::taskRemind);
-//            allTaskLayout.add(floorTaskCard.getTaskCardLayout());
-//        }
-//    }
-    abstract public void addAllTasks();
 
     protected void taskDoneCallBackToSaveTask(FloorTaskCard.TaskCardEvent.DoneEvent event) {
         Task task = event.getTask();
@@ -82,6 +67,10 @@ public abstract class TasksPresenter {
     }
 
     protected void taskRemindCallBack(FloorTaskCard.TaskCardEvent.RemindEvent event) {
+        Task task = event.getTask();
+    }
+
+    protected void taskResetCallBack(FloorTaskCard.TaskCardEvent.ResetEvent event) {
         Task task = event.getTask();
     }
 

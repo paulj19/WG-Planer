@@ -24,7 +24,8 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
-import com.wg_planner.views.FloorTasks.TasksView;
+import com.wg_planner.views.FloorTasks.FloorTasksView;
+import com.wg_planner.views.MyTasks.MyTasksView;
 import com.wg_planner.views.about.AboutView;
 
 /**
@@ -91,7 +92,8 @@ public class MainView extends AppLayout {
 
     private Component[] createMenuItems() {
         RouterLink[] links = new RouterLink[] {
-            new RouterLink("Tasks", TasksView.class),
+            new RouterLink("Floor Tasks", FloorTasksView.class),
+            new RouterLink("My Tasks", MyTasksView.class),
             new RouterLink("About", AboutView.class)
         };
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);

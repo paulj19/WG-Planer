@@ -1,4 +1,4 @@
-package com.wg_planner.views.FloorTasks;
+package com.wg_planner.views.MyTasks;
 
 import com.wg_planner.views.main.MainView;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -8,20 +8,21 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
-@Route(value = "tasks", layout = MainView.class)
+@Route(value = "mytasks", layout = MainView.class)
 @RouteAlias(value = "", layout = MainView.class)
-@PageTitle("Tasks")
+@PageTitle("My Tasks")
 @CssImport("./styles/views/tasks/tasks-view.css")
-public class TasksView extends VerticalLayout {
-    FloorTasksPresenter floorTasksPresenter;
+public class MyTasksView extends VerticalLayout {
+    MyTasksPresenter myTasksPresenter;
     AutowireCapableBeanFactory beanFactory;
-    VerticalLayout allTaskLayout = new VerticalLayout();
+    VerticalLayout floorTasksLayout;
 
-    public TasksView(AutowireCapableBeanFactory beanFactory) {
+    public MyTasksView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
-        floorTasksPresenter = new FloorTasksPresenter();
-        beanFactory.autowireBean(floorTasksPresenter);
-        floorTasksPresenter.init(allTaskLayout);
-        add(allTaskLayout);
+        myTasksPresenter = new MyTasksPresenter();
+        floorTasksLayout = new VerticalLayout();
+        beanFactory.autowireBean(myTasksPresenter);
+        myTasksPresenter.init(floorTasksLayout);
+        add(floorTasksLayout);
     }
 }
