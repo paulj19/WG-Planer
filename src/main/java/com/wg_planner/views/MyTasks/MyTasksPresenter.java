@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Scope("prototype")
 public class MyTasksPresenter extends TasksPresenter {
-    protected VerticalLayout allTaskLayout;
+    VerticalLayout allTaskLayout;
 
     public void init(VerticalLayout allTaskLayout) {
         this.allTaskLayout = allTaskLayout;
