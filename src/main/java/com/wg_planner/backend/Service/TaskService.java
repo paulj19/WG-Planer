@@ -23,6 +23,11 @@ public class TaskService {
         this.roomRepository = roomRepository;
     }
 
+    public Task getTaskById(Long taskId) {
+        Validate.notNull(taskId, "parameter taskId must not be %s", null);
+        return taskRepository.findTaskByTaskId(taskId);
+    }
+
 //    public List<Task> findAll() {
 //        return taskRepository.findAll();
 //    }

@@ -1,9 +1,11 @@
 package com.wg_planner.views.Tasks;
 
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.router.QueryParameters;
 import com.wg_planner.backend.Service.*;
 import com.wg_planner.backend.entity.*;
 import com.wg_planner.views.FloorTasks.FloorTaskCard;
+import com.wg_planner.views.ResetTask.ResetTaskView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,6 +74,10 @@ public abstract class TasksPresenter {
 
     protected void taskResetCallBack(FloorTaskCard.TaskCardEvent.ResetEvent event) {
         Task task = event.getTask();
+//        ResetTaskView resetTask = new ResetTaskView(task);
+//        QueryParameters qp = new QueryParameters(task);
+//        UI.getCurrent().navigate("reset_task", task.getId());
+        UI.getCurrent().navigate(ResetTaskView.class, task.getId().toString());
     }
 
     private void sanityCheckResidentAccount() {
