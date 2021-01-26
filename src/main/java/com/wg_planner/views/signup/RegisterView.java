@@ -19,6 +19,7 @@ public class RegisterView extends VerticalLayout implements BeforeEnterObserver 
     RoomService roomService;
     private RegisterForm registerForm = new RegisterForm();
 
+
     public RegisterView(ResidentAccountService residentAccountService, RoomService roomService) {
         this.residentAccountService = residentAccountService;
         this.roomService = roomService;
