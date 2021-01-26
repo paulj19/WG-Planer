@@ -32,8 +32,9 @@ public class Task extends AbstractEntity {
     private Floor floor;
 
 
-    //BUT change seen on room without cascading
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    //BUT change seen on room without cascading and all changes to task reflect on "both" rooms
+//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private Room assignedRoom;
 
@@ -85,8 +86,8 @@ public class Task extends AbstractEntity {
         return new ToStringBuilder(this).
                 append("id", getId()).
                 append("task name", taskName).
-                append("floor", floor).
-                append("assigned room", assignedRoom).
+                append("floor number", floor.getFloorNumber()).
+                append("assigned room number", assignedRoom.getRoomNumber()).
                 toString();
     }
 
