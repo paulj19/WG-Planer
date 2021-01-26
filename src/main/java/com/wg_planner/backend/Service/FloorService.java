@@ -63,10 +63,10 @@ public class FloorService {
 //    }
 //
 //
-//    public List<Room> getAllRoomsInFloor(@NotNull Floor floor) {
-//        Validate.notNull(floor, "parameter floor must not be %s", null);
-//        return floorRepository.findAllRoomsInFloor(floor.getId());
-//    }
+    public List<Room> getAllRoomsInFloor(@NotNull Floor floor) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
+        return floorRepository.findAllRoomsInFloor(floor.getId());
+    }
 
     public List<Room> getAllOccupiedAndResidentNotAwayRooms(@NotNull Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
