@@ -19,7 +19,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,7 +73,8 @@ public class TaskServiceTest {
         Task taskToResetBio = testTasks.get(0);
         Room previouslyAssignedRoom = taskToResetBio.getAssignedRoom();
         taskService.resetTask(taskToResetBio, room410);
-        Assert.assertNotEquals(previouslyAssignedRoom, taskToResetBio.getAssignedRoom());
+        if (previouslyAssignedRoom != room410)
+            Assert.assertNotEquals(previouslyAssignedRoom, taskToResetBio.getAssignedRoom());
         Assert.assertEquals(room410, taskToResetBio.getAssignedRoom());
 
     }
