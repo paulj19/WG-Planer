@@ -1,4 +1,4 @@
-package com.wg_planner.views.FloorTasks;
+package com.wg_planner.views.tasks.floor_tasks;
 
 import com.wg_planner.views.main.MainView;
 import com.vaadin.flow.component.dependency.CssImport;

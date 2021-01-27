@@ -1,13 +1,9 @@
-package com.wg_planner.views.MyTasks;
+package com.wg_planner.views.tasks.my_tasks;
 
-import com.vaadin.flow.component.ComponentEvent;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.Tasks.TaskCard;
+import com.wg_planner.views.tasks.TaskCard;
 
 public class MyTaskCard extends TaskCard {
 

@@ -1,11 +1,10 @@
-package com.wg_planner.views.Tasks;
+package com.wg_planner.views.tasks;
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.router.QueryParameters;
 import com.wg_planner.backend.Service.*;
 import com.wg_planner.backend.entity.*;
-import com.wg_planner.views.FloorTasks.FloorTaskCard;
-import com.wg_planner.views.ResetTask.ResetTaskView;
+import com.wg_planner.views.tasks.floor_tasks.FloorTaskCard;
+import com.wg_planner.views.tasks.reset_task.ResetTaskView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;

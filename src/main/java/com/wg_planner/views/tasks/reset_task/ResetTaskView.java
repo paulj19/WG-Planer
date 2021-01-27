@@ -1,25 +1,17 @@
-package com.wg_planner.views.ResetTask;
+package com.wg_planner.views.tasks.reset_task;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.*;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.MyTasks.MyTasksView;
-import com.wg_planner.views.Tasks.TasksPresenter;
+import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.main.MainView;
-import com.wg_planner.views.signup.RegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.logging.Level;
 
 @Route(value = "reset_task", layout = MainView.class)

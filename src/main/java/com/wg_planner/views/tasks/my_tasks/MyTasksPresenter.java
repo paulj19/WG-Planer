@@ -1,8 +1,8 @@
-package com.wg_planner.views.MyTasks;
+package com.wg_planner.views.tasks.my_tasks;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.entity.*;
-import com.wg_planner.views.Tasks.TasksPresenter;
+import com.wg_planner.views.tasks.TasksPresenter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
