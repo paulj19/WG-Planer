@@ -1,6 +1,6 @@
 package com.wg_planner.backend.entity;
 
-import com.wg_planner.backend.helpers.ValidationChecks;
+import com.wg_planner.backend.utils.ValidationChecks;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
