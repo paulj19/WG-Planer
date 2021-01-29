@@ -43,15 +43,15 @@ public abstract class TasksPresenter {
     }
 
     protected void taskDoneCallBackToSaveTask(FloorTaskCard.TaskCardEvent.DoneEvent event) {
-        Task task = event.getTask();
-        task.setAssignedRoom(floorService.getNextAvailableRoom(AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom().getFloor(), AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom()));
-        taskService.save(task);
+        Task taskToTransfer = event.getTask();
+        taskService.transferTask(taskToTransfer, floorService.getNextAvailableRoom(AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom().getFloor(), AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom()));
         addAllTasks();
     }
 
 
     protected void taskRemindCallBack(FloorTaskCard.TaskCardEvent.RemindEvent event) {
         Task task = event.getTask();
+
     }
 
     protected void taskResetCallBack(FloorTaskCard.TaskCardEvent.ResetEvent event) {
