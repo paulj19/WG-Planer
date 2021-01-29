@@ -31,6 +31,10 @@ public class TaskService {
     }
 
     @Transactional
+    public void transferTask(Task task, Room nextAvailableRoom) {
+        resetTask(task, nextAvailableRoom);
+    }
+    @Transactional
     public void resetTask(Task taskToReset, Room selectedRoom)
     {
         Validate.notNull(taskToReset, "parameter taskToReset must not be %s", null);
