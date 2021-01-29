@@ -1,14 +1,16 @@
 package com.wg_planner.views.tasks;
 
 import com.vaadin.flow.component.UI;
-import com.wg_planner.backend.Service.*;
-import com.wg_planner.backend.entity.*;
+import com.wg_planner.backend.Service.FloorService;
+import com.wg_planner.backend.Service.ResidentAccountService;
+import com.wg_planner.backend.Service.RoomService;
+import com.wg_planner.backend.Service.TaskService;
+import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.tasks.floor_tasks.FloorTaskCard;
 import com.wg_planner.views.tasks.reset_task.ResetTaskView;
+import com.wg_planner.views.utils.AccountDetailsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -30,42 +32,23 @@ public abstract class TasksPresenter {
     protected static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(TasksPresenter.class
             .getName());
 
-    ResidentAccount myResidentAccount;
-    protected Room myRoom;
-    protected Floor myFloor;
     protected List<Task> tasks;
 
     abstract public void addAllTasks();
 
     public void init() {
-        myResidentAccount = residentAccountService.getResidentAccountByUsername(getUserName());
-        sanityCheckResidentAccount();
-        myRoom = residentAccountService.getRoomByResidentAccount(myResidentAccount);
-        myFloor = myRoom.getFloor();
-        sanityCheckFloor();
-
-        tasks = floorService.getAllTasksInFloor(myFloor);
+        tasks = floorService.getAllTasksInFloor(AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom().getFloor());
         sanityCheckTasks();
         addAllTasks();
     }
 
     protected void taskDoneCallBackToSaveTask(FloorTaskCard.TaskCardEvent.DoneEvent event) {
         Task task = event.getTask();
-        task.setAssignedRoom(floorService.getNextAvailableRoom(myFloor, myRoom));
+        task.setAssignedRoom(floorService.getNextAvailableRoom(AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom().getFloor(), AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom()));
         taskService.save(task);
         addAllTasks();
     }
 
-    private String getUserName() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        } else {
-            LOGGER.log(Level.SEVERE, "Logged in Account: " + ((UserDetails) principal).toString());
-            throw new IllegalStateException("finding user name from getUserName failed");
-        }
-    }
 
     protected void taskRemindCallBack(FloorTaskCard.TaskCardEvent.RemindEvent event) {
         Task task = event.getTask();
@@ -73,32 +56,14 @@ public abstract class TasksPresenter {
 
     protected void taskResetCallBack(FloorTaskCard.TaskCardEvent.ResetEvent event) {
         Task task = event.getTask();
-//        ResetTaskView resetTask = new ResetTaskView(task);
-//        QueryParameters qp = new QueryParameters(task);
-//        UI.getCurrent().navigate("reset_task", task.getId());
         UI.getCurrent().navigate(ResetTaskView.class, task.getId().toString());
-    }
-
-    private void sanityCheckResidentAccount() {
-        if (myResidentAccount == null) {
-            LOGGER.log(Level.SEVERE, "Logged in Account: " + ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).toString());
-            throw new NullPointerException("myResidentAccount returned after fetching username from getUsername is null");
-        }
-    }
-
-    private void sanityCheckFloor() {
-        if (myFloor == null) {
-            LOGGER.log(Level.SEVERE, "Logged in Resident Account: " + myResidentAccount.toString());
-            LOGGER.log(Level.SEVERE, "my room details: " + myRoom.toString());
-            throw new NullPointerException("myFloor is null");
-        }
     }
 
     private void sanityCheckTasks() {
         if (tasks == null || tasks.isEmpty()) {
-            LOGGER.log(Level.SEVERE, "Logged in Resident Account: " + myResidentAccount.toString());
-            LOGGER.log(Level.SEVERE, "my room details: " + myRoom.toString());
-            LOGGER.log(Level.SEVERE, "my floor details: " + myFloor.toString());
+            LOGGER.log(Level.SEVERE, "Logged in Resident Account: " + AccountDetailsHelper.getUserResidentAccount(residentAccountService).toString());
+            LOGGER.log(Level.SEVERE, "my room details: " + AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom().toString());
+            LOGGER.log(Level.SEVERE, "my floor details: " + AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom().getFloor().toString());
             if (tasks == null)
                 throw new NullPointerException("list of task returned by getAllTasksInFloor() is null");
             if (tasks.isEmpty())
