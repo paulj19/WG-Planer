@@ -1,4 +1,4 @@
-package com.wg_planner.backend.helpers;
+package com.wg_planner.backend.utils;
 
 import java.util.Collections;
 import java.util.List;
