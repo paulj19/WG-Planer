@@ -8,6 +8,7 @@ import com.wg_planner.backend.entity.Room;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.logging.Logger;
 
@@ -49,7 +50,6 @@ public class ResidentAccountService {
         Validate.notEmpty(username, "parameter username must not be empty");
         return (ResidentAccount) accountRepository.findAccountByUsername(username);
     }
-
 
     public void save(ResidentAccount residentAccount) {
         Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
