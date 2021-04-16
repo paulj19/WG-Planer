@@ -153,7 +153,7 @@ public class Room extends AbstractEntity implements Cloneable {
                 .append(getId(), otherRoom.getId())
                 .append(roomNumber, otherRoom.roomNumber)
                 .append(occupied, otherRoom.occupied)
-                .append(residentAccount.getId(), otherRoom.residentAccount.getId())
+                   .append(residentAccount.getId(), otherRoom.residentAccount.getId())
                 .append(floor.getId(), otherRoom.floor.getId())
 //                .append(assignedTasks, otherRoom.assignedTasks)
                 .isEquals();

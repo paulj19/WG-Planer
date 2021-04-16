@@ -20,8 +20,9 @@ public class ResidentAccount extends Account implements Cloneable {
     //, cascade = CascadeType.ALL
 //    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//normally room is always gotten from ResidentAccount
     //PERSIST: create a new room if the resident account creation(via signup page) creates one
+    @OneToOne(fetch = FetchType.EAGER)
 //    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+//    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 

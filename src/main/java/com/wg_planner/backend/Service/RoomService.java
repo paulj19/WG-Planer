@@ -55,7 +55,7 @@ public class RoomService {
 //        return roomRepository.findRoomByResidentId(residentAccount.getId());
 //    }
 
-//    @PostConstruct
+    @PostConstruct
     public void populateTestData() {
 //        System.out.println(floorRepository.findFloorByNumber("2A").toString());
         if (floorRepository.count() == 0) {
@@ -90,11 +90,11 @@ public class RoomService {
 //                taskRepository.save(task);
             }
         }
-        if (residentAccountRepository.count() == 0) {
-            List<Room> rooms = roomRepository.findAll();
-            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-            authorities.add(new SimpleGrantedAuthority("USER"));
-            int i = 0;
+//        if (residentAccountRepository.count() == 0) {
+//            List<Room> rooms = roomRepository.findAll();
+//            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+//            authorities.add(new SimpleGrantedAuthority("USER"));
+//            int i = 0;
 //            for (Room room : rooms) {
 //                List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
 //                ResidentAccount residentAccount = new ResidentAccount("foo","bar", i++ + "@example.com", i++ + "@example.com", "{noop}password", room, authorities);
@@ -108,6 +108,6 @@ public class RoomService {
 //            roomRepository.saveAndFlush(room3);
 //            List<ResidentAccount> residentAccounts = residentAccountRepository.findAll();
 //            List<ResidentAccount> residentAccountsx = residentAccountRepository.findAll();
-        }
+//        }
     }
 }
