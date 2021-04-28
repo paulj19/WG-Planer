@@ -1,11 +1,9 @@
 package com.wg_planner.views.tasks;
 
 import com.vaadin.flow.component.UI;
-import com.wg_planner.backend.Service.FloorService;
-import com.wg_planner.backend.Service.ResidentAccountService;
-import com.wg_planner.backend.Service.RoomService;
-import com.wg_planner.backend.Service.TaskService;
+import com.wg_planner.backend.Service.*;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.Note;
 import com.wg_planner.views.tasks.floor_tasks.FloorTaskCard;
 import com.wg_planner.views.tasks.reset_task.ResetTaskView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
@@ -28,6 +26,8 @@ public abstract class TasksPresenter {
     protected TaskService taskService;
     @Autowired
     protected RoomService roomService;
+    @Autowired
+    FirebaseMessagingService firebaseMessagingService;
 
     protected static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(TasksPresenter.class
             .getName());
@@ -51,7 +51,8 @@ public abstract class TasksPresenter {
 
     protected void taskRemindCallBack(FloorTaskCard.TaskCardEvent.RemindEvent event) {
         Task task = event.getTask();
-
+        String token = "fo6TyIPmT6-oh2Z-9FPh2Q:APA91bEx8FU3a-a114VccF-DsJ2TkQ0NKvmeCeHyvJJNWsNrYuxaW30DaE-6X9EOOFhWVwNCsHbyPTmTjrxWS6GyO5E1x73nOgHGA54zWLe9ESz06hv0U1nhLJURMkY8jh9T6iTaG5gR";
+        firebaseMessagingService.sendNotification(new Note("Biomüll full", "Please empty it soon"), token);
     }
 
     protected void taskResetCallBack(FloorTaskCard.TaskCardEvent.ResetEvent event) {

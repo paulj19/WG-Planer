@@ -17,7 +17,7 @@ public class MyTasksPresenter extends TasksPresenter {
     public void addAllTasks() {
         allTaskLayout.removeAll();
         for (Task task : tasks) {
-            if (AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom().getRoomNumber().equals(task.getAssignedRoom().getRoomNumber())) {
+                if (AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom().getRoomNumber().equals(task.getAssignedRoom().getRoomNumber())) {
                 MyTaskCard myTaskCard = new MyTaskCard(task);
                 myTaskCard.addListener(MyTaskCard.TaskCardEvent.DoneEvent.class, this::taskDoneCallBackToSaveTask);
                 myTaskCard.addListener(MyTaskCard.TaskCardEvent.ResetEvent.class, this::taskResetCallBack);
