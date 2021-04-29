@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "resident_account")
@@ -25,6 +27,9 @@ public class ResidentAccount extends Account implements Cloneable {
 //    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "residentAccountOwningDevice", cascade = CascadeType.ALL)
+    List<ResidentDevice> residentDevices = new ArrayList<>();
 
     public ResidentAccount() {
     }
@@ -53,6 +58,28 @@ public class ResidentAccount extends Account implements Cloneable {
     public void setRoom(Room room) {
         Validate.notNull(room);
         this.room = room;
+    }
+
+    public List<ResidentDevice> getResidentDevices() {
+        return residentDevices;
+    }
+
+    public void setResidentDevices(List<ResidentDevice> residentDevices) {
+        Validate.notNull(residentDevices, "parameter residentDevices to add must not be %s", null);
+        this.residentDevices = new ArrayList<>(residentDevices);
+    }
+
+    public void addToResidentDevices(ResidentDevice residentDevice) {
+        Validate.notNull(residentDevice, "parameter residentDevice to add must not be %s", null);
+        if (!residentDevices.contains(residentDevice)) {
+            residentDevices.add(residentDevice);
+        }
+    }
+
+    public void removeResidentDevices(ResidentDevice residentDevice) {
+        Validate.notNull(residentDevice, "parameter residentDevice to add must not be %s", null);
+        Validate.isTrue(residentDevices.contains(residentDevice), "residentDevice to add must be already added");
+        residentDevices.remove(residentDevice);
     }
 
     public String toString() {
