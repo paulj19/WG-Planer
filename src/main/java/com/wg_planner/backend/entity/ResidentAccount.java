@@ -78,7 +78,7 @@ public class ResidentAccount extends Account implements Cloneable {
 
     public void removeResidentDevices(ResidentDevice residentDevice) {
         Validate.notNull(residentDevice, "parameter residentDevice to add must not be %s", null);
-        Validate.isTrue(residentDevices.contains(residentDevice), "residentDevice to add must be already added");
+        Validate.isTrue(residentDevices.contains(residentDevice), "residentDevice to remove must be already present");
         residentDevices.remove(residentDevice);
     }
 
