@@ -20,27 +20,40 @@ public class ResidentAccount extends Account implements Cloneable {
 
     private Boolean away = false;
     //, cascade = CascadeType.ALL
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//normally room is always gotten from ResidentAccount
+//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//normally room is always
+//    gotten from ResidentAccount
     //PERSIST: create a new room if the resident account creation(via signup page) creates one
     @OneToOne(fetch = FetchType.EAGER)
 //    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-//    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+//    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+//    CascadeType.REFRESH})
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "residentAccountOwningDevice", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerResidentAccount", cascade =
+            CascadeType.ALL)
     List<ResidentDevice> residentDevices = new ArrayList<>();
 
     public ResidentAccount() {
     }
 
-    public ResidentAccount(String firstName, String lastName, String email, String username, String password, @NotNull @NotEmpty Room room,
+    public ResidentAccount(String firstName, String lastName, String email, String username,
+                           String password, @NotNull @NotEmpty Room room,
                            boolean away, Collection<? extends GrantedAuthority> authorities) {
         super(firstName, lastName, email, username, password, authorities);
         Validate.notNull(room);
         Validate.notNull(away);
         this.room = room;
         this.away = away;
+    }
+
+    public ResidentAccount(String firstName, String lastName, String email, String username,
+                           String password, boolean enabled, boolean accountNonExpired,
+                           boolean credentialsNonExpired, boolean accountNonLocked, Collection<?
+            extends GrantedAuthority> authorities, Boolean away, Room room,
+                           List<ResidentDevice> residentDevices) {
+        this(firstName, lastName, email, username, password, room, away, authorities);
+        setResidentDevices(residentDevices);
     }
 
     public Boolean isAway() {
@@ -78,7 +91,8 @@ public class ResidentAccount extends Account implements Cloneable {
 
     public void removeResidentDevices(ResidentDevice residentDevice) {
         Validate.notNull(residentDevice, "parameter residentDevice to add must not be %s", null);
-        Validate.isTrue(residentDevices.contains(residentDevice), "residentDevice to remove must be already present");
+        Validate.isTrue(residentDevices.contains(residentDevice), "residentDevice to remove must " +
+                "be already present");
         residentDevices.remove(residentDevice);
     }
 

@@ -30,10 +30,10 @@ public class ResidentAccountService {
         this.accountRepository = accountRepository;
     }
 
-//    public ResidentAccount getResidentAccount(Long accountId) {
-//        Validate.notNull(accountId, "parameter account id must not be %s", null);
-//        return residentAccountRepository.getResidentAccount(accountId);
-//    }
+    public ResidentAccount getResidentAccount(Long accountId) {
+        Validate.notNull(accountId, "parameter account id must not be %s", null);
+        return residentAccountRepository.getResidentAccount(accountId);
+    }
 
     public ResidentAccount getResidentAccountByRoom(Room room) {
         Validate.notNull(room, "parameter room must not be %s", null);

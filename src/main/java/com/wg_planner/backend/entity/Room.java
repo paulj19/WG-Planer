@@ -1,6 +1,6 @@
 package com.wg_planner.backend.entity;
 
-import com.wg_planner.backend.utils.ValidationChecks;
+import com.wg_planner.backend.utils.HelperMethods;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -135,7 +135,7 @@ public class Room extends AbstractEntity implements Cloneable {
                 append("resident account", residentAccount).
                 append("floor", floor).
                 append("assigned tasks: ");
-        for (Task task : ValidationChecks.safe(assignedTasks)) {
+        for (Task task : HelperMethods.safe(assignedTasks)) {
             toStringBuilder.append(task.getTaskName());
         }
         return toStringBuilder.toString();

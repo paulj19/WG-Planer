@@ -73,6 +73,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(
                 "/VAADIN/**",
+                "/new_device/**",
+                "/update_device/**",
                 "/favicon.ico",
                 "/robots.txt",
                 "/manifest.webmanifest",
