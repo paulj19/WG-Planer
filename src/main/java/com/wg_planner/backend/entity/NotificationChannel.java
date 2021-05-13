@@ -10,6 +10,7 @@ abstract public class NotificationChannel extends AbstractEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resident_device_id", nullable = false)
     ResidentDevice residentDevice;
+    public abstract String getNotificationToken();
 
     public ResidentDevice getResidentDevice() {
         return residentDevice;

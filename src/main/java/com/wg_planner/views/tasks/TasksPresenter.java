@@ -10,7 +10,6 @@ import com.wg_planner.views.utils.AccountDetailsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
 import java.util.List;
 import java.util.logging.Level;
 
@@ -47,7 +46,6 @@ public abstract class TasksPresenter {
         taskService.transferTask(taskToTransfer, floorService.getNextAvailableRoom(AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom().getFloor(), AccountDetailsHelper.getUserResidentAccount(residentAccountService).getRoom()));
         addAllTasks();
     }
-
 
     protected void taskRemindCallBack(FloorTaskCard.TaskCardEvent.RemindEvent event) {
         Task task = event.getTask();

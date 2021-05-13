@@ -30,7 +30,7 @@ public class HomePagePresenter {
         homePageView.add(new ResidentAvailabilityView(residentAccountService, this));
     }
 
-    @Transactional
+    @Transactional//TODO why transactional?
     public void setResidentAwayAndSave(boolean isAway) {
         ResidentAccount currentResidentAccount = AccountDetailsHelper.getUserResidentAccount(residentAccountService);
         if (isAway) {

@@ -33,4 +33,8 @@ public class NotificationChannelFirebase extends NotificationChannel{
         this.deviceRegistrationToken = registrationToken;
     }
 
+    @Override
+    public String getNotificationToken() {
+        return getDeviceRegistrationToken();
+    }
 }

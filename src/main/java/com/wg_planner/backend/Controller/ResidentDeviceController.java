@@ -17,7 +17,9 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class ResidentDeviceController {
@@ -30,15 +32,15 @@ public class ResidentDeviceController {
 
     @RequestMapping(value = "/new_device/{resident_account_id}", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity receiveNewDevice(@PathVariable("resident_account_id") long residentAccountId,
+    ResponseEntity receiveNewDevice(@PathVariable("resident_account_id") String residentAccountId,
                                     @RequestParam String registrationToken) {
         try {
             Validate.notNull(registrationToken, "parameter token must not be %s", (Object) null);
-            Validate.notEmpty(registrationToken, "parameter token must not be empty");
-            ResidentDevice createdResidentDevice =
-                    registerNewDeviceWithNotificationChannelFirebase(residentAccountId,
+            Validate.notEmpty(registrationToken, "parameter registrationToken must not be empty");
+            ResidentDevice residentDevice =
+                    registerNewDeviceWithNotificationChannelFirebase(Long.parseLong(residentAccountId),
                             registrationToken);
-            return new ResponseEntity(createdResidentDevice.getId(), HttpStatus.OK);
+            return new ResponseEntity(residentDevice.getId(), HttpStatus.OK);
         } catch (NullPointerException e) {
             return new ResponseEntity("error: resident account id sent must not be null",
                     HttpStatus.NOT_FOUND);
@@ -55,13 +57,13 @@ public class ResidentDeviceController {
 
     @RequestMapping(value = "/update_device/{resident_device_id}", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity updateDeviceFirebaseToken(@PathVariable("resident_device_id") long residentDeviceId,
+    ResponseEntity updateDeviceFirebaseToken(@PathVariable("resident_device_id") String residentDeviceId,
                                              @RequestParam String updatedRegistrationToken) {
         try {
             Validate.notNull(updatedRegistrationToken, "parameter token must not be %s", (Object) null);
             Validate.notEmpty(updatedRegistrationToken, "parameter token must not be empty");
             ResidentDevice updatedResidentDevice =
-                    updateNotificationChannelFirebase(residentDeviceId,
+                    updateNotificationChannelFirebase(Long.parseLong(residentDeviceId),
                             updatedRegistrationToken);
             return new ResponseEntity(updatedResidentDevice.getId(), HttpStatus.OK);
         } catch (NullPointerException e) {
@@ -90,11 +92,17 @@ public class ResidentDeviceController {
         if (ownerResidentAccount == null) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }
+        boolean hasNotificationChannelWithPassedToken =
+                ownerResidentAccount.getResidentDevices().stream().filter(Objects::nonNull).anyMatch(residentDevice -> residentDevice.getDeviceNotificationChannels().stream().filter(Objects::nonNull).anyMatch(notificationChannel -> Objects.equals(notificationChannel.getNotificationToken(), registrationToken)));
+        if (hasNotificationChannelWithPassedToken) {//return the corresponding resident device
+            return ownerResidentAccount.getResidentDevices().stream().filter(residentDevice -> residentDevice.getDeviceNotificationChannels().stream().anyMatch(notificationChannel -> notificationChannel.getNotificationToken().equals(registrationToken))).findFirst().get();
+        }
         ArrayList<ResidentDevice> residentDevices = new ArrayList<>();
         ResidentDevice ownerResidentDevice = new ResidentDevice(ownerResidentAccount);
-        residentDevices.add(ownerResidentDevice);
         NotificationChannelFirebase notificationChannelFirebase =
                 new NotificationChannelFirebase(ownerResidentDevice, registrationToken);
+        ownerResidentDevice.addToDeviceNotificationChannels(notificationChannelFirebase);
+        residentDevices.add(ownerResidentDevice);
         ownerResidentAccount.setResidentDevices(residentDevices);
         residentDeviceRepository.save(ownerResidentDevice);
         notificationChannelFirebaseRepository.save(notificationChannelFirebase);

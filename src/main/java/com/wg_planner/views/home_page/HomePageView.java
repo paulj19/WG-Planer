@@ -17,12 +17,11 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 public class HomePageView extends VerticalLayout {
     AutowireCapableBeanFactory beanFactory;
     HomePagePresenter homePagePresenter;
+
     public HomePageView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
         homePagePresenter = new HomePagePresenter();
         beanFactory.autowireBean(homePagePresenter);
         homePagePresenter.init(this);
-//        homePageLayout = new VerticalLayout();
-
     }
 }

@@ -17,6 +17,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
+import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLink;
@@ -28,6 +29,7 @@ import com.wg_planner.views.home_page.HomePageView;
 import com.wg_planner.views.tasks.floor_tasks.FloorTasksView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.about.AboutView;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -40,19 +42,23 @@ public class MainView extends AppLayout {
 
     private final Tabs menu;
     private H1 viewTitle;
+    AutowireCapableBeanFactory beanFactory;
+    MainViewPresenter mainViewPresenter;
 
-    public MainView() {
+    public MainView(AutowireCapableBeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         menu = createMenu();
         addToDrawer(createDrawerContent(menu));
+        mainViewPresenter = new MainViewPresenter();
+        beanFactory.autowireBean(mainViewPresenter);
+        mainViewPresenter.init();
     }
 
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
         Anchor logout = new Anchor("logout", "Log out");
-
-
         layout.setId("header");
         layout.getThemeList().set("dark", true);
         layout.setWidthFull();
