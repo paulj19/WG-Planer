@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 public class FloorTasksPresenter extends TasksPresenter {
     VerticalLayout allTaskLayout;
 
-    public void init(VerticalLayout allTaskLayout) throws IOException {
+    public void init(VerticalLayout allTaskLayout) {
         this.allTaskLayout = allTaskLayout;
         super.init();
     }
