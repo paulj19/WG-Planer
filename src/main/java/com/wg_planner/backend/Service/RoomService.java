@@ -25,14 +25,19 @@ public class RoomService {
     private final TaskRepository taskRepository;
     private final ResidentAccountRepository residentAccountRepository;
     private final AccountRepository accountRepository;
+    private final TaskNotificationContentRepository taskNotificationContentRepository;
 
     @Autowired
-    public RoomService(RoomRepository roomRepository, AccountRepository accountRepository, FloorRepository floorRepository, TaskRepository taskRepository, ResidentAccountRepository residentAccountRepository) {
+    public RoomService(RoomRepository roomRepository, AccountRepository accountRepository,
+                       FloorRepository floorRepository, TaskRepository taskRepository,
+                       ResidentAccountRepository residentAccountRepository,
+                       TaskNotificationContentRepository taskNotificationContentRepository) {
         this.accountRepository = accountRepository;
         this.roomRepository = roomRepository;
         this.floorRepository = floorRepository;
         this.taskRepository = taskRepository;
         this.residentAccountRepository = residentAccountRepository;
+        this.taskNotificationContentRepository = taskNotificationContentRepository;
     }
 
     public Room getRoomByNumber(String roomNumber, Floor floorToSearch) {
@@ -63,6 +68,7 @@ public class RoomService {
             Floor floor = new Floor.FloorBuilder("2A", "9").build();
             floorRepository.save(floor);
         }
+
         if (taskRepository.count() == 0) {
             taskRepository.saveAll(Stream.of("Biomüll", "Restmüll", "Gelbersack", "Ofen Reinigen", "Mikrowelle Reinigen")
                     .map(taskName -> {
@@ -72,6 +78,18 @@ public class RoomService {
 //                        task.setAssignedRoom(getRoomByNumber("310"));
                         return task;
                     }).collect(Collectors.toList()));
+        }
+        if(taskNotificationContentRepository.count() == 0) {
+            List<Task> tasks = taskRepository.findAll();
+            for (Task task : tasks) {
+                TaskNotificationContent taskNotificationContent =
+                        new TaskNotificationContent(task, task.getTaskName() + " Full!", "Your " +
+                                "assigned task: " + task.getTaskName() + " needs attention, " +
+                                "please take care of it." );
+                task.setTaskNotificationContent(taskNotificationContent);
+//                taskRepository.save(task);
+                taskNotificationContentRepository.save(taskNotificationContent);
+            }
         }
         if (roomRepository.count() == 0) {
             Floor floor = floorRepository.findFloorByNumber("2A");

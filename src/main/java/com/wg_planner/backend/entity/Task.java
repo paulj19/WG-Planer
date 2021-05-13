@@ -38,6 +38,9 @@ public class Task extends AbstractEntity {
     @JoinColumn(name = "room_id")
     private Room assignedRoom;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "correspondingTask", cascade = CascadeType.ALL)
+    TaskNotificationContent taskNotificationContent;
+
     public Task() {
 
     }
@@ -51,7 +54,6 @@ public class Task extends AbstractEntity {
         this(taskName, floor);
         setAssignedRoom(assignedRoom);
     }
-
 
     public String getTaskName() {
         return taskName;
@@ -80,6 +82,15 @@ public class Task extends AbstractEntity {
     public void setFloor(Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", (Object) null);
         this.floor = floor;
+    }
+
+    public TaskNotificationContent getTaskNotificationContent() {
+        return taskNotificationContent;
+    }
+
+    public void setTaskNotificationContent(TaskNotificationContent taskNotificationContent) {
+        Validate.notNull(taskNotificationContent, "parameter taskNotificationContent must not be %s", (Object) null);
+        this.taskNotificationContent = taskNotificationContent;
     }
 
     public String toString() {
