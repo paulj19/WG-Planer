@@ -12,6 +12,8 @@ import com.wg_planner.backend.utils.HelperMethods;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -19,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 public class ResidentDeviceController {
@@ -40,7 +41,7 @@ public class ResidentDeviceController {
             ResidentDevice residentDevice =
                     registerNewDeviceWithNotificationChannelFirebase(Long.parseLong(residentAccountId),
                             registrationToken);
-            return new ResponseEntity(residentDevice.getId(), HttpStatus.OK);
+            return new ResponseEntity(getResponseHeadersAsNewResidentDeviceId(residentDevice.getId()), HttpStatus.OK);
         } catch (NullPointerException e) {
             return new ResponseEntity("error: resident account id sent must not be null",
                     HttpStatus.NOT_FOUND);
@@ -53,6 +54,12 @@ public class ResidentDeviceController {
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private MultiValueMap<String, String> getResponseHeadersAsNewResidentDeviceId(long newResidentDeviceId) {
+        MultiValueMap<String, String> responseMap= new LinkedMultiValueMap<>();
+        responseMap.add("residentDeviceId", String.valueOf(newResidentDeviceId));
+        return responseMap;
     }
 
     @RequestMapping(value = "/update_device/{resident_device_id}", method = RequestMethod.POST)
