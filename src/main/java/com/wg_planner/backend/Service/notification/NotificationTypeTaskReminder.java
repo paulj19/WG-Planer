@@ -2,18 +2,21 @@ package com.wg_planner.backend.Service.notification;
 
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
+import com.wg_planner.backend.entity.Task;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class NotificationFirebaseTypeTaskReminder extends NotificationFirebaseType {
+//TODO the only thing "firebase" here is the message in the getNotificationMessage; refactor
+public class NotificationTypeTaskReminder extends NotificationFirebaseType {
     private NotificationContentTitle notificationContentTitle;
     private NotificationContentBody notificationContentBody;
 
-    public NotificationFirebaseTypeTaskReminder(NotificationContentTitle notificationContentTitle, NotificationContentBody notificationContentBody) {
+    public NotificationTypeTaskReminder(NotificationContentTitle notificationContentTitle, NotificationContentBody notificationContentBody) {
         setNotificationContentTitle(notificationContentTitle);
         setNotificationContentBody(notificationContentBody);
     }
 
-    public NotificationFirebaseTypeTaskReminder(String title, String body) {
+    public NotificationTypeTaskReminder(String title, String body) {
         Validate.notEmpty(title, "parameter notification title must not be empty");
         Validate.notNull(title, "parameter notification title to add must not be %s", null);
         Validate.notEmpty(body, "parameter notification body must not be empty");
@@ -22,8 +25,13 @@ public class NotificationFirebaseTypeTaskReminder extends NotificationFirebaseTy
         this.notificationContentBody = new NotificationContentBody(body);
     }
 
+    public static NotificationTypeTaskReminder getInstance(Task taskToRemind) {
+        return new NotificationTypeTaskReminder(taskToRemind.getTaskNotificationContent().getTitle(),
+                taskToRemind.getTaskNotificationContent().getBody());
+    }
+
     @Override
-    public Message getAsFirebaseMessage(String token) {
+    public Message getNotificationMessage(String token) {
         Validate.notEmpty(token, "parameter notification token must not be empty");
         Validate.notNull(token, "parameter notification token to add must not be %s", null);
 
@@ -56,4 +64,13 @@ public class NotificationFirebaseTypeTaskReminder extends NotificationFirebaseTy
         Validate.notNull(notificationContentBody, "parameter notificationContentBody to add must not be %s", null);
         this.notificationContentBody = notificationContentBody;
     }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).
+                append("Notification Type: Task Reminder").
+                append("Title", notificationContentTitle.getContentAsString()).
+                toString();
+    }
+
 }

@@ -32,7 +32,7 @@ public class HomePagePresenter {
 
     @Transactional//TODO why transactional?
     public void setResidentAwayAndSave(boolean isAway) {
-        ResidentAccount currentResidentAccount = AccountDetailsHelper.getUserResidentAccount(residentAccountService);
+        ResidentAccount currentResidentAccount = AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService);
         if (isAway) {
             tranferTasksOfResidentToNext(currentResidentAccount);
         }

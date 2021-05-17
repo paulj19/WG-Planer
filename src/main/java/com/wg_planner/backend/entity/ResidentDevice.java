@@ -1,6 +1,9 @@
 package com.wg_planner.backend.entity;
 
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,8 +17,12 @@ public class ResidentDevice extends AbstractEntity implements Cloneable {
     @JoinColumn(name = "resident_account_id", nullable = false)
     ResidentAccount ownerResidentAccount;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "residentDevice", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "residentDevice", cascade = CascadeType.ALL)
+    @Fetch(value = FetchMode.SUBSELECT)
     List<NotificationChannel> deviceNotificationChannels = new ArrayList<>();
+
+    @Column(nullable = false)
+    boolean active;
 
     public ResidentDevice() {
 
@@ -59,5 +66,20 @@ public class ResidentDevice extends AbstractEntity implements Cloneable {
         Validate.isTrue(deviceNotificationChannels.contains(notificationChannelToRemove),
                 "residentDevice to remove must be already present");
         deviceNotificationChannels.remove(notificationChannelToRemove);
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).
+                append("Resident device id: ", getId()).
+                toString();
     }
 }

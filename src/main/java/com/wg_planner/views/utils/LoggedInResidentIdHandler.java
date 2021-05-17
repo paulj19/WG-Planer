@@ -14,7 +14,7 @@ public class LoggedInResidentIdHandler {
     public void sentResidentAccountId() {
         Page page = UI.getCurrent().getPage();
         page.executeJs("setResidentAccountId.initializeResidentAccountId($0);",
-                AccountDetailsHelper.getUserResidentAccount(residentAccountService).getId().toString());
+                AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getId().toString());
     }
 
 }

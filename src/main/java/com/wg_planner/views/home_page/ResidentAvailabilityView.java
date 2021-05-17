@@ -25,9 +25,9 @@ public class ResidentAvailabilityView extends VerticalLayout {
 
     private void addAvailabilityCheckBox() {
         Checkbox isAwayCheckBox = new Checkbox("I am away");
-        isAwayCheckBox.setValue(AccountDetailsHelper.getUserResidentAccount(residentAccountService).isAway());
+        isAwayCheckBox.setValue(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).isAway());
         Checkbox isBackCheckBox = new Checkbox("I am ready to take tasks");
-        isBackCheckBox.setValue(!AccountDetailsHelper.getUserResidentAccount(residentAccountService).isAway());
+        isBackCheckBox.setValue(!AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).isAway());
         isAwayCheckBox.addValueChangeListener(event -> {
             isAway = isAwayCheckBox.getValue();
             setAvailabilityConfirmDialog.open();

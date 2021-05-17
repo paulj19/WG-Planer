@@ -15,7 +15,7 @@ public class AccountDetailsHelper {
     private AccountDetailsHelper() {
     }
 
-    public static ResidentAccount getUserResidentAccount(ResidentAccountService residentAccountService) {
+    public static ResidentAccount getLoggedInResidentAccount(ResidentAccountService residentAccountService) {
         return residentAccountService.getResidentAccountByUsername(getLoggedInUserName());
     }
 

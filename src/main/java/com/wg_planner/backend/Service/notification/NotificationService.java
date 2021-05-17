@@ -9,6 +9,6 @@ public interface NotificationService {
         }
     }
 
-    SendResult sendNotification(NotificationFirebaseType notificationFirebaseType,
+    void sendNotification(NotificationFirebaseType notificationFirebaseType,
                                 ResidentAccount residentAccountToNotify);
 }

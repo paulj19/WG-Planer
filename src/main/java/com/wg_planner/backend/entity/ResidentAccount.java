@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "resident_account")
@@ -30,7 +31,7 @@ public class ResidentAccount extends Account implements Cloneable {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerResidentAccount", cascade =
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ownerResidentAccount", cascade =
             CascadeType.ALL)
     List<ResidentDevice> residentDevices = new ArrayList<>();
 
@@ -75,6 +76,9 @@ public class ResidentAccount extends Account implements Cloneable {
 
     public List<ResidentDevice> getResidentDevices() {
         return residentDevices;
+    }
+    public List<ResidentDevice> getResidentDevicesActive() {
+        return residentDevices.stream().filter(residentDevice -> residentDevice.isActive()).collect(Collectors.toList());
     }
 
     public void setResidentDevices(List<ResidentDevice> residentDevices) {

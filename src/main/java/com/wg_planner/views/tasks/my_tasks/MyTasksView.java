@@ -8,7 +8,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
-@Route(value = "mytasks", layout = MainView.class)
+@Route(value = "my_tasks", layout = MainView.class)
 @RouteAlias(value = "", layout = MainView.class)
 @PageTitle("My Tasks")
 @CssImport("./styles/views/tasks/tasks-view.css")
