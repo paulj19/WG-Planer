@@ -13,6 +13,7 @@ public class ResponseEntity extends org.springframework.http.ResponseEntity {
     }
 
     public ResponseEntity(MultiValueMap<String, String> headers, HttpStatus status) {
+
         super(headers, status);
     }
 
