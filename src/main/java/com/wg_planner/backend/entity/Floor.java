@@ -26,7 +26,7 @@ public class Floor extends AbstractEntity implements Cloneable {
 
     @NotNull
     @NotEmpty
-    private String numberOfRooms;
+    private int numberOfRooms;
 
     @NotNull
     @NotEmpty
@@ -49,7 +49,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     public static class FloorBuilder {
         private final String floorNumber;
 
-        private final String numberOfRooms;
+        private int numberOfRooms;
 
         private String firstRoomNumber;
 
@@ -57,13 +57,13 @@ public class Floor extends AbstractEntity implements Cloneable {
 
         private List<Task> tasks;
 
-        public FloorBuilder(String floorNumber, String numberOfRooms, String roomStartIndex) {
+        public FloorBuilder(String floorNumber, int numberOfRooms, String roomStartIndex) {
             this(floorNumber, numberOfRooms);
             setFirstRoomNumber(roomStartIndex);
         }
-        public FloorBuilder(String floorNumber, String numberOfRooms) {
+        public FloorBuilder(String floorNumber, int numberOfRooms) {
             Validate.notNull(floorNumber, "parameter floorNumber must not be %s", null);
-            Validate.notNull(numberOfRooms, "parameter numberOfRooms must not be %s", null);
+//            Validate.notNull(numberOfRooms, "parameter numberOfRooms must not be %s", null);
 
             this.floorNumber = floorNumber;
             this.numberOfRooms = numberOfRooms;
@@ -105,8 +105,12 @@ public class Floor extends AbstractEntity implements Cloneable {
         return floorNumber;
     }
 
-    public String getNumberOfRooms() {
+    public int getNumberOfRooms() {
         return numberOfRooms;
+    }
+
+    public void setNumberOfRooms(int numberOfRooms) {
+        this.numberOfRooms = numberOfRooms;
     }
 
     public String getRoomStartIndex() {
