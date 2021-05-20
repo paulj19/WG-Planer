@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -19,14 +20,15 @@ import java.util.List;
 @Entity
 public class Floor extends AbstractEntity implements Cloneable {
     @NotNull
-    @NotEmpty
     @Size(max = 255)
-    @Column(unique = true, nullable = false)
-    private String floorNumber;
+    @NotEmpty(message = "field must not be empty")
+    @Column(nullable = false)
+    private String floorName;
 
-    @NotNull
-    @NotEmpty
-    private int numberOfRooms;
+    @Column(name = "number_of_rooms", nullable = false)
+    @NotNull(message = "field must not be empty")
+    @Range(min = 1, message = "number of rooms should be 1 or more")
+    private Integer numberOfRooms;
 
     @NotNull
     @NotEmpty
@@ -61,6 +63,7 @@ public class Floor extends AbstractEntity implements Cloneable {
             this(floorNumber, numberOfRooms);
             setFirstRoomNumber(roomStartIndex);
         }
+
         public FloorBuilder(String floorNumber, int numberOfRooms) {
             Validate.notNull(floorNumber, "parameter floorNumber must not be %s", null);
 //            Validate.notNull(numberOfRooms, "parameter numberOfRooms must not be %s", null);
@@ -94,15 +97,19 @@ public class Floor extends AbstractEntity implements Cloneable {
     }
 
     private Floor(FloorBuilder builder) {
-        this.floorNumber = builder.floorNumber;
+        this.floorName = builder.floorNumber;
         this.numberOfRooms = builder.numberOfRooms;
         this.roomStartIndex = builder.firstRoomNumber;
         this.rooms = builder.rooms;
         this.tasks = builder.tasks;
     }
 
-    public String getFloorNumber() {
-        return floorNumber;
+    public void setFloorName(String floorName) {
+        this.floorName = floorName;
+    }
+
+    public String getFloorName() {
+        return floorName;
     }
 
     public int getNumberOfRooms() {
@@ -165,7 +172,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     public String toString() {
         ToStringBuilder floorAsString = new ToStringBuilder(this).
                 append("id", getId()).
-                append("floor number", floorNumber).
+                append("floor number", floorName).
                 append("number of rooms", numberOfRooms).
                 append("room start index", roomStartIndex).
                 append("rooms: ");
@@ -189,7 +196,7 @@ public class Floor extends AbstractEntity implements Cloneable {
         return new EqualsBuilder()
                 .append(getId(), otherFloor.getId())
                 .append(numberOfRooms, otherFloor.numberOfRooms)
-                .append(floorNumber, otherFloor.floorNumber)
+                .append(floorName, otherFloor.floorName)
                 .append(roomStartIndex, otherFloor.roomStartIndex)
                 .append(rooms, otherFloor.rooms)
                 .append(tasks, otherFloor.tasks)
@@ -199,7 +206,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(floorNumber)
+                .append(floorName)
                 .append(numberOfRooms)
                 .append(roomStartIndex)
                 .append(rooms)
