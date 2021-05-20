@@ -6,18 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @EnableWebSecurity
 @Configuration
@@ -25,15 +15,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_PROCESSING_URL = "/login";
     private static final String LOGIN_FAILURE_URL = "/login?error";
     private static final String LOGIN_URL = "/login";
-    private static final String SIGNUP_URL = "/signup";
     private static final String LOGOUT_SUCCESS_URL = "/login";
+    private static final String REGISTER_URL = "/register";
+    private static final String CREATE_FLOOR_URL = "/create_floor";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .requestCache().requestCache(new CustomRequestCache())
                 .and().authorizeRequests()
-                .antMatchers("/register").permitAll()
+                .antMatchers(REGISTER_URL).permitAll()
+                .antMatchers(CREATE_FLOOR_URL).permitAll()
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()
@@ -47,27 +39,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-////        UserDetails user =
-////                User.withUsername("user")
-////                        .password("{noop}password")
-////                        .roles("USER")
-////                        .build();
-//        List<UserDetails> users = new ArrayList<>();
-//        for(int i= 0 ; i < 9 ; i++) {
-//            users.add(
-//            users.add(
-//                    User.withUsername(i + "@example.com")
-//                            .password("{noop}password")
-//                            .roles("USER")
-//                            .build());
-//        }
-//
-//        return new InMemoryUserDetailsManager(users);
-//    }
 
     @Override
     public void configure(WebSecurity web) {

@@ -1,5 +1,6 @@
 package com.wg_planner.backend.security;
 
+import com.wg_planner.views.create_floor.CreateFloorView;
 import com.wg_planner.views.login.LoginView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -20,6 +21,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     private void authenticateNavigation(BeforeEnterEvent event) {
         if (!LoginView.class.equals(event.getNavigationTarget())
                 && !RegisterView.class.equals(event.getNavigationTarget())
+                && !CreateFloorView.class.equals(event.getNavigationTarget())
                 && !SecurityUtils.isUserLoggedIn()) {
             event.rerouteTo(LoginView.class);
         }
