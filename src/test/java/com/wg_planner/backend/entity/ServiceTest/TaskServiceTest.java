@@ -80,7 +80,7 @@ public class TaskServiceTest {
     }
 
     public void setUpFloor() {
-        testFloor = new Floor.FloorBuilder("3A", "9").build();
+        testFloor = new Floor.FloorBuilder("3A", 9).build();
     }
 
     public void setUpResidentAccounts() {

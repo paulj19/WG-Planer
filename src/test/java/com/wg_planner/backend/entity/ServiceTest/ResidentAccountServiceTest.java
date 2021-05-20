@@ -42,7 +42,7 @@ public class ResidentAccountServiceTest {
     @Autowired
     ResidentAccountService testResidentAccountService;
 
-    Floor testFloor = new Floor.FloorBuilder("3A", "9").build();
+    Floor testFloor = new Floor.FloorBuilder("3A", 9).build();
     Room testRoom = new Room("310", testFloor);
 
     List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();

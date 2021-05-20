@@ -36,7 +36,7 @@ public class ResidentAccountTest {
     @Autowired
     RoomService roomService;
 
-    Floor testFloor = new Floor.FloorBuilder("3A", "9").build();
+    Floor testFloor = new Floor.FloorBuilder("3A", 9).build();
     Room testRoom = new Room("310", testFloor);
     Room testRoom2 = new Room("311", testFloor);
 

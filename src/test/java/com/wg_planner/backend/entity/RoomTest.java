@@ -165,7 +165,7 @@ public class RoomTest  {
     }
 
     public Floor createAndReturnFloor() {
-        return new Floor.FloorBuilder("3A", "9").build();
+        return new Floor.FloorBuilder("3A", 9).build();
     }
     public ResidentAccount createAndReturnResidentAccount(Room testRoom) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();

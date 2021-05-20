@@ -65,7 +65,7 @@ public class RoomService {
 //        System.out.println(floorRepository.findFloorByNumber("2A").toString());
          if (floorRepository.count() == 0) {
             List<Task> tasks = taskRepository.findAll();
-            Floor floor = new Floor.FloorBuilder("2A", "9").build();
+            Floor floor = new Floor.FloorBuilder("2A", 9).build();
             floorRepository.save(floor);
         }
 

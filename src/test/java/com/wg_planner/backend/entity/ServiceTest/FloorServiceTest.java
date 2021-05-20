@@ -66,7 +66,7 @@ public class FloorServiceTest{
     public void FloorService_getAllFloors_ReturnsAllCreatedFloors() {
         List<Floor> testFloors = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            testFloors.add(new Floor.FloorBuilder(String.valueOf(i), "9").build());
+            testFloors.add(new Floor.FloorBuilder(String.valueOf(i), 9).build());
         }
         floorRepository.saveAll(testFloors);
         for (int i = 0; i < 5; i++) {
@@ -210,7 +210,7 @@ public class FloorServiceTest{
     }
 
     public void setUpFloor() {
-        testFloor = new Floor.FloorBuilder("3A", "9").build();
+        testFloor = new Floor.FloorBuilder("3A", 9).build();
     }
 
     public void setUpResidentAccounts() {
