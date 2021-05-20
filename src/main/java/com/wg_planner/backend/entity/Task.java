@@ -1,11 +1,9 @@
 package com.wg_planner.backend.entity;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -97,8 +95,8 @@ public class Task extends AbstractEntity {
         return new ToStringBuilder(this).
                 append("id", getId()).
                 append("task name", taskName).
-                append("floor number", floor.getFloorNumber()).
-                append("assigned room number", assignedRoom.getRoomNumber()).
+                append("floor id", floor.getId()).
+                append("assigned room id", assignedRoom.getId()).
                 toString();
     }
 
@@ -133,9 +131,10 @@ public class Task extends AbstractEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
+                .append(getId())
                 .append(taskName)
                 .append(floor)
-                .append(assignedRoom)
+//                .append(assignedRoom)
                 .toHashCode();
     }
 

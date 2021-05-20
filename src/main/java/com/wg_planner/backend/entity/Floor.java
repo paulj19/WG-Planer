@@ -51,7 +51,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     public static class FloorBuilder {
         private final String floorNumber;
 
-        private int numberOfRooms;
+        private Integer numberOfRooms;
 
         private String firstRoomNumber;
 
@@ -59,12 +59,12 @@ public class Floor extends AbstractEntity implements Cloneable {
 
         private List<Task> tasks;
 
-        public FloorBuilder(String floorNumber, int numberOfRooms, String roomStartIndex) {
+        public FloorBuilder(String floorNumber, Integer numberOfRooms, String roomStartIndex) {
             this(floorNumber, numberOfRooms);
             setFirstRoomNumber(roomStartIndex);
         }
 
-        public FloorBuilder(String floorNumber, int numberOfRooms) {
+        public FloorBuilder(String floorNumber, Integer numberOfRooms) {
             Validate.notNull(floorNumber, "parameter floorNumber must not be %s", null);
 //            Validate.notNull(numberOfRooms, "parameter numberOfRooms must not be %s", null);
 
@@ -75,7 +75,7 @@ public class Floor extends AbstractEntity implements Cloneable {
         public void setRooms(List<Room> rooms) {
             Validate.notNull(rooms, "parameter rooms must not be %s", null);
             if (!rooms.isEmpty())
-                setFirstRoomNumber(rooms.get(0).getRoomNumber());
+                setFirstRoomNumber(rooms.get(0).getRoomName());
             this.rooms = new ArrayList<>(rooms);
         }
 
@@ -112,11 +112,11 @@ public class Floor extends AbstractEntity implements Cloneable {
         return floorName;
     }
 
-    public int getNumberOfRooms() {
+    public Integer getNumberOfRooms() {
         return numberOfRooms;
     }
 
-    public void setNumberOfRooms(int numberOfRooms) {
+    public void setNumberOfRooms(Integer numberOfRooms) {
         this.numberOfRooms = numberOfRooms;
     }
 
@@ -135,7 +135,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     public void setRooms(List<Room> rooms) {
         Validate.notNull(rooms, "parameter rooms must not be %s", null);
         if (!rooms.isEmpty())
-            setFirstRoomNumber(rooms.get(0).getRoomNumber());
+            setFirstRoomNumber(rooms.get(0).getRoomName());
         this.rooms = new ArrayList<>(rooms);
     }
 
@@ -175,13 +175,13 @@ public class Floor extends AbstractEntity implements Cloneable {
                 append("floor number", floorName).
                 append("number of rooms", numberOfRooms).
                 append("room start index", roomStartIndex).
-                append("rooms: ");
+                append("room ids: ");
         for (Room room : HelperMethods.safe(rooms)) {
-            floorAsString.append(room.toString());
+            floorAsString.append(room.getId());
         }
-        floorAsString.append("tasks: ");
+        floorAsString.append("tasks ids: ");
         for (Task task : HelperMethods.safe(tasks)) {
-            floorAsString.append(task.toString());
+            floorAsString.append(task.getId());
         }
         return floorAsString.toString();
     }
@@ -206,6 +206,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
+                .append(getId())
                 .append(floorName)
                 .append(numberOfRooms)
                 .append(roomStartIndex)

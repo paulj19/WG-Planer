@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -22,8 +23,9 @@ public class Room extends AbstractEntity implements Cloneable {
     @NotNull
     @NotEmpty
     @Size(max = 255)
+    @UniqueElements(message = "room name is already taken")
     @Column(nullable = false)
-    private String roomNumber;
+    private String roomName;
 
     private Boolean occupied = false;
 
@@ -49,13 +51,13 @@ public class Room extends AbstractEntity implements Cloneable {
     public Room() {
     }
 
-    public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor) {
-        setRoomNumber(roomNumber);
+    public Room(@NotNull @NotEmpty String roomName, @NotNull @NotEmpty Floor floor) {
+        setRoomName(roomName);
         setFloor(floor);
     }
 
-    public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor, boolean isOccupied) {
-        this(roomNumber, floor);
+    public Room(@NotNull @NotEmpty String roomName, @NotNull @NotEmpty Floor floor, boolean isOccupied) {
+        this(roomName, floor);
         setOccupied(isOccupied);
     }
 
@@ -64,16 +66,16 @@ public class Room extends AbstractEntity implements Cloneable {
 //        setResidentAccount(residentAccount);
 //    }
 
-    public String getRoomNumber() {
-        return roomNumber;
+    public String getRoomName() {
+        return roomName;
     }
 
-    public void setRoomNumber(String roomNumber) {
+    public void setRoomName(String roomNumber) {
         Validate.notNull(roomNumber, "parameter roomNumber to add must not be %s", null);
         Validate.notEmpty(roomNumber, "parameter room number must not be empty");
         Validate.isTrue(StringUtils.isAlphanumeric(roomNumber), "room number must be alphanumeric");
         Validate.isTrue(roomNumber.length() <= 250, "length of room number must not exceed 250 chars");
-        this.roomNumber = roomNumber;
+        this.roomName = roomNumber;
     }
 
     public Floor getFloor() {
@@ -130,7 +132,7 @@ public class Room extends AbstractEntity implements Cloneable {
     public String toString() {
         ToStringBuilder toStringBuilder = new ToStringBuilder(this).
                 append("id", getId()).
-                append("room number", roomNumber).
+                append("room number", roomName).
                 append("occupied", occupied).
                 append("resident account", residentAccount).
                 append("floor", floor).
@@ -150,9 +152,9 @@ public class Room extends AbstractEntity implements Cloneable {
         Room otherRoom = (Room) other;
         return new EqualsBuilder()
                 .append(getId(), otherRoom.getId())
-                .append(roomNumber, otherRoom.roomNumber)
+                .append(roomName, otherRoom.roomName)
                 .append(occupied, otherRoom.occupied)
-                   .append(residentAccount.getId(), otherRoom.residentAccount.getId())
+                .append(residentAccount.getId(), otherRoom.residentAccount.getId())
                 .append(floor.getId(), otherRoom.floor.getId())
 //                .append(assignedTasks, otherRoom.assignedTasks)
                 .isEquals();
@@ -161,10 +163,11 @@ public class Room extends AbstractEntity implements Cloneable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(roomNumber)
+                .append(getId())
+                .append(roomName)
                 .append(occupied)
                 .append(residentAccount)
-                .append(floor)
+//                .append(floor)
                 .append(assignedTasks)
                 .toHashCode();
     }
