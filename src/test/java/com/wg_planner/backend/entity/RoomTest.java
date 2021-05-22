@@ -15,14 +15,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,7 +54,7 @@ public class RoomTest  {
         roomService.save(testRoom);
         //room number not unique but within floor room number is unique, testing the floor should return only the currently created room not any previously created ones
         Room createdRoom = roomService.getRoomByNumber("222", testFloor);
-        Assert.assertEquals(testRoom.getRoomNumber(), createdRoom.getRoomNumber());
+        Assert.assertEquals(testRoom.getRoomName(), createdRoom.getRoomName());
         Assert.assertEquals(testRoom.getFloor(), createdRoom.getFloor());
     }
 
@@ -71,7 +68,7 @@ public class RoomTest  {
         testRoom.setResidentAccount(residentAccount);
         roomService.save(testRoom);
         Room room = roomService.getRoomByNumber("222", testFloor);
-        Assert.assertEquals(testRoom.getRoomNumber(), room.getRoomNumber());
+        Assert.assertEquals(testRoom.getRoomName(), room.getRoomName());
         Assert.assertEquals(testRoom.getFloor(), room.getFloor());
         Assert.assertEquals(residentAccount.getUsername(), room.getResidentAccount().getUsername());
     }
