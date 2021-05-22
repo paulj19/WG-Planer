@@ -16,60 +16,74 @@ import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Floor;
 
 public class CreateFloorForm extends FormLayout {
-    private Floor floor = new Floor();
+    private Floor floorToCreate = new Floor();
     private Binder<Floor> floorBinder = new BeanValidationBinder<>(Floor.class);
     private TextField floorName = new TextField("Floor Name/Number", "Enter floor name or number " +
             "to create");
     private IntegerField numberOfRooms = new IntegerField("Number of Rooms", "Enter the number of rooms" +
             " in floor");
     private CreateRoomsView roomsView = new CreateRoomsView();
+    private CreateTasksView tasksView = new CreateTasksView();
 
-    Button createFloor = new Button("Create Floor");
-    Button cancel = new Button("Cancel");
+    Button createFloorButton = new Button("Create Floor");
+    Button cancelButton = new Button("Cancel");
 
     private HorizontalLayout buttonLayout = new HorizontalLayout();
 
     public CreateFloorForm() {
         addClassName("create-floor-form");
+        setWidth("500px");
         floorBinder.bindInstanceFields(this);
         numberOfRooms.addValueChangeListener(event -> {
             processIfNumberOfRoomsChanged(event.getValue(), event.getOldValue() != null ? event.getOldValue() : 0);
-            add(roomsView);
-            add(buttonLayout);
+            addComponentsDown();
         });
-        setWidth("500px");
+        tasksView.addTaskView();
+        tasksView.setPadding(false);
         createButtonLayout();
-        add(floorName, numberOfRooms, buttonLayout);
+        add(floorName, numberOfRooms, tasksView, buttonLayout);
     }
 
     private void processIfNumberOfRoomsChanged(int newValue, int oldValue) {
-        remove(roomsView);
-        remove(buttonLayout);
-        if (newValue < oldValue) {
+        removeComponentsDown();
+        if ((newValue < oldValue) || (newValue == 0)) {
             roomsView.removeRoomsView(oldValue - newValue);
-        } else {
+        } else { //covers initial input and when old and new values are same
             roomsView.addRoomView(newValue - oldValue);
         }
     }
 
-    private void createButtonLayout() {
-        createFloor.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+    private void addComponentsDown() {
+        add(roomsView);
+        add(tasksView);
+        add(buttonLayout);
+    }
 
-        createFloor.addClickShortcut(Key.ENTER);
-        cancel.addClickShortcut(Key.ESCAPE);
+    private void removeComponentsDown() {
+        remove(roomsView);
+        remove(buttonLayout);
+        remove(tasksView);
+    }
+
+    private void createButtonLayout() {
+        createFloorButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+
+        createFloorButton.addClickShortcut(Key.ENTER);
+        cancelButton.addClickShortcut(Key.ESCAPE);
 //        create_floor.setEnabled(false);
 
-        createFloor.addClickListener(event -> validateAndSave());
-        cancel.addClickListener(event -> fireEvent(new CreateFloorFormEvent.CancelEvent(this, floor)));
-        buttonLayout.add(createFloor, cancel);
+        createFloorButton.addClickListener(event -> validateAndSave());
+        cancelButton.addClickListener(event -> fireEvent(new CreateFloorFormEvent.CancelEvent(this, floorToCreate)));
+        buttonLayout.add(createFloorButton, cancelButton);
     }
 
     private void validateAndSave() {
         try {
-            floorBinder.writeBean(floor);
-            floor.setRooms(roomsView.validateAndSave(floor));
-            fireEvent(new CreateFloorFormEvent.SaveEvent(this, floor));
+            floorBinder.writeBean(floorToCreate);
+            floorToCreate.setRooms(roomsView.validateAndSave(floorToCreate));
+            floorToCreate.setTasks(tasksView.validateAndSave(floorToCreate));
+            fireEvent(new CreateFloorFormEvent.SaveEvent(this, floorToCreate));
         } catch (ValidationException e) {
             e.printStackTrace();
         }

@@ -7,8 +7,12 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.wg_planner.backend.Service.AccountDetailsService;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Route(value = "create_floor")
 @PageTitle("Create Floor | WG Planner")
@@ -34,6 +38,8 @@ public class CreateFloorView extends VerticalLayout implements BeforeEnterObserv
     private void saveFloor(CreateFloorForm.CreateFloorFormEvent.SaveEvent saveEvent) {
         floorService.save(saveEvent.getFloorToCreate());
         saveEvent.getFloorToCreate().getRooms().forEach(room -> roomService.save(room));
+        Logger.getLogger(CreateFloorView.class.getName()).log(Level.INFO, "new floor created and " +
+                "saved: " + saveEvent.getFloorToCreate().toString());
     }
 
     private void clearCreateFloorForm(CreateFloorForm.CreateFloorFormEvent.CancelEvent cancelEvent) {

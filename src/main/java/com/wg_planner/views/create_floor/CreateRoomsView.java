@@ -15,8 +15,8 @@ public class CreateRoomsView extends VerticalLayout {
     public CreateRoomsView() {
     }
 
-    public List<Room> validateAndSave(Floor floorCreated) {
-        return roomsView.stream().map(roomView -> roomView.validateAndSave(floorCreated)).collect(Collectors.toList());
+    public List<Room> validateAndSave(Floor floorToCreate) {
+        return roomsView.stream().map(roomView -> roomView.validateAndSave(floorToCreate)).collect(Collectors.toList());
     }
 
     public void addRoomView(Integer numberOfRoomViewToAdd) {
@@ -26,7 +26,7 @@ public class CreateRoomsView extends VerticalLayout {
     }
 
     public void removeRoomsView(Integer numberOfRoomViewToRemove) {
-        List<CreateRoomView> removedRoomViews = roomsView.subList(roomsView.size() - numberOfRoomViewToRemove - 1, roomsView.size() - 1);
+        List<CreateRoomView> removedRoomViews = roomsView.subList(roomsView.size() - numberOfRoomViewToRemove, roomsView.size());
         removedRoomViews.forEach(this::remove);
         removedRoomViews.clear();
     }

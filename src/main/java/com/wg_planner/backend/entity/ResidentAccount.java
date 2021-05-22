@@ -127,6 +127,7 @@ public class ResidentAccount extends Account implements Cloneable {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
 //                .append(room)
+                .append(getId())
                 .append(away)
                 .append(super.hashCode())//TODo verify
                 .toHashCode();
