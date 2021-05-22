@@ -29,7 +29,7 @@ public class AccountDetailsView extends VerticalLayout {
     private TextField getResidentRoomAsTextField() {
         TextField RoomField = new TextField("Room");
         RoomField.setReadOnly(true);
-        RoomField.setValue(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getRoomNumber());
+        RoomField.setValue(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getRoomName());
         return RoomField;
     }
 

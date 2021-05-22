@@ -23,7 +23,7 @@ public class Room extends AbstractEntity implements Cloneable {
     @NotNull
     @NotEmpty
     @Size(max = 255)
-    @UniqueElements(message = "room name is already taken")
+//    @UniqueElements(message = "room name is already taken")
     @Column(nullable = false)
     private String roomName;
 

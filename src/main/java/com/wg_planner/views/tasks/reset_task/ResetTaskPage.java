@@ -39,7 +39,7 @@ public class ResetTaskPage extends VerticalLayout {
         Validate.isTrue(allRoomsInFloor.contains(roomRequestingReset), "fatal error: room requesting reset should be present in the corresponding floor, room: "+ roomRequestingReset.toString());
         availableRoomsInFloor.remove(roomRequestingReset);
         roomsInFloorComboBox.setItems(availableRoomsInFloor);
-        roomsInFloorComboBox.setItemLabelGenerator(Room::getRoomNumber);
+        roomsInFloorComboBox.setItemLabelGenerator(Room::getRoomName);
         roomsInFloorComboBox.addValueChangeListener(event -> {
             roomSelected = event.getValue();
             if (roomSelected == null) {

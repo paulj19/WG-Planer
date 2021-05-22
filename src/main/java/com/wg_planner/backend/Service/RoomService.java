@@ -96,7 +96,7 @@ public class RoomService {
             roomRepository.saveAll(Stream.of("307", "308", "309", "310", "311", "312", "313", "314", "315")
                     .map(roomName -> {
                         Room room = new Room(roomName, floor);
-//                        room.setRoomNumber(roomName);
+//                        room.setRoomName(roomName);
                         return room;
                     }).collect(Collectors.toList()));
             List<Room> rooms = roomRepository.findAll();

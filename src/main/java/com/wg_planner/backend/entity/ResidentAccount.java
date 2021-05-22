@@ -5,7 +5,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -103,8 +102,8 @@ public class ResidentAccount extends Account implements Cloneable {
     public String toString() {
         return new ToStringBuilder(this).
                 append("id", getId()).
-                append("room number", room.getRoomNumber()).
-                append("floor number", room.getFloor().getFloorNumber()).
+                append("room number", room.getRoomName()).
+                append("floor number", room.getFloor().getFloorName()).
                 append("away", away).
                 append(super.toString()).
                 toString();

@@ -19,10 +19,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         addClassName("login-view");
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
-        Anchor signup = new Anchor("signup", "Sign Up");
+        Anchor register = new Anchor("register", "Sign Up");
         loginForm.setAction("login");
-
-        add(new H1("WG Planner"), loginForm, signup);
+        Anchor create_floor = new Anchor("create_floor", "Create Floor");
+        add(new H1("WG Planner"), loginForm, register, create_floor);
     }
 
     @Override

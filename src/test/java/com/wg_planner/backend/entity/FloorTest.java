@@ -42,7 +42,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
         Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
         floorService.save(floor);
-        Floor floorSavedAndRetrieved = floorService.getFloorByNumber("3A");
+        Floor floorSavedAndRetrieved = floorService.getFloorByName("3A");
         Assert.assertEquals(floor, floorSavedAndRetrieved);
     }
 
@@ -53,7 +53,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
         Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
         floorService.save(floor);
-        Floor floorSavedAndRetrieved = floorService.getFloorByNumber("3A");
+        Floor floorSavedAndRetrieved = floorService.getFloorByName("3A");
         Assert.assertEquals(floor, floorSavedAndRetrieved);
         for(Task task: testTasks) {
             task.setFloor(floorSavedAndRetrieved);
@@ -61,7 +61,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
         floorSavedAndRetrieved.setTasks(testTasks);
         taskService.saveAll(testTasks);
         floorService.save(floorSavedAndRetrieved);
-        Floor floorSavedAndRetrievedWithtasks = floorService.getFloorByNumber("3A");
+        Floor floorSavedAndRetrievedWithtasks = floorService.getFloorByName("3A");
         Assert.assertEquals(floorSavedAndRetrieved, floorSavedAndRetrievedWithtasks);
     }
 
@@ -72,7 +72,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
         Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
         floorService.save(floor);
-        Floor floorSavedAndRetrieved = floorService.getFloorByNumber("3A");
+        Floor floorSavedAndRetrieved = floorService.getFloorByName("3A");
         Assert.assertEquals(floor, floorSavedAndRetrieved);
         for(Task task: testTasks) {
             task.setFloor(floorSavedAndRetrieved);
@@ -80,7 +80,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
         floorSavedAndRetrieved.setTasks(testTasks);
         taskService.saveAll(testTasks);
         floorService.save(floorSavedAndRetrieved);
-        Floor floorSavedAndRetrievedWithtasks = floorService.getFloorByNumber("3A");
+        Floor floorSavedAndRetrievedWithtasks = floorService.getFloorByName("3A");
         Assert.assertEquals(floorSavedAndRetrieved, floorSavedAndRetrievedWithtasks);
     }
 
@@ -91,7 +91,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
         Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
         floorService.save(floor);
-        Floor floorSavedAndRetrieved = floorService.getFloorByNumber("3A");
+        Floor floorSavedAndRetrieved = floorService.getFloorByName("3A");
         Assert.assertEquals(floor, floorSavedAndRetrieved);
         for(Task task: testTasks) {
             task.setFloor(floorSavedAndRetrieved);
@@ -99,7 +99,7 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
         floorSavedAndRetrieved.setTasks(testTasks);
         taskService.saveAll(testTasks);
         floorService.save(floorSavedAndRetrieved);
-        Floor floorSavedAndRetrievedWithtasks = floorService.getFloorByNumber("3A");
+        Floor floorSavedAndRetrievedWithtasks = floorService.getFloorByName("3A");
         Assert.assertEquals(floorSavedAndRetrieved, floorSavedAndRetrievedWithtasks);
     }
 

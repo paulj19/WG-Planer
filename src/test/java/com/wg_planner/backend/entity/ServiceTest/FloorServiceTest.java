@@ -2,7 +2,6 @@ package com.wg_planner.backend.entity.ServiceTest;
 
 import com.wg_planner.backend.Repository.*;
 import com.wg_planner.backend.Service.FloorService;
-import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
@@ -18,7 +17,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,7 +68,7 @@ public class FloorServiceTest{
         }
         floorRepository.saveAll(testFloors);
         for (int i = 0; i < 5; i++) {
-            Assert.assertEquals(testFloors.get(i), floorService.getFloorByNumber(String.valueOf(i)));
+            Assert.assertEquals(testFloors.get(i), floorService.getFloorByName(String.valueOf(i)));
         }
     }
 
@@ -201,12 +199,12 @@ public class FloorServiceTest{
 
     @Test
     public void FloorServiceGetFloorByNumber_NullParameter_ThrowsRunTimeException() {
-        Assert.assertThrows(RuntimeException.class, () -> floorService.getFloorByNumber(null));
+        Assert.assertThrows(RuntimeException.class, () -> floorService.getFloorByName(null));
     }
 
     @Test
     public void FloorServiceGetFloorByNumber_EmptyParameter_ThrowsRunTimeException() {
-        Assert.assertThrows(RuntimeException.class, () -> floorService.getFloorByNumber(""));
+        Assert.assertThrows(RuntimeException.class, () -> floorService.getFloorByName(""));
     }
 
     public void setUpFloor() {

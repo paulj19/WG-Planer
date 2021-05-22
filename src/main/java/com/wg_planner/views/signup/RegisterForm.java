@@ -35,10 +35,10 @@ public class RegisterForm extends FormLayout {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    TextField firstName = new TextField("First Name", "please enter your first name");
-    TextField lastName = new TextField("Last Name", "please enter your last name");
-    EmailField email = new EmailField("Email", "enter your company email address");
-    TextField username = new TextField("Username", "please enter a user name");
+    TextField firstName = new TextField("First Name", "Enter your first name");
+    TextField lastName = new TextField("Last Name", "Enter your last name");
+    EmailField email = new EmailField("Email", "Enter your company email address");
+    TextField username = new TextField("Username", "Enter a user name");
     PasswordField password = new PasswordField("Password", "min 6 characters");
     ComboBox<Floor> floorComboBox = new ComboBox<>("Floor");
     ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room");
@@ -61,7 +61,7 @@ public class RegisterForm extends FormLayout {
         List<Floor> floors = FloorService.getAllFloors();
 
         floorComboBox.setItems(floors);
-        floorComboBox.setItemLabelGenerator(Floor::getFloorNumber);
+        floorComboBox.setItemLabelGenerator(Floor::getFloorName);
         floorComboBox.setAllowCustomValue(false);
 
         floorComboBox.addValueChangeListener(event -> {
@@ -69,7 +69,7 @@ public class RegisterForm extends FormLayout {
             if (selectedFloor != null) {
                 rooms = FloorService.getAllNonOccupiedRoomsInFloor(selectedFloor);
                 roomsRoomComboBox.setItems(rooms);
-                roomsRoomComboBox.setItemLabelGenerator(Room::getRoomNumber);
+                roomsRoomComboBox.setItemLabelGenerator(Room::getRoomName);
                 floorComboBox.setInvalid(false);
             } else {
                 floorComboBox.setInvalid(true);

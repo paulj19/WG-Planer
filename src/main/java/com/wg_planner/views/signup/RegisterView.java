@@ -17,8 +17,8 @@ import com.wg_planner.backend.entity.ResidentAccount;
 public class RegisterView extends VerticalLayout implements BeforeEnterObserver {
     ResidentAccountService residentAccountService;
     RoomService roomService;
-    private RegisterForm registerForm = new RegisterForm();
 
+    private RegisterForm registerForm = new RegisterForm();
 
     public RegisterView(ResidentAccountService residentAccountService, RoomService roomService) {
         this.residentAccountService = residentAccountService;
@@ -36,7 +36,7 @@ public class RegisterView extends VerticalLayout implements BeforeEnterObserver 
     }
 
     private void clearRegistrationForm(RegisterForm.RegisterFormEvent.CancelEvent event) {
-
+//TODO
     }
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {

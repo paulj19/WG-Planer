@@ -82,7 +82,7 @@ public class FloorService {
         Validate.notNull(roomsInFloor, "getAllAvailableRooms() returned %s", null);
         Validate.notEmpty(roomsInFloor, "getAllAvailableRooms() returned empty list");
 
-        roomsInFloor.sort(Comparator.comparing(Room::getRoomNumber));
+        roomsInFloor.sort(Comparator.comparing(Room::getRoomName));
         //returns the room with the next index after the passed room
         Assert.isTrue(roomsInFloor.contains(room), "failed to return next available room in getNextAvailableRoom. parameter" + room.toString() + "not found in set of available rooms in floor" + floor.toString());
         return roomsInFloor.get((roomsInFloor.indexOf(room) + 1) % roomsInFloor.size());
@@ -93,11 +93,11 @@ public class FloorService {
         return new ArrayList<>(floorRepository.findAllTasksInFloor(floor.getId()));
     }
 
-    public Floor getFloorByNumber(String floorNumber) {
-        Validate.notNull(floorNumber, "parameter floor must not be %s", null);
-        Validate.notEmpty(floorNumber, "parameter floor number must not be empty");
+    public Floor getFloorByName(String floorName) {
+        Validate.notNull(floorName, "parameter floor must not be %s", null);
+        Validate.notEmpty(floorName, "parameter floor number must not be empty");
 
-        return floorRepository.findFloorByNumber(floorNumber);
+        return floorRepository.findFloorByNumber(floorName);
     }
 
     public void deleteTaskAndUpdateFloor(Floor floor, Task task) {
@@ -120,7 +120,7 @@ public class FloorService {
 //            roomRepository.saveAll(Stream.of("307", "308", "309", "310", "311", "312", "313", "314", "315")
 //                    .map(roomName -> {
 //                        Room room = new Room(roomName);
-////                        room.setRoomNumber(roomName);
+////                        room.setRoomName(roomName);
 //                        return room;
 //                    }).collect(Collectors.toList()));
 //        }
