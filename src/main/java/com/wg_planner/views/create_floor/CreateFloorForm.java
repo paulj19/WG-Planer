@@ -22,9 +22,9 @@ public class CreateFloorForm extends FormLayout {
             "to create");
     private IntegerField numberOfRooms = new IntegerField("Number of Rooms", "Enter the number of rooms" +
             " in floor");
-    private CreateRoomsView roomsView;
+    private CreateRoomsView roomsView = new CreateRoomsView();
 
-    Button create_floor = new Button("Create Floor");
+    Button createFloor = new Button("Create Floor");
     Button cancel = new Button("Cancel");
 
     private HorizontalLayout buttonLayout = new HorizontalLayout();
@@ -33,7 +33,7 @@ public class CreateFloorForm extends FormLayout {
         addClassName("create-floor-form");
         floorBinder.bindInstanceFields(this);
         numberOfRooms.addValueChangeListener(event -> {
-            processIfNumberOfRoomsChanged(event.getValue(), event.getOldValue());
+            processIfNumberOfRoomsChanged(event.getValue(), event.getOldValue() != null ? event.getOldValue() : 0);
             add(roomsView);
             add(buttonLayout);
         });
@@ -42,31 +42,27 @@ public class CreateFloorForm extends FormLayout {
         add(floorName, numberOfRooms, buttonLayout);
     }
 
-    private void processIfNumberOfRoomsChanged(Integer newValue, Integer oldValue) {
-        if (roomsView != null && oldValue != null) { //if the number of rooms is changed
-            remove(roomsView);
-            remove(buttonLayout);
-            if (newValue > oldValue) {
-                roomsView.addRoomView(newValue - oldValue);
-            } else if (newValue < oldValue) {
-                roomsView.removeRoomsView(oldValue - newValue);
-            }
+    private void processIfNumberOfRoomsChanged(int newValue, int oldValue) {
+        remove(roomsView);
+        remove(buttonLayout);
+        if (newValue < oldValue) {
+            roomsView.removeRoomsView(oldValue - newValue);
         } else {
-            roomsView = new CreateRoomsView(newValue);
+            roomsView.addRoomView(newValue - oldValue);
         }
     }
 
     private void createButtonLayout() {
-        create_floor.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        createFloor.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        create_floor.addClickShortcut(Key.ENTER);
+        createFloor.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
 //        create_floor.setEnabled(false);
 
-        create_floor.addClickListener(event -> validateAndSave());
+        createFloor.addClickListener(event -> validateAndSave());
         cancel.addClickListener(event -> fireEvent(new CreateFloorFormEvent.CancelEvent(this, floor)));
-        buttonLayout.add(create_floor, cancel);
+        buttonLayout.add(createFloor, cancel);
     }
 
     private void validateAndSave() {

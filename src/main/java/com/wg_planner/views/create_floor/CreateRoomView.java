@@ -1,16 +1,11 @@
 package com.wg_planner.views.create_floor;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Room;
-
-import java.util.List;
 
 import com.vaadin.flow.component.textfield.TextField;
 
@@ -24,9 +19,9 @@ public class CreateRoomView extends HorizontalLayout {
         add(roomNameTextField);
     }
 
-    public Room validateAndSave(Floor floorCreated) {
+    public Room validateAndSave(Floor floorToCreated) {
         try {
-            roomToCreate.setFloor(floorCreated);
+            roomToCreate.setFloor(floorToCreated);
             roomBinder.writeBean(roomToCreate);
             return roomToCreate;
         } catch (ValidationException e) {
