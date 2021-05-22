@@ -19,7 +19,6 @@ public class Task extends AbstractEntity {
     private String taskName;
 
     @NotNull
-    @NotEmpty
     //floor does not track track anything of the task except the list of tasks in the floor
     //hence unnecessary to save or refresh floor tasks when floor is saved
     //and also nothing really is done by taking floor from task but other way around
