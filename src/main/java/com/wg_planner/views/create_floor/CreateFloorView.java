@@ -22,6 +22,8 @@ public class CreateFloorView extends VerticalLayout implements BeforeEnterObserv
     public CreateFloorView(FloorService floorService, RoomService roomService) {
         this.floorService = floorService;
         this.roomService = roomService;
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
         createFloorForm.addListener(CreateFloorForm.CreateFloorFormEvent.SaveEvent.class,
                 this::saveFloor);
         createFloorForm.addListener(CreateFloorForm.CreateFloorFormEvent.CancelEvent.class,

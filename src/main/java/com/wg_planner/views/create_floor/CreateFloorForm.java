@@ -22,23 +22,30 @@ public class CreateFloorForm extends FormLayout {
             "to create");
     private IntegerField numberOfRooms = new IntegerField("Number of Rooms", "Enter the number of rooms" +
             " in floor");
-    CreateRoomsView roomsView;
+    private CreateRoomsView roomsView;
 
     Button create_floor = new Button("Create Floor");
     Button cancel = new Button("Cancel");
 
+    private HorizontalLayout buttonLayout = new HorizontalLayout();
+
     public CreateFloorForm() {
+        addClassName("create-floor-form");
         floorBinder.bindInstanceFields(this);
         numberOfRooms.addValueChangeListener(event -> {
             processIfNumberOfRoomsChanged(event.getValue(), event.getOldValue());
             add(roomsView);
+            add(buttonLayout);
         });
-        add(floorName, numberOfRooms, createButtonLayout());
+        setWidth("500px");
+        createButtonLayout();
+        add(floorName, numberOfRooms, buttonLayout);
     }
 
     private void processIfNumberOfRoomsChanged(Integer newValue, Integer oldValue) {
         if (roomsView != null && oldValue != null) { //if the number of rooms is changed
             remove(roomsView);
+            remove(buttonLayout);
             if (newValue > oldValue) {
                 roomsView.addRoomView(newValue - oldValue);
             } else if (newValue < oldValue) {
@@ -49,7 +56,7 @@ public class CreateFloorForm extends FormLayout {
         }
     }
 
-    private HorizontalLayout createButtonLayout() {
+    private void createButtonLayout() {
         create_floor.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
@@ -59,7 +66,7 @@ public class CreateFloorForm extends FormLayout {
 
         create_floor.addClickListener(event -> validateAndSave());
         cancel.addClickListener(event -> fireEvent(new CreateFloorFormEvent.CancelEvent(this, floor)));
-        return new HorizontalLayout(create_floor, cancel);
+        buttonLayout.add(create_floor, cancel);
     }
 
     private void validateAndSave() {
