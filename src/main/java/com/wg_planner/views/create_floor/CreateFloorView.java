@@ -7,7 +7,6 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.wg_planner.backend.Service.AccountDetailsService;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
 
@@ -24,10 +23,13 @@ public class CreateFloorView extends VerticalLayout implements BeforeEnterObserv
     private RoomService roomService;
 
     public CreateFloorView(FloorService floorService, RoomService roomService) {
+        setWidth("500px");
+        setHeight("100%");
+        getStyle().set("overflow-y", "auto");
         this.floorService = floorService;
         this.roomService = roomService;
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
+//        setAlignItems(Alignment.CENTER);
+//        setJustifyContentMode(JustifyContentMode.CENTER);
         createFloorForm.addListener(CreateFloorForm.CreateFloorFormEvent.SaveEvent.class,
                 this::saveFloor);
         createFloorForm.addListener(CreateFloorForm.CreateFloorFormEvent.CancelEvent.class,
@@ -43,7 +45,6 @@ public class CreateFloorView extends VerticalLayout implements BeforeEnterObserv
     }
 
     private void clearCreateFloorForm(CreateFloorForm.CreateFloorFormEvent.CancelEvent cancelEvent) {
-
     }
 
     @Override

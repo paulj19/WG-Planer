@@ -32,7 +32,6 @@ public class CreateFloorForm extends FormLayout {
 
     public CreateFloorForm() {
         addClassName("create-floor-form");
-        setWidth("500px");
         floorBinder.bindInstanceFields(this);
         numberOfRooms.addValueChangeListener(event -> {
             processIfNumberOfRoomsChanged(event.getValue(), event.getOldValue() != null ? event.getOldValue() : 0);
