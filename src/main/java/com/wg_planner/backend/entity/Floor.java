@@ -1,6 +1,5 @@
 package com.wg_planner.backend.entity;
 
-import com.wg_planner.backend.utils.HelperMethods;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -40,8 +39,10 @@ public class Floor extends AbstractEntity implements Cloneable {
     private List<Room> rooms = new ArrayList<>();
 
     //persist stops from deleting the task, dont know why. persist in room actually saves the task when saved
+    //TODO inserting persist to save the task from floor_creation. todo, look into deleting problem
     // from floor. merge in room does not save the task, dont know why
-    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH})
+//    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH})
+    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Task> tasks = new ArrayList<>();
 
@@ -176,13 +177,9 @@ public class Floor extends AbstractEntity implements Cloneable {
                 append("number of rooms", numberOfRooms).
                 append("room start index", roomStartIndex).
                 append("room ids: ");
-        for (Room room : HelperMethods.safe(rooms)) {
-            floorAsString.append(room.getId());
-        }
+        rooms.forEach(room -> floorAsString.append(room.getId()));
         floorAsString.append("tasks ids: ");
-        for (Task task : HelperMethods.safe(tasks)) {
-            floorAsString.append(task.getId());
-        }
+        tasks.forEach(task -> floorAsString.append(task.getId()));
         return floorAsString.toString();
     }
 
