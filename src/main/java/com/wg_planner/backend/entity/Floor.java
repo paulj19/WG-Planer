@@ -207,11 +207,11 @@ public class Floor extends AbstractEntity implements Cloneable {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(getId())
-                .append(floorName)
-                .append(numberOfRooms)
-                .append(roomStartIndex)
-                .append(rooms)
-                .append(tasks)
+//                .append(floorName)
+//                .append(numberOfRooms)
+//                .append(roomStartIndex)
+//                .append(rooms)
+//                .append(tasks)
                 .toHashCode();
     }
 }

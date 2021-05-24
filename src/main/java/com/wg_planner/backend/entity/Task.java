@@ -95,7 +95,7 @@ public class Task extends AbstractEntity {
                 append("id", getId()).
                 append("task name", taskName).
                 append("floor id", floor.getId()).
-                append("assigned room id", assignedRoom.getId()).
+//                append("assigned room id", assignedRoom.getId()).
                 toString();
     }
 
@@ -131,7 +131,7 @@ public class Task extends AbstractEntity {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(getId())
-                .append(taskName)
+//                .append(taskName)
                 .append(floor.getId())
 //                .append(assignedRoom.getId())
                 .toHashCode();

@@ -8,7 +8,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -164,9 +163,9 @@ public class Room extends AbstractEntity implements Cloneable {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(getId())
-                .append(roomName)
-                .append(occupied)
-                .append(residentAccount.getId())
+//                .append(roomName)
+//                .append(occupied)
+//                .append(residentAccount.getId())
                 .append(floor.getId())
 //                .append(assignedTasks)
                 .toHashCode();
