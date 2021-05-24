@@ -28,6 +28,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.wg_planner.views.utils.SessionHelper.getFloorFromSession;
+
 //todo registration form for different roles(combo box options) this is for residents, change name accordingly?
 // todo are you currently in the room and ready to take the tasks
 public class RegisterForm extends FormLayout {
@@ -40,8 +42,8 @@ public class RegisterForm extends FormLayout {
     EmailField email = new EmailField("Email", "Enter your company email address");
     TextField username = new TextField("Username", "Enter a user name");
     PasswordField password = new PasswordField("Password", "min 6 characters");
-    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor");
-    ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room");
+    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor Name");
+    ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room Name");
     Checkbox isReadyToAcceptTasks = new Checkbox();
     boolean isAway = true;
     Account account;
@@ -56,25 +58,11 @@ public class RegisterForm extends FormLayout {
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
+
     public RegisterForm() {
         addClassName("register-form");
-        List<Floor> floors = FloorService.getAllFloors();
 
-        floorComboBox.setItems(floors);
-        floorComboBox.setItemLabelGenerator(Floor::getFloorName);
-        floorComboBox.setAllowCustomValue(false);
-
-        floorComboBox.addValueChangeListener(event -> {
-            selectedFloor = event.getValue();
-            if (selectedFloor != null) {
-                rooms = FloorService.getAllNonOccupiedRoomsInFloor(selectedFloor);
-                roomsRoomComboBox.setItems(rooms);
-                roomsRoomComboBox.setItemLabelGenerator(Room::getRoomName);
-                floorComboBox.setInvalid(false);
-            } else {
-                floorComboBox.setInvalid(true);
-            }
-        });
+        setFloorComboBox(getFloorFromSession());
         roomsRoomComboBox.setRequiredIndicatorVisible(true);
         roomsRoomComboBox.addFocusListener(event -> {
             if (selectedFloor == null) {
@@ -152,6 +140,37 @@ public class RegisterForm extends FormLayout {
         setWidth("500px");
         add(firstName, lastName, email, username, password, floorComboBox, roomsRoomComboBox, isReadyToAcceptTasks, createButtonLayout());
     }
+
+    private void setFloorComboBox(Floor floorToPreset) {
+        List<Floor> floors = FloorService.getAllFloors();
+        floorComboBox.setItems(floors);
+        floorComboBox.setItemLabelGenerator(Floor::getFloorName);
+        if (floorToPreset != null) {
+            selectedFloor = floorToPreset;
+            setRoomsInRoomComboBoxFromOnSelectedFloor(floorToPreset);
+            floorComboBox.setValue(floorToPreset);
+//            floorComboBox.setEnabled(false);
+            floorComboBox.setReadOnly(true);
+        } else {
+            floorComboBox.setAllowCustomValue(false);
+            floorComboBox.addValueChangeListener(event -> {
+                selectedFloor = event.getValue();
+                if (selectedFloor != null) {
+                    setRoomsInRoomComboBoxFromOnSelectedFloor(selectedFloor);
+                } else {
+                    floorComboBox.setInvalid(true);
+                }
+            });
+        }
+    }
+
+    private void setRoomsInRoomComboBoxFromOnSelectedFloor(Floor selectedFloor) {
+        rooms = FloorService.getAllNonOccupiedRoomsInFloor(selectedFloor);
+        roomsRoomComboBox.setItems(rooms);
+        roomsRoomComboBox.setItemLabelGenerator(Room::getRoomName);
+        floorComboBox.setInvalid(false);
+    }
+
 
     private void checkAndSetRegisterButton() {
         register.setEnabled(isAllFieldsValid() && isAllFieldsFilled());

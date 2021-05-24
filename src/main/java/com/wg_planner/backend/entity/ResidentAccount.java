@@ -102,8 +102,8 @@ public class ResidentAccount extends Account implements Cloneable {
     public String toString() {
         return new ToStringBuilder(this).
                 append("id", getId()).
-                append("room number", room.getRoomName()).
-                append("floor number", room.getFloor().getFloorName()).
+                append("room id", room.getId()).
+                append("floor id", room.getFloor().getId()).
                 append("away", away).
                 append(super.toString()).
                 toString();

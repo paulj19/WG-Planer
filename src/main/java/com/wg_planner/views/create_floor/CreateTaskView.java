@@ -19,7 +19,9 @@ public class CreateTaskView extends HorizontalLayout {
 
     public CreateTaskView() {
         taskBinder.forField(taskNameTextField).bind(Task::getTaskName, Task::setTaskName);
-        removeTaskIcon.addClickListener(iconClickEvent ->  remove(taskNameTextField, removeTaskIcon));
+        removeTaskIcon.addClickListener(iconClickEvent -> remove(taskNameTextField, removeTaskIcon));
+//        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
         add(taskNameTextField, removeTaskIcon);
     }
 
