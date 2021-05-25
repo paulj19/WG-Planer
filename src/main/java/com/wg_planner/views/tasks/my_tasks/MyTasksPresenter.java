@@ -17,6 +17,7 @@ public class MyTasksPresenter extends TasksPresenter {
     @Override
     public void addAllTasks() {
         allTaskLayout.removeAll();
+
         for (Task task : tasks) {
             if (AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getRoomName().equals(task.getAssignedRoom().getRoomName())) {
                 MyTaskCard myTaskCard = new MyTaskCard(task);

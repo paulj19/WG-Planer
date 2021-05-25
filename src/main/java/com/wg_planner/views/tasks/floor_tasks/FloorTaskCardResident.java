@@ -5,21 +5,22 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.tasks.TaskCard;
 
-public class FloorTaskCardUnassigned extends TaskCard {
+public class FloorTaskCardResident extends TaskCard {
 
-    Button buttonAssign = new Button("Assign");
+    Button buttonDone = new Button("Done");
 
-    public FloorTaskCardUnassigned(Task task) {
+    public FloorTaskCardResident(Task task, Boolean isTaskAssignedToCurrentAccount) {
         super(task);
         createAndAddButtonLayout();
     }
 
     private void createAndAddButtonLayout() {
-        buttonAssign.addClickListener(event -> fireEvent(new TaskCardEvent.DoneEvent(this, task)));
-        taskCardLayout.add(buttonAssign);
+        buttonDone.addClickListener(event -> fireEvent(new TaskCardEvent.DoneEvent(this, task)));
+        taskCardLayout.add(buttonDone);
     }
 
     public HorizontalLayout getTaskCardLayout() {
         return taskCardLayout;
     }
 }
+

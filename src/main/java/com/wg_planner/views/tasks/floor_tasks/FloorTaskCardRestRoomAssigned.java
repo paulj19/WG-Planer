@@ -5,11 +5,11 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.tasks.TaskCard;
 
-public class FloorTaskCardOthers extends TaskCard {
+public class FloorTaskCardRestRoomAssigned extends TaskCard {
 
     Button buttonRemind = new Button("Remind");
 
-    public FloorTaskCardOthers(Task task) {
+    public FloorTaskCardRestRoomAssigned(Task task) {
         super(task);
         createAndAddButtonLayout();
         taskCardLayout.add(buttonRemind);
