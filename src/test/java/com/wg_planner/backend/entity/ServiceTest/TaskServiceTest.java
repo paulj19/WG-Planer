@@ -64,7 +64,7 @@ public class TaskServiceTest {
 
     @Test
     public void TaskServiceResetTask_InvalidParameters_ThrowsRunTimeException() {
-        Assert.assertThrows(RuntimeException.class, () -> taskService.resetTask(null, null));
+        Assert.assertThrows(RuntimeException.class, () -> taskService.assignTask(null, null));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class TaskServiceTest {
         Room room410 = roomService.getRoomByNumber("410", testFloor);
         Task taskToResetBio = testTasks.get(0);
         Room previouslyAssignedRoom = taskToResetBio.getAssignedRoom();
-        taskService.resetTask(taskToResetBio, room410);
+        taskService.assignTask(taskToResetBio, room410);
         if (previouslyAssignedRoom != room410)
             Assert.assertNotEquals(previouslyAssignedRoom, taskToResetBio.getAssignedRoom());
         Assert.assertEquals(room410, taskToResetBio.getAssignedRoom());

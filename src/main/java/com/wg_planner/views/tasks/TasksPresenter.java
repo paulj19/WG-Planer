@@ -6,7 +6,7 @@ import com.wg_planner.backend.Service.notification.NotificationTypeTaskReminder;
 import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.tasks.floor_tasks.FloorTaskCard;
-import com.wg_planner.views.tasks.reset_task.ResetTaskView;
+import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -45,19 +45,19 @@ public abstract class TasksPresenter {
         addAllTasks();
     }
 
-    protected void taskDoneCallBackToSaveTask(FloorTaskCard.TaskCardEvent.DoneEvent event) {
+    protected void taskDoneCallBack(FloorTaskCard.TaskCardEvent.DoneEvent event) {
         taskService.transferTask(event.getTask(), floorService.getNextAvailableRoom(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getFloor(), AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom()));
         addAllTasks();
     }
 
-    //todo are you really done/remind ----> UNDO!!
+    //todo DialogBox are you really done/remind ----> UNDO!!
     protected void taskRemindCallBack(FloorTaskCard.TaskCardEvent.RemindEvent event) {
         notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(event.getTask()), event.getTask().getAssignedRoom().getResidentAccount());
     }
 
-    protected void taskResetCallBack(FloorTaskCard.TaskCardEvent.ResetEvent event) {
+    protected void taskAssignCallBack(TaskCard.TaskCardEvent.AssignEvent event) {
         Task task = event.getTask();
-        UI.getCurrent().navigate(ResetTaskView.class, task.getId().toString());
+        UI.getCurrent().navigate(AssignTaskView.class, task.getId().toString());
     }
 
     private void sanityCheckTasks() {

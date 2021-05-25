@@ -32,18 +32,18 @@ public class TaskService {
 
     @Transactional
     public void transferTask(Task task, Room nextAvailableRoom) {
-        resetTask(task, nextAvailableRoom);
+        assignTask(task, nextAvailableRoom);
     }
     @Transactional
-    public void resetTask(Task taskToReset, Room selectedRoom)
+    public void assignTask(Task taskToAssign, Room selectedRoom)
     {
-        Validate.notNull(taskToReset, "parameter taskToReset must not be %s", null);
+        Validate.notNull(taskToAssign, "parameter taskToAssign must not be %s", null);
         Validate.notNull(selectedRoom, "parameter selectedRoom must not be %s", null);
 
-        taskToReset.getAssignedRoom().removeAssignedTask(taskToReset);
-        taskToReset.setAssignedRoom(selectedRoom);
-        selectedRoom.addToAssignedTasks(taskToReset);
-        save(taskToReset);
+        taskToAssign.getAssignedRoom().removeAssignedTask(taskToAssign);
+        taskToAssign.setAssignedRoom(selectedRoom);
+        selectedRoom.addToAssignedTasks(taskToAssign);
+        save(taskToAssign);
     }
 
 //    public List<Task> findAll() {

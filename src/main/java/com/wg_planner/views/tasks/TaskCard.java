@@ -9,6 +9,7 @@ import com.wg_planner.backend.entity.Task;
 
 public class TaskCard extends HorizontalLayout {
 
+
     protected Task task;
     Span taskName = new Span();
     Span assignedRoom = new Span();
@@ -50,8 +51,8 @@ public class TaskCard extends HorizontalLayout {
                 super(source, task);
             }
         }
-        public static class ResetEvent extends TaskCard.TaskCardEvent {
-            public ResetEvent(TaskCard source, Task task) {
+        public static class AssignEvent extends TaskCard.TaskCardEvent {
+            public AssignEvent(TaskCard source, Task task) {
                 super(source, task);
             }
         }

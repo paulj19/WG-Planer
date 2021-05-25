@@ -1,29 +1,26 @@
-package com.wg_planner.views.tasks.my_tasks;
+package com.wg_planner.views.tasks.floor_tasks;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.tasks.TaskCard;
 
-public class MyTaskCard extends TaskCard {
+public class FloorTaskCardMine extends TaskCard {
 
     Button buttonDone = new Button("Done");
-    Button buttonReassign = new Button("Reassign");
 
-    public MyTaskCard(Task task) {
+    public FloorTaskCardMine(Task task, Boolean isTaskAssignedToCurrentAccount) {
         super(task);
-        createButtonLayout();
-        taskCardLayout.add(buttonDone);
-        taskCardLayout.add(buttonReassign);
+        createAndAddButtonLayout();
     }
 
-    private void createButtonLayout() {
+    private void createAndAddButtonLayout() {
         buttonDone.addClickListener(event -> fireEvent(new TaskCardEvent.DoneEvent(this, task)));
-        buttonReassign.addClickListener(event -> fireEvent(new TaskCardEvent.AssignEvent(this, task)));
+        taskCardLayout.add(buttonDone);
     }
 
     public HorizontalLayout getTaskCardLayout() {
         return taskCardLayout;
     }
-
 }
+

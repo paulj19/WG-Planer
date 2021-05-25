@@ -22,7 +22,7 @@ public class FloorTasksPresenter extends TasksPresenter {
         allTaskLayout.removeAll();
         for (Task task : tasks) {
             FloorTaskCard floorTaskCard = new FloorTaskCard(task, AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getRoomName().equals(task.getAssignedRoom().getRoomName()));
-            floorTaskCard.addListener(FloorTaskCard.TaskCardEvent.DoneEvent.class, this::taskDoneCallBackToSaveTask);
+            floorTaskCard.addListener(FloorTaskCard.TaskCardEvent.DoneEvent.class, this::taskDoneCallBack);
             floorTaskCard.addListener(FloorTaskCard.TaskCardEvent.RemindEvent.class, this::taskRemindCallBack);
             allTaskLayout.add(floorTaskCard.getTaskCardLayout());
         }
