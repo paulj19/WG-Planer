@@ -22,28 +22,28 @@ public class AccountDetailsView extends VerticalLayout {
     private TextField getResidentNameAsTextField() {
         TextField nameField = new TextField("Name");
         nameField.setReadOnly(true);
-        nameField.setValue(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getFirstName() + " " + AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getLastName());
+        nameField.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getFirstName() + " " + AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getLastName());
         return nameField;
     }
 
     private TextField getResidentRoomAsTextField() {
         TextField RoomField = new TextField("Room");
         RoomField.setReadOnly(true);
-        RoomField.setValue(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getRoomName());
+        RoomField.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getRoom().getRoomName());
         return RoomField;
     }
 
     private TextField getResidentUsernameAsTextField() {
         TextField UsernameField = new TextField("Username");
         UsernameField.setReadOnly(true);
-        UsernameField.setValue(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getUsername());
+        UsernameField.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getUsername());
         return UsernameField;
     }
 
     private PasswordField getResidentPasswordAsPasswordField() {
         PasswordField passwordField = new PasswordField("Password");
         passwordField.setReadOnly(true);
-        passwordField.setValue(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getPassword());
+        passwordField.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getPassword());
         return passwordField;
     }
 

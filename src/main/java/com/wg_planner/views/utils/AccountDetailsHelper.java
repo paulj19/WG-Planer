@@ -2,6 +2,7 @@ package com.wg_planner.views.utils;
 
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.entity.ResidentAccount;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -9,16 +10,26 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Scope("prototype")
 public class AccountDetailsHelper {
+    @Autowired
+    private ResidentAccountService residentAccountService;
+    private static AccountDetailsHelper accountDetailsHelper;
     protected static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(AccountDetailsHelper.class
             .getName());
+
+    static {
+        accountDetailsHelper = new AccountDetailsHelper();
+    }
+
+    public static AccountDetailsHelper getInstance() {
+        return accountDetailsHelper;
+    }
 
     private AccountDetailsHelper() {
     }
 
-    public static ResidentAccount getLoggedInResidentAccount(ResidentAccountService residentAccountService) {
+    public ResidentAccount getLoggedInResidentAccount() {
         return residentAccountService.getResidentAccountByUsername(getLoggedInUserName());
     }
-
 
     private static String getLoggedInUserName() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
