@@ -18,11 +18,14 @@ public class TaskService {
             .getName());
     private final TaskRepository taskRepository;
     private final RoomRepository roomRepository;
+    private final FloorService floorService;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, RoomRepository roomRepository) {
+    public TaskService(TaskRepository taskRepository, RoomRepository roomRepository,
+                       FloorService floorService) {
         this.taskRepository = taskRepository;
         this.roomRepository = roomRepository;
+        this.floorService = floorService;
     }
 
     public Task getTaskById(Long taskId) {
@@ -31,12 +34,12 @@ public class TaskService {
     }
 
     @Transactional
-    public void transferTask(Task task, Room nextAvailableRoom) {
-        assignTask(task, nextAvailableRoom);
+    public void transferTask(Task task) {
+        assignTask(task, floorService.getNextAvailableRoom(task.getAssignedRoom()));
     }
+
     @Transactional
-    public void assignTask(Task taskToAssign, Room selectedRoom)
-    {
+    public void assignTask(Task taskToAssign, Room selectedRoom) {
         Validate.notNull(taskToAssign, "parameter taskToAssign must not be %s", null);
         Validate.notNull(selectedRoom, "parameter selectedRoom must not be %s", null);
 
@@ -50,12 +53,15 @@ public class TaskService {
 //        return taskRepository.findAll();
 //    }
 
-    public long count() { return taskRepository.count(); }
+    public long count() {
+        return taskRepository.count();
+    }
 
     public void save(Task task) {
         Validate.notNull(task, "parameter task to save must not be %s", null);
         taskRepository.save(task);
     }
+
     public void saveAll(List<Task> tasks) {
         Validate.notNull(tasks, "parameter task to save must not be %s", null);
         taskRepository.saveAll(tasks);

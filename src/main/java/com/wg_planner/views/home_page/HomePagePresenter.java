@@ -34,16 +34,17 @@ public class HomePagePresenter {
     public void setResidentAwayAndSave(boolean isAway) {
         ResidentAccount currentResidentAccount = AccountDetailsHelper.getInstance().getLoggedInResidentAccount();
         if (isAway) {
-            tranferTasksOfResidentToNext(currentResidentAccount);
+            transferTasksOfResidentToNext(currentResidentAccount);
         }
         currentResidentAccount.setAway(isAway);
         residentAccountService.save(currentResidentAccount);
     }
 
-    private void tranferTasksOfResidentToNext(ResidentAccount currentResidentAccount) {
+    private void transferTasksOfResidentToNext(ResidentAccount currentResidentAccount) {
 
         List<Task> assignedTasks = new ArrayList<>(currentResidentAccount.getRoom().getAssignedTasks());
-        assignedTasks.forEach(task -> taskService.transferTask(task, floorService.getNextAvailableRoom(currentResidentAccount.getRoom().getFloor(), currentResidentAccount.getRoom())));
+        assignedTasks.forEach(task -> taskService.transferTask(task));
+//        assignedTasks.forEach(task -> taskService.transferTask(task, floorService.getNextAvailableRoom(currentResidentAccount.getRoom().getFloor(), currentResidentAccount.getRoom())));
 //        taskService.transferTask(assignedTasks.get(0), floorService.getNextAvailableRoom(currentResidentAccount.getRoom().getFloor(), currentResidentAccount.getRoom()));
 //        taskService.transferTask(assignedTasks.get(1), floorService.getNextAvailableRoom(currentResidentAccount.getRoom().getFloor(), currentResidentAccount.getRoom()));
 //        for (Task task : assignedTasks) {

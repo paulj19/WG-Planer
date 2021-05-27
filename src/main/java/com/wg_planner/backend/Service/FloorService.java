@@ -74,6 +74,9 @@ public class FloorService {
     }
 
     /**/
+    public Room getNextAvailableRoom(Room room) {
+        return getNextAvailableRoom(room.getFloor(), room);
+    }
     public Room getNextAvailableRoom(Floor floor, Room room) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         Validate.notNull(room, "parameter room must not be %s", null);
