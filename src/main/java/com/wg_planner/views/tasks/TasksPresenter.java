@@ -7,7 +7,7 @@ import com.wg_planner.backend.Service.notification.NotificationTypeTaskReminder;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.task_cards.TaskCard;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
-import com.wg_planner.views.utils.AccountDetailsHelper;
+import com.wg_planner.views.utils.SessionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -40,7 +40,7 @@ public abstract class TasksPresenter {
 
     public void init() {
         tasks =
-                floorService.getAllTasksInFloor(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getRoom().getFloor());
+                floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor());
         sanityCheckTasks();
         addTasks();
     }

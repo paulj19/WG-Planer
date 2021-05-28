@@ -5,7 +5,7 @@ import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.utils.AccountDetailsHelper;
+import com.wg_planner.views.utils.SessionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ public class HomePagePresenter {
 
     @Transactional//TODO why transactional?
     public void setResidentAwayAndSave(boolean isAway) {
-        ResidentAccount currentResidentAccount = AccountDetailsHelper.getInstance().getLoggedInResidentAccount();
+        ResidentAccount currentResidentAccount = SessionHandler.getLoggedInResidentAccount();
         if (isAway) {
             transferTasksOfResidentToNext(currentResidentAccount);
         }

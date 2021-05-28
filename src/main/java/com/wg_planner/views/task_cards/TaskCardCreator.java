@@ -2,7 +2,7 @@ package com.wg_planner.views.task_cards;
 
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.tasks.TasksPresenter;
-import com.wg_planner.views.utils.AccountDetailsHelper;
+import com.wg_planner.views.utils.SessionHandler;
 
 public class TaskCardCreator {
     public static TaskCard createLoggedInResidentTaskCard(Task task, TasksPresenter tasksPresenter) {
@@ -20,7 +20,7 @@ public class TaskCardCreator {
             taskCard.addListener(tasksPresenter::taskAssignCallBack);
             return taskCard;
         }
-        if (AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getRoom().getId().equals(task.getAssignedRoom().getId())) {
+        if (SessionHandler.getLoggedInResidentAccount().getRoom().getId().equals(task.getAssignedRoom().getId())) {
             TaskCard taskCard =
                     new TaskCardWithButtonDone(new TaskCardRoomAssigned(new TaskCardWithTaskLabel(task), task), task);
             taskCard.addListener(tasksPresenter::taskDoneCallBack);

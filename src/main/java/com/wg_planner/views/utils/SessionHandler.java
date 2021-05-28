@@ -26,6 +26,6 @@ public class SessionHandler {
     }
 
     public static ResidentAccount getLoggedInResidentAccount() {
-        return (ResidentAccount) VaadinSession.getCurrent().getAttribute(LOGGED_IN_RESIDENT_ACCOUNT);
+        return (ResidentAccount) VaadinSession.getCurrent().getSession().getAttribute(LOGGED_IN_RESIDENT_ACCOUNT);
     }
 }

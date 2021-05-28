@@ -5,7 +5,7 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.Service.ResidentAccountService;
-import com.wg_planner.views.utils.AccountDetailsHelper;
+import com.wg_planner.views.utils.SessionHandler;
 
 public class ResidentAvailabilityView extends VerticalLayout {
     ResidentAccountService residentAccountService;
@@ -29,9 +29,9 @@ public class ResidentAvailabilityView extends VerticalLayout {
 
     private void addAvailabilityCheckBox() {
         Checkbox isAwayCheckBox = new Checkbox("I am away");
-        isAwayCheckBox.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().isAway());
+        isAwayCheckBox.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
         Checkbox isBackCheckBox = new Checkbox("I am ready to take tasks");
-        isBackCheckBox.setValue(!AccountDetailsHelper.getInstance().getLoggedInResidentAccount().isAway());
+        isBackCheckBox.setValue(!SessionHandler.getLoggedInResidentAccount().isAway());
         isAwayCheckBox.addValueChangeListener(event -> {
             isAway = isAwayCheckBox.getValue();
             setAvailabilityConfirmDialog.open();

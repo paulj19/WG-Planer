@@ -57,6 +57,7 @@ public class MainView extends AppLayout {
         beanFactory.autowireBean(mainViewPresenter);
         beanFactory.autowireBean(accountDetailsHelper);
         AccountDetailsHelper.setAccountDetailsHelper(accountDetailsHelper);
+        //todo this should go direct after login
         SessionHandler.saveLoggedInResidentAccount(accountDetailsHelper.getLoggedInResidentAccount());
         mainViewPresenter.init();
     }

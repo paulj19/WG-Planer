@@ -5,7 +5,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.wg_planner.backend.Service.ResidentAccountService;
-import com.wg_planner.views.utils.AccountDetailsHelper;
+import com.wg_planner.views.utils.SessionHandler;
 
 public class AccountDetailsView extends VerticalLayout {
     ResidentAccountService residentAccountService;
@@ -22,28 +22,28 @@ public class AccountDetailsView extends VerticalLayout {
     private TextField getResidentNameAsTextField() {
         TextField nameField = new TextField("Name");
         nameField.setReadOnly(true);
-        nameField.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getFirstName() + " " + AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getLastName());
+        nameField.setValue(SessionHandler.getLoggedInResidentAccount().getFirstName() + " " + SessionHandler.getLoggedInResidentAccount().getLastName());
         return nameField;
     }
 
     private TextField getResidentRoomAsTextField() {
         TextField RoomField = new TextField("Room");
         RoomField.setReadOnly(true);
-        RoomField.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getRoom().getRoomName());
+        RoomField.setValue(SessionHandler.getLoggedInResidentAccount().getRoom().getRoomName());
         return RoomField;
     }
 
     private TextField getResidentUsernameAsTextField() {
         TextField UsernameField = new TextField("Username");
         UsernameField.setReadOnly(true);
-        UsernameField.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getUsername());
+        UsernameField.setValue(SessionHandler.getLoggedInResidentAccount().getUsername());
         return UsernameField;
     }
 
     private PasswordField getResidentPasswordAsPasswordField() {
         PasswordField passwordField = new PasswordField("Password");
         passwordField.setReadOnly(true);
-        passwordField.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getPassword());
+        passwordField.setValue(SessionHandler.getLoggedInResidentAccount().getPassword());
         return passwordField;
     }
 
