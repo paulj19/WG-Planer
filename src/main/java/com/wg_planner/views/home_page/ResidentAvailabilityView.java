@@ -17,7 +17,11 @@ public class ResidentAvailabilityView extends VerticalLayout {
         this.residentAccountService = residentAccountService;
         this.homePagePresenter = homePagePresenter;
         setAvailabilityConfirmDialog = new ConfirmDialog("Confirm change",
-                "Are you sure you want to  in availability status?", "Change", this::onConfirmChange,
+                "Tasks currently assigned to you will be transferred to next available room. Are " +
+                        "you sure you want change " +
+                        "availability status?",
+                "Change",
+                this::onConfirmChange,
                 "Cancel", this::onCancelChange);
         add(getHeading());
         addAvailabilityCheckBox();
@@ -25,9 +29,9 @@ public class ResidentAvailabilityView extends VerticalLayout {
 
     private void addAvailabilityCheckBox() {
         Checkbox isAwayCheckBox = new Checkbox("I am away");
-        isAwayCheckBox.setValue(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).isAway());
+        isAwayCheckBox.setValue(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().isAway());
         Checkbox isBackCheckBox = new Checkbox("I am ready to take tasks");
-        isBackCheckBox.setValue(!AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).isAway());
+        isBackCheckBox.setValue(!AccountDetailsHelper.getInstance().getLoggedInResidentAccount().isAway());
         isAwayCheckBox.addValueChangeListener(event -> {
             isAway = isAwayCheckBox.getValue();
             setAvailabilityConfirmDialog.open();

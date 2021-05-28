@@ -2,10 +2,10 @@ package com.wg_planner.views.tasks;
 
 import com.vaadin.flow.component.UI;
 import com.wg_planner.backend.Service.*;
-import com.wg_planner.backend.Service.notification.NotificationTypeTaskReminder;
 import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
+import com.wg_planner.backend.Service.notification.NotificationTypeTaskReminder;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.tasks.floor_tasks.FloorTaskCard;
+import com.wg_planner.views.task_cards.TaskCard;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.logging.Level;
 
 @Controller
 @Scope("prototype")
@@ -37,38 +36,39 @@ public abstract class TasksPresenter {
 
     protected List<Task> tasks;
 
-    abstract public void addAllTasks();
+    abstract public void addTasks();
 
     public void init() {
-        tasks = floorService.getAllTasksInFloor(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getFloor());
+        tasks =
+                floorService.getAllTasksInFloor(AccountDetailsHelper.getInstance().getLoggedInResidentAccount().getRoom().getFloor());
         sanityCheckTasks();
-        addAllTasks();
+        addTasks();
     }
 
-    protected void taskDoneCallBack(FloorTaskCard.TaskCardEvent.DoneEvent event) {
-        taskService.transferTask(event.getTask(), floorService.getNextAvailableRoom(AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getFloor(), AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom()));
-        addAllTasks();
+    public void taskDoneCallBack(TaskCard.TaskCardEvent event) {
+        taskService.transferTask(event.getTask());
+        addTasks();
     }
 
     //todo DialogBox are you really done/remind ----> UNDO!!
-    protected void taskRemindCallBack(FloorTaskCard.TaskCardEvent.RemindEvent event) {
+    public void taskRemindCallBack(TaskCard.TaskCardEvent event) {
         notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(event.getTask()), event.getTask().getAssignedRoom().getResidentAccount());
     }
 
-    protected void taskAssignCallBack(TaskCard.TaskCardEvent.AssignEvent event) {
+    public void taskAssignCallBack(TaskCard.TaskCardEvent event) {
         Task task = event.getTask();
         UI.getCurrent().navigate(AssignTaskView.class, task.getId().toString());
     }
 
     private void sanityCheckTasks() {
-        if (tasks == null || tasks.isEmpty()) {
-            LOGGER.log(Level.SEVERE, "Logged in Resident Account: " + AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).toString());
-            LOGGER.log(Level.SEVERE, "my room details: " + AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().toString());
-            LOGGER.log(Level.SEVERE, "my floor details: " + AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getFloor().toString());
-            if (tasks == null)
-                throw new NullPointerException("list of task returned by getAllTasksInFloor() is null");
-            if (tasks.isEmpty())
-                throw new IllegalStateException("list of task returned by getAllTasksInFloor() is empty");
-        }
+//        if (tasks == null || tasks.isEmpty()) {
+//            LOGGER.log(Level.SEVERE, "Logged in Resident Account: " + AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).toString());
+//            LOGGER.log(Level.SEVERE, "my room details: " + AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().toString());
+//            LOGGER.log(Level.SEVERE, "my floor details: " + AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getFloor().toString());
+//            if (tasks == null)
+//                throw new NullPointerException("list of task returned by getAllTasksInFloor() is null");
+//            if (tasks.isEmpty())
+//                throw new IllegalStateException("list of task returned by getAllTasksInFloor() is empty");
+//        }
     }
 }

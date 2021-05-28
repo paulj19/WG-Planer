@@ -42,7 +42,6 @@ public class ResidentAccount extends Account implements Cloneable {
                            boolean away, Collection<? extends GrantedAuthority> authorities) {
         super(firstName, lastName, email, username, password, authorities);
         Validate.notNull(room);
-        Validate.notNull(away);
         this.room = room;
         this.away = away;
     }

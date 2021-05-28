@@ -12,19 +12,25 @@ import org.springframework.stereotype.Controller;
 public class AccountDetailsHelper {
     @Autowired
     private ResidentAccountService residentAccountService;
+
     private static AccountDetailsHelper accountDetailsHelper;
+
     protected static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(AccountDetailsHelper.class
             .getName());
 
-    static {
-        accountDetailsHelper = new AccountDetailsHelper();
+//    static {
+//        accountDetailsHelper = new AccountDetailsHelper();
+//    }
+
+    public static void setAccountDetailsHelper(AccountDetailsHelper accountDetailsHelper) {
+        AccountDetailsHelper.accountDetailsHelper = accountDetailsHelper;
     }
 
     public static AccountDetailsHelper getInstance() {
         return accountDetailsHelper;
     }
 
-    private AccountDetailsHelper() {
+    public AccountDetailsHelper() {
     }
 
     public ResidentAccount getLoggedInResidentAccount() {
