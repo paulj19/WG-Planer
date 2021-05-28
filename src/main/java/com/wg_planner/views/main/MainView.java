@@ -25,6 +25,7 @@ import com.wg_planner.views.home_page.HomePageView;
 import com.wg_planner.views.tasks.floor_tasks.FloorTasksView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
+import com.wg_planner.views.utils.SessionHandler;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.Arrays;
@@ -56,6 +57,7 @@ public class MainView extends AppLayout {
         beanFactory.autowireBean(mainViewPresenter);
         beanFactory.autowireBean(accountDetailsHelper);
         AccountDetailsHelper.setAccountDetailsHelper(accountDetailsHelper);
+        SessionHandler.saveLoggedInResidentAccount(accountDetailsHelper.getLoggedInResidentAccount());
         mainViewPresenter.init();
     }
 

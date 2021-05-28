@@ -28,7 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wg_planner.views.utils.SessionHelper.getFloorFromSession;
+import static com.wg_planner.views.utils.SessionHandler.getFloorFromSession;
 
 //todo registration form for different roles(combo box options) this is for residents, change name accordingly?
 // todo are you currently in the room and ready to take the tasks

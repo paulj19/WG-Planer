@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.wg_planner.views.utils.SessionHelper.saveCreatedFloorToSession;
+import static com.wg_planner.views.utils.SessionHandler.saveCreatedFloorToSession;
 
 @Route(value = "create_floor")
 @PageTitle("Create Floor | WG Planner")
