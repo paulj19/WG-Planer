@@ -1,6 +1,5 @@
 package com.wg_planner.views.utils;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinSession;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
@@ -12,11 +11,11 @@ public class SessionHandler {
 
     public static void saveCreatedFloorToSession(Floor floorCreated) {
         Validate.notNull("floor created to save in the session must not be null");
-        UI.getCurrent().getSession().setAttribute(FLOOR_CREATED, floorCreated);
+        VaadinSession.getCurrent().getSession().setAttribute(FLOOR_CREATED, floorCreated);
     }
 
     public static Floor getFloorFromSession() {
-        return (Floor) UI.getCurrent().getSession().getAttribute(FLOOR_CREATED);
+        return (Floor) VaadinSession.getCurrent().getSession().getAttribute(FLOOR_CREATED);
     }
 
     public static void saveLoggedInResidentAccount(ResidentAccount residentAccountToSave) {
