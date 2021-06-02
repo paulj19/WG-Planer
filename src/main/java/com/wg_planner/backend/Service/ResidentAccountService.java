@@ -5,9 +5,13 @@ import com.wg_planner.backend.Repository.ResidentAccountRepository;
 import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
+import com.wg_planner.backend.entity.Task;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -52,5 +56,10 @@ public class ResidentAccountService {
     public void save(ResidentAccount residentAccount) {
         Validate.notNull(residentAccount, "parameter resident account must not be %s", null);
         residentAccountRepository.save(residentAccount);
+    }
+
+    public void transferTasksOfResidentToNext(FloorService floorService, TaskService taskService, ResidentAccount currentResidentAccount) {
+        List<Task> assignedTasks = new ArrayList<>(currentResidentAccount.getRoom().getAssignedTasks());
+        assignedTasks.forEach(task -> taskService.transferTask(task, floorService));
     }
 }
