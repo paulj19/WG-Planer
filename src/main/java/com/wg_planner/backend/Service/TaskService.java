@@ -18,14 +18,11 @@ public class TaskService {
             .getName());
     private final TaskRepository taskRepository;
     private final RoomRepository roomRepository;
-    private final FloorService floorService;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, RoomRepository roomRepository,
-                       FloorService floorService) {
+    public TaskService(TaskRepository taskRepository, RoomRepository roomRepository) {
         this.taskRepository = taskRepository;
         this.roomRepository = roomRepository;
-        this.floorService = floorService;
     }
 
     public Task getTaskById(Long taskId) {
@@ -34,7 +31,7 @@ public class TaskService {
     }
 
     @Transactional
-    public void transferTask(Task task) {
+    public void transferTask(Task task, FloorService floorService) {
         assignTask(task, floorService.getNextAvailableRoom(task.getAssignedRoom()));
     }
 

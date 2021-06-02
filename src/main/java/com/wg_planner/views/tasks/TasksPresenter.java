@@ -46,7 +46,7 @@ public abstract class TasksPresenter {
     }
 
     public void taskDoneCallBack(TaskCard.TaskCardEvent event) {
-        taskService.transferTask(event.getTask());
+        taskService.transferTask(event.getTask(), floorService);
         addTasks();
     }
 
