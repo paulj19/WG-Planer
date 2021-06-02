@@ -23,15 +23,14 @@ public class ResidentAccount extends Account implements Cloneable {
 //    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//normally room is always
 //    gotten from ResidentAccount
     //PERSIST: create a new room if the resident account creation(via signup page) creates one
-    @OneToOne(fetch = FetchType.EAGER)
 //    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 //    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
 //    CascadeType.REFRESH})
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ownerResidentAccount", cascade =
-            CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ownerResidentAccount", cascade = CascadeType.ALL)
     List<ResidentDevice> residentDevices = new ArrayList<>();
 
     public ResidentAccount() {
@@ -75,6 +74,7 @@ public class ResidentAccount extends Account implements Cloneable {
     public List<ResidentDevice> getResidentDevices() {
         return residentDevices;
     }
+
     public List<ResidentDevice> getResidentDevicesActive() {
         return residentDevices.stream().filter(residentDevice -> residentDevice.isActive()).collect(Collectors.toList());
     }

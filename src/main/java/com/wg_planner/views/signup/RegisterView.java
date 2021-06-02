@@ -13,6 +13,7 @@ import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.entity.ResidentAccount;
+import com.wg_planner.views.utils.UIStringConstants;
 
 
 @Route(value = "register")
@@ -41,7 +42,7 @@ public class RegisterView extends VerticalLayout implements BeforeEnterObserver 
     private void saveAccount(RegisterForm.RegisterFormEvent.SaveEvent event) {
         residentAccountService.save((ResidentAccount) event.getAccount());
         roomService.save(event.getSelectedRoom());
-        Notification.show("Account created");
+        Notification.show(UIStringConstants.getInstance().getAccountCreatedConfirmation());
         UI.getCurrent().navigate("login/");
     }
 

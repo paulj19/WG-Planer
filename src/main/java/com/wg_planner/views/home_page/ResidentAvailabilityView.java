@@ -3,9 +3,11 @@ package com.wg_planner.views.home_page;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.views.utils.SessionHandler;
+import com.wg_planner.views.utils.UIStringConstants;
 
 public class ResidentAvailabilityView extends VerticalLayout {
     ResidentAccountService residentAccountService;
@@ -51,7 +53,7 @@ public class ResidentAvailabilityView extends VerticalLayout {
 
     private void onConfirmChange(ConfirmDialog.ConfirmEvent confirmEvent) {
         homePagePresenter.setResidentAwayAndSave(isAway);
-        //TODO dialog box, your things have been changed
+        Notification.show(UIStringConstants.getInstance().getAvailabilityStatusChanged());
     }
 
 
