@@ -21,9 +21,6 @@ public class ResidentDevice extends AbstractEntity implements Cloneable {
     @Fetch(value = FetchMode.SUBSELECT)
     List<NotificationChannel> deviceNotificationChannels = new ArrayList<>();
 
-    @Column(nullable = false)
-    boolean active;
-
     public ResidentDevice() {
 
     }
@@ -66,14 +63,6 @@ public class ResidentDevice extends AbstractEntity implements Cloneable {
         Validate.isTrue(deviceNotificationChannels.contains(notificationChannelToRemove),
                 "residentDevice to remove must be already present");
         deviceNotificationChannels.remove(notificationChannelToRemove);
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     @Override

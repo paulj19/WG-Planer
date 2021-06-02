@@ -4,6 +4,7 @@ public class UIStringConstants {
     private static UIStringConstants uiStringConstants;
     private final String ACCOUNT_CREATED_CONFIRMATION = "Account created";
     private final String AVAILABILITY_STATUS_CHANGED = "Availability status changed";
+    private final String ACCOUNT_DELETED_CONFIRMATION = "Your account is deleted";
 
     static {
         uiStringConstants = new UIStringConstants();
@@ -22,5 +23,9 @@ public class UIStringConstants {
 
     public String getAvailabilityStatusChanged() {
         return AVAILABILITY_STATUS_CHANGED;
+    }
+
+    public String getAccountDeletedConfirmation() {
+        return ACCOUNT_DELETED_CONFIRMATION;
     }
 }

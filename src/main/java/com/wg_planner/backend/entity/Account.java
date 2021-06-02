@@ -242,6 +242,14 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         return super.getId();
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
+
     public static class AccountBuilder {
         private String firstName;
         private String lastName;

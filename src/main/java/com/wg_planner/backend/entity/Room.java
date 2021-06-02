@@ -46,7 +46,6 @@ public class Room extends AbstractEntity implements Cloneable {
     @Fetch(value = FetchMode.SUBSELECT)
     List<Task> assignedTasks = new ArrayList<>();
 
-
     public Room() {
     }
 
@@ -91,8 +90,6 @@ public class Room extends AbstractEntity implements Cloneable {
     }
 
     public void setResidentAccount(ResidentAccount residentAccount) {
-        Validate.notNull(residentAccount, "parameter residentAccount to add must not be %s", null);
-
         this.residentAccount = residentAccount;
     }
 

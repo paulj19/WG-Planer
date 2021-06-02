@@ -9,6 +9,8 @@ import com.wg_planner.backend.entity.Task;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +60,28 @@ public class ResidentAccountService {
         residentAccountRepository.save(residentAccount);
     }
 
-    public void transferTasksOfResidentToNext(FloorService floorService, TaskService taskService, ResidentAccount currentResidentAccount) {
+    @Transactional
+    public void removeResidentAccount(ResidentAccount residentAccountToRemove,
+                                      FloorService floorService, TaskService taskService) {
+        transferTasksOfResidentToNext(residentAccountToRemove, floorService, taskService);
+        Room roomToDeactivate = residentAccountToRemove.getRoom();
+        roomToDeactivate.setResidentAccount(null);
+        roomToDeactivate.setOccupied(false);
+        residentAccountToRemove.getResidentDevices().forEach(residentDevice -> {
+            residentDevice.getDeviceNotificationChannels().forEach(notificationChannel -> notificationChannel.setActive(false));
+            residentDevice.setActive(false);
+        });
+        residentAccountToRemove.setActive(false);
+        residentAccountToRemove.setEnabled(false);
+        roomRepository.save(roomToDeactivate);
+        residentAccountRepository.save(residentAccountToRemove);
+    }
+
+    public void transferTasksOfResidentToNext(ResidentAccount currentResidentAccount,
+                                              FloorService floorService, TaskService taskService) {
         List<Task> assignedTasks = new ArrayList<>(currentResidentAccount.getRoom().getAssignedTasks());
         assignedTasks.forEach(task -> taskService.transferTask(task, floorService));
+        Assert.isTrue(currentResidentAccount.getRoom().getAssignedTasks().isEmpty(), "assigned " +
+                "tasks to the room after transfer task of resident must be empty");
     }
 }

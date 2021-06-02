@@ -14,7 +14,6 @@ public class ResidentAvailabilityView extends VerticalLayout {
     ConfirmDialog setAvailabilityConfirmDialog;
     HomePagePresenter homePagePresenter;
     boolean isAway;
-
     public ResidentAvailabilityView(ResidentAccountService residentAccountService, HomePagePresenter homePagePresenter) {
         this.residentAccountService = residentAccountService;
         this.homePagePresenter = homePagePresenter;
