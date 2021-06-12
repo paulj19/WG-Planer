@@ -1,14 +1,19 @@
 package com.wg_planner.backend.Service;
 
-import com.wg_planner.backend.Repository.*;
-import com.wg_planner.backend.entity.*;
+import com.wg_planner.backend.Repository.FloorRepository;
+import com.wg_planner.backend.Repository.TaskRepository;
+import com.wg_planner.backend.entity.Floor;
+import com.wg_planner.backend.entity.Room;
+import com.wg_planner.backend.entity.Task;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,23 +22,17 @@ public class FloorService {
     private static final Logger LOGGER = Logger.getLogger(FloorService.class
             .getName());
     private static FloorRepository floorRepositoryStaic;
-    private final RoomRepository roomRepository;
     private final TaskRepository taskRepository;
     private final FloorRepository floorRepository;
-    private final AccountRepository accountRepository;
-    private final ResidentAccountRepository residentAccountRepository;
 
     @Autowired
-    public FloorService(RoomRepository roomRepository, TaskRepository taskRepository, FloorRepository floorRepository, AccountRepository accountRepository, ResidentAccountRepository residentAccountRepository) {
-        this.roomRepository = roomRepository;
+    public FloorService(TaskRepository taskRepository, FloorRepository floorRepository) {
         this.taskRepository = taskRepository;
         this.floorRepository = floorRepository;
         floorRepositoryStaic = floorRepository;
-        this.accountRepository = accountRepository;
-        this.residentAccountRepository = residentAccountRepository;
     }
 
-//    public List<ResidentAccount> getAllResidents(@NotNull Floor floor) {
+    //    public List<ResidentAccount> getAllResidents(@NotNull Floor floor) {
 //        Validate.notNull(floor, "parameter floor must not be %s", null);
 //
 //        List<ResidentAccount> residents = new ArrayList<>();
@@ -55,7 +54,7 @@ public class FloorService {
         return nonOccupiedRoomsInFloor;
     }
 
-//    public List<ResidentAccount> getAllAvailableResidentsInFloor(@NotNull Floor floor) {
+    //    public List<ResidentAccount> getAllAvailableResidentsInFloor(@NotNull Floor floor) {
 //        Validate.notNull(floor, "parameter floor must not be %s", null);
 //        List<ResidentAccount> residents = new ArrayList<>();
 //        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(residents::add);
@@ -77,6 +76,7 @@ public class FloorService {
     public Room getNextAvailableRoom(Room room) {
         return getNextAvailableRoom(room.getFloor(), room);
     }
+
     public Room getNextAvailableRoom(Floor floor, Room room) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         Validate.notNull(room, "parameter room must not be %s", null);
@@ -121,19 +121,4 @@ public class FloorService {
         return !floorRepository.findAllFloorCodes().contains(floorCode);
     }
 
-//    @PostConstruct
-//    public void populateTestData() {
-//        if(roomRepository.count() == 0) {
-//            roomRepository.saveAll(Stream.of("307", "308", "309", "310", "311", "312", "313", "314", "315")
-//                    .map(roomName -> {
-//                        Room room = new Room(roomName);
-////                        room.setRoomName(roomName);
-//                        return room;
-//                    }).collect(Collectors.toList()));
-//        }
-//
-//        Room room = roomRepository.search("311");
-//        Account account = new Account(room);
-//        accountRepository.save(account);
-//    }
 }

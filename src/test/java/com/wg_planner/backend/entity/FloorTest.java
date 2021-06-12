@@ -2,6 +2,7 @@ package com.wg_planner.backend.entity;
 
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.TaskService;
+import com.wg_planner.backend.utils.code_generator.floor_code_generator.FloorCodeGenerator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,9 +38,9 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_ValidParamsWithoutRoomsAndTasks_FloorCreatedSavedAndReturned() {
-        Floor floor = new Floor.FloorBuilder("3A", 9, "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
         Assert.assertEquals("3A", floor.getFloorName());
-        Assert.assertEquals("9", floor.getNumberOfRooms());
+//        Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
         floorService.save(floor);
         Floor floorSavedAndRetrieved = floorService.getFloorByName("3A");
@@ -48,9 +49,9 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_CreateFloorAndSetTask_FloorCreatedSetTaskSuccessful() {
-        Floor floor = new Floor.FloorBuilder("3A", 9, "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
         Assert.assertEquals("3A", floor.getFloorName());
-        Assert.assertEquals("9", floor.getNumberOfRooms());
+//        Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
         floorService.save(floor);
         Floor floorSavedAndRetrieved = floorService.getFloorByName("3A");
@@ -67,9 +68,9 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_CreateFloorAndAddTask_FloorCreatedAddTaskSuccessful() {
-        Floor floor = new Floor.FloorBuilder("3A", 9, "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
         Assert.assertEquals("3A", floor.getFloorName());
-        Assert.assertEquals("9", floor.getNumberOfRooms());
+//        Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
         floorService.save(floor);
         Floor floorSavedAndRetrieved = floorService.getFloorByName("3A");
@@ -86,9 +87,9 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_CreateFloorAndSetRoom_FloorCreatedSetRoomSuccessful() {
-        Floor floor = new Floor.FloorBuilder("3A", 9, "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
         Assert.assertEquals("3A", floor.getFloorName());
-        Assert.assertEquals("9", floor.getNumberOfRooms());
+//        Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
         floorService.save(floor);
         Floor floorSavedAndRetrieved = floorService.getFloorByName("3A");
@@ -105,9 +106,9 @@ public class FloorTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void Floor_CreateFloorAndSetRoomFloorNullAndEmpty_RuntimeExceptionThrown() {
-        Floor floor = new Floor.FloorBuilder("3A", 9, "300").build();
+        Floor floor = new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
         Assert.assertEquals("3A", floor.getFloorName());
-        Assert.assertEquals("9", floor.getNumberOfRooms());
+//        Assert.assertEquals("9", floor.getNumberOfRooms());
         Assert.assertEquals("300", floor.getRoomStartIndex());
         Assert.assertThrows(RuntimeException.class, () -> floor.setTasks(null));
         Assert.assertThrows(RuntimeException.class, () -> floor.setRooms(null));

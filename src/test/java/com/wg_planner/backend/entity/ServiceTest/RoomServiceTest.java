@@ -6,6 +6,7 @@ import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.code_generator.floor_code_generator.FloorCodeGenerator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,7 +69,7 @@ public class RoomServiceTest {
     }
 
     public void setUpFloor() {
-        testFloor = new Floor.FloorBuilder("3A", 9).build();
+        testFloor = new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
     }
 
     public void setUpResidentAccounts() {

@@ -3,6 +3,7 @@ package com.wg_planner.backend.entity;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.RoomService;
+import com.wg_planner.backend.utils.code_generator.floor_code_generator.FloorCodeGenerator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class ResidentAccountTest {
     @Autowired
     RoomService roomService;
 
-    Floor testFloor = new Floor.FloorBuilder("3A", 9).build();
+    Floor testFloor = new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
     Room testRoom = new Room("310", testFloor);
     Room testRoom2 = new Room("311", testFloor);
 

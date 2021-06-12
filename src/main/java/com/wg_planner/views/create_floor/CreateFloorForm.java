@@ -14,9 +14,10 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Floor;
+import com.wg_planner.backend.utils.code_generator.floor_code_generator.FloorCodeGenerator;
 
 public class CreateFloorForm extends FormLayout {
-    private Floor floorToCreate = new Floor();
+    private Floor floorToCreate;
     private Binder<Floor> floorBinder = new BeanValidationBinder<>(Floor.class);
     private TextField floorName = new TextField("Floor Name/Number", "Enter floor name or number " +
             "to create");
@@ -32,6 +33,7 @@ public class CreateFloorForm extends FormLayout {
 
     public CreateFloorForm() {
         addClassName("create-floor-form");
+        floorToCreate = new Floor(FloorCodeGenerator.getInstance().getFloorCode());
         floorBinder.bindInstanceFields(this);
         numberOfRooms.addValueChangeListener(event -> {
             processIfNumberOfRoomsChanged(event.getValue(), event.getOldValue() != null ? event.getOldValue() : 0);

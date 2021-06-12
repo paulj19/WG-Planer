@@ -2,6 +2,7 @@ package com.wg_planner.backend.entity;
 
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.TaskService;
+import com.wg_planner.backend.utils.code_generator.floor_code_generator.FloorCodeGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class TaskTest extends AbstractTransactionalJUnit4SpringContextTests {
     }
 
     public Floor createAndReturnFloor() {
-        return new Floor.FloorBuilder("3A", 9).build();
+        return new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
     }
     public ResidentAccount createAndReturnResidentAccount(Room testRoom) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
