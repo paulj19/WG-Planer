@@ -118,7 +118,13 @@ public class FloorService {
     }
 
     public boolean isFloorCodeUnique(String floorCode) {
-        return !floorRepository.findAllFloorCodes().contains(floorCode);
+        return getFloorByFloorCode(floorCode) == null;
+    }
+
+    public Floor getFloorByFloorCode(String floorCode) {
+        Validate.notNull(floorCode, "parameter floorCode should not be %s", null);
+        Validate.notEmpty(floorCode, "parameter floorCode should not be empty");
+        return floorRepository.findFloorByFloorCode(floorCode);
     }
 
 }
