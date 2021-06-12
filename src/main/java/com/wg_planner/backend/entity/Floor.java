@@ -33,6 +33,12 @@ public class Floor extends AbstractEntity implements Cloneable {
     @NotEmpty
     private String roomStartIndex;
 
+    //not type sensitive
+    @NotEmpty
+    @Column(unique = true, nullable = false)
+    @Size(min = 4, max = 4)
+    private String floorCode;
+
     //@OneToMany(mappedBy = "floor", fetch = FetchType.EAGER)
     //@Fetch(value = FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -59,6 +65,7 @@ public class Floor extends AbstractEntity implements Cloneable {
         private List<Room> rooms;
 
         private List<Task> tasks;
+
 
         public FloorBuilder(String floorNumber, Integer numberOfRooms, String roomStartIndex) {
             this(floorNumber, numberOfRooms);
@@ -167,6 +174,16 @@ public class Floor extends AbstractEntity implements Cloneable {
         Validate.notNull(roomStartIndex, "parameter roomStartIndex must not be %s", null);
         Validate.notEmpty(roomStartIndex, "parameter roomStartIndex must not be empty");
         this.roomStartIndex = roomStartIndex;
+    }
+
+    public String getFloorCode() {
+        return floorCode;
+    }
+
+    public void setFloorCode(String floorCode) {
+        Validate.notNull(floorCode, "parameter floorCode must not be %s", null);
+        Validate.notEmpty(floorCode, "parameter floorCode must not be empty");
+        this.floorCode = floorCode;
     }
 
     //this would print all the floor info
