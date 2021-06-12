@@ -207,10 +207,10 @@ public class Floor extends AbstractEntity implements Cloneable {
         Floor otherFloor = (Floor) other;
         return new EqualsBuilder()
                 .append(getId(), otherFloor.getId())
-                .append(floorName, otherFloor.floorName)
-                .append(roomStartIndex, otherFloor.roomStartIndex)
-                .append(rooms, otherFloor.rooms)
-                .append(tasks, otherFloor.tasks)
+//                .append(floorName, otherFloor.floorName)
+//                .append(roomStartIndex, otherFloor.roomStartIndex)
+//                .append(rooms, otherFloor.rooms)
+//                .append(tasks, otherFloor.tasks)
                 .isEquals();
     }
 
