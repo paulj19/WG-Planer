@@ -2,11 +2,11 @@ package com.wg_planner.backend.utils.code_generator.floor_code_generator;
 
 import com.wg_planner.backend.utils.code_generator.CreateApacheRandomStringGenerator;
 import com.wg_planner.backend.utils.code_generator.CreateRandomStringGenerator;
-import com.wg_planner.backend.utils.code_generator.RandomStringGenerator;
+import com.wg_planner.backend.utils.code_generator.MyRandomStringGenerator;
 
 public class FloorCodeGenerator {
-    CreateRandomStringGenerator createRandomStringGenerator = new CreateApacheRandomStringGenerator();
-    RandomStringGenerator randomStringGenerator = createRandomStringGenerator.createRandomStringGenerator();
+    private CreateRandomStringGenerator createRandomStringGenerator = new CreateApacheRandomStringGenerator();
+    private MyRandomStringGenerator randomStringGenerator = createRandomStringGenerator.createRandomStringGenerator();//todo maybe codeGenerationManager or something
     private static FloorCodeGenerator floorCodeGenerator;
     final int FLOOR_CODE_LENGTH = 4;
 

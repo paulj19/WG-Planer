@@ -1,30 +1,36 @@
 package com.wg_planner.backend.utils.code_generator;
 
 
+import com.wg_planner.backend.Service.FloorService;
 import org.apache.commons.text.CharacterPredicates;
+import org.apache.commons.text.RandomStringGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
-public class ApacheRandomStringGenerator extends RandomStringGenerator {
+@Controller
+public class ApacheRandomStringGenerator extends MyRandomStringGenerator {
 
-    private static ApacheRandomStringGenerator apacheRandomStringGenerator;
+    private RandomStringGenerator randomStringGenerator;
+    private FloorService floorService;
 
-    static {
-        apacheRandomStringGenerator = new ApacheRandomStringGenerator();
-    }
-
-    private ApacheRandomStringGenerator() {
-    }
-
-    public static ApacheRandomStringGenerator getInstance() {
-        return apacheRandomStringGenerator;
+    @Autowired
+    public ApacheRandomStringGenerator(FloorService floorService) {
+        this.floorService = floorService;
+        randomStringGenerator =
+                new RandomStringGenerator.Builder()
+                        .withinRange('0', 'Z')
+                        .filteredBy(CharacterPredicates.DIGITS, CharacterPredicates.LETTERS)
+                        .build();
     }
 
     @Override
     public String generateRandomString(int length) {
-        org.apache.commons.text.RandomStringGenerator randomStringGenerator =
-                new org.apache.commons.text.RandomStringGenerator.Builder()
-                        .withinRange('0', 'z')
-                        .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
-                        .build();
-        return randomStringGenerator.generate(length);
+        String generatedString;
+        do {
+            generatedString = randomStringGenerator.generate(length);
+        } while (!floorService.isFloorCodeUnique(generatedString));
+
+        return generatedString;
     }
 }
