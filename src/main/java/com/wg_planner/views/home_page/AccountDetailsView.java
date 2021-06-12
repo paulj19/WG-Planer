@@ -14,6 +14,7 @@ public class AccountDetailsView extends VerticalLayout {
         this.residentAccountService = residentAccountService;
         add(getHeading());
         add(getResidentNameAsTextField());
+        add(getResidentFloorCodeAsTextField());
         add(getResidentRoomAsTextField());
         add(getResidentUsernameAsTextField());
         add(getResidentPasswordAsPasswordField());
@@ -24,6 +25,13 @@ public class AccountDetailsView extends VerticalLayout {
         nameField.setReadOnly(true);
         nameField.setValue(SessionHandler.getLoggedInResidentAccount().getFirstName() + " " + SessionHandler.getLoggedInResidentAccount().getLastName());
         return nameField;
+    }
+
+    private TextField getResidentFloorCodeAsTextField() {
+        TextField floorCodeField = new TextField("Floor Code");
+        floorCodeField.setReadOnly(true);
+        floorCodeField.setValue(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor().getFloorCode());
+        return floorCodeField;
     }
 
     private TextField getResidentRoomAsTextField() {

@@ -14,13 +14,13 @@ public class ResidentAvailabilityView extends VerticalLayout {
     ConfirmDialog setAvailabilityConfirmDialog;
     HomePagePresenter homePagePresenter;
     boolean isAway;
+
     public ResidentAvailabilityView(ResidentAccountService residentAccountService, HomePagePresenter homePagePresenter) {
         this.residentAccountService = residentAccountService;
         this.homePagePresenter = homePagePresenter;
         setAvailabilityConfirmDialog = new ConfirmDialog("Confirm change",
                 "Tasks currently assigned to you will be transferred to next available room. Are " +
-                        "you sure you want change " +
-                        "availability status?",
+                        "you sure you want change availability status?",
                 "Change",
                 this::onConfirmChange,
                 "Cancel", this::onCancelChange);
