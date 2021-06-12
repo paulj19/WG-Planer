@@ -33,4 +33,8 @@ public interface FloorRepository extends JpaRepository<Floor, Long> {
 
     @Query("select f from Floor f ")
     List<Floor> findAllFloors();
+
+    @Query("select floorCode from Floor")
+    List<String> findAllFloorCodes();
+
 }

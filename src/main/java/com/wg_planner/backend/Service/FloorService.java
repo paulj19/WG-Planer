@@ -117,6 +117,10 @@ public class FloorService {
         floorRepository.save(floorToSave);
     }
 
+    public boolean isFloorCodeUnique(String floorCode) {
+        return !floorRepository.findAllFloorCodes().contains(floorCode);
+    }
+
 //    @PostConstruct
 //    public void populateTestData() {
 //        if(roomRepository.count() == 0) {
