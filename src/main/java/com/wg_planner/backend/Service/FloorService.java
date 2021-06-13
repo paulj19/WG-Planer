@@ -118,7 +118,9 @@ public class FloorService {
     }
 
     public boolean isFloorCodeUnique(String floorCode) {
-        return getFloorByFloorCode(floorCode) == null;
+        Validate.notNull(floorCode, "parameter floorCode should not be %s", null);
+        Validate.notEmpty(floorCode, "parameter floorCode should not be empty");
+        return !floorRepository.findAllFloorCodes().contains(floorCode);
     }
 
     public Floor getFloorByFloorCode(String floorCode) {
