@@ -15,6 +15,10 @@ public class AdmissionDetails {
         //todo if status=ADMITTED invalidate other operations
     }
 
+    public AdmissionDetails(Room roomToAdmit) {
+        this.roomToAdmit = roomToAdmit;
+    }
+
     public Room getRoomToAdmit() {
         return roomToAdmit;
     }
