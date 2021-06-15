@@ -1,4 +1,4 @@
-package com.wg_planner.views.task_cards;
+package com.wg_planner.views.tasks.task_cards;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;

@@ -5,7 +5,7 @@ import com.wg_planner.backend.Service.*;
 import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
 import com.wg_planner.backend.Service.notification.NotificationTypeTaskReminder;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.task_cards.TaskCard;
+import com.wg_planner.views.tasks.task_cards.TaskCard;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.utils.SessionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
