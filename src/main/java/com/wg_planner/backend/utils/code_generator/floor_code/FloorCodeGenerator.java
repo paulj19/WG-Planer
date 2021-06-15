@@ -1,4 +1,4 @@
-package com.wg_planner.backend.utils.code_generator.floor_code_generator;
+package com.wg_planner.backend.utils.code_generator.floor_code;
 
 import com.wg_planner.backend.utils.code_generator.CreateApacheRandomStringGenerator;
 import com.wg_planner.backend.utils.code_generator.CreateRandomStringGenerator;

@@ -2,7 +2,7 @@ package com.wg_planner.backend.entity;
 
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.TaskService;
-import com.wg_planner.backend.utils.code_generator.floor_code_generator.FloorCodeGenerator;
+import com.wg_planner.backend.utils.code_generator.floor_code.FloorCodeGenerator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

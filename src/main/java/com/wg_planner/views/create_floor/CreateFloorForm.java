@@ -14,7 +14,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Floor;
-import com.wg_planner.backend.utils.code_generator.floor_code_generator.FloorCodeGenerator;
+import com.wg_planner.backend.utils.code_generator.floor_code.FloorCodeGenerator;
 
 public class CreateFloorForm extends FormLayout {
     private Floor floorToCreate;
