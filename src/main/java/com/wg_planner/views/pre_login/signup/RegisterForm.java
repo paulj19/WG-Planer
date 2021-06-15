@@ -1,4 +1,4 @@
-package com.wg_planner.views.signup;
+package com.wg_planner.views.pre_login.signup;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;

@@ -1,4 +1,4 @@
-package com.wg_planner.views.create_floor;
+package com.wg_planner.views.pre_login.signup.create_floor;
 
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;

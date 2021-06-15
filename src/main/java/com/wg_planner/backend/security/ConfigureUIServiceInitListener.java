@@ -1,12 +1,12 @@
 package com.wg_planner.backend.security;
 
-import com.wg_planner.views.create_floor.CreateFloorView;
+import com.wg_planner.views.pre_login.signup.create_floor.CreateFloorView;
 import com.wg_planner.views.login.LoginView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
-import com.wg_planner.views.signup.RegisterView;
+import com.wg_planner.views.pre_login.signup.RegisterView;
 import org.springframework.stereotype.Component;
 
 @Component
