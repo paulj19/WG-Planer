@@ -4,7 +4,7 @@ import com.wg_planner.backend.Repository.TaskRepository;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.Service.TaskService;
-import com.wg_planner.backend.utils.code_generator.floor_code.FloorCodeGenerator;
+import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -163,7 +163,7 @@ public class RoomTest  {
     }
 
     public Floor createAndReturnFloor() {
-        return new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
+        return new Floor.FloorBuilder("3A", CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE)).build();
     }
     public ResidentAccount createAndReturnResidentAccount(Room testRoom) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();

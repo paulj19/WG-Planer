@@ -1,7 +1,7 @@
 package com.wg_planner.backend.entity;
 
 import com.wg_planner.backend.Service.FloorService;
-import com.wg_planner.backend.utils.code_generator.floor_code.FloorCodeGenerator;
+import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ public class FloorCodeGenerationTest {
     Floor testFloor;
 
     public void setUpFloors(String floorName) {
-        testFloor = new Floor(FloorCodeGenerator.getInstance().getFloorCode());
+        testFloor = new Floor(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE));
         testFloor.setFloorName(floorName);
         testFloor.setRooms(createRooms(testFloor));
         testFloor.setTasks(createTasks(testFloor));

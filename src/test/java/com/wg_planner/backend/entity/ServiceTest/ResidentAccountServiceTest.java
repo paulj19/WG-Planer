@@ -8,7 +8,7 @@ import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
-import com.wg_planner.backend.utils.code_generator.floor_code.FloorCodeGenerator;
+import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class ResidentAccountServiceTest {
     @Autowired
     ResidentAccountService testResidentAccountService;
 
-    Floor testFloor = new Floor.FloorBuilder("3A", FloorCodeGenerator.getInstance().getFloorCode()).build();
+    Floor testFloor = new Floor.FloorBuilder("3A", CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE)).build();
     Room testRoom = new Room("310", testFloor);
 
     List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
