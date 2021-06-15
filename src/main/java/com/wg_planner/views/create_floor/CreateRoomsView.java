@@ -1,4 +1,4 @@
-package com.wg_planner.views.pre_login.signup.create_floor;
+package com.wg_planner.views.create_floor;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.entity.Floor;

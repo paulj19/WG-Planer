@@ -1,4 +1,4 @@
-package com.wg_planner.views.pre_login.signup.create_floor;
+package com.wg_planner.views.create_floor;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
