@@ -43,9 +43,21 @@ public class FloorService {
         return floorRepositoryStaic.findAllFloors();
     }
 
-    public static List<Room> getAllNonOccupiedRoomsInFloor(@NotNull Floor floor) {
+    //TODO remove
+    public static List<Room> getAllNonOccupiedRoomsInFloorStatic(@NotNull Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         List<Room> nonOccupiedRoomsInFloor = floorRepositoryStaic.findAllNonOccupiedRoomsInFloor(floor.getId());
+        if (nonOccupiedRoomsInFloor == null) {
+            LOGGER.log(Level.WARNING, "the list of non occupied rooms in floor from DB is null");
+        } else if (nonOccupiedRoomsInFloor.isEmpty()) {
+            LOGGER.log(Level.INFO, "the list of non occupied rooms in floor from DB is empty");
+        }
+        return nonOccupiedRoomsInFloor;
+    }
+
+    public List<Room> getAllNonOccupiedRoomsInFloor(@NotNull Floor floor) {
+        Validate.notNull(floor, "parameter floor must not be %s", null);
+        List<Room> nonOccupiedRoomsInFloor = floorRepository.findAllNonOccupiedRoomsInFloor(floor.getId());
         if (nonOccupiedRoomsInFloor == null) {
             LOGGER.log(Level.WARNING, "the list of non occupied rooms in floor from DB is null");
         } else if (nonOccupiedRoomsInFloor.isEmpty()) {
