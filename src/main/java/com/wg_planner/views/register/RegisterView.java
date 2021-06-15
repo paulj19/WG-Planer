@@ -1,4 +1,4 @@
-package com.wg_planner.views.signup;
+package com.wg_planner.views.register;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;

@@ -6,7 +6,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
-import com.wg_planner.views.signup.RegisterView;
+import com.wg_planner.views.register.RegisterView;
 import org.springframework.stereotype.Component;
 
 @Component
