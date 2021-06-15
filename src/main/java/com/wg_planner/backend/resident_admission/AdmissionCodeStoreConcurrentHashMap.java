@@ -3,19 +3,10 @@ package com.wg_planner.backend.resident_admission;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AdmissionCodeStoreConcurrentHashMap implements AdmissionCodeStore {
-    private static AdmissionCodeStoreConcurrentHashMap admissionCodeStoreConcurrentHashMap;
 
     private ConcurrentHashMap<AdmissionCode, AdmissionDetails> admissionCodes = new ConcurrentHashMap<>();
 
-    static {
-        admissionCodeStoreConcurrentHashMap = new AdmissionCodeStoreConcurrentHashMap();
-    }
-
-    private AdmissionCodeStoreConcurrentHashMap() {
-    }
-
-    public static AdmissionCodeStoreConcurrentHashMap getInstance() {
-        return admissionCodeStoreConcurrentHashMap;
+    public AdmissionCodeStoreConcurrentHashMap() {
     }
 
     @Override
