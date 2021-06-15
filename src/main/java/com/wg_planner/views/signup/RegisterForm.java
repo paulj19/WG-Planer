@@ -165,7 +165,7 @@ public class RegisterForm extends FormLayout {
     }
 
     private void setRoomsInRoomComboBoxFromOnSelectedFloor(Floor selectedFloor) {
-        rooms = FloorService.getAllNonOccupiedRoomsInFloor(selectedFloor);
+        rooms = FloorService.getAllNonOccupiedRoomsInFloorStatic(selectedFloor);
         roomsRoomComboBox.setItems(rooms);
         roomsRoomComboBox.setItemLabelGenerator(Room::getRoomName);
         floorComboBox.setInvalid(false);

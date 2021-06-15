@@ -76,7 +76,7 @@ public class FloorServiceTest{
     @Test
     public void FloorService_getAllNonOccupiedRoomsInFloor_ReturnsAllNonOccupiedRoomsInFloor() {
         Assert.assertThrows(RuntimeException.class, () -> {
-            FloorService.getAllNonOccupiedRoomsInFloor(null);
+            FloorService.getAllNonOccupiedRoomsInFloorStatic(null);
         });
         List<Room> nonOccupiedrooms = new ArrayList<>();
         IntStream.range(2, 5).forEachOrdered(i -> {
@@ -84,8 +84,8 @@ public class FloorServiceTest{
             nonOccupiedrooms.add(testRooms.get(i));
         });
 //        roomRepository.saveAll(testRooms);
-        FloorService.getAllNonOccupiedRoomsInFloor(testFloor);
-        Assert.assertEquals(nonOccupiedrooms, FloorService.getAllNonOccupiedRoomsInFloor(testFloor));
+        FloorService.getAllNonOccupiedRoomsInFloorStatic(testFloor);
+        Assert.assertEquals(nonOccupiedrooms, FloorService.getAllNonOccupiedRoomsInFloorStatic(testFloor));
     }
 
     @Test
