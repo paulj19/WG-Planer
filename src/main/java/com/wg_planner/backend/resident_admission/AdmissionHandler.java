@@ -39,9 +39,14 @@ public class AdmissionHandler {
         do {
             admissionCode = new AdmissionCode(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.ADMISSION_CODE));
         } while (admissionCodeStore.containsAdmissionCode(admissionCode));
-        if (admissionCodeStore.saveAdmissionCode(admissionCode, admissionDetails).equals(admissionDetails)) {
+        if (admissionCodeStore.saveAdmissionCode(admissionCode, admissionDetails) == null) {//no previous mapping for the key
             return admissionCode;
         }
         return null;
+    }
+
+    public synchronized AdmissionDetails verifyAdmissionCodeAndGetAdmissionDetails(AdmissionCode admissionCode) {
+        Assert.notNull(admissionCode, "admission code to verify must not be null");
+        return admissionCodeStore.getAdmissionDetails(admissionCode);
     }
 }
