@@ -40,8 +40,8 @@ public class NewResidentAdmissionView extends VerticalLayout {
 
     private VerticalLayout getFloorCodeLayout() {
         VerticalLayout floorCodeLayout = new VerticalLayout();
-        floorCode.setMaxLength(CustomCodeCreator.CodeGenerationPurposes.ADMISSION_CODE.getCodeLength());
-        floorCode.setMinLength(CustomCodeCreator.CodeGenerationPurposes.ADMISSION_CODE.getCodeLength());
+        floorCode.setMaxLength(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE.getCodeLength());
+        floorCode.setMinLength(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE.getCodeLength());
         floorCode.setAutofocus(true);
         floorCodeLayout.setAlignItems(Alignment.CENTER);
         floorCodeLayout.setJustifyContentMode(JustifyContentMode.CENTER);
