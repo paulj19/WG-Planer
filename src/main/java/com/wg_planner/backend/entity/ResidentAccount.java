@@ -27,7 +27,7 @@ public class ResidentAccount extends Account implements Cloneable {
 //    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
 //    CascadeType.REFRESH})
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "room_id", nullable = false)
+    @JoinColumn(name = "room_id")
     private Room room;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ownerResidentAccount", cascade = CascadeType.ALL)
@@ -67,7 +67,7 @@ public class ResidentAccount extends Account implements Cloneable {
     }
 
     public void setRoom(Room room) {
-        Validate.notNull(room);
+//        Validate.notNull(room, "room assigned to resident account must not be null");
         this.room = room;
     }
 

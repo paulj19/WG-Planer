@@ -11,6 +11,8 @@ import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UIHandler;
 import com.wg_planner.views.utils.UIStringConstants;
 
+import static com.vaadin.flow.component.notification.Notification.Position.BOTTOM_STRETCH;
+
 public class AccountDeleteView extends VerticalLayout {
     Button deleteButton = new Button("Delete Account");
     FloorService floorService;
@@ -36,7 +38,7 @@ public class AccountDeleteView extends VerticalLayout {
     private void onConfirmDelete(ConfirmDialog.ConfirmEvent confirmEvent) {
         residentAccountService.removeResidentAccount(SessionHandler.getLoggedInResidentAccount(),
                 floorService, taskService);
-        Notification.show(UIStringConstants.getInstance().getAccountDeletedConfirmation());
+        Notification.show(UIStringConstants.getInstance().getAccountDeletedConfirmation(), 10000, BOTTOM_STRETCH);
         UIHandler.getInstance().navigateToLoginPage();
     }
 

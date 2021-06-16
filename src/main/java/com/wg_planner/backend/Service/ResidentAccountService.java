@@ -73,8 +73,10 @@ public class ResidentAccountService {
         });
         residentAccountToRemove.setActive(false);
         residentAccountToRemove.setEnabled(false);
-        roomRepository.save(roomToDeactivate);//todo see why room cascade residentaccount does
-        // not work
+        //TODO high pri-- fix setRoom to null
+        residentAccountToRemove.setRoom(residentAccountToRemove.getRoom().getFloor().getTasks().get(0).getAssignedRoom());
+//        residentAccountToRemove.setRoom(null);
+        roomRepository.save(roomToDeactivate);//todo see why room cascade residentaccount does not work
         residentAccountRepository.save(residentAccountToRemove);
     }
 
