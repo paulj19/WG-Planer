@@ -22,6 +22,8 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.wg_planner.views.about.AboutView;
 import com.wg_planner.views.home_page.HomePageView;
+import com.wg_planner.views.register.admission.AdmitNewResidentPresenter;
+import com.wg_planner.views.register.admission.AdmitNewResidentView;
 import com.wg_planner.views.tasks.floor_tasks.FloorTasksView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
@@ -108,6 +110,7 @@ public class MainView extends AppLayout {
             new RouterLink("Home", HomePageView.class),
             new RouterLink("Floor Tasks", FloorTasksView.class),
             new RouterLink("My Tasks", MyTasksView.class),
+            new RouterLink("Admit Resident", AdmitNewResidentView.class),
             new RouterLink("About", AboutView.class)
         };
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);

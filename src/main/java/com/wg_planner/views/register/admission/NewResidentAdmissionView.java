@@ -84,11 +84,11 @@ public class NewResidentAdmissionView extends VerticalLayout {
     }
 
     private void onSelectRoom(ClickEvent<Button> buttonClickEvent) {
-        if (!nonOccupiedRoomsComboBox.isInvalid()) {
+        if (!nonOccupiedRoomsComboBox.isInvalid() && nonOccupiedRoomsComboBox.getValue() != null) {
             AdmissionCode admissionCode =
                     newResidentAdmissionPresenter.generateAndSaveAdmissionCode(nonOccupiedRoomsComboBox.getValue());
-            if(admissionCode != null && !admissionCode.toString().isEmpty()) {
-                printAdmissionCodeAndWaitForConfirmation(admissionCode);
+            if (admissionCode != null && !admissionCode.toString().isEmpty()) {
+                printAdmissionCodeAndWaitForConfirmation(nonOccupiedRoomsComboBox.getValue().getRoomName(), admissionCode);
             }
         } else {
             nonOccupiedRoomsComboBox.clear();
@@ -96,9 +96,9 @@ public class NewResidentAdmissionView extends VerticalLayout {
         }
     }
 
-    private void printAdmissionCodeAndWaitForConfirmation(AdmissionCode admissionCode) {
+    private void printAdmissionCodeAndWaitForConfirmation(String roomNameSelected, AdmissionCode admissionCode) {
         Span admissionCodeDescription = new Span();
-        admissionCodeDescription.setText("The one time code generated for this room is " + admissionCode.toString() +
+        admissionCodeDescription.setText("The one time code generated for room " + roomNameSelected + " is " + admissionCode.toString() +
                 ". Ask one of your room mates to make use of the Admit Resident functionality to verify the code and " +
                 "admit you in.");
         removeAll();

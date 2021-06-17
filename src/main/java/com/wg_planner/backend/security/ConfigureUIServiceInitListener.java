@@ -7,6 +7,7 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
 import com.wg_planner.views.register.RegisterView;
+import com.wg_planner.views.register.admission.AdmitNewResidentPresenter;
 import com.wg_planner.views.register.admission.NewResidentAdmissionView;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
                 && !RegisterView.class.equals(event.getNavigationTarget())
                 && !CreateFloorView.class.equals(event.getNavigationTarget())
                 && !NewResidentAdmissionView.class.equals(event.getNavigationTarget())
+                && !AdmitNewResidentPresenter.class.equals(event.getNavigationTarget())
                 && !SecurityUtils.isUserLoggedIn()) {
             event.rerouteTo(LoginView.class);
         }

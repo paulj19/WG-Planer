@@ -45,7 +45,7 @@ public class AdmissionHandler {
         return null;
     }
 
-    public synchronized AdmissionDetails verifyAdmissionCodeAndGetAdmissionDetails(AdmissionCode admissionCode) {
+        public synchronized AdmissionDetails verifyAdmissionCodeAndGetAdmissionDetails(AdmissionCode admissionCode) {
         Assert.notNull(admissionCode, "admission code to verify must not be null");
         return admissionCodeStore.getAdmissionDetails(admissionCode);
     }

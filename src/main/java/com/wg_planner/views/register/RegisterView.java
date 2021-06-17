@@ -16,7 +16,7 @@ import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.views.utils.UIStringConstants;
 
 
-@Route(value = "register")
+@Route(value = "register2")
 @PageTitle("Register | WG Planner")
 @CssImport("./styles/views/register/register-view.css")
 public class RegisterView extends VerticalLayout implements BeforeEnterObserver {
