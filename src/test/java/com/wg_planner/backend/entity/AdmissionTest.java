@@ -33,7 +33,7 @@ public class AdmissionTest {
         setUpFloors("1");
         IntStream.range(0, 1000).forEach(value -> {
             AdmissionCode admissionCode = admissionHandler.generateAndSaveAdmissionCode(testFloor.getRooms().get(0));
-            Assert.assertEquals(admissionHandler.verifyAdmissionCodeAndGetAdmissionDetails(admissionCode).getRoomToAdmit(), testFloor.getRooms().get(0));
+            Assert.assertEquals(admissionHandler.getAdmissionDetails(admissionCode).getRoomToAdmit(), testFloor.getRooms().get(0));
         });
     }
 

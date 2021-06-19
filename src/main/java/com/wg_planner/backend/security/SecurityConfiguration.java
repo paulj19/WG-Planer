@@ -17,14 +17,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_URL = "/login";
     private static final String LOGOUT_SUCCESS_URL = "/login";
     private static final String REGISTER_URL = "/register";
+    private static final String REGISTER_URL2 = "/register2";
     private static final String CREATE_FLOOR_URL = "/create_floor";
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception     {
         http.csrf().disable()
                 .requestCache().requestCache(new CustomRequestCache())
                 .and().authorizeRequests()
                 .antMatchers(REGISTER_URL).permitAll()
+                .antMatchers(REGISTER_URL2).permitAll()
                 .antMatchers(CREATE_FLOOR_URL).permitAll()
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                 .anyRequest().authenticated()

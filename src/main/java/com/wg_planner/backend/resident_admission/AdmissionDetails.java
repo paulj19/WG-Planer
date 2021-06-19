@@ -3,15 +3,24 @@ package com.wg_planner.backend.resident_admission;
 import com.wg_planner.backend.entity.Room;
 
 public class AdmissionDetails {
-    public enum NewResidentAdmissionStatus {
-        ADMITTED, PENDING, REJECTED
+    public enum AdmissionStatus {
+        PENDING("pending"), WORKING("working"), ADMITTED("admitted"), REJECTED("rejected"), TIME_OUT("time out");
+        private String statusAsString;
+
+        AdmissionStatus(String statusAsString) {
+            this.statusAsString = statusAsString;
+        }
+
+        public String toString() {
+            return statusAsString;
+        }
     }
 
     private Room roomToAdmit;
-    private NewResidentAdmissionStatus newResidentAdmissionStatus = NewResidentAdmissionStatus.PENDING;
+    private AdmissionStatus admissionStatus = AdmissionStatus.PENDING;
 
-    public synchronized void setNewResidentAdmissionStatus(NewResidentAdmissionStatus newResidentAdmissionStatus) {
-        this.newResidentAdmissionStatus = newResidentAdmissionStatus;
+    public synchronized void setAdmissionStatus(AdmissionStatus admissionStatus) {
+        this.admissionStatus = admissionStatus;
         //todo if status=ADMITTED invalidate other operations
     }
 
@@ -27,7 +36,7 @@ public class AdmissionDetails {
         this.roomToAdmit = roomToAdmit;
     }
 
-    public NewResidentAdmissionStatus getNewResidentAdmissionStatus() {
-        return newResidentAdmissionStatus;
+    public AdmissionStatus getAdmissionStatus() {
+        return admissionStatus;
     }
 }

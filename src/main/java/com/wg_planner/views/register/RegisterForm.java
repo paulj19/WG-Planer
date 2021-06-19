@@ -19,6 +19,7 @@ import com.wg_planner.backend.entity.Account;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
+import com.wg_planner.views.utils.ErrorScreen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,8 +28,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.wg_planner.views.utils.SessionHandler.getFloorFromSession;
 
 //todo registration form for different roles(combo box options) this is for residents, change name accordingly?
 // todo are you currently in the room and ready to take the tasks
@@ -42,7 +41,8 @@ public class RegisterForm extends FormLayout {
     EmailField email = new EmailField("Email", "Enter your company email address");
     TextField username = new TextField("Username", "Enter a user name");
     PasswordField password = new PasswordField("Password", "min 6 characters");
-    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor Name");
+    //    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor Name");
+    TextField floorTextField = new TextField("Floor");
     ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room Name");
     Checkbox isReadyToAcceptTasks = new Checkbox();
     boolean isAway = true;
@@ -59,29 +59,26 @@ public class RegisterForm extends FormLayout {
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 
-    public RegisterForm() {
-        addClassName("register-form");
-
-        setFloorComboBox(getFloorFromSession());
+    public RegisterForm(Floor floorToPreset) {
+        sanityChecksInvalidParameters(floorToPreset);
+        floorTextField.setValue(floorToPreset.getFloorName());
         roomsRoomComboBox.setRequiredIndicatorVisible(true);
-        roomsRoomComboBox.addFocusListener(event -> {
-            if (selectedFloor == null) {
-                //TODO not working
-                floorComboBox.setErrorMessage("floor not selected");
-                floorComboBox.setInvalid(true);
-            } else {
-                floorComboBox.setInvalid(false);
-            }
-        });
-        roomsRoomComboBox.addValueChangeListener(event -> {
-            selectedRoom = event.getValue();
-            if (selectedRoom == null) {
-                roomsRoomComboBox.setErrorMessage("room not selected");
-                floorComboBox.setInvalid(true);
-            } else {
-                floorComboBox.setInvalid(false);
-            }
-        });
+        setRoomsInComboBoxFromSelectedFloor(floorToPreset);
+        init();
+    }
+
+    public RegisterForm(Room roomToPreset) {
+        sanityChecksInvalidParameters(roomToPreset);
+        floorTextField.setValue(roomToPreset.getFloor().getFloorName());
+        floorTextField.setReadOnly(true);
+        setRoomsInComboBoxFromSelectedFloor(roomToPreset.getFloor());
+        roomsRoomComboBox.setValue(roomToPreset);
+        roomsRoomComboBox.setReadOnly(true);
+        init();
+    }
+
+    private void init() {
+        addClassName("register-form");
         firstName.setValueChangeMode(ValueChangeMode.EAGER);
         firstName.setMaxLength(250);
         firstName.addValueChangeListener(textFieldBlurEvent -> {
@@ -136,39 +133,25 @@ public class RegisterForm extends FormLayout {
             checkAndSetRegisterButton();
         });
         isReadyToAcceptTasks.setLabel("I am in the room and ready to accept tasks");
-        isReadyToAcceptTasks.addValueChangeListener(checkboxBooleanComponentValueChangeEvent -> isAway = !checkboxBooleanComponentValueChangeEvent.getValue());
+        isReadyToAcceptTasks.addValueChangeListener(checkboxBooleanComponentValueChangeEvent -> isAway =
+                !checkboxBooleanComponentValueChangeEvent.getValue());
         setWidth("500px");
-        add(firstName, lastName, email, username, password, floorComboBox, roomsRoomComboBox, isReadyToAcceptTasks, createButtonLayout());
+        add(firstName, lastName, email, username, password, floorTextField, roomsRoomComboBox, isReadyToAcceptTasks, createButtonLayout());
     }
 
-    private void setFloorComboBox(Floor floorToPreset) {
-        List<Floor> floors = FloorService.getAllFloors();
-        floorComboBox.setItems(floors);
-        floorComboBox.setItemLabelGenerator(Floor::getFloorName);
-        if (floorToPreset != null) {
-            selectedFloor = floorToPreset;
-            setRoomsInRoomComboBoxFromOnSelectedFloor(floorToPreset);
-            floorComboBox.setValue(floorToPreset);
-//            floorComboBox.setEnabled(false);
-            floorComboBox.setReadOnly(true);
-        } else {
-            floorComboBox.setAllowCustomValue(false);
-            floorComboBox.addValueChangeListener(event -> {
-                selectedFloor = event.getValue();
-                if (selectedFloor != null) {
-                    setRoomsInRoomComboBoxFromOnSelectedFloor(selectedFloor);
-                } else {
-                    floorComboBox.setInvalid(true);
-                }
-            });
+    private void sanityChecksInvalidParameters(Object object) {
+        assert object != null;
+        if (object == null) { // assert to be disabled during runtime
+            removeAll();
+            add(new ErrorScreen());
+            return;
         }
     }
 
-    private void setRoomsInRoomComboBoxFromOnSelectedFloor(Floor selectedFloor) {
+    private void setRoomsInComboBoxFromSelectedFloor(Floor selectedFloor) {
         rooms = FloorService.getAllNonOccupiedRoomsInFloorStatic(selectedFloor);
         roomsRoomComboBox.setItems(rooms);
         roomsRoomComboBox.setItemLabelGenerator(Room::getRoomName);
-        floorComboBox.setInvalid(false);
     }
 
 
@@ -220,7 +203,7 @@ public class RegisterForm extends FormLayout {
 
     private Room getSelectedRoom() throws RuntimeException {
         Room selectedRoom = roomsRoomComboBox.getValue();
-        Floor selectedFloor = floorComboBox.getValue();
+        //        Floor selectedFloor = floorComboBox.getValue();
         if (selectedRoom == null || selectedFloor == null) {
             throw new RuntimeException("selected room or floor null");
         }
@@ -236,7 +219,8 @@ public class RegisterForm extends FormLayout {
 
     private Account getEnteredValuesAsAccount() {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(), email.getValue(), username.getValue(), encoder.encode(password.getValue()), getSelectedRoom(), isAway, getAuthorities());
+        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(), email.getValue(),
+                username.getValue(), encoder.encode(password.getValue()), getSelectedRoom(), isAway, getAuthorities());
         return residentAccount;
     }
 

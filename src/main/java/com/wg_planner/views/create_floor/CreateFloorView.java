@@ -29,11 +29,11 @@ public class CreateFloorView extends VerticalLayout implements BeforeEnterObserv
 
 
     public CreateFloorView(FloorService floorService, RoomService roomService) {
+        this.floorService = floorService;
+        this.roomService = roomService;
         setWidth("500px");
         setHeight("100%");
         getStyle().set("overflow-y", "auto");
-        this.floorService = floorService;
-        this.roomService = roomService;
 //        setAlignItems(Alignment.CENTER);
 //        setJustifyContentMode(JustifyContentMode.CENTER);
         createFloorForm.addListener(CreateFloorForm.CreateFloorFormEvent.SaveEvent.class,
@@ -44,8 +44,7 @@ public class CreateFloorView extends VerticalLayout implements BeforeEnterObserv
     }
 
     private void saveFloorAndNavigateToRegister(CreateFloorForm.CreateFloorFormEvent.SaveEvent saveEvent) {
-        Assert.notNull(saveEvent.getFloorToCreate(), "floor passed to saveFloor event must not be" +
-                "null");
+        Assert.notNull(saveEvent.getFloorToCreate(), "floor passed to saveFloor event must not be null");
         floorService.save(saveEvent.getFloorToCreate());
         Logger.getLogger(CreateFloorView.class.getName()).log(Level.INFO, "new floor created and " +
                 "saved: " + saveEvent.getFloorToCreate().toString());

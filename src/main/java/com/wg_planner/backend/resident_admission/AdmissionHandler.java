@@ -14,11 +14,38 @@ import java.util.List;
 public class AdmissionHandler {
     private FloorService floorService;
     private AdmissionCodeStore admissionCodeStore;
+    private AdmissionTimer admissionTimer;
+    //    private final long admissionCodeRemovalTimeoutInterval = 2000;
+    //    private final long admissionCodeTimeoutInterval = 600000; //millis
+    private final long admissionCodeRemovalTimeoutInterval = 60000; //millis
+    private final long admissionCodeTimeoutInterval = 60000; //millis
+    TimerRelapse setAdmissionStatusToTimeout =
+            (admissionCode) -> {
+                synchronized (getAdmissionDetails(admissionCode)) {
+                    if (getAdmissionDetails(admissionCode).getAdmissionStatus() == AdmissionDetails.AdmissionStatus.WORKING) {
+                        try {
+//                            Thread.sleep(1200000);
+                            Thread.sleep(120000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        setAdmissionStatus(admissionCode, AdmissionDetails.AdmissionStatus.TIME_OUT);
+                        try {
+                            getAdmissionDetails(admissionCode).wait(admissionCodeRemovalTimeoutInterval);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    admissionCodeStore.removeAdmissionCode(admissionCode);
+                }
+            };
 
     @Autowired
-    public AdmissionHandler(FloorService floorService, AdmissionCodeStore admissionCodeStore) {
+    public AdmissionHandler(FloorService floorService, AdmissionCodeStore admissionCodeStore, AdmissionTimer admissionTimer) {
         this.floorService = floorService;
         this.admissionCodeStore = admissionCodeStore;
+        this.admissionTimer = admissionTimer;
     }
 
     public List<Room> verifyFloorCodeAndGetVacantRoomsInFloor(String floorCode) {
@@ -37,16 +64,31 @@ public class AdmissionHandler {
         AdmissionDetails admissionDetails = new AdmissionDetails(roomToAdmit);
         AdmissionCode admissionCode;
         do {
-            admissionCode = new AdmissionCode(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.ADMISSION_CODE));
+            admissionCode =
+                    new AdmissionCode(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.ADMISSION_CODE));
         } while (admissionCodeStore.containsAdmissionCode(admissionCode));
         if (admissionCodeStore.saveAdmissionCode(admissionCode, admissionDetails) == null) {//no previous mapping for the key
+            admissionTimer.setTimer(admissionCode, setAdmissionStatusToTimeout, admissionCodeTimeoutInterval - 500);
             return admissionCode;
         }
         return null;
     }
 
-        public synchronized AdmissionDetails verifyAdmissionCodeAndGetAdmissionDetails(AdmissionCode admissionCode) {
+    public synchronized AdmissionDetails getAdmissionDetails(AdmissionCode admissionCode) {
         Assert.notNull(admissionCode, "admission code to verify must not be null");
         return admissionCodeStore.getAdmissionDetails(admissionCode);
+    }
+
+    public synchronized AdmissionDetails.AdmissionStatus getAdmissionStatus(AdmissionCode admissionCode) {
+        return admissionCodeStore.getAdmissionDetails(admissionCode).getAdmissionStatus();
+    }
+
+    public synchronized void setAdmissionStatus(AdmissionCode admissionCode, AdmissionDetails.AdmissionStatus admissionStatus) {
+        assert admissionCodeStore.getAdmissionDetails(admissionCode) != null;
+        admissionCodeStore.getAdmissionDetails(admissionCode).setAdmissionStatus(admissionStatus);
+    }
+
+    public long getAdmissionCodeTimeoutInterval() {
+        return admissionCodeTimeoutInterval;
     }
 }

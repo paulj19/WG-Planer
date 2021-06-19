@@ -46,6 +46,11 @@ public class RoomService {
         return roomRepository.findRoomByNumber(roomNumber, floorToSearch.getId());
     }
 
+    public Room getRoomById(Long roomId) {
+        Validate.notNull(roomId, "parameter room id must not be %s", null);
+        return roomRepository.findRoomByRoomId(roomId);
+    }
+
     public long count() {
         return roomRepository.count();
     }
