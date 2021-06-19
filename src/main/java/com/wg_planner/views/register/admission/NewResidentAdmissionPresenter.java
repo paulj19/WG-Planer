@@ -10,6 +10,7 @@ import java.util.List;
 
 public class NewResidentAdmissionPresenter {
     private NewResidentAdmissionView newResidentAdmissionView;
+
     @Autowired
     AdmissionHandler admissionHandler;
 
