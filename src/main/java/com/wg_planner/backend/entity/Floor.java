@@ -27,7 +27,6 @@ public class Floor extends AbstractEntity implements Cloneable {
     @NotEmpty
     private String roomStartIndex;
 
-    //not type sensitive
     @NotEmpty
     @Column(unique = true, nullable = false)
     @Size(min = 4, max = 4)

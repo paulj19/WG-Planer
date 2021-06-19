@@ -53,7 +53,6 @@ public class AdmitNewResidentView extends VerticalLayout {
         return floorCodeLayout;
     }
 
-    //todo case sentive
     private void onSubmitAdmissionCode(ClickEvent<Button> buttonClickEvent) {
         if (!admissionCodeField.isInvalid()) {
             admitNewResidentPresenter.onSubmitAdmissionCode(admissionCodeField.getValue());
