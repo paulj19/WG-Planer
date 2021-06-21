@@ -14,7 +14,7 @@ public class AdmissionTimerJava implements AdmissionTimer {
         initialTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                onTimerRelapse.onTimerElapse(admissionCode);
+                onTimerRelapse.onTimerRelapse(admissionCode);
             }
         }, timerDuration);
     }

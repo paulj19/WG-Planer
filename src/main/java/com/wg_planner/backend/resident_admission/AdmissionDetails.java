@@ -19,7 +19,7 @@ public class AdmissionDetails {
     private Room roomToAdmit;
     private AdmissionStatus admissionStatus = AdmissionStatus.PENDING;
 
-    public synchronized void setAdmissionStatus(AdmissionStatus admissionStatus) {
+    public void setAdmissionStatus(AdmissionStatus admissionStatus) {
         this.admissionStatus = admissionStatus;
         //todo if status=ADMITTED invalidate other operations
     }

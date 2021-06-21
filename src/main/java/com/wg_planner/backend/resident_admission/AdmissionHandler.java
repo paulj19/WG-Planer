@@ -56,7 +56,7 @@ public class AdmissionHandler {
 
     public AdmissionCode generateAndSaveAdmissionCode(Room roomToAdmit) {//synced to ensure unique admission codes
         Assert.notNull(roomToAdmit, "room to admit must not be null");
-        Assert.isTrue(roomToAdmit.isOccupied() == false, "selected room isOccupied value must be false");
+        Assert.isTrue(!roomToAdmit.isOccupied(), "selected room isOccupied value must be false");
         Assert.isTrue(roomToAdmit.getResidentAccount() == null, "selected room residentAccount value must be null");
 
         AdmissionDetails admissionDetails = new AdmissionDetails(roomToAdmit);

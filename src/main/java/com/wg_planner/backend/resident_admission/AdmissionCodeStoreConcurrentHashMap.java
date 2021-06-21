@@ -18,17 +18,17 @@ public class AdmissionCodeStoreConcurrentHashMap implements AdmissionCodeStore {
     }
 
     @Override
-    public synchronized AdmissionDetails getAdmissionDetails(AdmissionCode admissionCode) {
+    public AdmissionDetails getAdmissionDetails(AdmissionCode admissionCode) {
         return admissionCodesMap.get(admissionCode);
     }
 
     @Override
-    public synchronized AdmissionDetails removeAdmissionCode(AdmissionCode admissionCode) {
+    public AdmissionDetails removeAdmissionCode(AdmissionCode admissionCode) {
         return admissionCodesMap.remove(admissionCode);
     }
 
     @Override
-    public synchronized boolean containsAdmissionCode(AdmissionCode admissionCode) {
+    public boolean containsAdmissionCode(AdmissionCode admissionCode) {
         return admissionCodesMap.containsKey(admissionCode);
     }
 

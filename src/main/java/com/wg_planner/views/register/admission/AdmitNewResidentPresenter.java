@@ -67,7 +67,7 @@ public class AdmitNewResidentPresenter {
 
     private void sanityCheckAssertions(AdmissionDetails admissionDetails) {
         assert admissionDetails.getRoomToAdmit() != null;
-        assert admissionDetails.getRoomToAdmit().isOccupied() == false;
+        assert !admissionDetails.getRoomToAdmit().isOccupied();
         assert admissionDetails.getRoomToAdmit().getResidentAccount() == null;
         assert admissionDetails.getRoomToAdmit().getFloor().equals(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor());
     }

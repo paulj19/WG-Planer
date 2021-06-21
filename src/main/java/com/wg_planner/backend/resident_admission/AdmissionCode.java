@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class AdmissionCode {
     private String admissionCode;
 
-    private AdmissionCode() {//so that no object generated with the code
+    private AdmissionCode() {//so that no object generated without the code
     }
 
     public AdmissionCode(String admissionCode) {
