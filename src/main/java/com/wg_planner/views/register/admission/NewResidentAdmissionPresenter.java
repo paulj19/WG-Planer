@@ -25,7 +25,7 @@ public class NewResidentAdmissionPresenter {
         return admissionHandler.verifyFloorCodeAndGetVacantRoomsInFloor(floorCode);
     }
 
-    public AdmissionCode generateAndSaveAdmissionCode(Room selectedRoom) {
+    public synchronized AdmissionCode generateAndSaveAdmissionCode(Room selectedRoom) {
         return admissionHandler.generateAndSaveAdmissionCode(selectedRoom);
     }
 

@@ -15,24 +15,22 @@ public class AdmissionHandler {
     private FloorService floorService;
     private AdmissionCodeStore admissionCodeStore;
     private AdmissionTimer admissionTimer;
-    //    private final long admissionCodeRemovalTimeoutInterval = 2000;
-    //    private final long admissionCodeTimeoutInterval = 600000; //millis
-    private final long admissionCodeRemovalTimeoutInterval = 60000; //millis
-    private final long admissionCodeTimeoutInterval = 60000; //millis
+    private final long admissionCodeTimeoutInterval = 600000; //10 min
+    private final long admissionCodeRemovalInterval = 180000; //3 min; to let the user know timeout instead of removing and showing invalid
     TimerRelapse setAdmissionStatusToTimeout =
             (admissionCode) -> {
                 synchronized (getAdmissionDetails(admissionCode)) {
                     if (getAdmissionDetails(admissionCode).getAdmissionStatus() == AdmissionDetails.AdmissionStatus.WORKING) {
+                        //if the admit/reject screen is left open; remove after 20 min
                         try {
-//                            Thread.sleep(1200000);
-                            Thread.sleep(120000);
+                            Thread.sleep(2 * admissionCodeTimeoutInterval);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     } else {
                         setAdmissionStatus(admissionCode, AdmissionDetails.AdmissionStatus.TIME_OUT);
                         try {
-                            getAdmissionDetails(admissionCode).wait(admissionCodeRemovalTimeoutInterval);
+                            getAdmissionDetails(admissionCode).wait(admissionCodeRemovalInterval);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -56,7 +54,7 @@ public class AdmissionHandler {
         return floorService.getAllNonOccupiedRoomsInFloor(floor);
     }
 
-    public synchronized AdmissionCode generateAndSaveAdmissionCode(Room roomToAdmit) {//synced to ensure unique admission codes
+    public AdmissionCode generateAndSaveAdmissionCode(Room roomToAdmit) {//synced to ensure unique admission codes
         Assert.notNull(roomToAdmit, "room to admit must not be null");
         Assert.isTrue(roomToAdmit.isOccupied() == false, "selected room isOccupied value must be false");
         Assert.isTrue(roomToAdmit.getResidentAccount() == null, "selected room residentAccount value must be null");
@@ -74,16 +72,16 @@ public class AdmissionHandler {
         return null;
     }
 
-    public synchronized AdmissionDetails getAdmissionDetails(AdmissionCode admissionCode) {
+    public AdmissionDetails getAdmissionDetails(AdmissionCode admissionCode) {
         Assert.notNull(admissionCode, "admission code to verify must not be null");
         return admissionCodeStore.getAdmissionDetails(admissionCode);
     }
 
-    public synchronized AdmissionDetails.AdmissionStatus getAdmissionStatus(AdmissionCode admissionCode) {
+    public AdmissionDetails.AdmissionStatus getAdmissionStatus(AdmissionCode admissionCode) {
         return admissionCodeStore.getAdmissionDetails(admissionCode).getAdmissionStatus();
     }
 
-    public synchronized void setAdmissionStatus(AdmissionCode admissionCode, AdmissionDetails.AdmissionStatus admissionStatus) {
+    public void setAdmissionStatus(AdmissionCode admissionCode, AdmissionDetails.AdmissionStatus admissionStatus) {
         assert admissionCodeStore.getAdmissionDetails(admissionCode) != null;
         admissionCodeStore.getAdmissionDetails(admissionCode).setAdmissionStatus(admissionStatus);
     }
