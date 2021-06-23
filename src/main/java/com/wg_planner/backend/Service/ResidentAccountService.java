@@ -71,13 +71,13 @@ public class ResidentAccountService {
             residentDevice.getDeviceNotificationChannels().forEach(notificationChannel -> notificationChannel.setActive(false));
             residentDevice.setActive(false);
         });
-        residentAccountToRemove.setActive(false);
-        residentAccountToRemove.setEnabled(false);
-        //TODO high pri-- fix setRoom to null
-        residentAccountToRemove.setRoom(residentAccountToRemove.getRoom().getFloor().getTasks().get(0).getAssignedRoom());
+//        residentAccountToRemove.setActive(false);
+//        residentAccountToRemove.setEnabled(false);
+//        residentAccountToRemove.setRoom(residentAccountToRemove.getRoom().getFloor().getTasks().get(0).getAssignedRoom());
 //        residentAccountToRemove.setRoom(null);
-        roomRepository.save(roomToDeactivate);//todo see why room cascade residentaccount does not work
-        residentAccountRepository.save(residentAccountToRemove);
+        roomRepository.save(roomToDeactivate);
+        residentAccountRepository.delete(residentAccountToRemove);
+//        residentAccountRepository.save(residentAccountToRemove);
     }
 
     public void transferTasksOfResidentToNext(ResidentAccount currentResidentAccount,

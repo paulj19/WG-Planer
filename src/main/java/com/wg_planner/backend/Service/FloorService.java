@@ -92,6 +92,8 @@ public class FloorService {
     public Room getNextAvailableRoom(Floor floor, Room room) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         Validate.notNull(room, "parameter room must not be %s", null);
+        Validate.isTrue(floorRepository.findAllRoomsInFloor(floor.getId()).contains(room),
+                " parameter " + room.toString() + " not found in set of available rooms in floor" + floor.toString());
 
         List<Room> roomsInFloor = getAllOccupiedAndResidentNotAwayRooms(floor);
         Validate.notNull(roomsInFloor, "getAllAvailableRooms() returned %s", null);
@@ -99,7 +101,6 @@ public class FloorService {
 
         roomsInFloor.sort(Comparator.comparing(Room::getRoomName));
         //returns the room with the next index after the passed room
-        Assert.isTrue(roomsInFloor.contains(room), "failed to return next available room in getNextAvailableRoom. parameter" + room.toString() + "not found in set of available rooms in floor" + floor.toString());
         return roomsInFloor.get((roomsInFloor.indexOf(room) + 1) % roomsInFloor.size());
     }
 
