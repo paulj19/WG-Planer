@@ -1,7 +1,10 @@
 package com.wg_planner.views.utils;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.router.QueryParameters;
 import com.wg_planner.views.register.RegisterView;
+
+import java.util.*;
 
 public class UIHandler {
     private static UIHandler uiHandler;
@@ -21,6 +24,8 @@ public class UIHandler {
         UI.getCurrent().navigate(LOGIN_URL);
     }
     public void navigateToRegisterPageParamRoomId(Long roomId) {
-        UI.getCurrent().navigate(RegisterView.class, roomId);
+        Map<String, List<String>> parametersMap = new HashMap<>();
+        parametersMap.put("room_id", new ArrayList<>(Collections.singleton(Long.toString(roomId))));
+        UI.getCurrent().navigate("register_form", new QueryParameters(parametersMap));
     }
 }

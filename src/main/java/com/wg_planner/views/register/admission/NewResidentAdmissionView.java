@@ -90,7 +90,6 @@ public class NewResidentAdmissionView extends VerticalLayout {
     }
 
     private void onRoomSelect(ClickEvent<Button> buttonClickEvent) {
-        roomSelected = nonOccupiedRoomsComboBox.getValue();
         if (!nonOccupiedRoomsComboBox.isInvalid() && nonOccupiedRoomsComboBox.getValue() != null) {
             roomSelected = nonOccupiedRoomsComboBox.getValue();
             AdmissionCode admissionCode =

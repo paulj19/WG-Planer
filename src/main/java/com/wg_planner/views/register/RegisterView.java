@@ -5,10 +5,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.RoomService;
@@ -19,8 +16,11 @@ import com.wg_planner.views.utils.ErrorScreen;
 import com.wg_planner.views.utils.UIStringConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.Map;
 
-@Route(value = "register2")
+
+@Route(value = "register_form")
 @PageTitle("Register | WG Planner")
 @CssImport("./styles/views/register/register-view.css")
 public class RegisterView extends VerticalLayout implements HasUrlParameter<Long> {
@@ -34,19 +34,29 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     private RegisterForm registerForm;
 
     @Override
-    public void setParameter(BeforeEvent event, Long roomIdSelected) {
-        Room roomSelected = roomService.getRoomById(roomIdSelected);
-        if(roomIdSelected == null) {
+    public void setParameter(BeforeEvent event, @OptionalParameter Long roomIdSelected) {
+        Location location = event.getLocation();
+        QueryParameters queryParameters = location.getQueryParameters();
+        Map<String, List<String>> parametersMap = queryParameters.getParameters();
+        if(parametersMap.containsKey("floor_id")) {
+            if(parametersMap.get("floor_id").isEmpty()) {
+                parametersMap.get("floor_id");
+            }
+//            init(floorService.getFloorById(floorService.getFloorById()));
+        } else if(parametersMap.containsKey("room_id")) {
+            Room roomSelected = roomService.getRoomById(roomIdSelected);
+            init(roomSelected);
+        }
+        if (roomIdSelected == null) {
             add(new ErrorScreen());
             return;
         }
-        init(roomSelected);
     }
 
     public RegisterView() {
     }
 
-    public void init(Floor floorToPreset, int i) {
+    public void init(Floor floorToPreset) {
         registerForm = new RegisterForm(floorToPreset);
         initListenersAndAdd();
     }

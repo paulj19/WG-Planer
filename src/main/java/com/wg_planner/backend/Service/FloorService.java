@@ -116,6 +116,10 @@ public class FloorService {
         return floorRepository.findFloorByNumber(floorName);
     }
 
+    public Floor getFloorById(long floorId) {
+        return floorRepository.findFloorById(floorId);
+    }
+
     public void deleteTaskAndUpdateFloor(Floor floor, Task task) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         Validate.notNull(task, "parameter task to delete must not be %s", null);

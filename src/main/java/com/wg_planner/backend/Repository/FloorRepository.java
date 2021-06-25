@@ -31,6 +31,9 @@ public interface FloorRepository extends JpaRepository<Floor, Long> {
     @Query("select f from Floor f where f.floorName = :floorNumber")
     Floor findFloorByNumber(@Param("floorNumber") String floorNumber);
 
+    @Query("select f from Floor f where f.id = :floorId")
+    Floor findFloorById(@Param("floorId") long floorId);
+
     @Query("select f from Floor f ")
     List<Floor> findAllFloors();
 
