@@ -11,17 +11,17 @@ import java.util.List;
 
 public interface FloorRepository extends JpaRepository<Floor, Long> {
     @Query("select r from Room r " +
-            "where r.floor.id = :floorIdToSearch")
+            "where r.floor.id = :floorIdToSearch and r.active = true ")
     List<Room> findAllRoomsInFloor(@Param("floorIdToSearch") Long floorIdToSearch);
     @Query("select r from Room r " +
-            "where r.floor.id = :floorIdToSearch and r.occupied = false ")
+            "where r.floor.id = :floorIdToSearch and r.occupied = false and r.active = true ")
     List<Room> findAllNonOccupiedRoomsInFloor(@Param("floorIdToSearch") Long floorIdToSearch);
     @Query("select r from Room r " +
-            "where r.floor.id = :floorIdToSearch and r.occupied = true and r.residentAccount.away = false ")
+            "where r.floor.id = :floorIdToSearch and r.occupied = true and r.residentAccount.away = false and r.active = true ")
     List<Room> findAllOccupiedAndResidentNotAwayRoomsInFloor(@Param("floorIdToSearch") Long floorIdToSearch);
 
     @Query("select f.tasks from Floor f " +
-            "where f.id = :floorIdToSearch ")
+            "where f.id = :floorIdToSearch having ")
     List<Task> findAllTasksInFloor(@Param("floorIdToSearch") Long floorIdToSearch);
 
     @Query("select r from Room r " +
