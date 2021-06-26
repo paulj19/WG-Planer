@@ -20,10 +20,8 @@ webpack.generated.js
 /firebase_sdk
 /another_db_dontKnowWhichIsValid/db/bup/mydb.mv.db
 /another_db_dontKnowWhichIsValid/db/mydb.mv.db
-/db/mydb.mv.db
 /another_db_dontKnowWhichIsValid/db/bup/mydb.trace.db
 /another_db_dontKnowWhichIsValid/db/mydb.trace.db
-/db/mydb.trace.db
 /porting_changes
 /src/js/script.js
 /firebase_private_key/wg-planner-firebase-adminsdk-xiq7d-e83704d07b.json
