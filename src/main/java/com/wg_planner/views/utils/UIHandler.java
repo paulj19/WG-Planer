@@ -28,4 +28,10 @@ public class UIHandler {
         parametersMap.put("room_id", new ArrayList<>(Collections.singleton(Long.toString(roomId))));
         UI.getCurrent().navigate("register_form", new QueryParameters(parametersMap));
     }
+
+    public void navigateToRegisterPageParamFloorId(Long floorId) {
+        Map<String, List<String>> parametersMap = new HashMap<>();
+        parametersMap.put("floor_id", new ArrayList<>(Collections.singleton(Long.toString(floorId))));
+        UI.getCurrent().navigate("register_form", new QueryParameters(parametersMap));
+    }
 }

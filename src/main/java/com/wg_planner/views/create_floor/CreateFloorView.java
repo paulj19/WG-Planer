@@ -11,6 +11,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
+import com.wg_planner.views.utils.UIHandler;
 import org.springframework.util.Assert;
 
 import java.util.logging.Level;
@@ -49,8 +50,7 @@ public class CreateFloorView extends VerticalLayout implements BeforeEnterObserv
         Logger.getLogger(CreateFloorView.class.getName()).log(Level.INFO, "new floor created and " +
                 "saved: " + saveEvent.getFloorToCreate().toString());
         Notification.show("Floor created");
-        saveCreatedFloorToSession(saveEvent.getFloorToCreate());
-        UI.getCurrent().navigate("register/");
+        UIHandler.getInstance().navigateToRegisterPageParamFloorId(saveEvent.getFloorToCreate().getId());
     }
 
 

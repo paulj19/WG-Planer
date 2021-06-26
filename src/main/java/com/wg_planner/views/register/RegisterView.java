@@ -38,18 +38,14 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
         Location location = event.getLocation();
         QueryParameters queryParameters = location.getQueryParameters();
         Map<String, List<String>> parametersMap = queryParameters.getParameters();
-        if(parametersMap.containsKey("floor_id")) {
-            if(parametersMap.get("floor_id").isEmpty()) {
-                parametersMap.get("floor_id");
+        if (parametersMap.containsKey("floor_id")) {
+            assert floorService.getFloorById(Long.valueOf(parametersMap.get("floor_id").get(0))) != null;
+            if (parametersMap.get("floor_id").isEmpty()) {
+                init(floorService.getFloorById(Long.valueOf(parametersMap.get("floor_id").get(0))));
             }
-//            init(floorService.getFloorById(floorService.getFloorById()));
-        } else if(parametersMap.containsKey("room_id")) {
-            Room roomSelected = roomService.getRoomById(roomIdSelected);
-            init(roomSelected);
-        }
-        if (roomIdSelected == null) {
-            add(new ErrorScreen());
-            return;
+        } else if (parametersMap.containsKey("room_id")) {
+            assert roomService.getRoomById(Long.valueOf(parametersMap.get("room_id").get(0))) != null;
+            init(roomService.getRoomById(Long.valueOf(parametersMap.get("room_id").get(0))));
         }
     }
 
