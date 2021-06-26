@@ -31,3 +31,8 @@ webpack.generated.js
 /db_before_home_coming/mydb.mv.db
 /db/testTcp.mv.db
 /db/testTcp.trace.db
+/db.zip
+/db_before_home_coming/db_backup/db/mydb.mv.db
+/db_before_home_coming/db_backup/db/mydb.trace.db
+/db_before_home_coming/db_backup/db/testTcp.mv.db
+/db_before_home_coming/db_backup/db/testTcp.trace.db

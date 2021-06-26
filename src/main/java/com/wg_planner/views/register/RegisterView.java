@@ -12,7 +12,6 @@ import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
-import com.wg_planner.views.utils.ErrorScreen;
 import com.wg_planner.views.utils.UIStringConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -40,9 +39,7 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
         Map<String, List<String>> parametersMap = queryParameters.getParameters();
         if (parametersMap.containsKey("floor_id")) {
             assert floorService.getFloorById(Long.valueOf(parametersMap.get("floor_id").get(0))) != null;
-            if (parametersMap.get("floor_id").isEmpty()) {
-                init(floorService.getFloorById(Long.valueOf(parametersMap.get("floor_id").get(0))));
-            }
+            init(floorService.getFloorById(Long.valueOf(parametersMap.get("floor_id").get(0))));
         } else if (parametersMap.containsKey("room_id")) {
             assert roomService.getRoomById(Long.valueOf(parametersMap.get("room_id").get(0))) != null;
             init(roomService.getRoomById(Long.valueOf(parametersMap.get("room_id").get(0))));

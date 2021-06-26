@@ -67,7 +67,7 @@ public class ResidentAccount extends Account implements Cloneable {
     }
 
     public void setRoom(Room room) {
-//        Validate.notNull(room, "room assigned to resident account must not be null");
+        Validate.notNull(room, "room assigned to resident account must not be null");
         this.room = room;
     }
 
