@@ -22,15 +22,11 @@ public class Room extends AbstractEntity implements Cloneable {
     @NotNull
     @NotEmpty
     @Size(max = 255)
-//    @UniqueElements(message = "room name is already taken")
     @Column(nullable = false)
     private String roomName;
 
     private Boolean occupied = false;
 
-    //owning side, referencing side
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room")
-    //resident account operations always by getting it from room and doing operations and always needs to be saved
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
     private ResidentAccount residentAccount;
 
@@ -39,10 +35,7 @@ public class Room extends AbstractEntity implements Cloneable {
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
-    //    @LazyCollection(LazyCollectionOption.FALSE)
-    //task assigning and status changed from Room
     @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-//    @OneToMany(mappedBy = "assignedRoom", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
     @Fetch(value = FetchMode.SUBSELECT)
     List<Task> assignedTasks = new ArrayList<>();
 
@@ -58,11 +51,6 @@ public class Room extends AbstractEntity implements Cloneable {
         this(roomName, floor);
         setOccupied(isOccupied);
     }
-
-//    public Room(@NotNull @NotEmpty String roomNumber, @NotNull @NotEmpty Floor floor, ResidentAccount residentAccount) {
-//        this(roomNumber, floor);
-//        setResidentAccount(residentAccount);
-//    }
 
     public String getRoomName() {
         return roomName;
@@ -152,7 +140,6 @@ public class Room extends AbstractEntity implements Cloneable {
                 .append(occupied, otherRoom.occupied)
                 .append(residentAccount.getId(), otherRoom.residentAccount.getId())
                 .append(floor.getId(), otherRoom.floor.getId())
-//                .append(assignedTasks, otherRoom.assignedTasks)
                 .isEquals();
     }
 
@@ -160,11 +147,7 @@ public class Room extends AbstractEntity implements Cloneable {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(getId())
-//                .append(roomName)
-//                .append(occupied)
-//                .append(residentAccount.getId())
                 .append(floor.getId())
-//                .append(assignedTasks)
                 .toHashCode();
     }
 }

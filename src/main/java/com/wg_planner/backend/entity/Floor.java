@@ -32,15 +32,11 @@ public class Floor extends AbstractEntity implements Cloneable {
     @Size(min = 4, max = 4)
     private String floorCode;
 
-    //@OneToMany(mappedBy = "floor", fetch = FetchType.EAGER)
-    //@Fetch(value = FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 
-    //persist stops from deleting the task, dont know why. persist in room actually saves the task when saved
     //TODO inserting persist to save the task from floor_creation. todo, look into deleting problem
     // from floor. merge in room does not save the task, dont know why
-//    @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH})
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Task> tasks = new ArrayList<>();
@@ -206,10 +202,6 @@ public class Floor extends AbstractEntity implements Cloneable {
         Floor otherFloor = (Floor) other;
         return new EqualsBuilder()
                 .append(getId(), otherFloor.getId())
-//                .append(floorName, otherFloor.floorName)
-//                .append(roomStartIndex, otherFloor.roomStartIndex)
-//                .append(rooms, otherFloor.rooms)
-//                .append(tasks, otherFloor.tasks)
                 .isEquals();
     }
 
@@ -217,11 +209,6 @@ public class Floor extends AbstractEntity implements Cloneable {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(getId())
-//                .append(floorName)
-//                .append(numberOfRooms)
-//                .append(roomStartIndex)
-//                .append(rooms)
-//                .append(tasks)
                 .toHashCode();
     }
 }

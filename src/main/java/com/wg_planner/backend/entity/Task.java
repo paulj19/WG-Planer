@@ -19,7 +19,7 @@ public class Task extends AbstractEntity {
     private String taskName;
 
     @NotNull
-    //floor does not track track anything of the task except the list of tasks in the floor
+    //todo floor does not track track anything of the task except the list of tasks in the floor
     //hence unnecessary to save or refresh floor tasks when floor is saved
     //and also nothing really is done by taking floor from task but other way around
     //UPDATE tasks sometimes are saved alone(creation, updation etc)
@@ -29,8 +29,7 @@ public class Task extends AbstractEntity {
     private Floor floor;
 
 
-    //BUT change seen on room without cascading and all changes to task reflect on "both" rooms
-//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    //todo BUT change seen on room without cascading and all changes to task reflect on "both" rooms
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room assignedRoom;
@@ -131,9 +130,7 @@ public class Task extends AbstractEntity {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(getId())
-//                .append(taskName)
                 .append(floor.getId())
-//                .append(assignedRoom.getId())
                 .toHashCode();
     }
 

@@ -19,13 +19,6 @@ import java.util.stream.Collectors;
 public class ResidentAccount extends Account implements Cloneable {
 
     private Boolean away = false;
-    //, cascade = CascadeType.ALL
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//normally room is always
-//    gotten from ResidentAccount
-    //PERSIST: create a new room if the resident account creation(via signup page) creates one
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-//    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-//    CascadeType.REFRESH})
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     private Room room;
@@ -125,7 +118,6 @@ public class ResidentAccount extends Account implements Cloneable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-//                .append(room)
                 .append(getId())
                 .append(away)
                 .append(super.hashCode())//TODo verify
