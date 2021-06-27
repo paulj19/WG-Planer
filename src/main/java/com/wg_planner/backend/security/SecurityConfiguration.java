@@ -17,7 +17,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_URL = "/login";
     private static final String LOGOUT_SUCCESS_URL = "/login";
     private static final String REGISTER_URL = "/register";
-    private static final String REGISTER_URL2 = "/register2";
+    private static final String REGISTER_FORM = "/register_form";
     private static final String CREATE_FLOOR_URL = "/create_floor";
 
     @Override
@@ -26,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .requestCache().requestCache(new CustomRequestCache())
                 .and().authorizeRequests()
                 .antMatchers(REGISTER_URL).permitAll()
-                .antMatchers(REGISTER_URL2).permitAll()
+                .antMatchers(REGISTER_FORM).denyAll()
                 .antMatchers(CREATE_FLOOR_URL).permitAll()
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                 .anyRequest().authenticated()
