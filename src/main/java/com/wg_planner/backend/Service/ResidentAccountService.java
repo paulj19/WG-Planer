@@ -18,8 +18,6 @@ import java.util.logging.Logger;
 
 @Service
 public class ResidentAccountService {
-    private static final Logger LOGGER = Logger.getLogger(ResidentAccountService.class
-            .getName());
     private final ResidentAccountRepository residentAccountRepository;
     private final RoomRepository roomRepository;
     private final AccountRepository accountRepository;
@@ -71,13 +69,8 @@ public class ResidentAccountService {
             residentDevice.getDeviceNotificationChannels().forEach(notificationChannel -> notificationChannel.setActive(false));
             residentDevice.setActive(false);
         });
-//        residentAccountToRemove.setActive(false);
-//        residentAccountToRemove.setEnabled(false);
-//        residentAccountToRemove.setRoom(residentAccountToRemove.getRoom().getFloor().getTasks().get(0).getAssignedRoom());
-//        residentAccountToRemove.setRoom(null);
         roomRepository.save(roomToDeactivate);
         residentAccountRepository.delete(residentAccountToRemove);
-//        residentAccountRepository.save(residentAccountToRemove);
     }
 
     public void transferTasksOfResidentToNext(ResidentAccount currentResidentAccount,

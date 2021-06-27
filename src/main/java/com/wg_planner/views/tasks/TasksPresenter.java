@@ -27,8 +27,6 @@ public abstract class TasksPresenter {
     @Autowired
     protected RoomService roomService;
     @Autowired
-    FirebaseMessagingService firebaseMessagingService;
-    @Autowired
     NotificationServiceFirebase notificationServiceFirebase;
 
     protected static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(TasksPresenter.class

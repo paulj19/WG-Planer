@@ -1,11 +1,6 @@
 package com.wg_planner.backend.entity.ServiceTest;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.wg_planner.backend.Service.FirebaseMessagingService;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

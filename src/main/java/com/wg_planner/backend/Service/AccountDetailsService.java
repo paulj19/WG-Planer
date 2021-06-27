@@ -23,23 +23,6 @@ public class AccountDetailsService implements UserDetailsService {
         this.accountRepository = accountRepository;
     }
 
-//    @PostConstruct
-//    public void populateTestData() {
-//        if(accountRepository.count() == 0) {
-//            List<Account> accounts = new ArrayList<>();
-//            for (int i = 0; i < 9; i++) {
-//                accounts.add(
-//                        (Account) Account.withUsername(i + "@example.com")
-//                                .password("{noop}password")
-//                                .roles("USER")
-//                                .build());
-//            }
-//            accountRepository.saveAll(accounts);
-//            List<Account> accounts1 = accountRepository.findAll();
-//            List<Account> accounts2 = accountRepository.findAll();
-//        }
-//    }
-
     @Override
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
