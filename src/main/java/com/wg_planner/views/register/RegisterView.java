@@ -50,12 +50,12 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     }
 
     public void init(Floor floorToPreset) {
-        registerForm = new RegisterForm(floorToPreset);
+        registerForm = new RegisterForm(floorToPreset, floorService);
         initListenersAndAdd();
     }
 
     public void init(Room roomToPreset) {
-        registerForm = new RegisterForm(roomToPreset);
+        registerForm = new RegisterForm(roomToPreset, floorService);
         initListenersAndAdd();
     }
 

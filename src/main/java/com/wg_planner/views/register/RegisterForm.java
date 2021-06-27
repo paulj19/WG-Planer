@@ -35,6 +35,7 @@ public class RegisterForm extends FormLayout {
     //todo check why autowired not working
     @Autowired
     PasswordEncoder passwordEncoder;
+    FloorService floorService;
 
     TextField firstName = new TextField("First Name", "Enter your first name");
     TextField lastName = new TextField("Last Name", "Enter your last name");
@@ -58,8 +59,13 @@ public class RegisterForm extends FormLayout {
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
+    private RegisterForm(FloorService floorService) {
+        this.floorService = floorService;
+    }
 
-    public RegisterForm(Floor floorToPreset) {
+
+    public RegisterForm(Floor floorToPreset, FloorService floorService) {
+        this(floorService);
         sanityChecksInvalidParameters(floorToPreset);
         floorTextField.setValue(floorToPreset.getFloorName());
         roomsRoomComboBox.setRequiredIndicatorVisible(true);
@@ -67,7 +73,8 @@ public class RegisterForm extends FormLayout {
         init();
     }
 
-    public RegisterForm(Room roomToPreset) {
+    public RegisterForm(Room roomToPreset, FloorService floorService) {
+        this(floorService);
         sanityChecksInvalidParameters(roomToPreset);
         floorTextField.setValue(roomToPreset.getFloor().getFloorName());
         floorTextField.setReadOnly(true);
@@ -149,7 +156,7 @@ public class RegisterForm extends FormLayout {
     }
 
     private void setRoomsInComboBoxFromSelectedFloor(Floor selectedFloor) {
-        rooms = FloorService.getAllNonOccupiedRoomsInFloorStatic(selectedFloor);
+        rooms = floorService.getAllNonOccupiedRoomsInFloor(selectedFloor);
         roomsRoomComboBox.setItems(rooms);
         roomsRoomComboBox.setItemLabelGenerator(Room::getRoomName);
     }

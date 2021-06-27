@@ -32,27 +32,8 @@ public class FloorService {
         floorRepositoryStaic = floorRepository;
     }
 
-    //    public List<ResidentAccount> getAllResidents(@NotNull Floor floor) {
-//        Validate.notNull(floor, "parameter floor must not be %s", null);
-//
-//        List<ResidentAccount> residents = new ArrayList<>();
-//        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).forEach(residents::add);
-//        return residents;
-//    }
     public static List<Floor> getAllFloors() {
         return floorRepositoryStaic.findAllFloors();
-    }
-
-    //TODO remove
-    public static List<Room> getAllNonOccupiedRoomsInFloorStatic(@NotNull Floor floor) {
-        Validate.notNull(floor, "parameter floor must not be %s", null);
-        List<Room> nonOccupiedRoomsInFloor = floorRepositoryStaic.findAllNonOccupiedRoomsInFloor(floor.getId());
-        if (nonOccupiedRoomsInFloor == null) {
-            LOGGER.log(Level.WARNING, "the list of non occupied rooms in floor from DB is null");
-        } else if (nonOccupiedRoomsInFloor.isEmpty()) {
-            LOGGER.log(Level.INFO, "the list of non occupied rooms in floor from DB is empty");
-        }
-        return nonOccupiedRoomsInFloor;
     }
 
     public List<Room> getAllNonOccupiedRoomsInFloor(@NotNull Floor floor) {
@@ -65,15 +46,6 @@ public class FloorService {
         }
         return nonOccupiedRoomsInFloor;
     }
-
-    //    public List<ResidentAccount> getAllAvailableResidentsInFloor(@NotNull Floor floor) {
-//        Validate.notNull(floor, "parameter floor must not be %s", null);
-//        List<ResidentAccount> residents = new ArrayList<>();
-//        floorRepository.findAllRoomsInFloor(floor.getId()).stream().map(Room::getResidentAccount).filter(residentAccount -> !residentAccount.isAway()).forEach(residents::add);
-//        return residents;
-//    }
-//
-//
     public List<Room> getAllRoomsInFloor(@NotNull Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         return floorRepository.findAllRoomsInFloor(floor.getId());
@@ -84,7 +56,6 @@ public class FloorService {
         return floorRepository.findAllOccupiedAndResidentNotAwayRoomsInFloor(floor.getId());
     }
 
-    /**/
     public Room getNextAvailableRoom(Room room) {
         return getNextAvailableRoom(room.getFloor(), room);
     }
