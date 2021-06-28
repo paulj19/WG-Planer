@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 public class FloorService {
     private static final Logger LOGGER = Logger.getLogger(FloorService.class
             .getName());
-    private static FloorRepository floorRepositoryStaic;
     private final TaskRepository taskRepository;
     private final FloorRepository floorRepository;
 
@@ -29,11 +28,10 @@ public class FloorService {
     public FloorService(TaskRepository taskRepository, FloorRepository floorRepository) {
         this.taskRepository = taskRepository;
         this.floorRepository = floorRepository;
-        floorRepositoryStaic = floorRepository;
     }
 
-    public static List<Floor> getAllFloors() {
-        return floorRepositoryStaic.findAllFloors();
+    public List<Floor> getAllFloors() {
+        return floorRepository.findAllFloors();
     }
 
     public List<Room> getAllNonOccupiedRoomsInFloor(@NotNull Floor floor) {
