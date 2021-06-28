@@ -59,7 +59,7 @@ public class FloorCodeGenerationTest {
         for (int i = 0; i < 10; i++) {
             setUpFloors(String.valueOf(i));
         }
-        FloorService.getAllFloors().forEach(floor -> {
+        floorService.getAllFloors().forEach(floor -> {
             Assert.assertNotNull(floor.getFloorCode());
             Assert.assertTrue(!floor.getFloorCode().isEmpty());
         });
