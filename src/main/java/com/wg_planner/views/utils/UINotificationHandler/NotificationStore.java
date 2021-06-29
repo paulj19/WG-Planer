@@ -5,11 +5,11 @@ import com.wg_planner.backend.Service.notification.NotificationContent;
 import java.util.List;
 
 public interface NotificationStore {
-    boolean saveNotification(Long residentId, UINotificationContent notificationToStore);
+    boolean saveNotification(Long roomId, UINotificationContent notificationToStore);
 
-    void removeNotification(Long residentId, String id);
+    void removeNotification(Long roomId, String id);
 
-    void removeAllNotifications(Long residentId);
+    void removeAllNotifications(Long roomId);
 
-    List<UINotificationContent> getAllNotifications(Long residentId);
+    List<UINotificationContent> getAllNotifications(Long roomId);
 }
