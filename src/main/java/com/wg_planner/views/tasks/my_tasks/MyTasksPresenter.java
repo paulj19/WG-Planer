@@ -17,12 +17,5 @@ public class MyTasksPresenter extends TasksPresenter {
     public void addTasks() {
         allTaskLayout.removeAll();
         SessionHandler.getLoggedInResidentAccount().getRoom().getAssignedTasks().forEach(task -> allTaskLayout.add(TaskCardCreator.createLoggedInResidentTaskCard(task, this)));
-//        tasks.stream().filter(task -> TaskCardCreator.createLoggedInResidentTaskCard(task, this) != null).map(allTaskLayout.add();
-
-//            if (AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getRoomName().equals(task.getAssignedRoom().getRoomName())) {
-//                MyTaskCard myTaskCard = new MyTaskCard(task);
-//                myTaskCard.addListener((TaskCard.TaskCardEvent.AssignEvent.class, this::taskAssignCallBack );
-//                myTaskCard.addListener(TaskCard.TaskCardEvent.AssignEvent.class, this::taskAssignCallBack);
-//                allTaskLayout.add(myTaskCard.getTaskCardLayout());
     }
 }
