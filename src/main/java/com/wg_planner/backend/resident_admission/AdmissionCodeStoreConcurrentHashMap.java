@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-@Controller //todo remove controller
+@Controller
 public class AdmissionCodeStoreConcurrentHashMap implements AdmissionCodeStore {
 
     private ConcurrentHashMap<AdmissionCode, AdmissionDetails> admissionCodesMap = new ConcurrentHashMap<>();

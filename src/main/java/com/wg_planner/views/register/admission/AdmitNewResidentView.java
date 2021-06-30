@@ -12,7 +12,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.resident_admission.AdmissionCode;
 import com.wg_planner.backend.resident_admission.AdmissionDetails;
 import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
@@ -114,5 +113,4 @@ public class AdmitNewResidentView extends VerticalLayout {
         removeAll();
         add(messageHolder);
     }
-
 }
