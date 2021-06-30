@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class MyTasksPresenter extends TasksPresenter {
     VerticalLayout allTaskLayout;
-    @Autowired
-    UINotificationHandler uiNotificationHandler;
 
     public void init(VerticalLayout allTaskLayout) {
         this.allTaskLayout = allTaskLayout;
@@ -22,8 +20,5 @@ public class MyTasksPresenter extends TasksPresenter {
     public void addTasks() {
         allTaskLayout.removeAll();
         SessionHandler.getLoggedInResidentAccount().getRoom().getAssignedTasks().forEach(task -> allTaskLayout.add(TaskCardCreator.createLoggedInResidentTaskCard(task, this)));
-        allTaskLayout.add(uiNotificationHandler.createAndSaveUINotification(new UINotificationTypeTaskDelete(),
-                SessionHandler.getLoggedInResidentAccount().getRoom(),
-                SessionHandler.getLoggedInResidentAccount().getRoom().getAssignedTasks().get(0)));
-    }
+        }
 }

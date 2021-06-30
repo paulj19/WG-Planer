@@ -1,4 +1,4 @@
-package com.wg_planner.views.home_page;
+package com.wg_planner.views.account_details;
 
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
@@ -12,12 +12,12 @@ import com.wg_planner.views.utils.UIStringConstants;
 public class ResidentAvailabilityView extends VerticalLayout {
     ResidentAccountService residentAccountService;
     ConfirmDialog setAvailabilityConfirmDialog;
-    HomePagePresenter homePagePresenter;
+    AccountDetailsPresenter accountDetailsPresenter;
     boolean isAway;
 
-    public ResidentAvailabilityView(ResidentAccountService residentAccountService, HomePagePresenter homePagePresenter) {
+    public ResidentAvailabilityView(ResidentAccountService residentAccountService, AccountDetailsPresenter accountDetailsPresenter) {
         this.residentAccountService = residentAccountService;
-        this.homePagePresenter = homePagePresenter;
+        this.accountDetailsPresenter = accountDetailsPresenter;
         setAvailabilityConfirmDialog = new ConfirmDialog("Confirm change",
                 "Tasks currently assigned to you will be transferred to next available room. Are " +
                         "you sure you want change availability status?",
@@ -51,7 +51,7 @@ public class ResidentAvailabilityView extends VerticalLayout {
     }
 
     private void onConfirmChange(ConfirmDialog.ConfirmEvent confirmEvent) {
-        homePagePresenter.setResidentAwayAndSave(isAway);
+        accountDetailsPresenter.setResidentAwayAndSave(isAway);
         Notification.show(UIStringConstants.getInstance().getAvailabilityStatusChanged());
     }
 

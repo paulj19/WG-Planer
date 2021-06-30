@@ -22,7 +22,6 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.List;
 
-@Push
 @Route(value = "register")
 @PageTitle("Register | WG Planner")
 @CssImport("./styles/views/register/register-view.css")

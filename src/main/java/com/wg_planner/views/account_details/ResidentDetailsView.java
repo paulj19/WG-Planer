@@ -1,4 +1,4 @@
-package com.wg_planner.views.home_page;
+package com.wg_planner.views.account_details;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

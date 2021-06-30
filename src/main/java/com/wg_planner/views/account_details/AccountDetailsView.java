@@ -1,4 +1,4 @@
-package com.wg_planner.views.home_page;
+package com.wg_planner.views.account_details;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,12 +14,12 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 @CssImport("./styles/views/tasks/tasks-view.css")
 public class AccountDetailsView extends VerticalLayout {
     AutowireCapableBeanFactory beanFactory;
-    HomePagePresenter homePagePresenter;
+    AccountDetailsPresenter accountDetailsPresenter;
 
     public AccountDetailsView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
-        homePagePresenter = new HomePagePresenter();
-        beanFactory.autowireBean(homePagePresenter);
-        homePagePresenter.init(this);
+        accountDetailsPresenter = new AccountDetailsPresenter();
+        beanFactory.autowireBean(accountDetailsPresenter);
+        accountDetailsPresenter.init(this);
     }
 }

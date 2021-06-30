@@ -16,10 +16,10 @@ public class UINotificationHandler {
         this.uiNotificationStore = uiNotificationStore;
     }
 
-    public synchronized Component createAndSaveUINotification(UINotificationType uiNotificationType, Room roomDeletingTask,
+    public synchronized UINotificationType createAndSaveUINotification(UINotificationType uiNotificationType, Room roomDeletingTask,
                                                               Task taskDeleted) {
         uiNotificationType.createNotificationView(roomDeletingTask, taskDeleted);
         uiNotificationStore.saveNotification(roomDeletingTask.getId(), uiNotificationType);
-        return uiNotificationType.getUILayout();
+        return uiNotificationType;
     }
 }

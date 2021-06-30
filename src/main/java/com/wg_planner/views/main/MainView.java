@@ -14,6 +14,7 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
@@ -24,7 +25,8 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.wg_planner.views.about.AboutView;
-import com.wg_planner.views.home_page.AccountDetailsView;
+import com.wg_planner.views.account_details.AccountDetailsView;
+import com.wg_planner.views.home_page.HomePageView;
 import com.wg_planner.views.register.admission.AdmitNewResidentView;
 import com.wg_planner.views.tasks.floor_tasks.FloorTasksView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
@@ -38,6 +40,7 @@ import java.util.Optional;
 /**
  * The main view is a top-level placeholder for other views.
  */
+@Push
 @JsModule("./styles/shared-styles.js")
 @PWA(name = "WG_Planner", shortName = "WG_Planner", enableInstallPrompt = false)
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
@@ -125,7 +128,7 @@ public class MainView extends AppLayout {
 
     private Component[] createMenuItems() {
         RouterLink[] links = new RouterLink[]{
-                new RouterLink("Home", AccountDetailsView.class),
+                new RouterLink("Home", HomePageView.class),
                 new RouterLink("Floor Tasks", FloorTasksView.class),
                 new RouterLink("My Tasks", MyTasksView.class),
                 new RouterLink("Admit Resident", AdmitNewResidentView.class),
