@@ -24,7 +24,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.wg_planner.views.about.AboutView;
-import com.wg_planner.views.home_page.HomePageView;
+import com.wg_planner.views.home_page.AccountDetailsView;
 import com.wg_planner.views.register.admission.AdmitNewResidentView;
 import com.wg_planner.views.tasks.floor_tasks.FloorTasksView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
@@ -39,7 +39,7 @@ import java.util.Optional;
  * The main view is a top-level placeholder for other views.
  */
 @JsModule("./styles/shared-styles.js")
-@PWA(name = "WG_Planner", shortName = "WG_Planner",  enableInstallPrompt = false)
+@PWA(name = "WG_Planner", shortName = "WG_Planner", enableInstallPrompt = false)
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @CssImport("./styles/views/main/main-view.css")
 public class MainView extends AppLayout {
@@ -53,7 +53,7 @@ public class MainView extends AppLayout {
     public MainView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
         setPrimarySection(Section.DRAWER);
-        addToNavbar(true, createHeaderContent());
+        addToNavbar(true, createHeaderContent(), createSecondaryMenu());
         menu = createMenu();
         addToDrawer(createDrawerContent(menu));
         mainViewPresenter = new MainViewPresenter();
@@ -76,15 +76,23 @@ public class MainView extends AppLayout {
         layout.add(new DrawerToggle());
         viewTitle = new H1();
         layout.add(viewTitle);
-        //todo fix, on remove image things going to right
-        layout.add(new Image("images/user.svg", "Avatar"));
+        return layout;
+    }
+
+    //todo fix menu click sensitivity
+    private Component createSecondaryMenu() {
+        HorizontalLayout layout = new HorizontalLayout();
+        layout.setId("header");
+        layout.getThemeList().set("dark", true);
+        layout.setSpacing(false);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
         Image image = new Image("images/user.svg", "Avatar");
         MenuBar menuBar = new MenuBar();
         MenuItem profileImage = menuBar.addItem(image);
         SubMenu secondaryMenu = profileImage.getSubMenu();
-        secondaryMenu.addItem("Edit Account");
+//        secondaryMenu.addItem("Edit Account");
+        secondaryMenu.addItem(new Anchor("account_details", "Account Details"));
         secondaryMenu.addItem("Floor Info");
-        //todo fix logout box click sensitivity
         secondaryMenu.addItem(new Anchor("logout", "Log out"));
         layout.add(menuBar);
         return layout;
@@ -116,12 +124,12 @@ public class MainView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        RouterLink[] links = new RouterLink[] {
-            new RouterLink("Home", HomePageView.class),
-            new RouterLink("Floor Tasks", FloorTasksView.class),
-            new RouterLink("My Tasks", MyTasksView.class),
-            new RouterLink("Admit Resident", AdmitNewResidentView.class),
-            new RouterLink("About", AboutView.class)
+        RouterLink[] links = new RouterLink[]{
+                new RouterLink("Home", AccountDetailsView.class),
+                new RouterLink("Floor Tasks", FloorTasksView.class),
+                new RouterLink("My Tasks", MyTasksView.class),
+                new RouterLink("Admit Resident", AdmitNewResidentView.class),
+                new RouterLink("About", AboutView.class)
         };
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);
     }

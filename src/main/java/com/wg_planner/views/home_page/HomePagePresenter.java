@@ -18,16 +18,16 @@ public class HomePagePresenter {
     @Autowired
     FloorService floorService;
 
-    HomePageView homePageView;
+    AccountDetailsView accountDetailsView;
 
-    public void init(HomePageView homePageView) {
-        this.homePageView = homePageView;
-        homePageView.add(new AccountDetailsView(residentAccountService));
-        homePageView.add(new ResidentAvailabilityView(residentAccountService, this));
-        homePageView.add(new AccountDeleteView(floorService, residentAccountService, taskService));
+    public void init(AccountDetailsView accountDetailsView) {
+        this.accountDetailsView = accountDetailsView;
+        accountDetailsView.add(new ResidentDetailsView(residentAccountService));
+        accountDetailsView.add(new ResidentAvailabilityView(residentAccountService, this));
+        accountDetailsView.add(new AccountDeleteView(floorService, residentAccountService, taskService));
     }
 
-    @Transactional//TODO why transactional?
+    @Transactional
     public void setResidentAwayAndSave(boolean isAway) {
         ResidentAccount currentResidentAccount = SessionHandler.getLoggedInResidentAccount();
         if (isAway) {
