@@ -1,20 +1,23 @@
 package com.wg_planner.views.utils.UINotificationHandler;
 
+import org.springframework.stereotype.Controller;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class NotificationStoreConcurrentHashMap implements NotificationStore {
-    private ConcurrentHashMap<Long, List<UINotificationContent>> notificationMap = new ConcurrentHashMap<>();
+@Controller
+public class UINotificationStoreConcurrentHashMap implements UINotificationStore {
+    private ConcurrentHashMap<Long, List<UINotificationType>> notificationMap = new ConcurrentHashMap<>();
 
-    public NotificationStoreConcurrentHashMap() {
+    public UINotificationStoreConcurrentHashMap() {
     }
 
     @Override
-    public boolean saveNotification(Long roomId, UINotificationContent newNotification) {
-        List<UINotificationContent> residentNotificationList = notificationMap.get(roomId);
+    public boolean saveNotification(Long roomId, UINotificationType newNotification) {
+        List<UINotificationType> residentNotificationList = notificationMap.get(roomId);
         if (residentNotificationList != null) {
             return residentNotificationList.add(newNotification); //true if this collection changed as a result of the call
         }
@@ -26,8 +29,8 @@ public class NotificationStoreConcurrentHashMap implements NotificationStore {
 
     @Override
     public void removeNotification(Long roomId, String notificationId) {
-        Optional<UINotificationContent> uiNotificationContentToRemove =
-                notificationMap.get(roomId).stream().filter(uiNotificationContent -> uiNotificationContent.getId() == notificationId).collect(Collectors.reducing((a, b) -> null));
+        Optional<UINotificationType> uiNotificationContentToRemove =
+                notificationMap.get(roomId).stream().filter(uiNotificationType -> uiNotificationType.getId() == notificationId).collect(Collectors.reducing((a, b) -> null));
         if(!uiNotificationContentToRemove.isPresent()) {
             throw new RuntimeException("notification to remove not found in the map. notificationId: " + notificationId);
         }
@@ -40,7 +43,7 @@ public class NotificationStoreConcurrentHashMap implements NotificationStore {
     }
 
     @Override
-    public List<UINotificationContent> getAllNotifications(Long roomId) {
+    public List<UINotificationType> getAllNotifications(Long roomId) {
         return notificationMap.get(roomId);
     }
 }
