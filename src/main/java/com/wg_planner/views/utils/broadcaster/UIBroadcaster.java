@@ -7,7 +7,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UIBroadcaster {
 
-    private static final List<BroadcastListener> listeners = new CopyOnWriteArrayList<BroadcastListener>();
+
+    private static final List<BroadcastListener> listeners = new CopyOnWriteArrayList<>();
 
     public static void register(BroadcastListener listener) {
         listeners.add(listener);
@@ -17,11 +18,11 @@ public class UIBroadcaster {
         listeners.remove(listener);
     }
 
-    public static void broadcast(final UINotificationType message) {
-        listeners.forEach(listener -> listener.receiveBroadcast(message));
+    public static void broadcast(final UINotificationType uiNotification) {
+        listeners.forEach(listener -> listener.receiveBroadcast(uiNotification));
     }
 
     public interface BroadcastListener {
-        public void receiveBroadcast(UINotificationType message);
+        void receiveBroadcast(UINotificationType message);
     }
 }

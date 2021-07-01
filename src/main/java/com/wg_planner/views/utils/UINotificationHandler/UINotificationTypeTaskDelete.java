@@ -13,14 +13,22 @@ public class UINotificationTypeTaskDelete implements UINotificationType {
     private String notificationTemplate = "%s from room %s has deleted task %s";
     private Button undoTaskDeleteButton = new Button("Undo");
     private VerticalLayout layout = new VerticalLayout();
+    public Room sourceRoom;
+    public Task taskToDelete;
 
-    public UINotificationTypeTaskDelete() {
+    private UINotificationTypeTaskDelete() {
     }
 
-    public void createNotificationView(Room roomDeletingTask, Task taskDeleted) {
+    public UINotificationTypeTaskDelete(Room sourceRoom, Task taskToDelete) {
+        this.sourceRoom = sourceRoom;
+        this.taskToDelete = taskToDelete;
+        createNotificationView();
+    }
+
+    private void createNotificationView() {
         layout.add(UINotificationViewCreator.createNotificationView(String.format(notificationTemplate,
-                roomDeletingTask.getResidentAccount().getFirstName(),
-                roomDeletingTask.getRoomName(), taskDeleted.getTaskName()), undoTaskDeleteButton));
+                sourceRoom.getResidentAccount().getFirstName(),
+                sourceRoom.getRoomName(), taskToDelete.getTaskName()), undoTaskDeleteButton));
     }
 
     public VerticalLayout getUILayout() {

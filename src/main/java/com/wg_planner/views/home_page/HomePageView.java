@@ -4,12 +4,10 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.wg_planner.views.main.MainView;
-import com.wg_planner.views.utils.UINotificationHandler.UINotificationType;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 @Route(value = "home_page", layout = MainView.class)
@@ -27,8 +25,15 @@ public class HomePageView extends VerticalLayout {
         homePagePresenter.init(this);
     }
 
-    void addNotification(Component notificationComponent) {
-        getUI().ifPresent(ui -> ui.access(() -> add(notificationComponent)));
+    //    @Override
+//    public void receiveBroadcast(UINotificationType message) {
+////        addNotificationToView(message.createNotificationView());
+//        getUI().ifPresent(ui -> ui.access(() -> add(message.createNotificationView())));
+//        UI.getCurrent().push();
+//    }
+    void addNotificationToView(Component notificationComponent) {
+        add(notificationComponent);
+//        getUI().ifPresent(ui -> ui.access(() -> add(notificationComponent)));
         UI.getCurrent().push();
     }
 }

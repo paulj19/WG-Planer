@@ -136,9 +136,9 @@ public class Room extends AbstractEntity implements Cloneable {
         Room otherRoom = (Room) other;
         return new EqualsBuilder()
                 .append(getId(), otherRoom.getId())
-                .append(roomName, otherRoom.roomName)
-                .append(occupied, otherRoom.occupied)
-                .append(residentAccount.getId(), otherRoom.residentAccount.getId())
+//                .append(roomName, otherRoom.roomName)
+//                .append(occupied, otherRoom.occupied)
+//                .append(residentAccount.getId(), otherRoom.residentAccount.getId())
                 .append(floor.getId(), otherRoom.floor.getId())
                 .isEquals();
     }

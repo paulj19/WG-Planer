@@ -8,7 +8,6 @@ import com.wg_planner.backend.entity.Task;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -44,9 +43,14 @@ public class FloorService {
         }
         return nonOccupiedRoomsInFloor;
     }
+
     public List<Room> getAllRoomsInFloor(@NotNull Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         return floorRepository.findAllRoomsInFloor(floor.getId());
+    }
+
+    public List<Room> getAllRoomsInFloor(Long floorId) {
+        return floorRepository.findAllRoomsInFloor(floorId);
     }
 
     public List<Room> getAllOccupiedAndResidentNotAwayRooms(@NotNull Floor floor) {

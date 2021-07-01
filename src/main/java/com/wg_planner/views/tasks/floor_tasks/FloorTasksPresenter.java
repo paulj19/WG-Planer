@@ -1,8 +1,8 @@
 package com.wg_planner.views.tasks.floor_tasks;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.wg_planner.views.tasks.task_cards.TaskCardCreator;
 import com.wg_planner.views.tasks.TasksPresenter;
+import com.wg_planner.views.tasks.task_cards.TaskCardCreator;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeTaskDelete;
@@ -26,19 +26,7 @@ public class FloorTasksPresenter extends TasksPresenter {
     @Override
     public void addTasks() {
         tasks.forEach(task -> allTaskLayout.add(TaskCardCreator.createAllTaskCard(task, this)));
-        UIBroadcaster.broadcast(uiNotificationHandler.createAndSaveUINotification(new UINotificationTypeTaskDelete(),
-                SessionHandler.getLoggedInResidentAccount().getRoom(),
-                SessionHandler.getLoggedInResidentAccount().getRoom().getAssignedTasks().get(0)));
-
-
-        //        allTaskLayout.removeAll();
-//        tasks.forEach(task -> new );
-//        for (Task task : tasks) {
-//            FloorTaskCard floorTaskCard = new FloorTaskCard(task, AccountDetailsHelper.getLoggedInResidentAccount(residentAccountService).getRoom().getRoomName().equals(task.getAssignedRoom().getRoomName()));
-//            floorTaskCard.addListener(FloorTaskCard.TaskCardEvent.DoneEvent.class, this::taskDoneCallBack);
-//            floorTaskCard.addListener(FloorTaskCard.TaskCardEvent.RemindEvent.class, this::taskRemindCallBack);
-//            allTaskLayout.add(floorTaskCard.getTaskCardLayout());
-//        }
+        UIBroadcaster.broadcast(uiNotificationHandler.createAndSaveUINotification(new UINotificationTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), SessionHandler.getLoggedInResidentAccount().getRoom().getAssignedTasks().get(0)), SessionHandler.getLoggedInResidentAccount().getRoom()));
     }
 
 
