@@ -2,6 +2,7 @@ package com.wg_planner.views.utils.UINotificationHandler;
 
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Room;
+import com.wg_planner.backend.entity.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -20,7 +21,7 @@ public class UINotificationHandler {
     }
 
     public synchronized UINotificationType createAndSaveUINotification(UINotificationType uiNotificationType,
-                                                                       Room sourceRoom) {
+                                                                       Room sourceRoom, Task taskDeleted) {
         List<Room> roomsInFloor = floorService.getAllRoomsInFloor(sourceRoom.getFloor().getId());
         roomsInFloor.remove(sourceRoom);
         roomsInFloor.forEach(room -> uiNotificationStore.saveNotification(room.getId(), uiNotificationType));

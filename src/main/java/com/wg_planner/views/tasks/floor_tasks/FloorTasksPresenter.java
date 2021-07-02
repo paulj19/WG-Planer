@@ -26,7 +26,7 @@ public class FloorTasksPresenter extends TasksPresenter {
     @Override
     public void addTasks() {
         tasks.forEach(task -> allTaskLayout.add(TaskCardCreator.createAllTaskCard(task, this)));
-        UIBroadcaster.broadcast(uiNotificationHandler.createAndSaveUINotification(new UINotificationTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), SessionHandler.getLoggedInResidentAccount().getRoom().getAssignedTasks().get(0)), SessionHandler.getLoggedInResidentAccount().getRoom()));
+        UIBroadcaster.broadcast(uiNotificationHandler.createAndSaveUINotification(new UINotificationTypeTaskDelete(), SessionHandler.getLoggedInResidentAccount().getRoom(), SessionHandler.getLoggedInResidentAccount().getRoom().getAssignedTasks().get(0)));
     }
 
 

@@ -16,10 +16,10 @@ public class UINotificationTypeTaskDelete implements UINotificationType {
     public Room sourceRoom;
     public Task taskToDelete;
 
-    private UINotificationTypeTaskDelete() {
+    public UINotificationTypeTaskDelete() {
     }
 
-    public UINotificationTypeTaskDelete(Room sourceRoom, Task taskToDelete) {
+    public void setSourceAndTask(Room sourceRoom, Task taskToDelete) {
         this.sourceRoom = sourceRoom;
         this.taskToDelete = taskToDelete;
         createNotificationView();
