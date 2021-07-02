@@ -5,9 +5,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class UINotificationTypeTaskDelete implements UINotificationType {
+public class UINotificationTypeTaskDelete implements UINotificationType, Serializable {
 
     private String id = UUID.randomUUID().toString();
     private String notificationTemplate = "%s from room %s has deleted task %s";

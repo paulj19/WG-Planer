@@ -6,7 +6,6 @@ import com.wg_planner.views.utils.UINotificationHandler.UINotificationType;
 import com.wg_planner.views.utils.broadcaster.UIBroadcaster;
 import org.springframework.beans.factory.annotation.Autowired;
 
-//
 public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
     HomePageView homePageView;
     @Autowired
