@@ -14,10 +14,6 @@ public class SessionHandler {
         VaadinSession.getCurrent().getSession().setAttribute(FLOOR_CREATED, floorCreated);
     }
 
-    public static Floor getFloorFromSession() {
-        return (Floor) VaadinSession.getCurrent().getSession().getAttribute(FLOOR_CREATED);
-    }
-
     public static void saveLoggedInResidentAccount(ResidentAccount residentAccountToSave) {
         Validate.notNull(residentAccountToSave, "loggedIn resident account to save in the session" +
                 " must not be null");

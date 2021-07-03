@@ -25,7 +25,6 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.wg_planner.views.about.AboutView;
-import com.wg_planner.views.account_details.AccountDetailsView;
 import com.wg_planner.views.home_page.HomePageView;
 import com.wg_planner.views.register.admission.AdmitNewResidentView;
 import com.wg_planner.views.tasks.floor_tasks.FloorTasksView;
