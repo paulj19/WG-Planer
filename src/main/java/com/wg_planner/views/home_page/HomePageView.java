@@ -1,15 +1,20 @@
 package com.wg_planner.views.home_page;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import com.wg_planner.views.main.MainView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
+//@Push
+@VaadinSessionScope
 @Route(value = "home_page", layout = MainView.class)
 @RouteAlias(value = "home_page", layout = MainView.class)
 @PageTitle("Home")
@@ -18,6 +23,7 @@ public class HomePageView extends VerticalLayout {
     private AutowireCapableBeanFactory beanFactory;
     private HomePagePresenter homePagePresenter;
 
+    @Autowired
     public HomePageView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
         homePagePresenter = new HomePagePresenter();
@@ -25,15 +31,17 @@ public class HomePageView extends VerticalLayout {
         homePagePresenter.init(this);
     }
 
-    //    @Override
-//    public void receiveBroadcast(UINotificationType message) {
-////        addNotificationToView(message.createNotificationView());
-//        getUI().ifPresent(ui -> ui.access(() -> add(message.createNotificationView())));
-//        UI.getCurrent().push();
-//    }
     void addNotificationToView(Component notificationComponent) {
-        add(notificationComponent);
-//        getUI().ifPresent(ui -> ui.access(() -> add(notificationComponent)));
-        UI.getCurrent().push();
+            getUI().ifPresent(ui -> ui.access(() -> add(notificationComponent)));
+    }
+
+    public UI getHomeUI() {
+        return UI.getCurrent();
+    }
+
+    @Override
+    protected void onDetach(DetachEvent detachEvent) {
+        super.onDetach(detachEvent);
+        homePagePresenter.onDetachUI();
     }
 }
