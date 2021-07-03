@@ -1,4 +1,4 @@
-package com.wg_planner.views.account_details;
+package com.wg_planner.views.sub_menu.account_details;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

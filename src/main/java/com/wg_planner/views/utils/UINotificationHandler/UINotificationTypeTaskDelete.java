@@ -3,6 +3,7 @@ package com.wg_planner.views.utils.UINotificationHandler;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PreserveOnRefresh;
@@ -41,10 +42,12 @@ public class UINotificationTypeTaskDelete implements UINotificationType {
     }
 
     public Component createNotificationView(String notificationMessage, Component... components) {
-        Span message = new Span(notificationMessage);
         HorizontalLayout notificationLayout = new HorizontalLayout();
+        Span message = new Span(notificationMessage);
         notificationLayout.add(message);
         notificationLayout.add(components);
+        notificationLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        notificationLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         return new VerticalLayout(notificationLayout);
     }
 

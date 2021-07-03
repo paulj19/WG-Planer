@@ -4,9 +4,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.views.tasks.TasksPresenter;
 import com.wg_planner.views.tasks.task_cards.TaskCardCreator;
 import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeTaskDelete;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class MyTasksPresenter extends TasksPresenter {
     VerticalLayout allTaskLayout;
@@ -20,5 +17,5 @@ public class MyTasksPresenter extends TasksPresenter {
     public void addTasks() {
         allTaskLayout.removeAll();
         SessionHandler.getLoggedInResidentAccount().getRoom().getAssignedTasks().forEach(task -> allTaskLayout.add(TaskCardCreator.createLoggedInResidentTaskCard(task, this)));
-        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.wg_planner.views.account_details;
+package com.wg_planner.views.sub_menu.account_details;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -56,7 +56,7 @@ public class ResidentDetailsView extends VerticalLayout {
     }
 
     private H1 getHeading() {
-        return new H1("Account Details to another roommate");
+        return new H1("Account Details");
     }
 
 }

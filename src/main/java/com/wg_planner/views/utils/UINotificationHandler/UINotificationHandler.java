@@ -19,10 +19,10 @@ public class UINotificationHandler {
         this.uiNotificationStore = uiNotificationStore;
     }
 
-    public synchronized UINotificationType createAndSaveUINotification(UINotificationType uiNotificationType,
-                                                                       Room sourceRoom) {
-        List<Room> roomsInFloor = floorService.getAllRoomsInFloor(sourceRoom.getFloor().getId());
-        roomsInFloor.remove(sourceRoom);
+    public synchronized UINotificationType createAndSaveUINotification(UINotificationType uiNotificationType) {
+        List<Room> roomsInFloor =
+                floorService.getAllRoomsInFloor(uiNotificationType.getSourceRoom().getFloor().getId());
+        roomsInFloor.remove(uiNotificationType.getSourceRoom());
         roomsInFloor.forEach(room -> uiNotificationStore.saveNotification(room.getId(),
                 (UINotificationType) uiNotificationType));
         return uiNotificationType;

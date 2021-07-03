@@ -94,7 +94,7 @@ public class MainView extends AppLayout {
         SubMenu secondaryMenu = profileImage.getSubMenu();
 //        secondaryMenu.addItem("Edit Account");
         secondaryMenu.addItem(new Anchor("account_details", "Account Details"));
-        secondaryMenu.addItem("Floor Info");
+        secondaryMenu.addItem(new Anchor("floor_details", "Floor Details"));
         secondaryMenu.addItem(new Anchor("logout", "Log out"));
         layout.add(menuBar);
         return layout;

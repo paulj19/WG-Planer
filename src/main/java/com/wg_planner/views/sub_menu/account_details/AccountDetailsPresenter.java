@@ -1,4 +1,4 @@
-package com.wg_planner.views.account_details;
+package com.wg_planner.views.sub_menu.account_details;
 
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.ResidentAccountService;

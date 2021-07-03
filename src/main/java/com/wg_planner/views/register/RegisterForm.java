@@ -143,7 +143,8 @@ public class RegisterForm extends FormLayout {
         isReadyToAcceptTasks.addValueChangeListener(checkboxBooleanComponentValueChangeEvent -> isAway =
                 !checkboxBooleanComponentValueChangeEvent.getValue());
         setWidth("500px");
-        add(firstName, lastName, email, username, password, floorTextField, roomsRoomComboBox, isReadyToAcceptTasks, createButtonLayout());
+        add(firstName, lastName, email, username, password, floorTextField, roomsRoomComboBox, isReadyToAcceptTasks,
+                createButtonLayout());
     }
 
     private void sanityChecksInvalidParameters(Object object) {
@@ -184,7 +185,8 @@ public class RegisterForm extends FormLayout {
         register.setEnabled(false);
 
         register.addClickListener(event -> validateAndSave());
-        cancel.addClickListener(event -> fireEvent(new RegisterFormEvent.CancelEvent(this, account, selectedFloor, selectedRoom)));
+        cancel.addClickListener(event -> fireEvent(new RegisterFormEvent.CancelEvent(this, account, selectedFloor,
+                selectedRoom)));
         return new HorizontalLayout(register, cancel);
     }
 
@@ -226,7 +228,8 @@ public class RegisterForm extends FormLayout {
 
     private Account getEnteredValuesAsAccount() {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(), email.getValue(),
+        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(),
+                email.getValue(),
                 username.getValue(), encoder.encode(password.getValue()), getSelectedRoom(), isAway, getAuthorities());
         return residentAccount;
     }
@@ -273,7 +276,8 @@ public class RegisterForm extends FormLayout {
         }
     }
 
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType, ComponentEventListener<T> listener) {
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+                                                                  ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
 }
