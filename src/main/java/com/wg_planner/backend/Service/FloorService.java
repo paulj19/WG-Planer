@@ -93,13 +93,11 @@ public class FloorService {
         return floorRepository.findFloorById(floorId);
     }
 
-    public void deleteTaskAndUpdateFloor(Floor floor, Task task) {
-        Validate.notNull(floor, "parameter floor must not be %s", null);
+    public void deleteTaskAndUpdateFloor(Task task) {
         Validate.notNull(task, "parameter task to delete must not be %s", null);
-        Validate.isTrue(floor.getTasks().contains(task), "floor must contain the task to delete");
-        floor.removeTaskFromFloor(task);
+        task.getFloor().removeTaskFromFloor(task);
         task.getAssignedRoom().removeAssignedTask(task);
-        save(floor);
+        save(task.getFloor());
         taskRepository.delete(task);
     }
 

@@ -94,6 +94,24 @@ public class FloorDetailsView extends VerticalLayout {
         return taskLayout;
     }
 
+//    private ConfirmationDialog createDeleteConfirmDialog(Task task) {
+//        return new ConfirmationDialog("Confirm Delete",
+//                "Are you sure you want to delete this task?",
+//                "Delete",
+//                this::onConfirmDelete,
+//                "Cancel", this::onCancelDelete, task);
+//    }
+//
+//    private void onCancelDelete(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {
+//        cancelEvent.getSource().close();
+//    }
+
+//    private void onConfirmDelete(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent confirmEvent) {
+//        fireEvent(new TaskUpdateEvent.DeleteTaskEvent(this, (Task) confirmEvent.getSource().getValue()));
+////todo notification after delete
+////        Notification.show(UIStringConstants.getInstance().getAccountDeletedConfirmation(), 10000, BOTTOM_STRETCH);
+//    }
+
     public static abstract class TaskUpdateEvent extends ComponentEvent<FloorDetailsView> {
         private Task task;
 
@@ -111,6 +129,7 @@ public class FloorDetailsView extends VerticalLayout {
                 super(source, task);
             }
         }
+
     }
 
     public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,

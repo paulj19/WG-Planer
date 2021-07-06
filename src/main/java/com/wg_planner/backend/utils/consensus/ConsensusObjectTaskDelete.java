@@ -30,7 +30,7 @@ public class ConsensusObjectTaskDelete extends ConsensusObject {
     }
 
     @Override
-    public boolean test(ConsensusObject consensusObject) {
+    public boolean test(ConsensusObject consensusObject) {//all the rooms should accept
         return roomsAccepting.stream().count() == floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor()).stream().count();
     }
 }
