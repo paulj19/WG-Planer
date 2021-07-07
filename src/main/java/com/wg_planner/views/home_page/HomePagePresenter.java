@@ -1,5 +1,6 @@
 package com.wg_planner.views.home_page;
 
+import com.vaadin.flow.component.UI;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusListener;
@@ -19,6 +20,8 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
         public void onAccept(Long consensusObjectId, String notificationId) {
             ConsensusHandler.processAccept(consensusObjectId, attachedRoom);
             uiNotificationHandler.removeNotification(attachedRoom.getId(), notificationId);
+            //todo something better than reload
+            UI.getCurrent().getPage().reload();
         }
 
         @Override
