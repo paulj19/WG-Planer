@@ -20,6 +20,7 @@ public class UINotificationTypeTaskDelete implements UINotificationType {
     private String notificationTemplate = "%s from room %s has deleted task %s";
     public Room sourceRoom;
     public Task taskToDelete;
+    private Component notificationLayout;
 
     private UINotificationTypeTaskDelete() {
     }
@@ -27,24 +28,25 @@ public class UINotificationTypeTaskDelete implements UINotificationType {
     public UINotificationTypeTaskDelete(Room sourceRoom, Task taskToDelete) {
         this.sourceRoom = sourceRoom;
         this.taskToDelete = taskToDelete;
-//        createNotificationView();
+        //        createNotificationView();
     }
 
-//    private void createNotificationView() {
-//        layout.add(UINotificationViewCreator.createNotificationView(String.format(notificationTemplate,
-//                sourceRoom.getResidentAccount().getFirstName(),
-//                sourceRoom.getRoomName(), taskToDelete.getTaskName()), undoTaskDeleteButton));
-//    }
+    //    private void createNotificationView() {
+    //        layout.add(UINotificationViewCreator.createNotificationView(String.format(notificationTemplate,
+    //                sourceRoom.getResidentAccount().getFirstName(),
+    //                sourceRoom.getRoomName(), taskToDelete.getTaskName()), undoTaskDeleteButton));
+    //    }
 
     @Override
     public Component getUILayout(ConsensusListener consensusListener) {
-        Button acceptButton= new Button("Accept");
-        Button rejectButton= new Button("Reject");
+        Button acceptButton = new Button("Accept");
+        Button rejectButton = new Button("Reject");
         acceptButton.addClickListener(event -> consensusListener.onAccept(taskToDelete.getId(), id));
         rejectButton.addClickListener(event -> consensusListener.onReject(taskToDelete.getId()));
-        return createNotificationView(String.format(notificationTemplate,
+        notificationLayout = createNotificationView(String.format(notificationTemplate,
                 sourceRoom.getResidentAccount().getFirstName(),
                 sourceRoom.getRoomName(), taskToDelete.getTaskName()), acceptButton, rejectButton);
+        return notificationLayout;
     }
 
     private Component createNotificationView(String notificationMessage, Component... components) {
