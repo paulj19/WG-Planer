@@ -4,4 +4,6 @@ public interface ConsensusObjectStore {
     boolean add(ConsensusObject o);
 
     ConsensusObject get(Long id);
+
+    boolean containsObject(Long id);
 }

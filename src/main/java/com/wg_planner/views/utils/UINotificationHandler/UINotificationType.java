@@ -6,8 +6,10 @@ import com.wg_planner.backend.utils.consensus.ConsensusListener;
 
 public interface UINotificationType {
     String getId();
+
     Room getSourceRoom();
-//    Component createNotificationView();
+    //    Component createNotificationView();
 
     Component getUILayout(ConsensusListener consensusListener);
+
 }

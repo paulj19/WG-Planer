@@ -30,8 +30,20 @@ public class FloorDetailsPresenter {
     }
 
     private void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
-        UIBroadcaster.broadcast(uiNotificationHandler.createAndSaveUINotification(new UINotificationTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask())));
-        consensusHandler.add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
-        floorService.getAllOccupiedAndResidentNotAwayRooms(event.getTask().getFloor()).forEach(room -> ConsensusHandler.processAccept(event.getTask().getId(), room));
+        if (!consensusHandler.isObjectWaitingForConsensus(event.getTask().getId())) {
+            UIBroadcaster.broadcast(uiNotificationHandler.createAndSaveUINotification(new UINotificationTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask())));
+            consensusHandler.add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
+            floorDetailsView.notify("The task has been send for approval, all the other residents should approve before task can be " +
+                    "deleted");
+        } else {
+            floorDetailsView.notify("Some other resident tried to delete the task and has already been send for approval by all residents");
+        }
+        floorDetailsView.refreshTasksInFloor(floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
+        //        floorService.getAllOccupiedAndResidentNotAwayRooms(event.getTask().getFloor()).forEach(room -> ConsensusHandler
+        //        .processAccept(event.getTask().getId(), room));
+    }
+
+    boolean isObjectDeletable(Long id) {
+        return !consensusHandler.isObjectWaitingForConsensus(id);
     }
 }

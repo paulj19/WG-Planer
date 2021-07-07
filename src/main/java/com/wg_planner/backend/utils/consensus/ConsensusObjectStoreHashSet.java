@@ -17,7 +17,12 @@ public class ConsensusObjectStoreHashSet implements ConsensusObjectStore {
     @Override
     public ConsensusObject get(Long id) {
         Optional<ConsensusObject> searchResult =
-                consensusEntities.stream().filter(consensusObject -> consensusObject.getId() == id).findFirst();
+                consensusEntities.stream().filter(consensusObject -> consensusObject.getId().equals(id)).findFirst();
         return searchResult.isPresent() ? searchResult.get() : null;
+    }
+
+    @Override
+    public boolean containsObject(Long id) {
+        return consensusEntities.stream().anyMatch(consensusObject -> consensusObject.getId().equals(id));
     }
 }

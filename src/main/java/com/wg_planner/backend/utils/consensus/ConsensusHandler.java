@@ -48,4 +48,8 @@ public class ConsensusHandler {
     public ConsensusObject get(Long id) {
         return consensusObjectStore.get(id);
     }
+
+    public boolean isObjectWaitingForConsensus(Long objectId) {
+        return consensusObjectStore.containsObject(objectId);
+    }
 }
