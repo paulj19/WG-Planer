@@ -37,19 +37,23 @@ public class UINotificationStoreConcurrentHashMap implements UINotificationStore
 //            throw new RuntimeException("notification to remove not found in the map. notificationId: " + notificationId);
 //        }
 //        notificationMap.get(roomId).remove(uiNotificationContentToRemove.get());
-        notificationMap.get(roomId).removeIf(uiNotificationType -> uiNotificationType.getId().equals(notificationId));
+        List<UINotificationType> notificationsOfRoom = notificationMap.get(roomId);
+        if(notificationsOfRoom != null){
+            notificationsOfRoom.removeIf(uiNotificationType -> uiNotificationType.getId().equals(notificationId));
+        }
     }
 
     @Override
-    public void removeAllNotifications(Long roomId) {
+    public void removeAllNotificationsOfRoom(Long roomId) {
         notificationMap.remove(roomId);
     }
 
     @Override
-    public List<UINotificationType> getAllNotifications(Long roomId) {
+    public List<UINotificationType> getAllNotificationsOfRoom(Long roomId) {
         if (notificationMap.get(roomId) == null) {
             return Collections.emptyList();
         }
         return notificationMap.get(roomId);
     }
+
 }

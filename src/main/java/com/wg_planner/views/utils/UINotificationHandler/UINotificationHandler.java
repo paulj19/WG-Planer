@@ -22,7 +22,7 @@ public class UINotificationHandler {
 
     public synchronized UINotificationType createAndSaveUINotification(UINotificationType uiNotificationType) {
         List<Room> roomsInFloor =
-                floorService.getAllRoomsInFloor(uiNotificationType.getSourceRoom().getFloor().getId());
+                floorService.getAllRoomsInFloorByFloorId(uiNotificationType.getSourceRoom().getFloor().getId());
         roomsInFloor.remove(uiNotificationType.getSourceRoom());
         roomsInFloor.forEach(room -> uiNotificationStore.saveNotification(room.getId(),
                 uiNotificationType));
@@ -30,7 +30,12 @@ public class UINotificationHandler {
     }
 
     public synchronized List<UINotificationType> getAllNotificationsForRoom(Room room) {
-        return uiNotificationStore.getAllNotifications(room.getId());
+        return uiNotificationStore.getAllNotificationsOfRoom(room.getId());
+    }
+
+    public synchronized void removeAllNotificationObjectsInFloorOfNotification(Long rejectingRoomFloorId, String notificationObjectId) {
+        floorService.getAllRoomsInFloorByFloorId(rejectingRoomFloorId).forEach(room -> removeNotification(
+                room.getId(), notificationObjectId));
     }
 
     public synchronized void removeNotification(Long roomId, String id) {

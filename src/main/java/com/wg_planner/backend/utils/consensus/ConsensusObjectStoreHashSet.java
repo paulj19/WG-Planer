@@ -22,6 +22,11 @@ public class ConsensusObjectStoreHashSet implements ConsensusObjectStore {
     }
 
     @Override
+    public void remove(ConsensusObject consensusObject) {
+        consensusEntities.remove(consensusObject);
+    }
+
+    @Override
     public boolean containsObject(Long id) {
         return consensusEntities.stream().anyMatch(consensusObject -> consensusObject.getId().equals(id));
     }

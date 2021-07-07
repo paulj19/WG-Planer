@@ -24,7 +24,7 @@ public class FloorDetailsPresenter {
             floorDetailsView.addFloorName(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor().getFloorName());
         }
         floorDetailsView.addFloorCode(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor().getFloorCode());
-        floorDetailsView.addRoomsInFloor(floorService.getAllRoomsInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
+        floorDetailsView.addRoomsInFloor(floorService.getAllRoomsInFloorByFloorId(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
         floorDetailsView.addListener(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent.class, this::onTaskDelete);
         floorDetailsView.addTasksInFloor(floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
     }

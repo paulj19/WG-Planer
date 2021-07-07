@@ -44,12 +44,12 @@ public class FloorService {
         return nonOccupiedRoomsInFloor;
     }
 
-    public List<Room> getAllRoomsInFloor(@NotNull Floor floor) {
+    public List<Room> getAllRoomsInFloorByFloorId(@NotNull Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         return floorRepository.findAllRoomsInFloor(floor.getId());
     }
 
-    public List<Room> getAllRoomsInFloor(Long floorId) {
+    public List<Room> getAllRoomsInFloorByFloorId(Long floorId) {
         return floorRepository.findAllRoomsInFloor(floorId);
     }
 

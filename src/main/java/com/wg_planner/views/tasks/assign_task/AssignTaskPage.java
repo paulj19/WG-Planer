@@ -35,7 +35,7 @@ public class AssignTaskPage extends VerticalLayout {
     private ComboBox<Room> getRoomsComboBox(Room roomRequestingAssign, FloorService floorService) {
         ComboBox<Room> roomsInFloorComboBox = new ComboBox<>("Choose a room");
         List<Room> availableRoomsInFloor = floorService.getAllOccupiedAndResidentNotAwayRooms(roomRequestingAssign.getFloor());
-        List<Room> allRoomsInFloor = floorService.getAllRoomsInFloor(roomRequestingAssign.getFloor());
+        List<Room> allRoomsInFloor = floorService.getAllRoomsInFloorByFloorId(roomRequestingAssign.getFloor());
         Validate.isTrue(allRoomsInFloor.contains(roomRequestingAssign), "fatal error: room " +
                 "requesting assign should be present in the corresponding floor, room: "+ roomRequestingAssign.toString());
 //        availableRoomsInFloor.remove(roomRequestingAssign);//todo better

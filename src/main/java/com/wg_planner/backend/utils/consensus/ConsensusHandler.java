@@ -15,30 +15,31 @@ public class ConsensusHandler {
         this.consensusObjectStore = consensusObjectStore;
     }
 
-    public static void processAccept(Task task, Room acceptor) {
-        Validate.notNull(acceptor,
-                "argument room must not be null in " + new Object() {
-                }.getClass().getEnclosingMethod().getName());
-        processAccept(consensusObjectStore.get(task.getId()), acceptor);
+    public static void processAccept(Task task) {
+        Validate.notNull(task, "argument must not be null");
+        processAccept(consensusObjectStore.get(task.getId()));
     }
 
-    public static void processAccept(Long id, Room acceptor) {
+    public static void processAccept(Long id) {
         Validate.notNull(consensusObjectStore.get(id), "id of object passed not found");
-        processAccept(consensusObjectStore.get(id), acceptor);
+        processAccept(consensusObjectStore.get(id));
     }
 
-    public static void processAccept(ConsensusObject consensusObject, Room acceptor) {
+    public static void processAccept(ConsensusObject consensusObject) {
         Validate.notNull(consensusObject, "argument must not be null");
-        Validate.notNull(acceptor, "argument must not be null");
-        consensusObject.addAcceptingRoom(acceptor);
         if (consensusObject.test(consensusObject)) {
             consensusObject.getConsensusDone().onConsensusDone();
         }
     }
-    public static void processReject(Long id, Room acceptor) {
-    }
-    public static void processReject(ConsensusObject consensusObject, Room acceptor) {
 
+    public static void processReject(Long id) {
+        Validate.notNull(id, "argument must not be null");
+        processReject(consensusObjectStore.get(id));
+    }
+
+    public static void processReject(ConsensusObject consensusObject) {
+        consensusObject.roomsAccepting = null; //remove all the rooms that had accepted?
+        consensusObjectStore.remove(consensusObject);//delete consensus object from consensus store
     }
 
     public boolean add(ConsensusObject consensusObject) {

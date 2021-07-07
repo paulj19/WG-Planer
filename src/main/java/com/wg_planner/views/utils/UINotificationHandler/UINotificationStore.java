@@ -7,7 +7,7 @@ public interface UINotificationStore {
 
     void removeNotification(Long roomId, String id);
 
-    void removeAllNotifications(Long roomId);
+    void removeAllNotificationsOfRoom(Long roomId);
 
-    List<UINotificationType> getAllNotifications(Long roomId);
+    List<UINotificationType> getAllNotificationsOfRoom(Long roomId);
 }

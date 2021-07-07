@@ -5,5 +5,7 @@ public interface ConsensusObjectStore {
 
     ConsensusObject get(Long id);
 
+    void remove(ConsensusObject consensusObject);
+
     boolean containsObject(Long id);
 }

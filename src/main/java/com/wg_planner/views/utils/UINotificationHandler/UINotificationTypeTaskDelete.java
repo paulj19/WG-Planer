@@ -41,7 +41,7 @@ public class UINotificationTypeTaskDelete implements UINotificationType {
         Button acceptButton= new Button("Accept");
         Button rejectButton= new Button("Reject");
         acceptButton.addClickListener(event -> consensusListener.onAccept(taskToDelete.getId(), id));
-        rejectButton.addClickListener(event -> consensusListener.onReject(taskToDelete.getId()));
+        rejectButton.addClickListener(event -> consensusListener.onReject(taskToDelete.getId(), id));
         return createNotificationView(String.format(notificationTemplate,
                 sourceRoom.getResidentAccount().getFirstName(),
                 sourceRoom.getRoomName(), taskToDelete.getTaskName()), acceptButton, rejectButton);
