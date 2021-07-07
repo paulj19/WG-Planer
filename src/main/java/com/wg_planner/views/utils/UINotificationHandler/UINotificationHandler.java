@@ -10,6 +10,7 @@ import java.util.List;
 @Controller
 public class UINotificationHandler {
     //sync in function calling saveNotification
+    //todo make static
     private UINotificationStore uiNotificationStore;
     FloorService floorService;
 
@@ -24,11 +25,16 @@ public class UINotificationHandler {
                 floorService.getAllRoomsInFloor(uiNotificationType.getSourceRoom().getFloor().getId());
         roomsInFloor.remove(uiNotificationType.getSourceRoom());
         roomsInFloor.forEach(room -> uiNotificationStore.saveNotification(room.getId(),
-                (UINotificationType) uiNotificationType));
+                uiNotificationType));
         return uiNotificationType;
     }
 
     public synchronized List<UINotificationType> getAllNotificationsForRoom(Room room) {
         return uiNotificationStore.getAllNotifications(room.getId());
     }
+
+    public synchronized void removeNotification(Long roomId, String id) {
+        uiNotificationStore.removeNotification(roomId, id);
+    }
+
 }

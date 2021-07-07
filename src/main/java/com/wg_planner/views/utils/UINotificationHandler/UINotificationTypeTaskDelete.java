@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PreserveOnRefresh;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.consensus.ConsensusListener;
 
 import java.util.UUID;
 
@@ -35,16 +36,18 @@ public class UINotificationTypeTaskDelete implements UINotificationType {
 //                sourceRoom.getRoomName(), taskToDelete.getTaskName()), undoTaskDeleteButton));
 //    }
 
-    public Component getUILayout() {
+    @Override
+    public Component getUILayout(ConsensusListener consensusListener) {
         Button acceptButton= new Button("Accept");
-        acceptButton.addClickListener(event -> )
         Button rejectButton= new Button("Reject");
+        acceptButton.addClickListener(event -> consensusListener.onAccept(taskToDelete.getId(), id));
+        rejectButton.addClickListener(event -> consensusListener.onReject(taskToDelete.getId()));
         return createNotificationView(String.format(notificationTemplate,
                 sourceRoom.getResidentAccount().getFirstName(),
-                sourceRoom.getRoomName(), taskToDelete.getTaskName()), new Button("Accept"), new Button("Reject"));
+                sourceRoom.getRoomName(), taskToDelete.getTaskName()), acceptButton, rejectButton);
     }
 
-    public Component createNotificationView(String notificationMessage, Component... components) {
+    private Component createNotificationView(String notificationMessage, Component... components) {
         HorizontalLayout notificationLayout = new HorizontalLayout();
         Span message = new Span(notificationMessage);
         notificationLayout.add(message);

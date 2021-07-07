@@ -32,6 +32,6 @@ public class FloorDetailsPresenter {
     private void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
         UIBroadcaster.broadcast(uiNotificationHandler.createAndSaveUINotification(new UINotificationTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask())));
         consensusHandler.add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
-        floorService.getAllOccupiedAndResidentNotAwayRooms(event.getTask().getFloor()).forEach(room -> consensusHandler.processAccept(event.getTask().getId(), room));
+        floorService.getAllOccupiedAndResidentNotAwayRooms(event.getTask().getFloor()).forEach(room -> ConsensusHandler.processAccept(event.getTask().getId(), room));
     }
 }

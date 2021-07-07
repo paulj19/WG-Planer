@@ -1,6 +1,7 @@
 package com.wg_planner.backend.utils.consensus;
 
 import com.wg_planner.backend.entity.Room;
+import org.apache.commons.lang3.Validate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public abstract class ConsensusObject implements Predicate<ConsensusObject> {
     public abstract ConsensusDone getConsensusDone();
 
     void addAcceptingRoom(Room acceptingRoom) {
+        Validate.isTrue(!roomsAccepting.contains(acceptingRoom), "room should accept only once");
         roomsAccepting.add(acceptingRoom);
     }
 }

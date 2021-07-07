@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 @Controller
 public class UINotificationStoreConcurrentHashMap implements UINotificationStore {
@@ -31,12 +29,13 @@ public class UINotificationStoreConcurrentHashMap implements UINotificationStore
 
     @Override
     public void removeNotification(Long roomId, String notificationId) {
-        Optional<UINotificationType> uiNotificationContentToRemove =
-                notificationMap.get(roomId).stream().filter(uiNotificationType -> uiNotificationType.getId() == notificationId).collect(Collectors.reducing((a, b) -> null));
-        if (!uiNotificationContentToRemove.isPresent()) {
-            throw new RuntimeException("notification to remove not found in the map. notificationId: " + notificationId);
-        }
-        notificationMap.get(roomId).remove(uiNotificationContentToRemove.get());
+//        Optional<UINotificationType> uiNotificationContentToRemove =
+//                notificationMap.get(roomId).stream().filter(uiNotificationType -> uiNotificationType.getId() == notificationId).collect(Collectors.reducing((a, b) -> null));
+//        if (!uiNotificationContentToRemove.isPresent()) {
+//            throw new RuntimeException("notification to remove not found in the map. notificationId: " + notificationId);
+//        }
+//        notificationMap.get(roomId).remove(uiNotificationContentToRemove.get());
+        notificationMap.get(roomId).removeIf(uiNotificationType -> uiNotificationType.getId().equals(notificationId));
     }
 
     @Override

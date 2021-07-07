@@ -31,6 +31,6 @@ public class ConsensusObjectTaskDelete extends ConsensusObject {
 
     @Override
     public boolean test(ConsensusObject consensusObject) {//all the rooms should accept
-        return roomsAccepting.stream().count() == floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor()).stream().count();
+        return roomsAccepting.containsAll(floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor())) && floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor()).containsAll(roomsAccepting);
     }
 }
