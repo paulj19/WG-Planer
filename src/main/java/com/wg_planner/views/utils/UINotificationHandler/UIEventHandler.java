@@ -2,6 +2,7 @@ package com.wg_planner.views.utils.UINotificationHandler;
 
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Room;
+import com.wg_planner.backend.resident_admission.EventTimer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -12,12 +13,15 @@ public class UIEventHandler {
     //sync in function calling saveNotification
     //todo make static
     private UIEventStore uiEventStore;
-    FloorService floorService;
+    private FloorService floorService;
+    private EventTimer eventTimer;
+
 
     @Autowired
-    public UIEventHandler(UIEventStore uiEventStore, FloorService floorService) {
+    public UIEventHandler(UIEventStore uiEventStore, FloorService floorService, EventTimer eventTimer) {
         this.floorService = floorService;
         this.uiEventStore = uiEventStore;
+        this.eventTimer = eventTimer;
     }
 
     public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType) {
@@ -26,15 +30,25 @@ public class UIEventHandler {
         roomsInFloor.remove(uiEventType.getSourceRoom());
         roomsInFloor.forEach(room -> uiEventStore.saveNotification(room.getId(),
                 uiEventType));
+        setTimer(uiEventType);
         return uiEventType;
+    }
+
+    private void setTimer(UIEventType uiEventType) {
+        eventTimer.setTimer(uiEventType, o -> {
+            if (o instanceof UIEventTypeTaskDelete) {
+                removeAllNotificationObjectsInFloorOfNotification(((UIEventTypeTaskDelete) o).getSourceRoom().getFloor().getId(),
+                        ((UIEventTypeTaskDelete) o).getId());
+            }
+        }, uiEventType.getTimeoutInterval());
     }
 
     public synchronized List<UIEventType> getAllNotificationsForRoom(Room room) {
         return uiEventStore.getAllNotificationsOfRoom(room.getId());
     }
 
-    public synchronized void removeAllNotificationObjectsInFloorOfNotification(Long rejectingRoomFloorId, String notificationObjectId) {
-        floorService.getAllRoomsInFloorByFloorId(rejectingRoomFloorId).forEach(room -> removeNotification(
+    public synchronized void removeAllNotificationObjectsInFloorOfNotification(Long floorId, String notificationObjectId) {
+        floorService.getAllRoomsInFloorByFloorId(floorId).forEach(room -> removeNotification(
                 room.getId(), notificationObjectId));
     }
 

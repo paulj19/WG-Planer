@@ -16,15 +16,11 @@ import java.util.UUID;
 
 @PreserveOnRefresh
 public class UIEventTypeTaskDelete implements UIEventType {
-
     private final String id = UUID.randomUUID().toString();
     private String notificationTemplate = "%s from room %s has deleted task %s";
     public Room sourceRoom;
     public Task taskToDelete;
-    TimerRelapse removeUIEventAndConsensusObject =
-            (timerElapsedObject) -> {
-
-            };
+    private final long timeoutInterval = 604800000; //
 
     private UIEventTypeTaskDelete() {
     }
@@ -70,5 +66,10 @@ public class UIEventTypeTaskDelete implements UIEventType {
     @Override
     public Room getSourceRoom() {
         return sourceRoom;
+    }
+
+    @Override
+    public long getTimeoutInterval() {
+        return timeoutInterval;
     }
 }

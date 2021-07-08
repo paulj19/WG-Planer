@@ -19,7 +19,7 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
     private ConsensusListener consensusListener = new ConsensusListener() {
         @Override
         public synchronized void onAccept(Long consensusObjectId, String notificationId) {
-            ConsensusHandler.processAccept(consensusObjectId);
+            ConsensusHandler.processAccept(consensusObjectId, attachedRoom);
             uiEventHandler.removeNotification(attachedRoom.getId(), notificationId);
             //todo something better than reload
             UI.getCurrent().getPage().reload();
@@ -36,8 +36,8 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
     public void init(HomePageView homePageView) {
         this.homePageView = homePageView;
         attachedRoom = SessionHandler.getLoggedInResidentAccount().getRoom();
-//        uiNotificationHandler.getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView
-//        .addNotificationToView(notification.getUILayout(consensusListener)));
+        //        uiNotificationHandler.getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView
+        //        .addNotificationToView(notification.getUILayout(consensusListener)));
         homePageView.getHomeUI().addAfterNavigationListener(event -> uiEventHandler.getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView.addNotificationToView(notification.getUILayout(consensusListener))));
         homePageView.addAttachListener(event -> {
             UIBroadcaster.register(this);

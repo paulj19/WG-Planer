@@ -4,7 +4,7 @@ import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Task;
 
 public class ConsensusObjectTaskDelete extends ConsensusObject {
-    private final long timeoutIntervalToRemoveTaskFromMapInMillis = 60000;
+    private final long timeoutIntervalToRemoveTaskFromMapInMillis = 604800000;
     private Task taskToDelete;
     private FloorService floorService;
 

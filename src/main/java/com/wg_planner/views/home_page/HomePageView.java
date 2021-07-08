@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -12,6 +13,8 @@ import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import com.wg_planner.views.main.MainView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+
+import static com.vaadin.flow.component.notification.Notification.Position.BOTTOM_STRETCH;
 
 //@Push
 @VaadinSessionScope
@@ -32,11 +35,15 @@ public class HomePageView extends VerticalLayout {
     }
 
     void addNotificationToView(Component notificationComponent) {
-            getUI().ifPresent(ui -> ui.access(() -> add(notificationComponent)));
+        getUI().ifPresent(ui -> ui.access(() -> add(notificationComponent)));
     }
 
     public UI getHomeUI() {
         return UI.getCurrent();
+    }
+
+    void notify(String notificationMessage) {
+        Notification.show(notificationMessage, 10000, BOTTOM_STRETCH);
     }
 
     @Override

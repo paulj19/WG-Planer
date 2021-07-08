@@ -12,4 +12,5 @@ public interface UIEventType {
 
     Component getUILayout(ConsensusListener consensusListener);
 
+    long getTimeoutInterval();
 }

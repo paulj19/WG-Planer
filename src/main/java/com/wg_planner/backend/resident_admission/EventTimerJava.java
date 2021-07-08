@@ -10,12 +10,14 @@ public class EventTimerJava implements EventTimer {
 
     @Override
     public void setTimer(Object o, TimerRelapse onTimerRelapse, long timerDuration) {
-        Timer initialTimer = new Timer();
-        initialTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                onTimerRelapse.onTimerRelapse(o);
-            }
-        }, timerDuration);
+        if (timerDuration > 0) {
+            Timer initialTimer = new Timer();
+            initialTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    onTimerRelapse.onTimerRelapse(o);
+                }
+            }, timerDuration);
+        }
     }
 }
