@@ -4,7 +4,7 @@ import com.vaadin.flow.component.Component;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.utils.consensus.ConsensusListener;
 
-public interface UINotificationType {
+public interface UIEventType {
     String getId();
 
     Room getSourceRoom();

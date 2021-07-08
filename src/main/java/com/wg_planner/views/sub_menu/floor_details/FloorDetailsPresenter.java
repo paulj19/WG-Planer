@@ -4,8 +4,8 @@ import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskDelete;
 import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeTaskDelete;
+import com.wg_planner.views.utils.UINotificationHandler.UIEventHandler;
+import com.wg_planner.views.utils.UINotificationHandler.UIEventTypeTaskDelete;
 import com.wg_planner.views.utils.broadcaster.UIBroadcaster;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,7 +13,7 @@ public class FloorDetailsPresenter {
     @Autowired
     private FloorService floorService;
     @Autowired
-    UINotificationHandler uiNotificationHandler;
+    UIEventHandler uiEventHandler;
     @Autowired
     ConsensusHandler consensusHandler;
     private FloorDetailsView floorDetailsView;
@@ -31,7 +31,7 @@ public class FloorDetailsPresenter {
 
     private void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
         if (!consensusHandler.isObjectWaitingForConsensus(event.getTask().getId())) {
-            UIBroadcaster.broadcast(uiNotificationHandler.createAndSaveUINotification(new UINotificationTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask())));
+            UIBroadcaster.broadcast(uiEventHandler.createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask())));
             consensusHandler.add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
             floorDetailsView.notify("The task has been send for approval, all the other residents should approve before task can be " +
                     "deleted");

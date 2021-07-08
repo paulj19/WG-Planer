@@ -1,7 +1,7 @@
 package com.wg_planner.views.utils.broadcaster;
 
 import com.wg_planner.backend.entity.Room;
-import com.wg_planner.views.utils.UINotificationHandler.UINotificationType;
+import com.wg_planner.views.utils.UINotificationHandler.UIEventType;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,12 +26,12 @@ public class UIBroadcaster {
 
     //session handler sessions do not work with receiverBroadcast because it is this session that is calling and not
     // the other view's session
-    public static void broadcast(final UINotificationType uiNotification) {
+    public static void broadcast(final UIEventType uiNotification) {
         listeners.forEach(listener -> listener.receiveBroadcast(uiNotification));
     }
 
     public interface BroadcastListener {
-        void receiveBroadcast(UINotificationType message);
+        void receiveBroadcast(UIEventType message);
 
         Room getCorrespondingRoom();
     }

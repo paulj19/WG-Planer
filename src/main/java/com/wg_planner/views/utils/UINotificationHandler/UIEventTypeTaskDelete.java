@@ -9,22 +9,27 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PreserveOnRefresh;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.resident_admission.TimerRelapse;
 import com.wg_planner.backend.utils.consensus.ConsensusListener;
 
 import java.util.UUID;
 
 @PreserveOnRefresh
-public class UINotificationTypeTaskDelete implements UINotificationType {
+public class UIEventTypeTaskDelete implements UIEventType {
 
-    private String id = UUID.randomUUID().toString();
+    private final String id = UUID.randomUUID().toString();
     private String notificationTemplate = "%s from room %s has deleted task %s";
     public Room sourceRoom;
     public Task taskToDelete;
+    TimerRelapse removeUIEventAndConsensusObject =
+            (timerElapsedObject) -> {
 
-    private UINotificationTypeTaskDelete() {
+            };
+
+    private UIEventTypeTaskDelete() {
     }
 
-    public UINotificationTypeTaskDelete(Room sourceRoom, Task taskToDelete) {
+    public UIEventTypeTaskDelete(Room sourceRoom, Task taskToDelete) {
         this.sourceRoom = sourceRoom;
         this.taskToDelete = taskToDelete;
 //        createNotificationView();
@@ -38,8 +43,8 @@ public class UINotificationTypeTaskDelete implements UINotificationType {
 
     @Override
     public Component getUILayout(ConsensusListener consensusListener) {
-        Button acceptButton= new Button("Accept");
-        Button rejectButton= new Button("Reject");
+        Button acceptButton = new Button("Accept");
+        Button rejectButton = new Button("Reject");
         acceptButton.addClickListener(event -> consensusListener.onAccept(taskToDelete.getId(), id));
         rejectButton.addClickListener(event -> consensusListener.onReject(taskToDelete.getId(), id));
         return createNotificationView(String.format(notificationTemplate,

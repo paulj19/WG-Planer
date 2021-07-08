@@ -5,20 +5,18 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 @Controller
-public class UINotificationStoreConcurrentHashMap implements UINotificationStore {
-    private ConcurrentHashMap<Long, List<UINotificationType>> notificationMap = new ConcurrentHashMap<>();
+public class UIEventStoreConcurrentHashMap implements UIEventStore {
+    private ConcurrentHashMap<Long, List<UIEventType>> notificationMap = new ConcurrentHashMap<>();
 
-    public UINotificationStoreConcurrentHashMap() {
+    public UIEventStoreConcurrentHashMap() {
     }
 
     @Override
-    public boolean saveNotification(Long roomId, UINotificationType newNotification) {
-        List<UINotificationType> residentNotificationList = notificationMap.get(roomId);
+    public boolean saveNotification(Long roomId, UIEventType newNotification) {
+        List<UIEventType> residentNotificationList = notificationMap.get(roomId);
         if (residentNotificationList != null) {
             return residentNotificationList.add(newNotification); //true if this collection changed as a result of
             // the call
@@ -37,7 +35,7 @@ public class UINotificationStoreConcurrentHashMap implements UINotificationStore
 //            throw new RuntimeException("notification to remove not found in the map. notificationId: " + notificationId);
 //        }
 //        notificationMap.get(roomId).remove(uiNotificationContentToRemove.get());
-        List<UINotificationType> notificationsOfRoom = notificationMap.get(roomId);
+        List<UIEventType> notificationsOfRoom = notificationMap.get(roomId);
         if(notificationsOfRoom != null){
             notificationsOfRoom.removeIf(uiNotificationType -> uiNotificationType.getId().equals(notificationId));
         }
@@ -49,7 +47,7 @@ public class UINotificationStoreConcurrentHashMap implements UINotificationStore
     }
 
     @Override
-    public List<UINotificationType> getAllNotificationsOfRoom(Long roomId) {
+    public List<UIEventType> getAllNotificationsOfRoom(Long roomId) {
         if (notificationMap.get(roomId) == null) {
             return Collections.emptyList();
         }
