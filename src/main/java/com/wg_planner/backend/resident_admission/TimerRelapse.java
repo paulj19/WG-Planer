@@ -1,5 +1,5 @@
 package com.wg_planner.backend.resident_admission;
 
 public interface TimerRelapse {
-    void onTimerRelapse(AdmissionCode admissionCode);
+    void onTimerRelapse(Object admissionCode);
 }

@@ -6,15 +6,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 @Controller
-public class AdmissionTimerJava implements AdmissionTimer {
+public class EventTimerJava implements EventTimer {
 
     @Override
-    public void setTimer(AdmissionCode admissionCode, TimerRelapse onTimerRelapse, long timerDuration) {
+    public void setTimer(Object o, TimerRelapse onTimerRelapse, long timerDuration) {
         Timer initialTimer = new Timer();
         initialTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                onTimerRelapse.onTimerRelapse(admissionCode);
+                onTimerRelapse.onTimerRelapse(o);
             }
         }, timerDuration);
     }

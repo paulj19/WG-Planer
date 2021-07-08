@@ -14,36 +14,38 @@ import java.util.List;
 public class AdmissionHandler {
     private FloorService floorService;
     private AdmissionCodeStore admissionCodeStore;
-    private AdmissionTimer admissionTimer;
+    private EventTimer eventTimer;
     private final long admissionCodeTimeoutInterval = 600000; //10 min
     private final long admissionCodeRemovalInterval = 180000; //3 min; to let the user know timeout instead of removing and showing invalid
     TimerRelapse setAdmissionStatusToTimeout =
             (admissionCode) -> {
-                synchronized (getAdmissionDetails(admissionCode)) {
-                    if (getAdmissionDetails(admissionCode).getAdmissionStatus() == AdmissionDetails.AdmissionStatus.WORKING) {
-                        //if the admit/reject screen is left open; remove after 20 min
-                        try {
-                            Thread.sleep(2 * admissionCodeTimeoutInterval);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                if (admissionCode instanceof AdmissionCode) {
+                    synchronized (getAdmissionDetails((AdmissionCode) admissionCode)) {
+                        if (getAdmissionDetails((AdmissionCode) admissionCode).getAdmissionStatus() == AdmissionDetails.AdmissionStatus.WORKING) {
+                            //if the admit/reject screen is left open; remove after 20 min
+                            try {
+                                Thread.sleep(2 * admissionCodeTimeoutInterval);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            setAdmissionStatus((AdmissionCode) admissionCode, AdmissionDetails.AdmissionStatus.TIME_OUT);
+                            try {
+                                getAdmissionDetails((AdmissionCode) admissionCode).wait(admissionCodeRemovalInterval);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } else {
-                        setAdmissionStatus(admissionCode, AdmissionDetails.AdmissionStatus.TIME_OUT);
-                        try {
-                            getAdmissionDetails(admissionCode).wait(admissionCodeRemovalInterval);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        admissionCodeStore.removeAdmissionCode((AdmissionCode) admissionCode);
                     }
-                    admissionCodeStore.removeAdmissionCode(admissionCode);
                 }
             };
 
     @Autowired
-    public AdmissionHandler(FloorService floorService, AdmissionCodeStore admissionCodeStore, AdmissionTimer admissionTimer) {
+    public AdmissionHandler(FloorService floorService, AdmissionCodeStore admissionCodeStore, EventTimer eventTimer) {
         this.floorService = floorService;
         this.admissionCodeStore = admissionCodeStore;
-        this.admissionTimer = admissionTimer;
+        this.eventTimer = eventTimer;
     }
 
     public List<Room> verifyFloorCodeAndGetVacantRoomsInFloor(String floorCode) {
@@ -66,7 +68,7 @@ public class AdmissionHandler {
                     new AdmissionCode(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.ADMISSION_CODE));
         } while (admissionCodeStore.containsAdmissionCode(admissionCode));
         if (admissionCodeStore.saveAdmissionCode(admissionCode, admissionDetails) == null) {//no previous mapping for the key
-            admissionTimer.setTimer(admissionCode, setAdmissionStatusToTimeout, admissionCodeTimeoutInterval - 500);
+            eventTimer.setTimer(admissionCode, setAdmissionStatusToTimeout, admissionCodeTimeoutInterval - 500);
             return admissionCode;
         }
         return null;
