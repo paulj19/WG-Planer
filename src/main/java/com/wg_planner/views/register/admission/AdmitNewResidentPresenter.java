@@ -46,21 +46,24 @@ public class AdmitNewResidentPresenter {
 
     public void onSubmitAdmissionCode(String admissionCodeSubmitted) {
         AdmissionCode admissionCode = new AdmissionCode(admissionCodeSubmitted);
+        if (admissionHandler.getAdmissionDetails(admissionCode) == null) { //not present in map
+            admitNewResidentView.setInvalidCodeMessage();
+            return;
+        }
         synchronized (admissionHandler.getAdmissionDetails(admissionCode)) {
             AdmissionDetails admissionDetails = admissionHandler.getAdmissionDetails(admissionCode);
             if (admissionDetails.getAdmissionStatus() == AdmissionDetails.AdmissionStatus.PENDING)
                 admissionHandler.setAdmissionStatus(admissionCode, AdmissionDetails.AdmissionStatus.WORKING);
             sanityCheckAssertions(admissionDetails);
-            if (admissionDetails == null) { //not present in map
-                admitNewResidentView.setInvalidCodeMessage();
-            } else if (!admissionDetails.getRoomToAdmit().getFloor().equals(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor())) {//submitted room not in current loggedIn floor
+            if (!admissionDetails.getRoomToAdmit().getFloor().equals(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor())) {//submitted room not in current loggedIn floor
                 LOGGER.log(Level.SEVERE,
                         "room does not belong to this floor, must not happen. Admission Code: " + admissionCode.toString() +
                                 "LoggedInResidentAccount: " + SessionHandler.getLoggedInResidentAccount().toString() +
                                 "RoomToAdmit: " + admissionDetails.getRoomToAdmit().toString());
                 admitNewResidentView.setInvalidCodeMessage();
             } else {
-                admitNewResidentView.addAcceptRejectButtons(admissionCode, admissionDetails.getRoomToAdmit().getRoomName());
+                admitNewResidentView.addAcceptRejectButtons(admissionCode,
+                        admissionDetails.getRoomToAdmit().getRoomName());
             }
         }
     }

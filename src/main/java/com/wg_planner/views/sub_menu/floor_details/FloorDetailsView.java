@@ -14,13 +14,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.register.admission.AdmitNewResidentView;
-import com.wg_planner.views.utils.UIStringConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
@@ -69,9 +67,8 @@ public class FloorDetailsView extends VerticalLayout {
 
     public void addNewRoomTextField() {
         Accordion admitNewRoomAccordion = new Accordion();
-        RouterLink admitNewRoom = new RouterLink("Admit Resident",AdmitNewResidentView.class);
-        admitNewRoomAccordion.add("Add New Room", admitNewRoom);
-//        admitNewRoomAccordion.close();
+        admitNewRoomAccordion.add("Add New Room", new AdmitNewResidentView(beanFactory));
+        admitNewRoomAccordion.close();
         add(admitNewRoomAccordion);
     }
 
