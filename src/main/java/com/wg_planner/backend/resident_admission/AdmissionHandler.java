@@ -18,26 +18,24 @@ public class AdmissionHandler {
     private final long admissionCodeTimeoutInterval = 600000; //10 min
     private final long admissionCodeRemovalInterval = 180000; //3 min; to let the user know timeout instead of removing and showing invalid
     TimerRelapse setAdmissionStatusToTimeout =
-            (timerElapsedObject) -> {
-                if (timerElapsedObject instanceof AdmissionCode) {
-                    synchronized (getAdmissionDetails((AdmissionCode) timerElapsedObject)) {
-                        if (getAdmissionDetails((AdmissionCode) timerElapsedObject).getAdmissionStatus() == AdmissionDetails.AdmissionStatus.WORKING) {
-                            //if the admit/reject screen is left open; remove after 20 min
-                            try {
-                                Thread.sleep(2 * admissionCodeTimeoutInterval);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            setAdmissionStatus((AdmissionCode) timerElapsedObject, AdmissionDetails.AdmissionStatus.TIME_OUT);
-                            try {
-                                getAdmissionDetails((AdmissionCode) timerElapsedObject).wait(admissionCodeRemovalInterval);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+            (admissionCode) -> {
+                synchronized (getAdmissionDetails(admissionCode)) {
+                    if (getAdmissionDetails(admissionCode).getAdmissionStatus() == AdmissionDetails.AdmissionStatus.WORKING) {
+                        //if the admit/reject screen is left open; remove after 20 min
+                        try {
+                            Thread.sleep(2 * admissionCodeTimeoutInterval);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                        admissionCodeStore.removeAdmissionCode((AdmissionCode) timerElapsedObject);
+                    } else {
+                        setAdmissionStatus(admissionCode, AdmissionDetails.AdmissionStatus.TIME_OUT);
+                        try {
+                            getAdmissionDetails(admissionCode).wait(admissionCodeRemovalInterval);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
+                    admissionCodeStore.removeAdmissionCode(admissionCode);
                 }
             };
 
