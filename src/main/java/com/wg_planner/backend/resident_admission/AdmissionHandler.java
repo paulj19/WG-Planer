@@ -14,7 +14,6 @@ import java.util.List;
 public class AdmissionHandler {
     private FloorService floorService;
     private AdmissionCodeStore admissionCodeStore;
-    private EventTimer eventTimer;
     private final long admissionCodeTimeoutInterval = 600000; //10 min
     private final long admissionCodeRemovalInterval = 180000; //3 min; to let the user know timeout instead of removing and showing invalid
     TimerRelapse setAdmissionStatusToTimeout =
@@ -42,10 +41,9 @@ public class AdmissionHandler {
             };
 
     @Autowired
-    public AdmissionHandler(FloorService floorService, AdmissionCodeStore admissionCodeStore, EventTimer eventTimer) {
+    public AdmissionHandler(FloorService floorService, AdmissionCodeStore admissionCodeStore) {
         this.floorService = floorService;
         this.admissionCodeStore = admissionCodeStore;
-        this.eventTimer = eventTimer;
     }
 
     public List<Room> verifyFloorCodeAndGetVacantRoomsInFloor(String floorCode) {
@@ -68,7 +66,7 @@ public class AdmissionHandler {
                     new AdmissionCode(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.ADMISSION_CODE));
         } while (admissionCodeStore.containsAdmissionCode(admissionCode));
         if (admissionCodeStore.saveAdmissionCode(admissionCode, admissionDetails) == null) {//no previous mapping for the key
-            eventTimer.setTimer(admissionCode, setAdmissionStatusToTimeout, admissionCodeTimeoutInterval - 500);
+            EventTimer.getInstance().setTimer(admissionCode, setAdmissionStatusToTimeout, admissionCodeTimeoutInterval - 500);
             return admissionCode;
         }
         return null;

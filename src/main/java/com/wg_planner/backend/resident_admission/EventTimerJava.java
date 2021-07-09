@@ -5,8 +5,15 @@ import org.springframework.stereotype.Controller;
 import java.util.Timer;
 import java.util.TimerTask;
 
-@Controller
-public class EventTimerJava implements EventTimer {
+public class EventTimerJava extends EventTimer {
+    private static EventTimerJava eventTimerJava;
+
+    static {
+        eventTimerJava = new EventTimerJava();
+    }
+
+    private EventTimerJava() {
+    }
 
     @Override
     public void setTimer(Object o, TimerRelapse onTimerRelapse, long timerDuration) {
@@ -19,5 +26,9 @@ public class EventTimerJava implements EventTimer {
                 }
             }, timerDuration);
         }
+    }
+
+    public static EventTimer getInstance() {
+        return eventTimerJava;
     }
 }

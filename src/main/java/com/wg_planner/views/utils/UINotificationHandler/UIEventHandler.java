@@ -14,14 +14,12 @@ public class UIEventHandler {
     //todo make static
     private UIEventStore uiEventStore;
     private FloorService floorService;
-    private EventTimer eventTimer;
 
 
     @Autowired
-    public UIEventHandler(UIEventStore uiEventStore, FloorService floorService, EventTimer eventTimer) {
+    public UIEventHandler(UIEventStore uiEventStore, FloorService floorService) {
         this.floorService = floorService;
         this.uiEventStore = uiEventStore;
-        this.eventTimer = eventTimer;
     }
 
     public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType) {
@@ -35,7 +33,7 @@ public class UIEventHandler {
     }
 
     private void setTimer(UIEventType uiEventType) {
-        eventTimer.setTimer(uiEventType, o -> {
+        EventTimer.getInstance().setTimer(uiEventType, o -> {
             if (o instanceof UIEventTypeTaskDelete) {
                 removeAllNotificationObjectsInFloorOfNotification(((UIEventTypeTaskDelete) o).getSourceRoom().getFloor().getId(),
                         ((UIEventTypeTaskDelete) o).getId());

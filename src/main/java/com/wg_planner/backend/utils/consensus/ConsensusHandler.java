@@ -9,11 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConsensusHandler {
-    private EventTimer eventTimer;//todo autowire and static together?
 
-    @Autowired
-    public ConsensusHandler(EventTimer eventTimer) {
-        this.eventTimer = eventTimer;
+    public ConsensusHandler() {
     }
 
     public static boolean processAccept(Task task, Room acceptor) {
@@ -63,7 +60,7 @@ public class ConsensusHandler {
     }
 
     private void setTimer(ConsensusObject consensusObject) {
-        eventTimer.setTimer(consensusObject, o -> removeConsensusObjectFromStore(consensusObject), consensusObject.getTimeoutInterval());
+        EventTimer.getInstance().setTimer(consensusObject, o -> removeConsensusObjectFromStore(consensusObject), consensusObject.getTimeoutInterval());
     }
 
     public ConsensusObject get(Long id) {
