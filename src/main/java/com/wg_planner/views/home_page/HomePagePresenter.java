@@ -38,8 +38,6 @@ public class HomePagePresenter implements UIMessageBus.BroadcastListener {
     public void init(HomePageView homePageView) {
         this.homePageView = homePageView;
         attachedRoom = SessionHandler.getLoggedInResidentAccount().getRoom();
-        //        uiNotificationHandler.getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView
-        //        .addNotificationToView(notification.getUILayout(consensusListener)));
         homePageView.getHomeUI().addAfterNavigationListener(event -> UIEventHandler.getInstance().getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView.addNotificationToView(notification.getUILayout(consensusListener))));
         homePageView.addAttachListener(event -> {
             UIMessageBus.register(this);

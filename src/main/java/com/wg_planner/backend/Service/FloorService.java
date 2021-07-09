@@ -97,8 +97,8 @@ public class FloorService {
         Validate.notNull(task, "parameter task to delete must not be %s", null);
         task.getFloor().removeTaskFromFloor(task);
         task.getAssignedRoom().removeAssignedTask(task);
-//        save(task.getFloor());
-//        taskRepository.delete(task);
+        save(task.getFloor());
+        taskRepository.delete(task);
     }
 
     public void save(Floor floorToSave) {
