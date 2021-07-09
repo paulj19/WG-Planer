@@ -8,10 +8,10 @@ import com.wg_planner.backend.utils.consensus.ConsensusListener;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UIEventHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UIEventType;
-import com.wg_planner.views.utils.broadcaster.UIBroadcaster;
+import com.wg_planner.views.utils.broadcaster.UIMessageBus;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
+public class HomePagePresenter implements UIMessageBus.BroadcastListener {
     private HomePageView homePageView;
     @Autowired
     FloorService floorService;
@@ -42,7 +42,7 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
         //        .addNotificationToView(notification.getUILayout(consensusListener)));
         homePageView.getHomeUI().addAfterNavigationListener(event -> UIEventHandler.getInstance().getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView.addNotificationToView(notification.getUILayout(consensusListener))));
         homePageView.addAttachListener(event -> {
-            UIBroadcaster.register(this);
+            UIMessageBus.register(this);
         });
     }
 
@@ -59,6 +59,6 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
     }
 
     public void onDetachUI() {
-        UIBroadcaster.unregister(this);
+        UIMessageBus.unregister(this);
     }
 }

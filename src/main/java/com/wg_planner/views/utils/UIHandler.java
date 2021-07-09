@@ -6,6 +6,7 @@ import com.wg_planner.views.register.RegisterView;
 
 import java.util.*;
 
+//todo change name to UINavigationHandler
 public class UIHandler {
     private static UIHandler uiHandler;
     private final String LOGIN_URL = "login/";

@@ -3,6 +3,8 @@ package com.wg_planner.views.utils.UINotificationHandler;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.resident_admission.EventTimer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UIEventHandler {
@@ -20,8 +22,11 @@ public class UIEventHandler {
     private UIEventHandler() {
     }
 
+    public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType, Room room) {
+        return createAndSaveUINotification(uiEventType, new ArrayList<Room>(Arrays.asList(room)));
+    }
     public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType, List<Room> roomsInFloor) {
-        roomsInFloor.remove(uiEventType.getSourceRoom());
+        roomsInFloor.removeIf(room -> room.equals(uiEventType.getSourceRoom()));
         roomsInFloor.forEach(room -> UIEventStore.getInstance().saveNotification(room.getId(),
                 uiEventType));
         setTimer(uiEventType, roomsInFloor);
