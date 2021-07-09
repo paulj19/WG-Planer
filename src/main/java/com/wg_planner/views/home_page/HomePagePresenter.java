@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
     private HomePageView homePageView;
     @Autowired
-    private UIEventHandler uiEventHandler;
-    @Autowired
     FloorService floorService;
     private Room attachedRoom;
     //todo move to UINotificationTypeTaskDelete
@@ -23,7 +21,7 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
         @Override
         public synchronized void onAccept(Long consensusObjectId, String notificationId) {
             ConsensusHandler.getInstance().processAccept(consensusObjectId, attachedRoom);
-            uiEventHandler.removeNotification(attachedRoom.getId(), notificationId);
+            UIEventHandler.getInstance().removeNotification(attachedRoom.getId(), notificationId);
             //todo something better than reload
             UI.getCurrent().getPage().reload();
         }
@@ -31,7 +29,7 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
         @Override
         public synchronized void onReject(Long consensusObjectId, String notificationId) {
             ConsensusHandler.getInstance().processReject(consensusObjectId);
-            uiEventHandler.removeAllNotificationObjectsInFloorOfNotification(notificationId,
+            UIEventHandler.getInstance().removeAllNotificationObjectsInFloorOfNotification(notificationId,
                     floorService.getAllRoomsInFloorByFloorId(attachedRoom.getFloor().getId()));
             UI.getCurrent().getPage().reload();
         }
@@ -42,7 +40,7 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
         attachedRoom = SessionHandler.getLoggedInResidentAccount().getRoom();
         //        uiNotificationHandler.getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView
         //        .addNotificationToView(notification.getUILayout(consensusListener)));
-        homePageView.getHomeUI().addAfterNavigationListener(event -> uiEventHandler.getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView.addNotificationToView(notification.getUILayout(consensusListener))));
+        homePageView.getHomeUI().addAfterNavigationListener(event -> UIEventHandler.getInstance().getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView.addNotificationToView(notification.getUILayout(consensusListener))));
         homePageView.addAttachListener(event -> {
             UIBroadcaster.register(this);
         });

@@ -1,18 +1,23 @@
 package com.wg_planner.views.utils.UINotificationHandler;
 
-import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.resident_admission.EventTimer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@Controller
 public class UIEventHandler {
     //sync in function calling saveNotification
+    private static UIEventHandler uiEventHandler;
 
-    public UIEventHandler() {
+    static {
+        uiEventHandler = new UIEventHandler();
+    }
+
+    public static UIEventHandler getInstance() {
+        return uiEventHandler;
+    }
+
+    private UIEventHandler() {
     }
 
     public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType, List<Room> roomsInFloor) {
