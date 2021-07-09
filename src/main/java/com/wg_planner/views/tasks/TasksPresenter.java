@@ -51,6 +51,7 @@ public abstract class TasksPresenter {
     //todo DialogBox are you really done/remind ----> UNDO!!
     public void taskRemindCallBack(TaskCard.TaskCardEvent event) {
         notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(event.getTask()), event.getTask().getAssignedRoom().getResidentAccount());
+
     }
 
     public void taskAssignCallBack(TaskCard.TaskCardEvent event) {

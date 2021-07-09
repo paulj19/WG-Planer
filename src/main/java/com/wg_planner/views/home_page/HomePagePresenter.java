@@ -19,7 +19,7 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
     private ConsensusListener consensusListener = new ConsensusListener() {
         @Override
         public synchronized void onAccept(Long consensusObjectId, String notificationId) {
-            ConsensusHandler.processAccept(consensusObjectId, attachedRoom);
+            ConsensusHandler.getInstance().processAccept(consensusObjectId, attachedRoom);
             uiEventHandler.removeNotification(attachedRoom.getId(), notificationId);
             //todo something better than reload
             UI.getCurrent().getPage().reload();
@@ -27,7 +27,7 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
 
         @Override
         public synchronized void onReject(Long consensusObjectId, String notificationId) {
-            ConsensusHandler.processReject(consensusObjectId);
+            ConsensusHandler.getInstance().processReject(consensusObjectId);
             uiEventHandler.removeAllNotificationObjectsInFloorOfNotification(attachedRoom.getFloor().getId(), notificationId);
             UI.getCurrent().getPage().reload();
         }

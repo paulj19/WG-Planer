@@ -7,25 +7,34 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class ConsensusHandler {
+    private static ConsensusHandler consensusHandler;
 
-    public ConsensusHandler() {
+    static {
+        consensusHandler = new ConsensusHandler();
     }
 
-    public static boolean processAccept(Task task, Room acceptor) {
+    private ConsensusHandler() {
+    }
+
+    public static ConsensusHandler getInstance() {
+        return consensusHandler;
+    }
+
+
+    public boolean processAccept(Task task, Room acceptor) {
         Validate.notNull(task, "argument must not be null");
         return processAccept(ConsensusObjectStore.getInstance().get(task.getId()), acceptor);
     }
 
-    public static boolean processAccept(Long id, Room acceptor) {
+    public boolean processAccept(Long id, Room acceptor) {
         if (ConsensusObjectStore.getInstance().get(id) == null) {
             return false;
         }
         return processAccept(ConsensusObjectStore.getInstance().get(id), acceptor);
     }
 
-    public static boolean processAccept(ConsensusObject consensusObject, Room acceptor) {
+    public boolean processAccept(ConsensusObject consensusObject, Room acceptor) {
         Validate.notNull(consensusObject, "argument must not be null");
         Validate.notNull(acceptor, "argument must not be null");
         consensusObject.addAcceptingRoom(acceptor);
@@ -35,17 +44,17 @@ public class ConsensusHandler {
         return true;
     }
 
-    public static boolean processReject(Long id) {
+    public boolean processReject(Long id) {
         Validate.notNull(id, "argument must not be null");
         return processReject(ConsensusObjectStore.getInstance().get(id));
     }
 
-    public static boolean processReject(ConsensusObject consensusObject) {
+    public boolean processReject(ConsensusObject consensusObject) {
         return removeConsensusObjectFromStore(consensusObject);
     }
 
-    private static boolean removeConsensusObjectFromStore(ConsensusObject consensusObject) {
-        if(consensusObject == null) {
+    private boolean removeConsensusObjectFromStore(ConsensusObject consensusObject) {
+        if (consensusObject == null) {
             return false;
         }
         consensusObject.roomsAccepting = null; //remove all the rooms that had accepted?
@@ -60,7 +69,8 @@ public class ConsensusHandler {
     }
 
     private void setTimer(ConsensusObject consensusObject) {
-        EventTimer.getInstance().setTimer(consensusObject, o -> removeConsensusObjectFromStore(consensusObject), consensusObject.getTimeoutInterval());
+        EventTimer.getInstance().setTimer(consensusObject, o -> removeConsensusObjectFromStore(consensusObject),
+                consensusObject.getTimeoutInterval());
     }
 
     public ConsensusObject get(Long id) {

@@ -14,8 +14,6 @@ public class FloorDetailsPresenter {
     private FloorService floorService;
     @Autowired
     UIEventHandler uiEventHandler;
-    @Autowired
-    ConsensusHandler consensusHandler;
     private FloorDetailsView floorDetailsView;
 
     public void init(FloorDetailsView floorDetailsView) {
@@ -31,9 +29,9 @@ public class FloorDetailsPresenter {
     }
 
     private void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
-        if (consensusHandler.isObjectNotWaitingForConsensus(event.getTask().getId())) {
+        if (ConsensusHandler.getInstance().isObjectNotWaitingForConsensus(event.getTask().getId())) {
             UIBroadcaster.broadcast(uiEventHandler.createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask())));
-            consensusHandler.add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
+            ConsensusHandler.getInstance().add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
             floorDetailsView.notify("The task has been send for approval, all the other residents should approve before task can be " +
                     "deleted");
         } else {
@@ -45,6 +43,6 @@ public class FloorDetailsPresenter {
     }
 
     boolean isObjectDeletable(Long id) {
-        return consensusHandler.isObjectNotWaitingForConsensus(id);
+        return ConsensusHandler.getInstance().isObjectNotWaitingForConsensus(id);
     }
 }
