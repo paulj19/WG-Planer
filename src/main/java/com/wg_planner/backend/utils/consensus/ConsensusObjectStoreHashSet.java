@@ -40,7 +40,7 @@ public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
         return consensusEntities.stream().anyMatch(consensusObject -> consensusObject.getId().equals(id));
     }
 
-    public static ConsensusObjectStore getInstance() {
+    public static ConsensusObjectStoreHashSet getInstance() {
         return consensusObjectStoreHashSet;
     }
 }

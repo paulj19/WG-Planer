@@ -7,11 +7,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Controller
-public class UIEventStoreConcurrentHashMap implements UIEventStore {
+public class UIEventStoreConcurrentHashMap extends UIEventStore {
+    private static UIEventStoreConcurrentHashMap uiEventStoreConcurrentHashMap;
+
     private ConcurrentHashMap<Long, List<UIEventType>> notificationMap = new ConcurrentHashMap<>();
 
-    public UIEventStoreConcurrentHashMap() {
+    static {
+        uiEventStoreConcurrentHashMap = new UIEventStoreConcurrentHashMap();
+    }
+    private UIEventStoreConcurrentHashMap() {
+    }
+
+    public static UIEventStoreConcurrentHashMap getInstance() {
+        return uiEventStoreConcurrentHashMap;
     }
 
     @Override

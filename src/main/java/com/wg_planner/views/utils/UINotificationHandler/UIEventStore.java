@@ -2,12 +2,16 @@ package com.wg_planner.views.utils.UINotificationHandler;
 
 import java.util.List;
 
-public interface UIEventStore {
-    boolean saveNotification(Long roomId, UIEventType notificationToStore);
+public abstract class UIEventStore {
+    public abstract boolean saveNotification(Long roomId, UIEventType notificationToStore);
 
-    void removeNotification(Long roomId, String id);
+    public abstract void removeNotification(Long roomId, String id);
 
-    void removeAllNotificationsOfRoom(Long roomId);
+    public abstract void removeAllNotificationsOfRoom(Long roomId);
 
-    List<UIEventType> getAllNotificationsOfRoom(Long roomId);
+    public abstract List<UIEventType> getAllNotificationsOfRoom(Long roomId);
+
+    public static UIEventStore getInstance() {
+        return UIEventStoreConcurrentHashMap.getInstance();
+    }
 }

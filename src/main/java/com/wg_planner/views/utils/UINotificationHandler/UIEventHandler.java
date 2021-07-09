@@ -11,18 +11,13 @@ import java.util.List;
 @Controller
 public class UIEventHandler {
     //sync in function calling saveNotification
-    //todo make static
-    private UIEventStore uiEventStore;
 
-
-    @Autowired
-    public UIEventHandler(UIEventStore uiEventStore) {
-        this.uiEventStore = uiEventStore;
+    public UIEventHandler() {
     }
 
     public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType, List<Room> roomsInFloor) {
         roomsInFloor.remove(uiEventType.getSourceRoom());
-        roomsInFloor.forEach(room -> uiEventStore.saveNotification(room.getId(),
+        roomsInFloor.forEach(room -> UIEventStore.getInstance().saveNotification(room.getId(),
                 uiEventType));
         setTimer(uiEventType, roomsInFloor);
         return uiEventType;
@@ -37,7 +32,7 @@ public class UIEventHandler {
     }
 
     public synchronized List<UIEventType> getAllNotificationsForRoom(Room room) {
-        return uiEventStore.getAllNotificationsOfRoom(room.getId());
+        return UIEventStore.getInstance().getAllNotificationsOfRoom(room.getId());
     }
 
     public synchronized void removeAllNotificationObjectsInFloorOfNotification(String notificationObjectId,
@@ -46,7 +41,7 @@ public class UIEventHandler {
     }
 
     public synchronized void removeNotification(Long roomId, String id) {
-        uiEventStore.removeNotification(roomId, id);
+        UIEventStore.getInstance().removeNotification(roomId, id);
     }
 
 }
