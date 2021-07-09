@@ -1,11 +1,15 @@
 package com.wg_planner.backend.utils.consensus;
 
-public interface ConsensusObjectStore {
-    boolean add(ConsensusObject o);
+public abstract class ConsensusObjectStore {
+    public abstract boolean add(ConsensusObject o);
 
-    ConsensusObject get(Long id);
+    public abstract ConsensusObject get(Long id);
 
-    void remove(ConsensusObject consensusObject);
+    public abstract void remove(ConsensusObject consensusObject);
 
-    boolean containsObject(Long id);
+    public abstract boolean containsObject(Long id);
+
+    public static ConsensusObjectStore getInstance() {
+        return ConsensusObjectStoreHashSet.getInstance();
+    }
 }

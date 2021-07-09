@@ -9,25 +9,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConsensusHandler {
-    private static ConsensusObjectStore consensusObjectStore;
     private EventTimer eventTimer;//todo autowire and static together?
 
     @Autowired
-    public ConsensusHandler(ConsensusObjectStore consensusObjectStore, EventTimer eventTimer) {
-        this.consensusObjectStore = consensusObjectStore;
+    public ConsensusHandler(EventTimer eventTimer) {
         this.eventTimer = eventTimer;
     }
 
     public static boolean processAccept(Task task, Room acceptor) {
         Validate.notNull(task, "argument must not be null");
-        return processAccept(consensusObjectStore.get(task.getId()), acceptor);
+        return processAccept(ConsensusObjectStore.getInstance().get(task.getId()), acceptor);
     }
 
     public static boolean processAccept(Long id, Room acceptor) {
-        if (consensusObjectStore.get(id) == null) {
+        if (ConsensusObjectStore.getInstance().get(id) == null) {
             return false;
         }
-        return processAccept(consensusObjectStore.get(id), acceptor);
+        return processAccept(ConsensusObjectStore.getInstance().get(id), acceptor);
     }
 
     public static boolean processAccept(ConsensusObject consensusObject, Room acceptor) {
@@ -42,7 +40,7 @@ public class ConsensusHandler {
 
     public static boolean processReject(Long id) {
         Validate.notNull(id, "argument must not be null");
-        return processReject(consensusObjectStore.get(id));
+        return processReject(ConsensusObjectStore.getInstance().get(id));
     }
 
     public static boolean processReject(ConsensusObject consensusObject) {
@@ -54,12 +52,12 @@ public class ConsensusHandler {
             return false;
         }
         consensusObject.roomsAccepting = null; //remove all the rooms that had accepted?
-        consensusObjectStore.remove(consensusObject);//delete consensus object from consensus store
+        ConsensusObjectStore.getInstance().remove(consensusObject);//delete consensus object from consensus store
         return true;
     }
 
     public boolean add(ConsensusObject consensusObject) {
-        boolean returnVal = consensusObjectStore.add(consensusObject);
+        boolean returnVal = ConsensusObjectStore.getInstance().add(consensusObject);
         setTimer(consensusObject);
         return returnVal;
     }
@@ -69,10 +67,10 @@ public class ConsensusHandler {
     }
 
     public ConsensusObject get(Long id) {
-        return consensusObjectStore.get(id);
+        return ConsensusObjectStore.getInstance().get(id);
     }
 
     public boolean isObjectNotWaitingForConsensus(Long objectId) {
-        return !consensusObjectStore.containsObject(objectId);
+        return !ConsensusObjectStore.getInstance().containsObject(objectId);
     }
 }

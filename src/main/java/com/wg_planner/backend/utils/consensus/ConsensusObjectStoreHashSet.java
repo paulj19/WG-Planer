@@ -6,8 +6,17 @@ import java.util.HashSet;
 import java.util.Optional;
 
 @Component
-public class ConsensusObjectStoreHashSet implements ConsensusObjectStore {
+public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
+    private static ConsensusObjectStoreHashSet consensusObjectStoreHashSet;
+
     private HashSet<ConsensusObject> consensusEntities = new HashSet();
+
+    static {
+        consensusObjectStoreHashSet = new ConsensusObjectStoreHashSet();
+    }
+
+    private ConsensusObjectStoreHashSet() {
+    }
 
     @Override
     public boolean add(ConsensusObject consensusObject) {
@@ -29,5 +38,9 @@ public class ConsensusObjectStoreHashSet implements ConsensusObjectStore {
     @Override
     public boolean containsObject(Long id) {
         return consensusEntities.stream().anyMatch(consensusObject -> consensusObject.getId().equals(id));
+    }
+
+    public static ConsensusObjectStore getInstance() {
+        return consensusObjectStoreHashSet;
     }
 }
