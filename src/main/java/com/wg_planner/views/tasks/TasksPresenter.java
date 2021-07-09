@@ -14,6 +14,7 @@ import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UIEventHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UIEventType;
 import com.wg_planner.views.utils.UINotificationHandler.UIEventTypeTaskDelete;
+import com.wg_planner.views.utils.UINotificationHandler.UIEventTypeTaskRemind;
 import com.wg_planner.views.utils.UINotificationMessage;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +61,10 @@ public abstract class TasksPresenter {
 
     //todo DialogBox are you really done/remind ----> UNDO!!
     public void taskRemindCallBack(TaskCard.TaskCardEvent event) {
-        UIEventType uiEventTypeTaskDelete = new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(),
+        UIEventType uiEventTypeTaskRemind = new UIEventTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(),
                 event.getTask());
-        UIMessageBus.unicastTo(UIEventHandler.getInstance().createAndSaveUINotification(uiEventTypeTaskDelete,
+        UIMessageBus.unicastTo(UIEventHandler.getInstance().createAndSaveUINotification(uiEventTypeTaskRemind,
                 event.getTask().getAssignedRoom()), event.getTask().getAssignedRoom());
-        ConsensusHandler.getInstance().add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
         notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(event.getTask()),
                 event.getTask().getAssignedRoom().getResidentAccount());
         UINotificationMessage.notify("A reminder has been send");

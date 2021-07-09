@@ -38,7 +38,7 @@ public class UIEventHandler {
             if (o instanceof UIEventTypeTaskDelete) {
                 removeAllNotificationObjectsInFloorOfNotification(((UIEventTypeTaskDelete) o).getId(), roomsInFloor);
             }
-        }, uiEventType.getTimeoutInterval());
+        }, uiEventType.getTimeoutIntervalInMillis());
     }
 
     public synchronized List<UIEventType> getAllNotificationsForRoom(Room room) {
