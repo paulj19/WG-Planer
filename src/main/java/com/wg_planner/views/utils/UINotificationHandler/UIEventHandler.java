@@ -13,30 +13,25 @@ public class UIEventHandler {
     //sync in function calling saveNotification
     //todo make static
     private UIEventStore uiEventStore;
-    private FloorService floorService;
 
 
     @Autowired
-    public UIEventHandler(UIEventStore uiEventStore, FloorService floorService) {
-        this.floorService = floorService;
+    public UIEventHandler(UIEventStore uiEventStore) {
         this.uiEventStore = uiEventStore;
     }
 
-    public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType) {
-        List<Room> roomsInFloor =
-                floorService.getAllRoomsInFloorByFloorId(uiEventType.getSourceRoom().getFloor().getId());
+    public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType, List<Room> roomsInFloor) {
         roomsInFloor.remove(uiEventType.getSourceRoom());
         roomsInFloor.forEach(room -> uiEventStore.saveNotification(room.getId(),
                 uiEventType));
-        setTimer(uiEventType);
+        setTimer(uiEventType, roomsInFloor);
         return uiEventType;
     }
 
-    private void setTimer(UIEventType uiEventType) {
+    private void setTimer(UIEventType uiEventType, List<Room> roomsInFloor) {
         EventTimer.getInstance().setTimer(uiEventType, o -> {
             if (o instanceof UIEventTypeTaskDelete) {
-                removeAllNotificationObjectsInFloorOfNotification(((UIEventTypeTaskDelete) o).getSourceRoom().getFloor().getId(),
-                        ((UIEventTypeTaskDelete) o).getId());
+                removeAllNotificationObjectsInFloorOfNotification(((UIEventTypeTaskDelete) o).getId(), roomsInFloor);
             }
         }, uiEventType.getTimeoutInterval());
     }
@@ -45,9 +40,9 @@ public class UIEventHandler {
         return uiEventStore.getAllNotificationsOfRoom(room.getId());
     }
 
-    public synchronized void removeAllNotificationObjectsInFloorOfNotification(Long floorId, String notificationObjectId) {
-        floorService.getAllRoomsInFloorByFloorId(floorId).forEach(room -> removeNotification(
-                room.getId(), notificationObjectId));
+    public synchronized void removeAllNotificationObjectsInFloorOfNotification(String notificationObjectId,
+                                                                               List<Room> roomsInFloor) {
+        roomsInFloor.forEach(room -> removeNotification(room.getId(), notificationObjectId));
     }
 
     public synchronized void removeNotification(Long roomId, String id) {

@@ -30,7 +30,7 @@ public class FloorDetailsPresenter {
 
     private void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
         if (ConsensusHandler.getInstance().isObjectNotWaitingForConsensus(event.getTask().getId())) {
-            UIBroadcaster.broadcast(uiEventHandler.createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask())));
+            UIBroadcaster.broadcast(uiEventHandler.createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), floorService.getAllRoomsInFloorByFloorId(event.getTask().getFloor().getId())));
             ConsensusHandler.getInstance().add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
             floorDetailsView.notify("The task has been send for approval, all the other residents should approve before task can be " +
                     "deleted");

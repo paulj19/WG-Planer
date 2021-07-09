@@ -1,6 +1,7 @@
 package com.wg_planner.views.home_page;
 
 import com.vaadin.flow.component.UI;
+import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusListener;
@@ -14,6 +15,8 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
     private HomePageView homePageView;
     @Autowired
     private UIEventHandler uiEventHandler;
+    @Autowired
+    FloorService floorService;
     private Room attachedRoom;
     //todo move to UINotificationTypeTaskDelete
     private ConsensusListener consensusListener = new ConsensusListener() {
@@ -28,7 +31,8 @@ public class HomePagePresenter implements UIBroadcaster.BroadcastListener {
         @Override
         public synchronized void onReject(Long consensusObjectId, String notificationId) {
             ConsensusHandler.getInstance().processReject(consensusObjectId);
-            uiEventHandler.removeAllNotificationObjectsInFloorOfNotification(attachedRoom.getFloor().getId(), notificationId);
+            uiEventHandler.removeAllNotificationObjectsInFloorOfNotification(notificationId,
+                    floorService.getAllRoomsInFloorByFloorId(attachedRoom.getFloor().getId()));
             UI.getCurrent().getPage().reload();
         }
     };
