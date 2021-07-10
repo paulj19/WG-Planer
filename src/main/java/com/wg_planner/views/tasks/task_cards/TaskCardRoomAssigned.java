@@ -14,7 +14,7 @@ public class TaskCardRoomAssigned extends TaskCardWithDetails {
 
     private void initializeWithAssignedRoom() {
         assignedRoomName.setMinWidth("500px");
-        assignedRoomName.setText(task.getAssignedRoom().getRoomName());
+        assignedRoomName.setText(task.getAssignedRoom() != null ? task.getAssignedRoom().getRoomName() : "");
     }
 
     @Override

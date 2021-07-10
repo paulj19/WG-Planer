@@ -21,7 +21,6 @@ import java.util.logging.Level;
 public class AssignTaskView extends VerticalLayout implements HasUrlParameter<String> {
     private Task taskToAssign;
     private Room assignRequestingRoom;
-
     @Autowired
     TaskService taskService;
     @Autowired

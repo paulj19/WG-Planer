@@ -4,7 +4,6 @@ import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -12,16 +11,16 @@ import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
-import org.apache.commons.lang3.Validate;
+import com.wg_planner.views.utils.ConfirmationDialog;
 
 import java.util.List;
 
 public class AssignTaskPage extends VerticalLayout {
 
     Room roomSelected;
-    ConfirmDialog assignConfirmDialog;
+    ConfirmationDialog assignConfirmDialog;
     public AssignTaskPage(Task taskToAssign, FloorService floorService) {
-        assignConfirmDialog = new ConfirmDialog("Confirm",
+        assignConfirmDialog = new ConfirmationDialog("Confirm",
                 "Are you sure you want to assign the task?", "Assign", this::onConfirmAssign,
                 "Cancel", this::onCancelAssign);
         add(getHeading(taskToAssign), getRoomsComboBox(taskToAssign, floorService));
@@ -57,11 +56,11 @@ public class AssignTaskPage extends VerticalLayout {
         return registerCancelButtonsLayout;
     }
 
-    private void onConfirmAssign(ConfirmDialog.ConfirmEvent cancelEvent) {
+    private void onConfirmAssign(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent cancelEvent) {
         fireEvent(new AssignTaskPageEvent.AssignEvent(this, roomSelected));
     }
 
-    private void onCancelAssign(ConfirmDialog.CancelEvent cancelEvent) {
+    private void onCancelAssign(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {
         assignConfirmDialog.close();
     }
 
