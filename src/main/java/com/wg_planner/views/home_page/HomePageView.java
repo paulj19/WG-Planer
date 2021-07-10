@@ -42,10 +42,6 @@ public class HomePageView extends VerticalLayout {
         return UI.getCurrent();
     }
 
-    void notify(String notificationMessage) {
-        Notification.show(notificationMessage, 10000, BOTTOM_STRETCH);
-    }
-
     @Override
     protected void onDetach(DetachEvent detachEvent) {
         super.onDetach(detachEvent);
