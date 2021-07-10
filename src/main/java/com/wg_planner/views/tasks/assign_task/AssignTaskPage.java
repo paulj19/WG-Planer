@@ -18,11 +18,7 @@ import java.util.List;
 public class AssignTaskPage extends VerticalLayout {
 
     Room roomSelected;
-    ConfirmationDialog assignConfirmDialog;
     public AssignTaskPage(Task taskToAssign, FloorService floorService) {
-        assignConfirmDialog = new ConfirmationDialog("Confirm",
-                "Are you sure you want to assign the task?", "Assign", this::onConfirmAssign,
-                "Cancel", this::onCancelAssign);
         add(getHeading(taskToAssign), getRoomsComboBox(taskToAssign, floorService));
         add(getButtonsLayout());
     }
@@ -50,18 +46,10 @@ public class AssignTaskPage extends VerticalLayout {
         HorizontalLayout registerCancelButtonsLayout = new HorizontalLayout();
         Button assign = new Button("Assign");
         Button cancel = new Button("Cancel");
-        assign.addClickListener(event -> assignConfirmDialog.open());
+        assign.addClickListener(event -> fireEvent(new AssignTaskPageEvent.AssignEvent(this, roomSelected)));
         cancel.addClickListener(event -> fireEvent(new AssignTaskPageEvent.CancelEvent(this, roomSelected)));
         registerCancelButtonsLayout.add(assign, cancel);
         return registerCancelButtonsLayout;
-    }
-
-    private void onConfirmAssign(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent cancelEvent) {
-        fireEvent(new AssignTaskPageEvent.AssignEvent(this, roomSelected));
-    }
-
-    private void onCancelAssign(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {
-        assignConfirmDialog.close();
     }
 
     public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType, ComponentEventListener<T> listener) {

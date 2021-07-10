@@ -112,11 +112,11 @@ public class ConfirmationDialog extends Dialog {
     private void addCancelListener(ComponentEventListener<ConfirmationDialogEvent.CancelEvent> cancelEventListener) {
         ComponentUtil.addListener(cancelButton, ConfirmationDialogEvent.CancelEvent.class, cancelEventListener);
     }
-
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
-        return getEventBus().addListener(eventType, listener);
-    }
+//
+//    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+//                                                                  ComponentEventListener<T> listener) {
+//        return getEventBus().addListener(eventType, listener);
+//    }
 
     public Object getValue() {
         return value;
