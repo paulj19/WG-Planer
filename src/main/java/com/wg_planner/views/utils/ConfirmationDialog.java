@@ -3,15 +3,14 @@ package com.wg_planner.views.utils;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.ComponentUtil;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.shared.Registration;
 
-public class ConfirmationDialog extends VerticalLayout {
+public class ConfirmationDialog extends Dialog {
     private static final String defaultHeading = "Confirm Delete";
     private static final String defaultConfirmationDialogText = "Are you sure to complete this action";
     private static final String defaultConfirmButtonText = "Confirm";
@@ -60,6 +59,16 @@ public class ConfirmationDialog extends VerticalLayout {
                 defaultCancelButtonText, cancelEventListener);
     }
 
+
+    public ConfirmationDialog(String heading, String confirmationDialogText, String confirmText,
+                              ComponentEventListener<ConfirmationDialogEvent.ConfirmEvent> confirmEventListener,
+                              String cancelText,
+                              ComponentEventListener<ConfirmationDialogEvent.CancelEvent> cancelEventListener,
+                              Object value) {
+        this(heading, confirmationDialogText, confirmText, confirmEventListener, cancelText, cancelEventListener);
+        this.value = value;
+    }
+
     public ConfirmationDialog(String heading, String confirmationDialogText, String confirmText,
                               ComponentEventListener<ConfirmationDialogEvent.ConfirmEvent> confirmEventListener,
                               String cancelText,
@@ -70,15 +79,6 @@ public class ConfirmationDialog extends VerticalLayout {
 
         addConfirmListener(confirmEventListener);
         addCancelListener(cancelEventListener);
-    }
-
-    public ConfirmationDialog(String heading, String confirmationDialogText, String confirmText,
-                              ComponentEventListener<ConfirmationDialogEvent.ConfirmEvent> confirmEventListener,
-                              String cancelText,
-                              ComponentEventListener<ConfirmationDialogEvent.CancelEvent> cancelEventListener,
-                              Object value) {
-        this(heading, confirmationDialogText, confirmText, confirmEventListener, cancelText, cancelEventListener);
-        this.value = value;
     }
 
     private void setButtons(String confirmText, String cancelText) {
@@ -123,21 +123,23 @@ public class ConfirmationDialog extends VerticalLayout {
     }
 
     public void open() {
-        if (!opened) {
-            UI ui = UI.getCurrent();
-            ui.beforeClientResponse(ui, context -> {
-                if (getElement().getNode().getParent() == null) {
-                    ui.add(this);
-                }
-            });
-            opened = true;
-        }
+        super.open();
+//        if (!opened) {
+//            UI ui = UI.getCurrent();
+//            ui.beforeClientResponse(ui, context -> {
+//                if (getElement().getNode().getParent() == null) {
+//                    ui.add(this);
+//                }
+//            });
+//            opened = true;
+//        }
     }
 
     public void close() {
-        if (opened) {
-            UI.getCurrent().remove(this);
-        }
+        super.close();
+//        if (opened) {
+//            UI.getCurrent().remove(this);
+//        }
     }
 
 }
