@@ -30,6 +30,11 @@ public class TaskService {
         return taskRepository.findTaskByTaskId(taskId);
     }
 
+    public List<Task> getAllTasksOfRoom(Long roomId) {
+        Validate.notNull(roomId, "parameter room id must not be %s", null);
+        return taskRepository.findAllTasksOfRoom(roomId);
+    }
+
     @Transactional
     public void transferTask(Task task, FloorService floorService) {
         assignTask(task, floorService.getNextAvailableRoom(task.getAssignedRoom()));

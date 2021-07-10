@@ -71,7 +71,7 @@ public class FloorDetailsView extends VerticalLayout {
     }
 
     void fireEvent(TaskUpdateEvent taskUpdateEvent) {
-        fireEvent(taskUpdateEvent);
+        super.fireEvent(taskUpdateEvent);
     }
 
     public static abstract class TaskUpdateEvent extends ComponentEvent<FloorDetailsView> {
