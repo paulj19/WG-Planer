@@ -43,7 +43,7 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     }
 
     public void addAssignPage() {
-        AssignTaskPage assignTaskPage = new AssignTaskPage(taskToAssign, assignRequestingRoom, floorService);
+        AssignTaskPage assignTaskPage = new AssignTaskPage(taskToAssign, floorService);
         assignTaskPage.addListener(AssignTaskPage.AssignTaskPageEvent.AssignEvent.class, this::assignTask);
         assignTaskPage.addListener(AssignTaskPage.AssignTaskPageEvent.CancelEvent.class, this::cancelAssign);
         add(assignTaskPage);

@@ -1,6 +1,8 @@
 package com.wg_planner.views.sub_menu.floor_details;
 
 import com.wg_planner.backend.Service.FloorService;
+import com.wg_planner.backend.Service.TaskService;
+import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskDelete;
 import com.wg_planner.views.utils.SessionHandler;
@@ -9,9 +11,13 @@ import com.wg_planner.views.utils.UINotificationHandler.UIEventTypeTaskDelete;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class FloorDetailsPresenter {
     @Autowired
     private FloorService floorService;
+    @Autowired
+    TaskService taskService;
     private FloorDetailsView floorDetailsView;
 
     public void init(FloorDetailsView floorDetailsView) {
@@ -23,7 +29,7 @@ public class FloorDetailsPresenter {
         floorDetailsView.addRoomsInFloor(floorService.getAllRoomsInFloorByFloorId(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
         floorDetailsView.addNewRoomTextField();
         floorDetailsView.addListener(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent.class, this::onTaskDelete);
-        floorDetailsView.addTasksInFloor(floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
+        floorDetailsView.addTasksInFloor();
     }
 
     private void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
@@ -35,12 +41,22 @@ public class FloorDetailsPresenter {
         } else {
             floorDetailsView.notify("Some other resident tried to delete the task and has already been send for approval by all residents");
         }
-        floorDetailsView.refreshTasksInFloor(floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
-        //        floorService.getAllOccupiedAndResidentNotAwayRooms(event.getTask().getFloor()).forEach(room -> ConsensusHandler
-        //        .processAccept(event.getTask().getId(), room));
+        floorDetailsView.refreshTasksInFloor();
     }
 
     boolean isObjectDeletable(Long id) {
         return ConsensusHandler.getInstance().isObjectNotWaitingForConsensus(id);
+    }
+
+    void saveNewlyCreatedTask(Task taskCreated) {
+        taskService.save(taskCreated);
+    }
+    List<Task> getTasksInFloor() {
+        return floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor());
+    }
+
+    //todo fixme: usage in view, refactor to make presenter call
+    public FloorService getFloorService() {
+        return floorService;
     }
 }

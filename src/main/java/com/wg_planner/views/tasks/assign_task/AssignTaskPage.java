@@ -20,11 +20,11 @@ public class AssignTaskPage extends VerticalLayout {
 
     Room roomSelected;
     ConfirmDialog assignConfirmDialog;
-    public AssignTaskPage(Task taskToAssign, Room roomRequestingAssign, FloorService floorService) {
+    public AssignTaskPage(Task taskToAssign, FloorService floorService) {
         assignConfirmDialog = new ConfirmDialog("Confirm",
                 "Are you sure you want to assign the task?", "Assign", this::onConfirmAssign,
                 "Cancel", this::onCancelAssign);
-        add(getHeading(taskToAssign), getRoomsComboBox(roomRequestingAssign, floorService));
+        add(getHeading(taskToAssign), getRoomsComboBox(taskToAssign, floorService));
         add(getButtonsLayout());
     }
 
@@ -32,13 +32,9 @@ public class AssignTaskPage extends VerticalLayout {
         return new H1("Assign " + taskToAssign.getTaskName());
     }
 
-    private ComboBox<Room> getRoomsComboBox(Room roomRequestingAssign, FloorService floorService) {
+    private ComboBox<Room> getRoomsComboBox(Task taskToAssign, FloorService floorService) {
         ComboBox<Room> roomsInFloorComboBox = new ComboBox<>("Choose a room");
-        List<Room> availableRoomsInFloor = floorService.getAllOccupiedAndResidentNotAwayRooms(roomRequestingAssign.getFloor());
-        List<Room> allRoomsInFloor = floorService.getAllRoomsInFloorByFloorId(roomRequestingAssign.getFloor());
-        Validate.isTrue(allRoomsInFloor.contains(roomRequestingAssign), "fatal error: room " +
-                "requesting assign should be present in the corresponding floor, room: "+ roomRequestingAssign.toString());
-//        availableRoomsInFloor.remove(roomRequestingAssign);//todo better
+        List<Room> availableRoomsInFloor = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToAssign.getFloor());
         roomsInFloorComboBox.setItems(availableRoomsInFloor);
         roomsInFloorComboBox.setItemLabelGenerator(Room::getRoomName);
         roomsInFloorComboBox.addValueChangeListener(event -> {

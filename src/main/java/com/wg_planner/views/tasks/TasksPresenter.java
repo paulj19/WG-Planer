@@ -48,8 +48,7 @@ public abstract class TasksPresenter {
     abstract public void addTasks();
 
     public void init() {
-        tasks =
-                floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor());
+        tasks = floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor());
         sanityCheckTasks();
         addTasks();
     }

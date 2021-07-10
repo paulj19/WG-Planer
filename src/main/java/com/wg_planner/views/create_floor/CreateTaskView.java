@@ -13,19 +13,19 @@ import com.wg_planner.backend.entity.Task;
 
 public class CreateTaskView extends HorizontalLayout {
     TextField taskNameTextField = new TextField("Task number/name");
-    Icon removeTaskIcon = new Icon(VaadinIcon.MINUS_CIRCLE);
+//    Icon removeTaskIcon = new Icon(VaadinIcon.MINUS_CIRCLE);
     Task taskToCreate = new Task();
     private Binder<Task> taskBinder = new BeanValidationBinder<>(Task.class);
 
     public CreateTaskView() {
         taskBinder.forField(taskNameTextField).bind(Task::getTaskName, Task::setTaskName);
-        removeTaskIcon.addClickListener(iconClickEvent -> remove(taskNameTextField, removeTaskIcon));
+//        removeTaskIcon.addClickListener(iconClickEvent -> remove(taskNameTextField, removeTaskIcon));
 //        setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
-        add(taskNameTextField, removeTaskIcon);
+        add(taskNameTextField);
     }
 
-    public Task validateAndSave(Floor floorToCreate) {
+    public Task validateTask(Floor floorToCreate) {
         try {
             taskToCreate.setFloor(floorToCreate);
             taskBinder.writeBean(taskToCreate);

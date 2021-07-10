@@ -19,7 +19,7 @@ public class CreateTasksView extends VerticalLayout {
     }
 
     public List<Task> validateAndSave(Floor floorCreated) {
-        return tasksView.stream().map(taskView -> taskView.validateAndSave(floorCreated)).collect(Collectors.toList());
+        return tasksView.stream().map(taskView -> taskView.validateTask(floorCreated)).collect(Collectors.toList());
     }
 
     public void addTaskView() {
