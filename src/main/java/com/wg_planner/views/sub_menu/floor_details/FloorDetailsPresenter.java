@@ -33,7 +33,7 @@ public class FloorDetailsPresenter {
         floorDetailsView.addTasksInFloor();
     }
 
-    private void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
+    private synchronized void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
         if (ConsensusHandler.getInstance().isObjectNotWaitingForConsensus(event.getTask().getId())) {
             UIMessageBus.broadcast(UIEventHandler.getInstance().createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), floorService.getAllRoomsInFloorByFloorId(event.getTask().getFloor().getId())));
             ConsensusHandler.getInstance().add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
@@ -46,7 +46,7 @@ public class FloorDetailsPresenter {
         floorDetailsView.refreshTasksInFloor();
     }
 
-    boolean isObjectDeletable(Long id) {
+    synchronized boolean isObjectDeletable(Long id) {
         return ConsensusHandler.getInstance().isObjectNotWaitingForConsensus(id);
     }
 

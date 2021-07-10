@@ -16,7 +16,6 @@ public class HomePagePresenter implements UIMessageBus.BroadcastListener {
     @Autowired
     FloorService floorService;
     private Room attachedRoom;
-    //todo move to UINotificationTypeTaskDelete
     private ConsensusListener consensusListener = new ConsensusListener() {
         @Override
         public synchronized void onAccept(Long consensusObjectId, String notificationId) {
