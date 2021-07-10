@@ -35,20 +35,5 @@ public abstract class TaskCard extends HorizontalLayout {
         else
             throw new RuntimeException("Event class must be of type TaskCard.TaskCardEvent");
     }
-//    public abstract <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType, ComponentEventListener<T> listener);
-
     public abstract Class getEventClass();
-
-
-//    public <T extends ComponentEvent<?>> Registration addListener(ComponentEventListener<TaskCard.TaskCardEvent> listener) {
-//        return getEventBus().addListener(TaskCard.TaskCardEvent.class, listener);
-//    }
 }
-//    public abstract <T extends ComponentEvent<?>> Registration addListener(ComponentEventListener<TaskCard.TaskCardEvent> listener);
-
-//    public class TaskCardSplitter {
-//        public void splitHorizontally(doubleHorizontalLayout horizontalLayoutToSetAsPrimaryLayout,
-//                                      HorizontalLayout horizontalLayoutToSetAsSecondaryLayout) {
-//
-//        }
-//    }
