@@ -1,8 +1,8 @@
 package com.wg_planner.views.main;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -10,26 +10,23 @@ import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
-import com.wg_planner.views.about.AboutView;
 import com.wg_planner.views.home_page.HomePageView;
-import com.wg_planner.views.register.admission.AdmitNewResidentView;
 import com.wg_planner.views.tasks.floor_tasks.FloorTasksView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
@@ -60,7 +57,8 @@ public class MainView extends AppLayout {
         setPrimarySection(Section.DRAWER);
         //        addToNavbar(true, createHeaderContent(), createSecondaryMenu());
         menu = createMenu();
-        addToNavbar(true, createNavContent(menu));
+        addToNavbar(createNavContentMenuBar());
+        addToNavbar(true, createNavContentTitle(menu));
         //        addToDrawer(createDrawerContent(menu));
         mainViewPresenter = new MainViewPresenter();
         accountDetailsHelper = new AccountDetailsHelper();
@@ -91,12 +89,12 @@ public class MainView extends AppLayout {
         return layout;
     }
 
-    private Component createNavContent(Tabs menu) {
+    private Component createNavContentMenuBar() {
         VerticalLayout layout = new VerticalLayout();
         layout.setSizeFull();
         layout.setPadding(false);
         layout.setSpacing(false);
-        layout.getThemeList().set("spacing-s", true);
+//        layout.getThemeList().set("spacing-s", true);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         HorizontalLayout logoLayout = new HorizontalLayout();
         logoLayout.setId("logo");
@@ -108,9 +106,16 @@ public class MainView extends AppLayout {
         logoLayout.add(h1);
         logoLayout.add(createSecondaryMenu());
         layout.add(logoLayout);
-        layout.add(menu);
         return layout;
+    }
 
+    private Component createNavContentTitle(Tabs menu) {
+        VerticalLayout layout = new VerticalLayout();
+        layout.addClassName("navigation-bar");
+        layout.add(menu);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.AROUND);
+        return layout;
     }
 
     private Tabs createMenu() {
@@ -123,9 +128,11 @@ public class MainView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-
+        FlexLayout flexLayout = new FlexLayout();
         RouterLink home = new RouterLink("Home", HomePageView.class);
+//        home.addClassName("navigation-bar");
         home.add(createIcon(VaadinIcon.HOME));
+//        home.addClassName("navigation-bar-label");
         RouterLink floor_tasks = new RouterLink("Floor Tasks", FloorTasksView.class);
         floor_tasks.add(createIcon(VaadinIcon.BULLETS));
         RouterLink my_tasks = new RouterLink("My Tasks", MyTasksView.class);
@@ -133,22 +140,23 @@ public class MainView extends AppLayout {
         //        RouterLink admit_resident = new RouterLink("Admit Resident", AdmitNewResidentView.class);
 
         RouterLink[] links = new RouterLink[]{home, floor_tasks, my_tasks};
+        Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);
     }
 
     private Icon createIcon(VaadinIcon vaadinIcon) {
         Icon icon = vaadinIcon.create();
-//        icon.setSize("var(--lumo-icon-size-s)");
-//        icon.getStyle().set("margin", "auto");
-        icon.addClassName("navigation-icon");
-//        icon.getStyle()
-//                .set("box-sizing", "border-box")
-//                .set("margin-inline-end", "var(--lumo-space-m)")
-//                .set("padding", "var(--lumo-space-xs)")
-//                .set("vertical-position", "absolute")
-//                .set("top", "0")
-//                .set("bottom", "0")
-//                .set("margin", "auto");
+        //        icon.setSize("var(--lumo-icon-size-s)");
+        //        icon.getStyle().set("margin", "auto");
+        icon.addClassName("navigation-bar-icon");
+        //        icon.getStyle()
+        //                .set("box-sizing", "border-box")
+        //                .set("margin-inline-end", "var(--lumo-space-m)")
+        //                .set("padding", "var(--lumo-space-xs)")
+        //                .set("vertical-position", "absolute")
+        //                .set("top", "0")
+        //                .set("bottom", "0")
+        //                .set("margin", "auto");
         return icon;
     }
 
