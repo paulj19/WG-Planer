@@ -42,3 +42,7 @@ vaadin-tab[selected] {
   background-color: var(--lumo-primary-color-10pct);
   color: var(--lumo-primary-text-color);
 }
+
+.navigation-icon {
+  padding-top: 0em;
+}

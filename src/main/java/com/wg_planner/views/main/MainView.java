@@ -72,19 +72,6 @@ public class MainView extends AppLayout {
         mainViewPresenter.init();
     }
 
-    //    private Component createHeaderContent() {
-    //        HorizontalLayout layout = new HorizontalLayout();
-    //        layout.setId("header");
-    //        layout.getThemeList().set("dark", true);
-    //        layout.setWidthFull();
-    //        layout.setSpacing(false);
-    //        layout.setAlignItems(FlexComponent.Alignment.CENTER);
-    //        layout.add(new DrawerToggle());
-    //        viewTitle = new H1();
-    //        layout.add(viewTitle);
-    //        return layout;
-    //    }
-
     //todo fix menu click sensitivity
     private Component createSecondaryMenu() {
         HorizontalLayout layout = new HorizontalLayout();
@@ -125,21 +112,6 @@ public class MainView extends AppLayout {
         return layout;
 
     }
-    //    private Component createDrawerContent(Tabs menu) {
-    //        VerticalLayout layout = new VerticalLayout();
-    //        layout.setSizeFull();
-    //        layout.setPadding(false);
-    //        layout.setSpacing(false);
-    //        layout.getThemeList().set("spacing-s", true);
-    //        layout.setAlignItems(FlexComponent.Alignment.STRETCH);
-    //        HorizontalLayout logoLayout = new HorizontalLayout();
-    //        logoLayout.setId("logo");
-    //        logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-    //        logoLayout.add(new Image("images/logo.png", "My Project logo"));
-    //        logoLayout.add(new H1("WG_Planner"));
-    //        layout.add(logoLayout, menu);
-    //        return layout;
-    //    }
 
     private Tabs createMenu() {
         final Tabs tabs = new Tabs();
@@ -168,14 +140,15 @@ public class MainView extends AppLayout {
         Icon icon = vaadinIcon.create();
 //        icon.setSize("var(--lumo-icon-size-s)");
 //        icon.getStyle().set("margin", "auto");
-        icon.getStyle()
-                .set("box-sizing", "border-box")
-                .set("margin-inline-end", "var(--lumo-space-m)")
-                .set("padding", "var(--lumo-space-xs)")
-                .set("vertical-position", "absolute")
-                .set("top", "0")
-                .set("bottom", "0")
-                .set("margin", "auto");
+        icon.addClassName("navigation-icon");
+//        icon.getStyle()
+//                .set("box-sizing", "border-box")
+//                .set("margin-inline-end", "var(--lumo-space-m)")
+//                .set("padding", "var(--lumo-space-xs)")
+//                .set("vertical-position", "absolute")
+//                .set("top", "0")
+//                .set("bottom", "0")
+//                .set("margin", "auto");
         return icon;
     }
 
