@@ -4,6 +4,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.wg_planner.backend.utils.ApplicationContextHolder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
@@ -13,6 +14,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * The entry point of the Spring Boot application.
@@ -37,9 +39,15 @@ public class Application extends SpringBootServletInitializer {
                 .setCredentials(googleCredentials)
                 .build();
         FirebaseApp app = null;
+        List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
+        for(FirebaseApp appx : firebaseApps){
+            if(appx.getName().equals(FirebaseApp.DEFAULT_APP_NAME)){
+                isFireBaseAppInitialized=true;
+                app = appx;
+            }
+        }
         if (!isFireBaseAppInitialized) {
             app = FirebaseApp.initializeApp(firebaseOptions, "wg-planner");
-            isFireBaseAppInitialized = true;
         }
         return FirebaseMessaging.getInstance(app);
     }
