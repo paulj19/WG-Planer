@@ -59,3 +59,12 @@ vaadin-tab[selected] {
     padding-top: var(--lumo-space-xs);
     font-size: 0.75em;
 }
+@media (min-width: 700px) {
+    [part="navbar"] {
+        padding: 0.5em 0.75em;
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--material-shadow-elevation-4dp);
+    }
+}
+

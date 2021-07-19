@@ -1,7 +1,6 @@
 package com.wg_planner.views.main;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
@@ -57,8 +56,9 @@ public class MainView extends AppLayout {
         setPrimarySection(Section.DRAWER);
         //        addToNavbar(true, createHeaderContent(), createSecondaryMenu());
         menu = createMenu();
-        addToNavbar(createNavContentMenuBar());
-        addToNavbar(true, createNavContentTitle(menu));
+        addToNavbar(false, createNavContentTitle());
+        addToNavbar(true, createNavContentMenuBar(menu));
+
         //        addToDrawer(createDrawerContent(menu));
         mainViewPresenter = new MainViewPresenter();
         accountDetailsHelper = new AccountDetailsHelper();
@@ -89,7 +89,7 @@ public class MainView extends AppLayout {
         return layout;
     }
 
-    private Component createNavContentMenuBar() {
+    private Component createNavContentTitle() {
         VerticalLayout layout = new VerticalLayout();
         layout.setSizeFull();
         layout.setPadding(false);
@@ -109,7 +109,7 @@ public class MainView extends AppLayout {
         return layout;
     }
 
-    private Component createNavContentTitle(Tabs menu) {
+    private Component createNavContentMenuBar(Tabs menu) {
         VerticalLayout layout = new VerticalLayout();
         layout.addClassName("navigation-bar");
         layout.add(menu);
