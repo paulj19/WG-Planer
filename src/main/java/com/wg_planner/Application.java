@@ -28,13 +28,19 @@ public class Application extends SpringBootServletInitializer {
     //TODO app already exists?
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
+        //todo remove on production code
+        boolean isFireBaseAppInitialized = false;
         GoogleCredentials googleCredentials = GoogleCredentials
                 .fromStream(new ClassPathResource("firebase_private-key.json").getInputStream());
         FirebaseOptions firebaseOptions = FirebaseOptions
                 .builder()
                 .setCredentials(googleCredentials)
                 .build();
-        FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "wg-planner");
+        FirebaseApp app = null;
+        if (!isFireBaseAppInitialized) {
+            app = FirebaseApp.initializeApp(firebaseOptions, "wg-planner");
+            isFireBaseAppInitialized = true;
+        }
         return FirebaseMessaging.getInstance(app);
     }
 }
