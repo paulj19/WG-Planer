@@ -2,10 +2,12 @@ package com.wg_planner.views.tasks.task_cards;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Task;
 
+@CssImport("./styles/views/tasks/tasks-view.css")
 public abstract class TaskCard extends HorizontalLayout {
     protected Task task;
 
@@ -13,6 +15,7 @@ public abstract class TaskCard extends HorizontalLayout {
     }
 
     public TaskCard(Task task) {
+        addClassName("task-box");
         this.task = task;
     }
 
