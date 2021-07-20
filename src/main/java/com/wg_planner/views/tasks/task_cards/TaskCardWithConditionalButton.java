@@ -32,6 +32,7 @@ public class TaskCardWithConditionalButton extends TaskCardWithDetails {
 
     private void createAndAddButtonLayout() {
         buttonAssign = new Button(buttonAssignLabel);
+        buttonAssign.addClassName("task-card-button");
         buttonAssign.addClickListener(event -> fireEvent(new AssignEvent(this, task)));
     }
 }

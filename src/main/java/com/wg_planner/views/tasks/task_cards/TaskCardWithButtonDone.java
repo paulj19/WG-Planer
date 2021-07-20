@@ -26,6 +26,7 @@ public class TaskCardWithButtonDone extends TaskCardWithDetails {
 
     private void createAndAddButtonLayout() {
         buttonDone = new Button(buttonDoneLabel);
+        buttonDone.addClassName("task-card-button");
         buttonDone.addClickListener(event -> fireEvent(new DoneEvent(this, task)));
     }
 }

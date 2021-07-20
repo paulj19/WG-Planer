@@ -27,5 +27,6 @@ public class TaskCardWithButtonRemind extends TaskCardWithDetails {
     private void createAndAddButtonLayout() {
         buttonRemind = new Button(buttonRemindLabel);
         buttonRemind.addClickListener(event -> fireEvent(new RemindEvent(this, task)));
+        buttonRemind.addClassName("task-card-button");
     }
 }

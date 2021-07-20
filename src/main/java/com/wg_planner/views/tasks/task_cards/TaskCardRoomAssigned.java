@@ -10,7 +10,6 @@ public class TaskCardRoomAssigned extends TaskCardWithDetails {
 
     public TaskCardRoomAssigned(TaskCard taskCard, Task task) {
         super(taskCard, task);
-        assignedRoomName.addClassName("room-name");
         initializeWithAssignedRoom();
 //        addClassName("task-box");
 
@@ -20,6 +19,7 @@ public class TaskCardRoomAssigned extends TaskCardWithDetails {
     private void initializeWithAssignedRoom() {
 //        assignedRoomName.setMinWidth("10em");
         assignedRoomName.setText(task.getAssignedRoom() != null ? task.getAssignedRoom().getRoomName() : "");
+        assignedRoomName.addClassName("room-name");
     }
 
     @Override

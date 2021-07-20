@@ -15,7 +15,7 @@ public abstract class TaskCard extends HorizontalLayout {
     }
 
     public TaskCard(Task task) {
-        addClassName("task-box");
+//        addClassName("task-box");
         this.task = task;
     }
 
