@@ -12,7 +12,7 @@ public class TaskCardWithConditionalButton extends TaskCardWithDetails {
     public TaskCardWithConditionalButton(TaskCard taskCard, Task task, String buttonAssignLabel) {
         super(taskCard, task);
         this.buttonAssignLabel = buttonAssignLabel;
-        roomSpaceFiller.setMinWidth("500px");
+//        roomSpaceFiller.setMinWidth("500px");
         roomSpaceFiller.setText("");
         createAndAddButtonLayout();
         super.add(roomSpaceFiller);

@@ -8,12 +8,13 @@ public class TaskCardWithTaskLabel extends TaskCard {
 
     public TaskCardWithTaskLabel(Task task) {
         super(task);
+        labelTaskName.addClassName("task-name");
         initializeLabel();
         super.add(labelTaskName);
     }
 
     private void initializeLabel() {
-        labelTaskName.setMinWidth("500px");
+//        labelTaskName.setMinWidth("500px");
         labelTaskName.setText(task.getTaskName());
     }
 

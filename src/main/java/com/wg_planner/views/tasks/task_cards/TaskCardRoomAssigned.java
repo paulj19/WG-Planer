@@ -3,17 +3,22 @@ package com.wg_planner.views.tasks.task_cards;
 import com.vaadin.flow.component.html.Span;
 import com.wg_planner.backend.entity.Task;
 
+//@CssImport("./styles/views/tasks/tasks-view.css")
+
 public class TaskCardRoomAssigned extends TaskCardWithDetails {
     Span assignedRoomName = new Span();
 
     public TaskCardRoomAssigned(TaskCard taskCard, Task task) {
         super(taskCard, task);
+        assignedRoomName.addClassName("room-name");
         initializeWithAssignedRoom();
+//        addClassName("task-box");
+
         super.add(assignedRoomName);
     }
 
     private void initializeWithAssignedRoom() {
-        assignedRoomName.setMinWidth("500px");
+//        assignedRoomName.setMinWidth("10em");
         assignedRoomName.setText(task.getAssignedRoom() != null ? task.getAssignedRoom().getRoomName() : "");
     }
 
