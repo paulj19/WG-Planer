@@ -4,7 +4,6 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.wg_planner.backend.utils.ApplicationContextHolder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
@@ -41,7 +40,7 @@ public class Application extends SpringBootServletInitializer {
         FirebaseApp app = null;
         List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
         for(FirebaseApp appx : firebaseApps){
-            if(appx.getName().equals(FirebaseApp.DEFAULT_APP_NAME)){
+            if(appx.getName().equals("wg-planner")){
                 isFireBaseAppInitialized=true;
                 app = appx;
             }
