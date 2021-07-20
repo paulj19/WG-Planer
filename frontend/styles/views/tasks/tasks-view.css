@@ -15,23 +15,32 @@ span {
 
 @media screen and (max-width: 420px) {
     .task-name {
-        width: 8em;
+        width: 10.5em;
+        padding-left: 0.5em;
     }
 
     .room-name {
-        width: 4em;
+        width: 4.5em;
     }
 
     .task-card {
-        /*width: 80%;*/
-        border-bottom: 1px solid rgba(192, 192, 192, 0.8);
+        width: 100%;
+        border-bottom: 1px solid rgba(192, 192, 192, 0.4);
         font-size: 0.7em;
-        margin-top: 0px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin: 0px 0px 0px 0px;
     }
 
     .task-card-button {
         font-size: 1em;
         margin: 0px;
-        height: 0px;
+        height: 30px;
     }
+    .tasks-layout {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+
 }

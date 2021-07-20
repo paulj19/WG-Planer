@@ -16,11 +16,13 @@ public class FloorTasksPresenter extends TasksPresenter {
 
     public void init(VerticalLayout allTaskLayout) {
         this.allTaskLayout = allTaskLayout;
+        allTaskLayout.addClassName("tasks-layout");
         super.init();
     }
 
     @Override
     public void addTasks() {
+        allTaskLayout.removeAll();
         tasks.forEach(task -> {
             TaskCard taskCard = TaskCardCreator.createAllTaskCard(task, this);
             taskCard.addClassName("task-card");
