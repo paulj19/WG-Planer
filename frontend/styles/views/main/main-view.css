@@ -51,6 +51,7 @@ vaadin-tab[selected] {
 .navigation-bar {
     padding: 0em;
 }
+
 .navigation-bar-menu {
     display: flex;
     align-content: center;
@@ -59,6 +60,7 @@ vaadin-tab[selected] {
     padding-top: var(--lumo-space-xs);
     font-size: 0.75em;
 }
+
 @media (min-width: 700px) {
     [part="navbar"] {
         padding: 0.5em 0.75em;
@@ -67,10 +69,34 @@ vaadin-tab[selected] {
         box-shadow: var(--material-shadow-elevation-4dp);
     }
 }
-.secondary-menu-image {
-    /*background-color: #af0707;*/
-    /*height:60px;*/
-    border-radius:50%;
-    /*width:60px;*/
+
+/*:host {*/
+/*    height: 60px;*/
+/*    border-radius: 50% !important;*/
+/*}*/
+
+/*.secondary-menu-image > vaadin-menu-bar-button{*/
+/*    height: 60px;*/
+/*    border-radius: 50%;*/
+/*}*/
+
+:host {
+    height: 60px;
+    border-radius: 50% ;
 }
+
+:host(:nth-last-of-type(2)) {
+
+}
+/*vaadin-menu-bar-button[part=menu-bar-button] {*/
+/*    height: 60px;*/
+/*    border-radius: 50%;*/
+/*}*/
+
+/*background-color: #af0707;*/
+/*height:60px;*/
+/*border-radius:50%;*/
+/*width:60px;*/
+/*}*/
+
 

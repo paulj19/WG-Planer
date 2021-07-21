@@ -1,7 +1,9 @@
 package com.wg_planner.views.main;
 
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -80,15 +82,17 @@ public class MainView extends AppLayout {
         Image image = new Image("images/user.svg", "Avatar");
 //        image.addClassName("secondary-menu-image");
         MenuBar menuBar = new MenuBar();
-        MenuItem profileImage = menuBar.addItem(image);
+        MenuItem profileImage = menuBar.addItem("");
+//        menuBar.addClassName("secondary-menu-image");
+//        image.addClickListener(event -> fireEvent(new<>(menuBar)));
 
-        menuBar.addClassName("secondary-menu-image");
         SubMenu secondaryMenu = profileImage.getSubMenu();
         //        secondaryMenu.addItem("Edit Account");
         secondaryMenu.addItem(new Anchor("account_details", "Account Details"));
         secondaryMenu.addItem(new Anchor("floor_details", "Floor Details"));
         secondaryMenu.addItem(new Anchor("logout", "Log out"));
         layout.add(menuBar);
+
         return layout;
     }
 
