@@ -67,4 +67,10 @@ vaadin-tab[selected] {
         box-shadow: var(--material-shadow-elevation-4dp);
     }
 }
+.secondary-menu-image {
+    /*background-color: #af0707;*/
+    /*height:60px;*/
+    border-radius:50%;
+    /*width:60px;*/
+}
 

@@ -78,8 +78,11 @@ public class MainView extends AppLayout {
         layout.setSpacing(false);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         Image image = new Image("images/user.svg", "Avatar");
+//        image.addClassName("secondary-menu-image");
         MenuBar menuBar = new MenuBar();
         MenuItem profileImage = menuBar.addItem(image);
+
+        menuBar.addClassName("secondary-menu-image");
         SubMenu secondaryMenu = profileImage.getSubMenu();
         //        secondaryMenu.addItem("Edit Account");
         secondaryMenu.addItem(new Anchor("account_details", "Account Details"));
