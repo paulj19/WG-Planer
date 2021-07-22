@@ -1,0 +1,29 @@
+/*.vaadin-text-field-container, .vaadin-text-area-container {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    min-width: 100%;*/
+/*    max-width: 100%;*/
+/*    width: var(--vaadin-text-field-default-width, 19em);*/
+/*    height: 8vw;*/
+/*    align-items: center;*/
+/*    justify-content: space-around;*/
+/*    gap: 1.5vw;*/
+/*}*/
+
+@media screen and (max-width: 420px) {
+    /*.fields-view {*/
+    /*    */
+    /*}*/
+    /*vaadin-text-field {*/
+    /*    border: brown;*/
+    /*}*/
+
+    /*[part = "label"] {*/
+    /*    font-size: 0.1em !important;*/
+    /*}*/
+    /*label {*/
+    /**/
+    /*    font-size: 0.1em;*/
+    /*}*/
+}
+

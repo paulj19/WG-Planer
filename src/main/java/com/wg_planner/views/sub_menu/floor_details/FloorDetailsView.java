@@ -13,6 +13,7 @@ import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.main.MainView;
+import com.wg_planner.views.sub_menu.SubMenuView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Route(value = "floor_details", layout = MainView.class)
 @PageTitle("Floor Details")
-@CssImport("./styles/views/tasks/tasks-view.css")
+@CssImport(value = "./styles/views/floor-details/floor-details-view.css")
 public class FloorDetailsView extends VerticalLayout {
     private AutowireCapableBeanFactory beanFactory;
     private FloorDetailsPresenter floorDetailsPresenter;
@@ -32,6 +33,7 @@ public class FloorDetailsView extends VerticalLayout {
     @Autowired
     public FloorDetailsView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
+        addClassName("fields-view");
         floorDetailsPresenter = new FloorDetailsPresenter();
         beanFactory.autowireBean(floorDetailsPresenter);
         floorDetailsViewRoomDetails = new FloorDetailsViewRoomDetails(beanFactory);
@@ -51,6 +53,7 @@ public class FloorDetailsView extends VerticalLayout {
         TextField floorCodeField = new TextField(fieldLabel);
         floorCodeField.setReadOnly(true);
         floorCodeField.setValue(fieldValue);
+//        floorCodeField.getStyle().set("border", "1px solid");
         add(floorCodeField);
     }
 

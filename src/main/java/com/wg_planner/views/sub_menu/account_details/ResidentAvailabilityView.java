@@ -5,10 +5,15 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.Service.ResidentAccountService;
+import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UIStringConstants;
 
+@Route(value = "resident_availability", layout = MainView.class)
+@PageTitle("Resident Availability")
 public class ResidentAvailabilityView extends VerticalLayout {
     ResidentAccountService residentAccountService;
     ConfirmDialog setAvailabilityConfirmDialog;

@@ -23,7 +23,7 @@ public class AccountDetailsPresenter {
     public void init(AccountDetailsView accountDetailsView) {
         this.accountDetailsView = accountDetailsView;
         accountDetailsView.add(new ResidentDetailsView(residentAccountService));
-        accountDetailsView.add(new ResidentAvailabilityView(residentAccountService, this));
+//        accountDetailsView.add(new ResidentAvailabilityView(residentAccountService, this));
         accountDetailsView.add(new AccountDeleteView(floorService, residentAccountService, taskService));
     }
 

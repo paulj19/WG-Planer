@@ -1,0 +1,16 @@
+.submenu-navbar {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    width: 900vw;
+    margin-top: 4vw;
+    margin-bottom: 0px;
+}
+.submenu-layout {
+    padding: 0px 0px 0px 0px;
+}
+.subMenuTab-layout {
+    padding-top: 0px;
+    width: 50px;
+    box-sizing: content-box;
+}
