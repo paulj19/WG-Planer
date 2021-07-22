@@ -9,9 +9,7 @@ public class TaskCardCreator {
         //task assigned to the logged in resident
         TaskCard taskCardDone = new TaskCardWithButtonDone(new TaskCardRoomAssigned(new TaskCardWithTaskLabel(task), task), task);
         taskCardDone.addListener(tasksPresenter::taskDoneCallBack);
-        TaskCard taskCard = new TaskCardWithConditionalButtonReset(taskCardDone, task);
-        taskCard.addListener(tasksPresenter::taskAssignCallBack);
-        return taskCard;
+        return taskCardDone;
     }
 
     public static TaskCard createAllTaskCard(Task task, TasksPresenter tasksPresenter) {
