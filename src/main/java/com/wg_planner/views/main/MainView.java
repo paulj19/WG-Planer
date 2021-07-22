@@ -82,7 +82,7 @@ public class MainView extends AppLayout {
         Image image = new Image("images/user.svg", "Avatar");
 //        image.addClassName("secondary-menu-image");
         MenuBar menuBar = new MenuBar();
-        MenuItem profileImage = menuBar.addItem("");
+        MenuItem profileImage = menuBar.addItem(image);
 //        menuBar.addClassName("secondary-menu-image");
 //        image.addClickListener(event -> fireEvent(new<>(menuBar)));
 
