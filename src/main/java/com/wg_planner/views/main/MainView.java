@@ -77,20 +77,9 @@ public class MainView extends AppLayout {
         //        layout.getThemeList().set("dark", true);
         layout.setSpacing(false);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        Image image = new Image("images/user.svg", "Avatar");
-        //        image.addClassName("secondary-menu-image");
-        //        MenuBar menuBar = new MenuBar();
-        //        MenuItem profileImage = menuBar.addItem(image);
-        //        menuBar.addClassName("secondary-menu-image");
-        //        image.addClickListener(event -> fireEvent(new<>(menuBar)));
-
-        //        SubMenu secondaryMenu = profileImage.getSubMenu();
-        //        secondaryMenu.addItem("Edit Account");
-        //        secondaryMenu.addItem(new Anchor("account_details", "Account Details"));
-        //        secondaryMenu.addItem(new Anchor("floor_details", "Floor Details"));
-        //        secondaryMenu.addItem(new Anchor("logout", "Log out"));
+        Image image = new Image("", ".");
+        image.addClassName("avatar-icon");
         image.addClickListener(event -> {
-//            addToNavbar(createSubMenuTabs());
             UIHandler.getInstance().navigateToSubMenu();
         });
         layout.add(image);

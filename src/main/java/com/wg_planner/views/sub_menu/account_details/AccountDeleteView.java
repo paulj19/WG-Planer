@@ -2,6 +2,7 @@ package com.wg_planner.views.sub_menu.account_details;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.Service.FloorService;
@@ -31,7 +32,7 @@ public class AccountDeleteView extends VerticalLayout {
                 "Delete",
                 this::onConfirmDelete,
                 "Cancel", this::onCancelDelete);
-        deleteButton.addClickListener(event ->  deleteConfirmDialog.open());
+        deleteButton.addClickListener(event -> deleteConfirmDialog.open());
         add(deleteButton);
     }
 

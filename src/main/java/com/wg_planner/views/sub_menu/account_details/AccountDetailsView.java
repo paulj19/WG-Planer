@@ -1,11 +1,13 @@
 package com.wg_planner.views.sub_menu.account_details;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.wg_planner.views.main.MainView;
+import com.wg_planner.views.utils.UIHandler;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 @Route(value = "account_details", layout = MainView.class)
@@ -22,4 +24,12 @@ public class AccountDetailsView extends VerticalLayout {
         beanFactory.autowireBean(accountDetailsPresenter);
         accountDetailsPresenter.init(this);
     }
+
+    public void addLogoutButton() {
+        Button logoutButton = new Button("Logout");
+        logoutButton.getStyle().set("margin-left", "5vw");
+        logoutButton.addClickListener(event -> accountDetailsPresenter.logout());
+        add(logoutButton);
+    }
+
 }

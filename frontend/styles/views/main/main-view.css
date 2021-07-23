@@ -4,11 +4,12 @@
 
 #header img {
     border-radius: 50%;
-    height: var(--lumo-size-s);
-    margin-left: auto;
-    margin-right: var(--lumo-space-m);
-    overflow: hidden;
-    background-color: var(--lumo-contrast);
+    /*height: var(--lumo-size-s);*/
+    /*margin-left: auto;*/
+    /*margin-right: var(--lumo-space-m);*/
+    /*overflow: hidden;*/
+    background-color: #c2e7fb;
+    /*background-color: var(--lumo-contrast);*/
 }
 
 #header h1 {
@@ -80,13 +81,15 @@ vaadin-tab[selected] {
 /*    border-radius: 50%;*/
 /*}*/
 
-:host {
-    height: 60px;
-    border-radius: 50% ;
-}
-
-:host(:nth-last-of-type(2)) {
-
+/*:host {*/
+/*    height: 60px;*/
+/*    border-radius: 50% ;*/
+/*}*/
+.avatar-icon {
+    height: 13vw !important;
+    background-color: #c1e9e682 !important;
+    width: 10vw;
+    margin-right: 0px !important;
 }
 /*vaadin-menu-bar-button[part=menu-bar-button] {*/
 /*    height: 60px;*/
