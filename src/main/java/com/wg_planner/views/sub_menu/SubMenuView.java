@@ -50,7 +50,7 @@ public class SubMenuView extends VerticalLayout {
             }  else if(event.getSelectedTab().hasClassName(ResidentAvailabilityView.class.getName())) {
                 removeAll();
                 add(subMenu);
-                add(new AccountDetailsView(beanFactory));
+                add(new ResidentAvailabilityView(beanFactory));
             }
         });
         subMenu.setSelectedTab(floorDetailsTab);

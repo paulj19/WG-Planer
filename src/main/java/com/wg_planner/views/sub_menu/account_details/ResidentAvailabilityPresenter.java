@@ -10,22 +10,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 @Controller
-public class AccountDetailsPresenter {
+public class ResidentAvailabilityPresenter {
     @Autowired
-    ResidentAccountService residentAccountService;
+    FloorService floorService;
     @Autowired
     TaskService taskService;
     @Autowired
-    FloorService floorService;
+    ResidentAccountService residentAccountService;
 
-    AccountDetailsView accountDetailsView;
-
-    public void init(AccountDetailsView accountDetailsView) {
-        this.accountDetailsView = accountDetailsView;
-        accountDetailsView.add(new ResidentDetailsView(residentAccountService));
-//        accountDetailsView.add(new ResidentAvailabilityView(residentAccountService, this));
-        accountDetailsView.add(new AccountDeleteView(floorService, residentAccountService, taskService));
+    @Transactional
+    public void setResidentAwayAndSave(boolean isAway) {
+        ResidentAccount currentResidentAccount = SessionHandler.getLoggedInResidentAccount();
+        if (isAway) {
+            residentAccountService.transferTasksOfResidentToNext(currentResidentAccount, floorService, taskService);
+        }
+        currentResidentAccount.setAway(isAway);
+        residentAccountService.save(currentResidentAccount);
     }
-
-
 }
