@@ -31,5 +31,4 @@ public class AccountDetailsView extends VerticalLayout {
         logoutButton.addClickListener(event -> accountDetailsPresenter.logout());
         add(logoutButton);
     }
-
 }

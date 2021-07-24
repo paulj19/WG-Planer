@@ -1,19 +1,28 @@
 package com.wg_planner.views.sub_menu.floor_details;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.views.register.admission.AdmitNewResidentView;
+import javafx.scene.control.CheckBox;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
+import javax.swing.*;
 import java.util.List;
 
+@CssImport(value = "./styles/views/floor-details/floor-details-view.css")
 public class FloorDetailsViewRoomDetails {
     private AutowireCapableBeanFactory beanFactory;
 
@@ -39,36 +48,51 @@ public class FloorDetailsViewRoomDetails {
     }
 
     private Component getRoomsInFloorLayout(List<Room> roomsInFloor) {
-        VerticalLayout roomsInFloorLayout = new VerticalLayout();
-        roomsInFloor.forEach(room -> roomsInFloorLayout.add(getRoomLayout(room)));
-        return roomsInFloorLayout;
+        Grid<Room> roomListGrid = new Grid<>();
+        //        roomListGrid.setWidth("100vw");
+        roomListGrid.addClassName("room-details-grid");
+        roomListGrid.setItems(roomsInFloor);
+        Div roomNameHeading = new Div();
+        roomNameHeading.getElement().setProperty("innerHTML","Room <br />Name");
+
+        roomListGrid.addColumn(Room::getRoomName).setHeader(roomNameHeading).setKey("Room Name");
+//        roomListGrid.addColumn(new ComponentRenderer<>(room -> {
+//            Checkbox isOccupiedCheckBox = new Checkbox(room.isOccupied());
+//            isOccupiedCheckBox.setReadOnly(true);
+//            return isOccupiedCheckBox;
+//        })).setHeader("Room Occupied").setKey("Room Occupied");
+        roomListGrid.addColumn(new ComponentRenderer<>(room -> {
+            if (room.getResidentAccount() != null) {
+                return new Span(room.getResidentAccount().getFullName());
+            } else {
+                return new Span("Not Occupied");
+            }
+        })).setHeader("Resident Name").setKey("Resident Name");
+        Div residentPresentHeading = new Div();
+        residentPresentHeading.getElement().setProperty("innerHTML","Resident <br />Present");
+        residentPresentHeading.addClassName("resident-present-heading");
+        roomListGrid.addColumn(new ComponentRenderer<>(room -> {
+            if (room.getResidentAccount() != null) {
+                Checkbox isAwayCheckBox = new Checkbox(!room.getResidentAccount().isAway());
+                isAwayCheckBox.setReadOnly(true);
+                return isAwayCheckBox;
+            } else {
+                return new Span("-");
+            }
+        })).setHeader(residentPresentHeading).setKey("Resident Present");
+        //        roomListGrid.addColumn(room -> !room.getResidentAccount().isAway()).setHeader("Resident Present");
+        //        VerticalLayout roomsInFloorLayout = new VerticalLayout();
+        //        roomsInFloor.forEach(room -> roomsInFloorLayout.add(getRoomLayout(room)));
+        addGridStyle(roomListGrid);
+        return roomListGrid;
     }
 
-    private Component getRoomLayout(Room room) {
-        HorizontalLayout roomLayout = new HorizontalLayout();
-        roomLayout.setHeightFull();
-        roomLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        //        roomLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        TextField roomNameField = new TextField("Room Name");
-        roomNameField.setReadOnly(true);
-        roomNameField.setValue(room.getRoomName());
-        roomLayout.add(roomNameField);
-        Checkbox isOccupiedCheckBox = new Checkbox("Room Occupied");
-        isOccupiedCheckBox.setValue(room.isOccupied());
-        isOccupiedCheckBox.setReadOnly(true);
-        isOccupiedCheckBox.getStyle().set("padding-top", "32px");
-        roomLayout.add(isOccupiedCheckBox);
-        if (room.getResidentAccount() != null) {
-            TextField residentNameField = new TextField("Resident Name");
-            residentNameField.setReadOnly(true);
-            residentNameField.setValue(room.getResidentAccount().getFirstName() + " " + room.getResidentAccount().getLastName());
-            roomLayout.add(residentNameField);
-            Checkbox isResidentAwayCheckBox = new Checkbox("Resident Away");
-            isResidentAwayCheckBox.setValue(room.getResidentAccount().isAway());
-            isResidentAwayCheckBox.setReadOnly(true);
-            isResidentAwayCheckBox.getStyle().set("padding-top", "32px");
-            roomLayout.add(isResidentAwayCheckBox);
-        }
-        return roomLayout;
+    private void addGridStyle(Grid<Room> roomListGrid) {
+//        roomListGrid.getStyle().set("column-gap", "10px");
+        roomListGrid.getColumnByKey("Room Name").setWidth("10vw");
+//        roomListGrid.getColumnByKey("Room Occupied").setWidth("15px");
+        roomListGrid.getColumnByKey("Resident Name").setAutoWidth(true);
+        roomListGrid.getColumnByKey("Resident Present").setWidth("3vw");
     }
+
 }

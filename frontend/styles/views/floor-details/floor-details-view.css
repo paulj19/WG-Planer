@@ -11,6 +11,14 @@
 /*}*/
 
 @media screen and (max-width: 420px) {
+    .room-details-grid {
+        width: 92vw;
+
+    }
+    .resident-present-heading {
+        width:10vw;
+        margin-left: -4vw;
+    }
     /*.fields-view {*/
     /*    */
     /*}*/

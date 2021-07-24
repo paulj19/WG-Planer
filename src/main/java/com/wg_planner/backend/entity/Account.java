@@ -112,6 +112,10 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         this.lastName = lastName;
     }
 
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+
     public String getEmail() {
         return email;
     }
