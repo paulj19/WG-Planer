@@ -24,7 +24,7 @@ span {
     }
 
     .task-card {
-        width: 100%;
+        /*width: 100%;*/
         border-bottom: 1px solid rgba(192, 192, 192, 0.4);
         font-size: 4vw;
         padding-top: 20px;
