@@ -17,7 +17,7 @@ public class MyTasksPresenter extends TasksPresenter {
 
     public void init(VerticalLayout allTaskLayout) {
         this.allTaskLayout = allTaskLayout;
-        allTaskLayout.addClassName("tasks-layout");
+        allTaskLayout.addClassName("sks-layout");
         super.init();
     }
 

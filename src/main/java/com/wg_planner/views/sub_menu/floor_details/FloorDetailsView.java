@@ -100,5 +100,4 @@ public class FloorDetailsView extends VerticalLayout {
                                                                   ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
-
 }

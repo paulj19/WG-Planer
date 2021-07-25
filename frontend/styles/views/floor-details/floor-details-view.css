@@ -10,6 +10,10 @@
 /*    gap: 1.5vw;*/
 /*}*/
 
+.task-list-button > span {
+    width: 31em;
+}
+
 @media screen and (max-width: 420px) {
     .room-details-grid {
         width: 92vw;
