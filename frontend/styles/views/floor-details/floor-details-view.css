@@ -13,6 +13,9 @@
 .task-list-button > span {
     width: 31em;
 }
+.floor-view-admit-new-resident {
+    margin: 0 auto;
+}
 
 .room-details-grid {
     width: 92vw;

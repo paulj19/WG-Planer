@@ -42,7 +42,10 @@ public class FloorDetailsViewRoomDetails {
 
     public Component addAdmitNewResidentView() {
         Accordion admitNewRoomAccordion = new Accordion();
-        admitNewRoomAccordion.add("Add New Resident", new AdmitNewResidentView(beanFactory));
+        admitNewRoomAccordion.setWidthFull();
+        AdmitNewResidentView admitNewResidentView = new AdmitNewResidentView(beanFactory);
+        admitNewResidentView.addClassName("floor-view-admit-new-resident");
+        admitNewRoomAccordion.add("Add New Resident", admitNewResidentView);
         admitNewRoomAccordion.close();
         return admitNewRoomAccordion;
     }
