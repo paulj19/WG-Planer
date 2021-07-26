@@ -19,9 +19,7 @@
 
 .room-details-grid {
     width: 92vw;
-
 }
-
 @media screen and (max-width: 420px) {
     .room-details-grid {
         width: 92vw;
@@ -31,9 +29,9 @@
         width:10vw;
         margin-left: -4vw;
     }
-    /*.fields-view {*/
-    /*    */
-    /*}*/
+    .fields-view {
+        margin: 0;
+    }
     /*vaadin-text-field {*/
     /*    border: brown;*/
     /*}*/

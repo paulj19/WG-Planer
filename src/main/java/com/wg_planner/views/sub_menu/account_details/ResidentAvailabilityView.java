@@ -25,7 +25,6 @@ public class ResidentAvailabilityView extends VerticalLayout {
         residentAvailabilityPresenter = new ResidentAvailabilityPresenter();
         beanFactory.autowireBean(residentAvailabilityPresenter);
         this.residentAccountService = residentAccountService;
-        add(getHeading());
         addAvailabilityCheckBox();
     }
 
@@ -44,9 +43,5 @@ public class ResidentAvailabilityView extends VerticalLayout {
             isAwayCheckBox.setValue(!isBackCheckBox.getValue());
         });
         add(isAwayCheckBox, isBackCheckBox);
-    }
-
-    private H1 getHeading() {
-        return new H1("Change availability status");
     }
 }

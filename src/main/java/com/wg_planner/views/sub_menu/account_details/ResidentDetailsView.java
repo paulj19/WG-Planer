@@ -12,7 +12,6 @@ public class ResidentDetailsView extends VerticalLayout {
 
     public ResidentDetailsView(ResidentAccountService residentAccountService) {
         this.residentAccountService = residentAccountService;
-        add(getHeading());
         add(getResidentNameAsTextField());
         add(getResidentFloorCodeAsTextField());
         add(getResidentRoomAsTextField());
@@ -53,10 +52,6 @@ public class ResidentDetailsView extends VerticalLayout {
         passwordField.setReadOnly(true);
         passwordField.setValue(SessionHandler.getLoggedInResidentAccount().getPassword());
         return passwordField;
-    }
-
-    private H1 getHeading() {
-        return new H1("Account Details");
     }
 
 }

@@ -13,13 +13,14 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 @Route(value = "account_details", layout = MainView.class)
 @RouteAlias(value = "account_details", layout = MainView.class)
 @PageTitle("Account Details")
-@CssImport("./styles/views/tasks/tasks-view.css")
+@CssImport("./styles/views/account-details/account-details-view.css")
 public class AccountDetailsView extends VerticalLayout {
     AutowireCapableBeanFactory beanFactory;
     AccountDetailsPresenter accountDetailsPresenter;
 
     public AccountDetailsView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
+        addClassName("account-details-layout-view");
         accountDetailsPresenter = new AccountDetailsPresenter();
         beanFactory.autowireBean(accountDetailsPresenter);
         accountDetailsPresenter.init(this);
@@ -27,7 +28,7 @@ public class AccountDetailsView extends VerticalLayout {
 
     public void addLogoutButton() {
         Button logoutButton = new Button("Logout");
-        logoutButton.getStyle().set("margin-left", "5vw");
+        logoutButton.getStyle().set("margin", "0 1em");
         logoutButton.addClickListener(event -> accountDetailsPresenter.logout());
         add(logoutButton);
     }
