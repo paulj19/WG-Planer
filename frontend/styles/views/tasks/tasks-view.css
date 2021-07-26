@@ -1,46 +1,69 @@
-/*tasks-view,*/
-/*#tasks-view {*/
-/*    display: block;*/
-/*    padding: 1em;*/
+/*span {*/
+/*    width: 31em;*/
 /*}*/
+
 .task-card {
-    border-bottom: 1px solid rgba(192, 192, 192, 0.12);
+    width: 100%;
+    border-bottom: 1px solid rgba(192, 192, 192, 0.4);
     font-size: 0.9em;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0 0 0 0;
 }
 
-span {
-    width: 31em;
+.task-card-button {
+    font-size: 1em;
+    height: 33px;
+    width: 85px;
+    margin: 7vw 0 0 auto;
 }
 
+.task-name {
+    /*width: 50vw;*/
+    /*padding-left: 0.5em;*/
+    font-size: 1.5em;
+    margin-right: auto;
+}
+
+.room-name {
+    width: 25vw;
+    font-size: 1.1em;
+}
 
 @media screen and (max-width: 420px) {
     .task-name {
-        width: 37vw;
-        padding-left: 0.5em;
+        margin-right: auto;
+        font-size: 1.3em;
+        /*width: 33vw;*/
+        /*padding-left: 0.5em;*/
     }
 
     .room-name {
-        width: 26vw;
+        width: 25vw;
+        font-size: 1em;
     }
 
     .task-card {
         /*width: 100%;*/
         border-bottom: 1px solid rgba(192, 192, 192, 0.4);
-        font-size: 4vw;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        font-size: 0.9em;
+        padding-top: 10px;
+        padding-bottom: 10px;
         margin: 0 0 0 0;
     }
 
     .task-card-button {
         font-size: 1em;
-        margin: 0;
-        height: 30px;
+        height: 33px;
+        width: 85px;
+        margin: 7vw 0 0 auto;
     }
+
     .tasks-layout {
         padding-left: 0;
         padding-right: 0;
     }
+
     .floor-details-tasks-layout {
         width: inherit;
         padding-left: 0;

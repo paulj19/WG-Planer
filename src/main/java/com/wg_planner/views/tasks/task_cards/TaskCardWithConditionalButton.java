@@ -13,7 +13,7 @@ public class TaskCardWithConditionalButton extends TaskCardWithDetails {
         super(taskCard, task);
         this.buttonAssignLabel = buttonAssignLabel;
 //        roomSpaceFiller.setMinWidth("500px");
-        roomSpaceFiller.setText("");
+        roomSpaceFiller.setText("no room assigned");
         createAndAddButtonLayout();
         super.add(roomSpaceFiller);
         super.add(buttonAssign);
@@ -33,6 +33,7 @@ public class TaskCardWithConditionalButton extends TaskCardWithDetails {
     private void createAndAddButtonLayout() {
         buttonAssign = new Button(buttonAssignLabel);
         buttonAssign.addClassName("task-card-button");
+        roomSpaceFiller.addClassName("room-name");
         buttonAssign.addClickListener(event -> fireEvent(new AssignEvent(this, task)));
     }
 }

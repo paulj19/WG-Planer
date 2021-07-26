@@ -21,12 +21,12 @@
 .floor-details-task-card-button {
     font-size: 1em;
     margin: 0 0 0 2vw;
-    height: 5vh;
+    height: 33px;
 }
 .floor-details-add-task-button {
     font-size: 1em;
     margin: 3vw auto;
-    height: 5vh;
+    height: 33px;
 }
 @media screen and (max-width: 420px) {
     .floor-details-task-name {
@@ -47,12 +47,13 @@
     .floor-details-task-card-button {
         font-size: 1em;
         margin: 0 0 0 2vw;
-        height: 5vh;
+        height: 33px;
+
     }
     .floor-details-add-task-button {
         font-size: 1em;
         margin: 3vw auto;
-        height: 5vh;
+        height: 33px;
     }
 
     .new-task-layout {
