@@ -12,7 +12,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.wg_planner.backend.entity.Task;
 
 public class CreateTaskView extends HorizontalLayout {
-    TextField taskNameTextField = new TextField("Task number/name");
+    TextField taskNameTextField = new TextField("","Enter task name");
 //    Icon removeTaskIcon = new Icon(VaadinIcon.MINUS_CIRCLE);
     Task taskToCreate = new Task();
     private Binder<Task> taskBinder = new BeanValidationBinder<>(Task.class);
@@ -38,6 +38,10 @@ public class CreateTaskView extends HorizontalLayout {
 
     public Task getTaskToCreate() {
         return taskToCreate;
+    }
+
+    public TextField getTaskNameTextField() {
+        return taskNameTextField;
     }
 }
 

@@ -58,7 +58,10 @@ public class FloorDetailsViewTaskDetails {
 
     private Component getNewTaskCreateLayout() {
         HorizontalLayout newTaskCreateLayout = new HorizontalLayout();
+        newTaskCreateLayout.addClassName("new-task-layout");
         CreateTaskView createTaskView = new CreateTaskView();
+        createTaskView.getTaskNameTextField().setWidth("46vw");
+        createTaskView.getTaskNameTextField().getStyle().set("padding-top", "0");
         Button saveNewTaskButton = new Button("Save");
         addButtonClass(saveNewTaskButton);
         Button cancelAddTaskButton = new Button("Cancel");
