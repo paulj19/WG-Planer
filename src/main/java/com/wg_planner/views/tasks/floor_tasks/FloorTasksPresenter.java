@@ -12,21 +12,20 @@ import org.springframework.stereotype.Controller;
 @Scope("prototype")
 @CssImport("./styles/views/tasks/tasks-view.css")
 public class FloorTasksPresenter extends TasksPresenter {
-    VerticalLayout allTaskLayout;
+    FloorTasksView floorTasksView;
 
-    public void init(VerticalLayout allTaskLayout) {
-        this.allTaskLayout = allTaskLayout;
-        allTaskLayout.addClassName("tasks-layout");
+    public void init(FloorTasksView floorTasksView) {
+        this.floorTasksView = floorTasksView;
         super.init();
     }
 
     @Override
     public void addTasks() {
-        allTaskLayout.removeAll();
+        floorTasksView.removeAll();
         tasks.forEach(task -> {
             TaskCard taskCard = TaskCardCreator.createAllTaskCard(task, this);
             taskCard.addClassName("task-card");
-            allTaskLayout.add(taskCard);
+            floorTasksView.add(taskCard);
         });
     }
 }

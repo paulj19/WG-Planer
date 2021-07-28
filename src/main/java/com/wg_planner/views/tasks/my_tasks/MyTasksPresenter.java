@@ -11,24 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @CssImport("./styles/views/tasks/tasks-view.css")
 public class MyTasksPresenter extends TasksPresenter {
-    VerticalLayout allTaskLayout;
+    MyTasksView myTasksView;
     @Autowired
     TaskService taskService;
 
-    public void init(VerticalLayout allTaskLayout) {
-        this.allTaskLayout = allTaskLayout;
-        allTaskLayout.addClassName("tasks-layout");
+    public void init(MyTasksView myTasksView) {
+        this.myTasksView = myTasksView;
         super.init();
     }
 
     @Override
     public void addTasks() {
-        allTaskLayout.removeAll();
+        myTasksView.removeAll();
         taskService.getAllTasksOfRoom(SessionHandler.getLoggedInResidentAccount().getRoom().getId()).forEach(task ->
         {
             TaskCard taskCard = TaskCardCreator.createLoggedInResidentTaskCard(task, this);
             taskCard.addClassName("task-card");
-            allTaskLayout.add(taskCard);
+            myTasksView.add(taskCard);
         });
     }
 }

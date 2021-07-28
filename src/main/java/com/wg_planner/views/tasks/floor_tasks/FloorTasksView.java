@@ -15,14 +15,11 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 public class FloorTasksView extends VerticalLayout {
     FloorTasksPresenter floorTasksPresenter;
     AutowireCapableBeanFactory beanFactory;
-    VerticalLayout myTasksLayout;
 
     public FloorTasksView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
         floorTasksPresenter = new FloorTasksPresenter();
-        myTasksLayout = new VerticalLayout();
         beanFactory.autowireBean(floorTasksPresenter);
-        floorTasksPresenter.init(myTasksLayout);
-        add(myTasksLayout);
+        floorTasksPresenter.init(this);
     }
 }
