@@ -1,7 +1,6 @@
 package com.wg_planner.views.tasks.floor_tasks;
 
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.views.tasks.TasksPresenter;
 import com.wg_planner.views.tasks.task_cards.TaskCard;
 import com.wg_planner.views.tasks.task_cards.TaskCardCreator;
