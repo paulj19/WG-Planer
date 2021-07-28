@@ -82,6 +82,7 @@ public class FloorDetailsViewTaskDetails {
 
     private Component getTaskLayout(Task task) {
         HorizontalLayout taskLayout = new HorizontalLayout();
+            taskLayout.addClassName("floor-details-task-card");
 //        taskLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 //        taskLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         Span taskName = new Span(task.getTaskName());
@@ -95,7 +96,6 @@ public class FloorDetailsViewTaskDetails {
             resetOrAssignTask.addClickListener(event -> UI.getCurrent().navigate(AssignTaskView.class,
                     task.getId().toString()));
             taskLayout.add(taskName, resetOrAssignTask, deleteTask);
-            taskLayout.addClassName("floor-details-task-card");
         } else {
             taskLayout.add(taskName);
         }

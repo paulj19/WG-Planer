@@ -1,6 +1,7 @@
 package com.wg_planner.views.utils.UINotificationHandler;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -26,13 +27,15 @@ public abstract class UIEventType {
 
     public abstract long getTimeoutIntervalInMillis();
 
-    protected Component createNotificationView(String notificationMessage, Component... components) {
+    protected Component createNotificationView(Component notificationMessage, String styleClass, Component... components) {
         HorizontalLayout notificationLayout = new HorizontalLayout();
-        Span message = new Span(notificationMessage);
-        notificationLayout.add(message);
+        notificationLayout.addClassName("notification-layout-view");
+        if (!styleClass.isEmpty()) {
+            notificationLayout.addClassName(styleClass);
+        }
+        notificationLayout.add(notificationMessage);
         notificationLayout.add(components);
-        notificationLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        notificationLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        return new VerticalLayout(notificationLayout);
+        //        notificationLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        return notificationLayout;
     }
 }
