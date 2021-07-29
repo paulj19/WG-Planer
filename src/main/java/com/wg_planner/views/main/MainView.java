@@ -1,6 +1,7 @@
 package com.wg_planner.views.main;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -9,9 +10,9 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -22,7 +23,6 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.wg_planner.views.home_page.HomePageView;
-import com.wg_planner.views.sub_menu.SubMenuView;
 import com.wg_planner.views.sub_menu.account_details.AccountDetailsView;
 import com.wg_planner.views.sub_menu.account_details.ResidentAvailabilityView;
 import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
@@ -35,6 +35,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -48,17 +49,26 @@ public class MainView extends AppLayout {
 
     private final Tabs menu;
     private H1 viewTitle;
+    AtomicInteger windowWidth = new AtomicInteger();
+    final int mobileWindowWidth = 420;//px
     AutowireCapableBeanFactory beanFactory;
     MainViewPresenter mainViewPresenter;
     AccountDetailsHelper accountDetailsHelper;
 
     public MainView(AutowireCapableBeanFactory beanFactory) {
+        getWindowWidth();
         this.beanFactory = beanFactory;
-        setPrimarySection(Section.DRAWER);
+        //        setPrimarySection(Section.DRAWER);
         //        addToNavbar(true, createHeaderContent(), createSecondaryMenu());
         menu = createMenu();
+        //        addToNavbar(false, createNavContentTitle());
         addToNavbar(false, createNavContentTitle());
-        addToNavbar(true, createNavContentMenuBar(menu));
+        //        addToNavbar(true, createNavContentMenuBar(menu));
+        //        if (windowWidth.get() > mobileWindowWidth) {
+        //            addToDrawer(createNavContentMenuBar(menu));
+        //        } else {
+        //            addToNavbar(true, createNavContentMenuBar(menu));
+        //        }
         //        addToDrawer(createDrawerContent(menu));
         mainViewPresenter = new MainViewPresenter();
         accountDetailsHelper = new AccountDetailsHelper();
@@ -68,6 +78,20 @@ public class MainView extends AppLayout {
         //todo this should go direct after login
         SessionHandler.saveLoggedInResidentAccount(accountDetailsHelper.getLoggedInResidentAccount());
         mainViewPresenter.init();
+    }
+
+    void getWindowWidth() {
+        UI.getCurrent().getPage().retrieveExtendedClientDetails(details -> {
+            //            windowWidth.set(details.getWindowInnerWidth());
+            if (details.getWindowInnerWidth() <= mobileWindowWidth) {
+                addToNavbar(true, createNavContentMenuBar(menu));
+                menu.setOrientation(Tabs.Orientation.HORIZONTAL);
+            } else {
+                addToDrawer(createNavContentMenuBar(menu));
+                menu.setOrientation(Tabs.Orientation.VERTICAL);
+            }
+            //                UI.getCurrent().getPage().reload();
+        });
     }
 
     //todo fix menu click sensitivity
@@ -152,7 +176,7 @@ public class MainView extends AppLayout {
         //        RouterLink admit_resident = new RouterLink("Admit Resident", AdmitNewResidentView.class);
 
         RouterLink[] links = new RouterLink[]{home, floor_tasks, my_tasks};
-        Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));
+//        Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);
     }
 
@@ -160,7 +184,10 @@ public class MainView extends AppLayout {
         Icon icon = vaadinIcon.create();
         //        icon.setSize("var(--lumo-icon-size-s)");
         //        icon.getStyle().set("margin", "auto");
-        icon.addClassName("navigation-bar-icon");
+//        icon.addClassName("navigation-bar-icon");
+        icon.getStyle().set("box-sizing", "border-box")
+                .set("margin-inline-end", "var(--lumo-space-m)")
+                .set("padding", "var(--lumo-space-xs)");
         //        icon.getStyle()
         //                .set("box-sizing", "border-box")
         //                .set("margin-inline-end", "var(--lumo-space-m)")

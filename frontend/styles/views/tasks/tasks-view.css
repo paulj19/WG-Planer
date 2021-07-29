@@ -1,3 +1,6 @@
+:root {
+    --mobile-viewport-width: 479px;
+}
 .task-card {
     width: 100%;
     border-bottom: 1px solid rgba(192, 192, 192, 0.4);
@@ -11,7 +14,8 @@
     font-size: 1em;
     height: 33px;
     width: 85px;
-    margin: 7vw 0 0 auto;
+    /*margin: 7vw 0 0 auto;*/
+    margin: auto 0 auto auto;
 }
 
 .task-name {
@@ -25,8 +29,8 @@
     width: 25vw;
     font-size: 1.1em;
 }
-
 @media screen and (max-width: 420px) {
+/*@media screen and (max-width: var(--mobile-viewport-width)) {*/
     .task-name {
         margin-right: auto;
         font-size: 1.3em;
@@ -40,7 +44,7 @@
     }
 
     .task-card {
-        /*width: 100%;*/
+        width: 100%;
         border-bottom: 1px solid rgba(192, 192, 192, 0.4);
         font-size: 0.9em;
         padding-top: 10px;
@@ -52,7 +56,7 @@
         font-size: 1em;
         height: 33px;
         width: 85px;
-        margin: 7vw 0 0 auto;
+        margin: auto 0 auto auto;;
     }
 
     .tasks-layout {
