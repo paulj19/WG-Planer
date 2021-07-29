@@ -83,11 +83,11 @@ public class MainView extends AppLayout {
         UI.getCurrent().getPage().retrieveExtendedClientDetails(details -> {
             //            windowWidth.set(details.getWindowInnerWidth());
             if (details.getWindowInnerWidth() <= mobileWindowWidth) {
-                addToNavbar(true, createNavContentMenuBar(menu));
                 menu.setOrientation(Tabs.Orientation.HORIZONTAL);
+                addToNavbar(true, createNavContentMenuBar(menu));
             } else {
-                addToDrawer(createNavContentMenuBar(menu));
                 menu.setOrientation(Tabs.Orientation.VERTICAL);
+                addToDrawer(createNavContentMenuBar(menu));
             }
             //                UI.getCurrent().getPage().reload();
         });
@@ -156,7 +156,8 @@ public class MainView extends AppLayout {
 
     private Tabs createMenu() {
         final Tabs tabs = new Tabs();
-        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
+        tabs.addClassName("main-tabs-view");
+//        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
         //        tabs.addThemeVariants(TabsVariant.LUMO_MINIMAL);
         //        tabs.setId("tabs");
         tabs.add(createMenuItems());
@@ -183,10 +184,10 @@ public class MainView extends AppLayout {
         Icon icon = vaadinIcon.create();
         //        icon.setSize("var(--lumo-icon-size-s)");
         //        icon.getStyle().set("margin", "auto");
-//        icon.addClassName("navigation-bar-icon");
-        icon.getStyle().set("box-sizing", "border-box")
-                .set("margin-inline-end", "var(--lumo-space-m)")
-                .set("padding", "var(--lumo-space-xs)");
+        icon.addClassName("navigation-bar-icon");
+//        icon.getStyle().set("box-sizing", "border-box")
+//                .set("margin-inline-end", "var(--lumo-space-m)")
+//                .set("padding", "var(--lumo-space-xs)");
         //        icon.getStyle()
         //                .set("box-sizing", "border-box")
         //                .set("margin-inline-end", "var(--lumo-space-m)")
