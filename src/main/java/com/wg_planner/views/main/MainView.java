@@ -55,8 +55,9 @@ public class MainView extends AppLayout {
     AccountDetailsHelper accountDetailsHelper;
 
     public MainView(AutowireCapableBeanFactory beanFactory) {
-        getWindowWidth();
         this.beanFactory = beanFactory;
+        getWindowWidth();
+        addBrowserWindowResizeListener();
         //        setPrimarySection(Section.DRAWER);
         //        addToNavbar(true, createHeaderContent(), createSecondaryMenu());
         menu = createMenu();
@@ -79,9 +80,15 @@ public class MainView extends AppLayout {
         mainViewPresenter.init();
     }
 
-    void getWindowWidth() {
+    private void addBrowserWindowResizeListener() {
+        UI.getCurrent().getPage().addBrowserWindowResizeListener(event -> {
+            getWindowWidth();
+            UI.getCurrent().getPage().reload();
+        });
+    }
+
+    private void getWindowWidth() {
         UI.getCurrent().getPage().retrieveExtendedClientDetails(details -> {
-            //            windowWidth.set(details.getWindowInnerWidth());
             if (details.getWindowInnerWidth() <= mobileWindowWidth) {
                 menu.setOrientation(Tabs.Orientation.HORIZONTAL);
                 addToNavbar(true, createNavContentMenuBar(menu));
@@ -89,7 +96,6 @@ public class MainView extends AppLayout {
                 menu.setOrientation(Tabs.Orientation.VERTICAL);
                 addToDrawer(createNavContentMenuBar(menu));
             }
-            //                UI.getCurrent().getPage().reload();
         });
     }
 
