@@ -13,7 +13,9 @@ public class TaskCardWithConditionalButton extends TaskCardWithDetails {
         super(taskCard, task);
         this.buttonAssignLabel = buttonAssignLabel;
 //        roomSpaceFiller.setMinWidth("500px");
-        roomSpaceFiller.setText("no room assigned");
+        //todo
+//        roomSpaceFiller.setText("no room assigned");
+        roomSpaceFiller.setText("");
         createAndAddButtonLayout();
         super.add(roomSpaceFiller);
         super.add(buttonAssign);

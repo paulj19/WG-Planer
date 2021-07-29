@@ -12,7 +12,6 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -50,7 +49,7 @@ public class MainView extends AppLayout {
     private final Tabs menu;
     private H1 viewTitle;
     AtomicInteger windowWidth = new AtomicInteger();
-    final int mobileWindowWidth = 420;//px
+    final int mobileWindowWidth = 420;//px//todo get accurate value
     AutowireCapableBeanFactory beanFactory;
     MainViewPresenter mainViewPresenter;
     AccountDetailsHelper accountDetailsHelper;
@@ -150,7 +149,7 @@ public class MainView extends AppLayout {
         VerticalLayout layout = new VerticalLayout();
         layout.addClassName("navigation-bar");
         layout.add(menu);
-        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+//        layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.AROUND);
         return layout;
     }
@@ -176,7 +175,7 @@ public class MainView extends AppLayout {
         //        RouterLink admit_resident = new RouterLink("Admit Resident", AdmitNewResidentView.class);
 
         RouterLink[] links = new RouterLink[]{home, floor_tasks, my_tasks};
-//        Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));
+        Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);
     }
 

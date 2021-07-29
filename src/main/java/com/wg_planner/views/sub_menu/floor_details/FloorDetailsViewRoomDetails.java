@@ -1,25 +1,17 @@
 package com.wg_planner.views.sub_menu.floor_details;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.views.register.admission.AdmitNewResidentView;
-import javafx.scene.control.CheckBox;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
-import javax.swing.*;
 import java.util.List;
 
 @CssImport(value = "./styles/views/floor-details/floor-details-view.css")
