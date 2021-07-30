@@ -38,7 +38,8 @@ vaadin-tab {
     height: var(--lumo-size-l);
     font-weight: 600;
     color: var(--lumo-body-text-color);
-    width: 100%;
+    /*width: 100%;*/
+    margin: auto;
 }
 
 vaadin-tab:hover {
@@ -102,6 +103,7 @@ vaadin-tab[selected] {
 
     vaadin-tab {
         width: initial;
+        font-weight: normal;
     }
 
     .navigation-bar-icon {
