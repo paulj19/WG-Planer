@@ -28,7 +28,7 @@
     margin: 3vw auto;
     height: 33px;
 }
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 480px) {
     .floor-details-task-name {
         width: 45vw;
         padding-left: 0.5em;

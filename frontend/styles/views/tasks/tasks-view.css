@@ -1,6 +1,4 @@
-:root {
-    --mobile-viewport-width: 479px;
-}
+
 .task-card {
     width: 100%;
     border-bottom: 1px solid rgba(192, 192, 192, 0.4);
@@ -35,7 +33,7 @@
     width: 25vw;
     font-size: 1.1em;
 }
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 480px) {
 /*@media screen and (max-width: var(--mobile-viewport-width)) {*/
     .task-name {
         margin-right: auto;

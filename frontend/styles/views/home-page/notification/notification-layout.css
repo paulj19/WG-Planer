@@ -7,7 +7,7 @@
     width: 70%;
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 480px) {
     .notification-layout-view {
         /*border: 1px solid rgba(192, 192, 192, 0.4);*/
         border-radius: 3px;

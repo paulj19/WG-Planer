@@ -49,7 +49,7 @@ public class MainView extends AppLayout {
     private final Tabs menu;
     private H1 viewTitle;
     AtomicInteger windowWidth = new AtomicInteger();
-    final int mobileWindowWidth = 420;//px//todo get accurate value
+    final int mobileWindowWidth = 480;//px
     AutowireCapableBeanFactory beanFactory;
     MainViewPresenter mainViewPresenter;
     AccountDetailsHelper accountDetailsHelper;
@@ -153,10 +153,8 @@ public class MainView extends AppLayout {
 
     private Component createNavContentMenuBar(Tabs menu) {
         VerticalLayout layout = new VerticalLayout();
-
         layout.addClassName("navigation-bar");
         layout.add(menu);
-
         //        layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.AROUND);
         return layout;

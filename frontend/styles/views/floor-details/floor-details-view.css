@@ -20,7 +20,7 @@
 .room-details-grid {
     width: 92vw;
 }
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 480px) {
     .room-details-grid {
         width: 92vw;
 

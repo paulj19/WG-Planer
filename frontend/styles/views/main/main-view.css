@@ -50,6 +50,10 @@ vaadin-tab[selected] {
     color: var(--lumo-primary-text-color);
 }
 
+/*:root {*/
+/*    --mobile-viewport-width: 480px;*/
+/*}*/
+
 .navigation-bar {
     padding: 0;
 }
@@ -72,7 +76,7 @@ vaadin-tab[selected] {
     padding: var(--lumo-space-xs);
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 480px) {
     .navigation-bar {
         padding: 0;
         align-items: center;
