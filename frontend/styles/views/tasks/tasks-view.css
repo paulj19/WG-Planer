@@ -34,7 +34,7 @@
     font-size: 1.1em;
 }
 
-@media screen and (max-width: 480px), screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
 
     /*@media screen and (max-width: var(--mobile-viewport-width)) {*/
     .task-name {

@@ -75,7 +75,8 @@ public class MainView extends AppLayout {
 
     private void getWindowWidth() {
         UI.getCurrent().getPage().retrieveExtendedClientDetails(details -> {
-            if (details.getWindowInnerWidth() <= mobileWindowWidth || details.getWindowInnerWidth() == standardTabletWindowWidth) {
+//            if (details.getWindowInnerWidth() <= mobileWindowWidth || details.getWindowInnerWidth() == standardTabletWindowWidth) {
+            if (details.getWindowInnerWidth() <= standardTabletWindowWidth) {
                 menu.setOrientation(Tabs.Orientation.HORIZONTAL);
                 addToNavbar(true, createNavContentMenuBar(menu));
             } else {

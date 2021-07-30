@@ -32,7 +32,7 @@
     height: 33px;
 }
 
-@media screen and (max-width: 480px), screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .floor-details-task-name {
         width: 45vw;
         padding-left: 0.5em;
