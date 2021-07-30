@@ -90,8 +90,8 @@ public class MainView extends AppLayout {
         layout.setId("header");
         layout.setSpacing(false);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        Image image = new Image("", ".");
-        image.addClassName("avatar-icon");
+        Image image = new Image("images/profile_pic.png", "profile pic");
+        image.addClassName("profile-pic");
         image.addClickListener(event -> {
             UIHandler.getInstance().navigateToSubMenu();
         });
