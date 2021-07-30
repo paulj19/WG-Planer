@@ -50,6 +50,7 @@ public class MainView extends AppLayout {
     private H1 viewTitle;
     AtomicInteger windowWidth = new AtomicInteger();
     final int mobileWindowWidth = 480;//px
+    final int standardTabletWindowWidth = 768;//px
     AutowireCapableBeanFactory beanFactory;
     MainViewPresenter mainViewPresenter;
     AccountDetailsHelper accountDetailsHelper;
@@ -89,7 +90,7 @@ public class MainView extends AppLayout {
 
     private void getWindowWidth() {
         UI.getCurrent().getPage().retrieveExtendedClientDetails(details -> {
-            if (details.getWindowInnerWidth() <= mobileWindowWidth) {
+            if (details.getWindowInnerWidth() <= mobileWindowWidth || details.getWindowInnerWidth() == standardTabletWindowWidth) {
                 menu.setOrientation(Tabs.Orientation.HORIZONTAL);
                 addToNavbar(true, createNavContentMenuBar(menu));
             } else {

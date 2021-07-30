@@ -76,7 +76,7 @@ vaadin-tab[selected] {
     padding: var(--lumo-space-xs);
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 480px), screen and (max-width: 768px) {
     .navigation-bar {
         padding: 0;
         align-items: center;

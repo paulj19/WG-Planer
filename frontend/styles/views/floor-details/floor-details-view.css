@@ -13,6 +13,7 @@
 .task-list-button > span {
     width: 31em;
 }
+
 .floor-view-admit-new-resident {
     margin: 0 auto;
 }
@@ -20,22 +21,26 @@
 .room-details-grid {
     width: 92vw;
 }
-@media screen and (max-width: 480px) {
+
+@media screen and (max-width: 480px), screen and (max-width: 768px) {
+
     .room-details-grid {
         width: 92vw;
 
     }
+
     .resident-present-heading {
-        width:10vw;
+        width: 10vw;
         margin-left: -4vw;
     }
+
     .fields-view {
         margin: 0;
     }
+
     /*vaadin-text-field {*/
     /*    border: brown;*/
     /*}*/
-
     /*[part = "label"] {*/
     /*    font-size: 0.1em !important;*/
     /*}*/

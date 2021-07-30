@@ -4,10 +4,12 @@
     padding-right: 0;
     margin: 0 0;
 }
+
 .floor-details-task-name {
     width: 77vw;
     padding-left: 0.5em;
 }
+
 .floor-details-task-card {
     /*width: 100%;*/
     width: 92vw;
@@ -23,12 +25,14 @@
     margin: 0 0 0 2vw;
     height: 33px;
 }
+
 .floor-details-add-task-button {
     font-size: 1em;
     margin: 3vw auto;
     height: 33px;
 }
-@media screen and (max-width: 480px) {
+
+@media screen and (max-width: 480px), screen and (max-width: 768px) {
     .floor-details-task-name {
         width: 45vw;
         padding-left: 0.5em;
@@ -50,6 +54,7 @@
         height: 33px;
 
     }
+
     .floor-details-add-task-button {
         font-size: 1em;
         margin: 3vw auto;
@@ -59,6 +64,7 @@
     .new-task-layout {
         width: 90vw;
     }
+
     /*.floor-details-tasks-layout {*/
     /*    padding-left: 0;*/
     /*    padding-right: 0;*/
