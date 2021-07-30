@@ -15,7 +15,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
@@ -34,7 +33,6 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -47,8 +45,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MainView extends AppLayout {
 
     private final Tabs menu;
-    private H1 viewTitle;
-    AtomicInteger windowWidth = new AtomicInteger();
     final int mobileWindowWidth = 480;//px
     final int standardTabletWindowWidth = 768;//px
     AutowireCapableBeanFactory beanFactory;
@@ -59,18 +55,8 @@ public class MainView extends AppLayout {
         this.beanFactory = beanFactory;
         getWindowWidth();
         addBrowserWindowResizeListener();
-        //        setPrimarySection(Section.DRAWER);
-        //        addToNavbar(true, createHeaderContent(), createSecondaryMenu());
         menu = createMenu();
-        //        addToNavbar(false, createNavContentTitle());
         addToNavbar(false, createNavContentTitle());
-        //        addToNavbar(true, createNavContentMenuBar(menu));
-        //        if (windowWidth.get() > mobileWindowWidth) {
-        //            addToDrawer(createNavContentMenuBar(menu));
-        //        } else {
-        //            addToNavbar(true, createNavContentMenuBar(menu));
-        //        }
-        //        addToDrawer(createDrawerContent(menu));
         mainViewPresenter = new MainViewPresenter();
         accountDetailsHelper = new AccountDetailsHelper();
         beanFactory.autowireBean(mainViewPresenter);
@@ -100,11 +86,9 @@ public class MainView extends AppLayout {
         });
     }
 
-    //todo fix menu click sensitivity
     private Component createSecondaryMenu() {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setId("header");
-        //        layout.getThemeList().set("dark", true);
         layout.setSpacing(false);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         Image image = new Image("", ".");
@@ -156,7 +140,6 @@ public class MainView extends AppLayout {
         VerticalLayout layout = new VerticalLayout();
         layout.addClassName("navigation-bar");
         layout.add(menu);
-        //        layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.AROUND);
         return layout;
     }
@@ -164,23 +147,17 @@ public class MainView extends AppLayout {
     private Tabs createMenu() {
         final Tabs tabs = new Tabs();
         tabs.addClassName("main-tabs-view");
-        //        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
-        //        tabs.addThemeVariants(TabsVariant.LUMO_MINIMAL);
-        //        tabs.setId("tabs");
         tabs.add(createMenuItems());
         return tabs;
     }
 
     private Component[] createMenuItems() {
         RouterLink home = new RouterLink("Home", HomePageView.class);
-        //        home.addClassName("navigation-bar");
         home.add(createIcon(VaadinIcon.HOME));
-        //        home.addClassName("navigation-bar-label");
         RouterLink floor_tasks = new RouterLink("Floor Tasks", FloorTasksView.class);
         floor_tasks.add(createIcon(VaadinIcon.BULLETS));
         RouterLink my_tasks = new RouterLink("My Tasks", MyTasksView.class);
         my_tasks.add(createIcon(VaadinIcon.GRID_BIG_O));
-        //        RouterLink admit_resident = new RouterLink("Admit Resident", AdmitNewResidentView.class);
 
         RouterLink[] links = new RouterLink[]{home, floor_tasks, my_tasks};
         Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));
@@ -189,20 +166,7 @@ public class MainView extends AppLayout {
 
     private Icon createIcon(VaadinIcon vaadinIcon) {
         Icon icon = vaadinIcon.create();
-        //        icon.setSize("var(--lumo-icon-size-s)");
-        //        icon.getStyle().set("margin", "auto");
         icon.addClassName("navigation-bar-icon");
-        //        icon.getStyle().set("box-sizing", "border-box")
-        //                .set("margin-inline-end", "var(--lumo-space-m)")
-        //                .set("padding", "var(--lumo-space-xs)");
-        //        icon.getStyle()
-        //                .set("box-sizing", "border-box")
-        //                .set("margin-inline-end", "var(--lumo-space-m)")
-        //                .set("padding", "var(--lumo-space-xs)")
-        //                .set("vertical-position", "absolute")
-        //                .set("top", "0")
-        //                .set("bottom", "0")
-        //                .set("margin", "auto");
         return icon;
     }
 
@@ -220,7 +184,6 @@ public class MainView extends AppLayout {
 
     private void updateChrome() {
         getTabWithCurrentRoute().ifPresent(menu::setSelectedTab);
-        //        viewTitle.setText(getCurrentPageTitle());
     }
 
     private Optional<Tab> getTabWithCurrentRoute() {
@@ -234,9 +197,5 @@ public class MainView extends AppLayout {
         return tab.getChildren().filter(RouterLink.class::isInstance)
                 .map(RouterLink.class::cast).map(RouterLink::getHref)
                 .anyMatch(currentRoute::equals);
-    }
-
-    private String getCurrentPageTitle() {
-        return getContent().getClass().getAnnotation(PageTitle.class).value();
     }
 }
