@@ -43,7 +43,6 @@ import java.util.Optional;
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @CssImport("./styles/views/main/main-view.css")
 public class MainView extends AppLayout {
-
     private final Tabs menu;
     final int mobileWindowWidth = 480;//px
     final int standardTabletWindowWidth = 768;//px
@@ -98,13 +97,6 @@ public class MainView extends AppLayout {
         });
         layout.add(image);
         return layout;
-    }
-
-    private Component createSubMenuTabs() {
-        final Tabs secondaryMenu = new Tabs();
-        secondaryMenu.setOrientation(Tabs.Orientation.HORIZONTAL);
-        secondaryMenu.add(createSubMenuItems());
-        return secondaryMenu;
     }
 
     private Component[] createSubMenuItems() {
