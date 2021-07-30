@@ -153,9 +153,11 @@ public class MainView extends AppLayout {
 
     private Component createNavContentMenuBar(Tabs menu) {
         VerticalLayout layout = new VerticalLayout();
+
         layout.addClassName("navigation-bar");
         layout.add(menu);
-//        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        //        layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.AROUND);
         return layout;
     }
@@ -163,7 +165,7 @@ public class MainView extends AppLayout {
     private Tabs createMenu() {
         final Tabs tabs = new Tabs();
         tabs.addClassName("main-tabs-view");
-//        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
+        //        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
         //        tabs.addThemeVariants(TabsVariant.LUMO_MINIMAL);
         //        tabs.setId("tabs");
         tabs.add(createMenuItems());
@@ -191,9 +193,9 @@ public class MainView extends AppLayout {
         //        icon.setSize("var(--lumo-icon-size-s)");
         //        icon.getStyle().set("margin", "auto");
         icon.addClassName("navigation-bar-icon");
-//        icon.getStyle().set("box-sizing", "border-box")
-//                .set("margin-inline-end", "var(--lumo-space-m)")
-//                .set("padding", "var(--lumo-space-xs)");
+        //        icon.getStyle().set("box-sizing", "border-box")
+        //                .set("margin-inline-end", "var(--lumo-space-m)")
+        //                .set("padding", "var(--lumo-space-xs)");
         //        icon.getStyle()
         //                .set("box-sizing", "border-box")
         //                .set("margin-inline-end", "var(--lumo-space-m)")
