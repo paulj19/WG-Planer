@@ -104,8 +104,12 @@ vaadin-tab[selected] {
 }
 
 .profile-pic {
-    height: 13vw !important;
-    background-color: #c1e9e682 !important;
-    width: 10vw;
-    margin-right: 0px !important;
+    width: 45px;
+    height: 40px !important;
+}
+:host {
+    --vaadin-app-layout-drawer-offset-size: 320px;
+}
+[part="drawer"] {
+    width: var(--vaadin-app-layout-drawer-offset-size);
 }

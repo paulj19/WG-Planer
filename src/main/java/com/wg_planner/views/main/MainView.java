@@ -86,17 +86,17 @@ public class MainView extends AppLayout {
     }
 
     private Component createSecondaryMenu() {
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.setId("header");
-        layout.setSpacing(false);
-        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+//        HorizontalLayout layout = new HorizontalLayout();
+//        layout.setId("header");
+//        layout.setSpacing(false);
+//        layout.setAlignItems(FlexComponent.Alignment.CENTER);
         Image image = new Image("images/profile_pic.png", "profile pic");
         image.addClassName("profile-pic");
         image.addClickListener(event -> {
             UIHandler.getInstance().navigateToSubMenu();
         });
-        layout.add(image);
-        return layout;
+//        layout.add(image);
+        return image;
     }
 
     private Component[] createSubMenuItems() {
