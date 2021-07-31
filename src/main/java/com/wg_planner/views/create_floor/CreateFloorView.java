@@ -23,18 +23,16 @@ import static com.wg_planner.views.utils.SessionHandler.saveCreatedFloorToSessio
 @PageTitle("Create Floor | WG Planner")
 @CssImport("./styles/views/create-floor/create-floor-view.css")
 public class CreateFloorView extends VerticalLayout implements BeforeEnterObserver {
-
     private CreateFloorForm createFloorForm = new CreateFloorForm();
     private FloorService floorService;
     private RoomService roomService;
 
-
     public CreateFloorView(FloorService floorService, RoomService roomService) {
         this.floorService = floorService;
         this.roomService = roomService;
-        setWidth("500px");
-        setHeight("100%");
-        getStyle().set("overflow-y", "auto");
+//        setWidth("500px");
+//        setHeight("100%");
+//        getStyle().set("overflow-y", "auto");
 //        setAlignItems(Alignment.CENTER);
 //        setJustifyContentMode(JustifyContentMode.CENTER);
         createFloorForm.addListener(CreateFloorForm.CreateFloorFormEvent.SaveEvent.class,

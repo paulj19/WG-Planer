@@ -10,7 +10,7 @@ import com.wg_planner.backend.entity.Room;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class CreateRoomView extends HorizontalLayout {
-    TextField roomNameTextField = new TextField("Room number/name");
+    TextField roomNameTextField = new TextField("Room number or name");
     Room roomToCreate = new Room();
     private Binder<Room> roomBinder = new BeanValidationBinder<>(Room.class);
 
