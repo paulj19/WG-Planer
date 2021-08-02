@@ -14,7 +14,8 @@ public class TaskCardCreator {
 
     public static TaskCard createAllTaskCard(Task task, TasksPresenter tasksPresenter) {
         if (task.getAssignedRoom() == null) {
-            TaskCard taskCard = new TaskCardWithConditionalButtonAssign(new TaskCardWithTaskLabel(task), task);
+            TaskCard taskCard = new TaskCardWithConditionalButtonAssign(new TaskCardRoomAssigned(new TaskCardWithTaskLabel(task), task),
+                    task);
             taskCard.addListener(tasksPresenter::taskAssignCallBack);
             return taskCard;
         }

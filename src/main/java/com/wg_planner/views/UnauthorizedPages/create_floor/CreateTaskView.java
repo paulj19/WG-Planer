@@ -9,7 +9,7 @@ import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Task;
 
 public class CreateTaskView extends HorizontalLayout {
-    TextField taskNameTextField = new TextField("Task Name","Enter task name");
+    TextField taskNameTextField = new TextField("","Enter task name");
     Task taskToCreate = new Task();
     private Binder<Task> taskBinder = new BeanValidationBinder<>(Task.class);
 

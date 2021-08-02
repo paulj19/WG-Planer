@@ -30,7 +30,7 @@
 }
 
 .room-name {
-    width: 25vw;
+    width: auto;
     font-size: 1.1em;
 }
 
@@ -45,7 +45,7 @@
     }
 
     .room-name {
-        width: 25vw;
+        /*width: 25vw;*/
         font-size: 1em;
     }
 
