@@ -1,14 +1,11 @@
-package com.wg_planner.views.create_floor;
+package com.wg_planner.views.UnauthorizedPages.create_floor;
 
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.wg_planner.backend.entity.Floor;
-
-import com.vaadin.flow.component.textfield.TextField;
 import com.wg_planner.backend.entity.Task;
 
 public class CreateTaskView extends HorizontalLayout {
@@ -20,8 +17,6 @@ public class CreateTaskView extends HorizontalLayout {
         taskBinder.forField(taskNameTextField).bind(Task::getTaskName, Task::setTaskName);
         setWidthFull();
         taskNameTextField.setWidthFull();
-//        removeTaskIcon.addClickListener(iconClickEvent -> remove(taskNameTextField, removeTaskIcon));
-//        setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         add(taskNameTextField);
     }

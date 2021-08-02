@@ -1,4 +1,4 @@
-package com.wg_planner.views.create_floor;
+package com.wg_planner.views.UnauthorizedPages.create_floor;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -7,7 +7,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
@@ -20,7 +19,6 @@ public class CreateFloorForm extends FormLayout {
     private Floor floorToCreate;
     private Binder<Floor> floorBinder = new BeanValidationBinder<>(Floor.class);
     private TextField floorName = new TextField("", "Enter floor name or number");
-    private IntegerField numberOfRooms = new IntegerField("", "Enter the number of rooms");
     private CreateRoomsView roomsView = new CreateRoomsView();
     private CreateTasksView tasksView = new CreateTasksView();
 
@@ -33,44 +31,18 @@ public class CreateFloorForm extends FormLayout {
         addClassName("create-floor-form");
         floorToCreate = new Floor(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE));
         floorBinder.bindInstanceFields(this);
-        numberOfRooms.addValueChangeListener(event -> {
-            processIfNumberOfRoomsChanged(event.getValue(), event.getOldValue() != null ? event.getOldValue() : 0);
-            addComponentsDown();
-        });
+        roomsView.addRoomsView();
         tasksView.addTaskView();
-//        tasksView.setPadding(false);
         createButtonLayout();
-        add(floorName, numberOfRooms, tasksView, buttonLayout);
-    }
-
-    private void processIfNumberOfRoomsChanged(int newValue, int oldValue) {
-        removeComponentsDown();
-        if ((newValue < oldValue) || (newValue == 0)) {
-            roomsView.removeRoomsView(oldValue - newValue);
-        } else { //covers initial input and when old and new values are same
-            roomsView.addRoomView(newValue - oldValue);
-        }
-    }
-
-    private void addComponentsDown() {
-        add(roomsView);
-        add(tasksView);
-        add(buttonLayout);
-    }
-
-    private void removeComponentsDown() {
-        remove(roomsView);
-        remove(buttonLayout);
-        remove(tasksView);
+        add(floorName, roomsView, tasksView, buttonLayout);
     }
 
     private void createButtonLayout() {
         createFloorButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-
         createFloorButton.addClickShortcut(Key.ENTER);
         cancelButton.addClickShortcut(Key.ESCAPE);
-//        create_floor.setEnabled(false);
+        buttonLayout.getStyle().set("margin-top", "15px");
 
         createFloorButton.addClickListener(event -> validateAndSave());
         cancelButton.addClickListener(event -> fireEvent(new CreateFloorFormEvent.CancelEvent(this, floorToCreate)));

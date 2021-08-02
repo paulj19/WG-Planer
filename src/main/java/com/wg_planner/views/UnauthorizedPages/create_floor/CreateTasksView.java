@@ -1,8 +1,7 @@
-package com.wg_planner.views.create_floor;
+package com.wg_planner.views.UnauthorizedPages.create_floor;
 
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Task;
@@ -15,9 +14,8 @@ public class CreateTasksView extends VerticalLayout {
     List<CreateTaskView> tasksView = new ArrayList<>();
     Icon addTaskIcon = new Icon(VaadinIcon.PLUS_CIRCLE);
 
-
     public CreateTasksView() {
-        addClassName("create-task-view");
+        addClassName("create-room-task-view");
         addTaskIcon.addClassName("add-icon");
         addTaskIcon.addClickListener(iconClickEvent -> addTaskView());
     }
@@ -28,8 +26,12 @@ public class CreateTasksView extends VerticalLayout {
 
     public void addTaskView() {
         CreateTaskView taskView = new CreateTaskView();
+        if (!tasksView.isEmpty() && tasksView.get(tasksView.size() - 1) != null) {
+            tasksView.get(tasksView.size() - 1).remove(addTaskIcon);
+        }
         remove(addTaskIcon);
         tasksView.add(taskView);
-        add(new HorizontalLayout(taskView, addTaskIcon));
+        taskView.add(addTaskIcon);
+        add(taskView);
     }
 }
