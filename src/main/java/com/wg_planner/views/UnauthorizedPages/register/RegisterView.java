@@ -63,9 +63,7 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     }
 
     private void initListenersAndAdd() {
-        setHeight("100%");
-        getStyle().set("overflow-y", "auto");
-        setJustifyContentMode(JustifyContentMode.CENTER);
+        setJustifyContentMode(JustifyContentMode.START);
         registerForm.addListener(RegisterForm.RegisterFormEvent.SaveEvent.class, this::saveAccount);
         registerForm.addListener(RegisterForm.RegisterFormEvent.CancelEvent.class, this::clearRegistrationForm);
         add(heading, registerForm);

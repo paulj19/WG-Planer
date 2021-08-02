@@ -37,19 +37,18 @@ public class RegisterForm extends FormLayout {
     PasswordEncoder passwordEncoder;
     FloorService floorService;
 
-    TextField firstName = new TextField("", "Enter your first name");
-    TextField lastName = new TextField("", "Enter your last name");
-    EmailField email = new EmailField("", "Enter your email address");
-    TextField username = new TextField("", "Enter user name");
-    PasswordField password = new PasswordField("", "Enter password");
+    TextField firstName = new TextField("First Name", "Enter your first name");
+    TextField lastName = new TextField("Last Name", "Enter your last name");
+    EmailField email = new EmailField("Email", "Enter your email address");
+    TextField username = new TextField("Username", "Enter user name");
+    PasswordField password = new PasswordField("Password", "Enter password");
     //    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor Name");
     TextField floorTextField = new TextField("Floor");
     ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room Name");
     Checkbox isReadyToAcceptTasks = new Checkbox();
     boolean isAway = true;
     Account account;
-    Floor selectedFloor;
-    Room selectedRoom;
+    Floor floorPreset;
     List<Room> rooms = new ArrayList<>();
 
     Button register = new Button("Register");
@@ -66,6 +65,7 @@ public class RegisterForm extends FormLayout {
 
     public RegisterForm(Floor floorToPreset, FloorService floorService) {
         this(floorService);
+        floorPreset = floorToPreset;
         sanityChecksInvalidParameters(floorToPreset);
         floorTextField.setValue(floorToPreset.getFloorName());
         roomsRoomComboBox.setRequiredIndicatorVisible(true);
@@ -75,6 +75,7 @@ public class RegisterForm extends FormLayout {
 
     public RegisterForm(Room roomToPreset, FloorService floorService) {
         this(floorService);
+        floorPreset = roomToPreset.getFloor();
         sanityChecksInvalidParameters(roomToPreset);
         floorTextField.setValue(roomToPreset.getFloor().getFloorName());
         floorTextField.setReadOnly(true);
@@ -86,6 +87,7 @@ public class RegisterForm extends FormLayout {
 
     private void init() {
         addClassName("register-form");
+        setResponsiveSteps(new ResponsiveStep("0", 1));
         firstName.setValueChangeMode(ValueChangeMode.EAGER);
         firstName.setMaxLength(250);
         firstName.addValueChangeListener(textFieldBlurEvent -> {
@@ -188,8 +190,7 @@ public class RegisterForm extends FormLayout {
 
 
         register.addClickListener(event -> validateAndSave());
-        cancel.addClickListener(event -> fireEvent(new RegisterFormEvent.CancelEvent(this, account, selectedFloor,
-                selectedRoom)));
+        cancel.addClickListener(event -> fireEvent(new RegisterFormEvent.CancelEvent(this)));
         buttonLayout.add(register, cancel);
         return buttonLayout;
     }
@@ -217,7 +218,7 @@ public class RegisterForm extends FormLayout {
     private Room getSelectedRoom() throws RuntimeException {
         Room selectedRoom = roomsRoomComboBox.getValue();
         //        Floor selectedFloor = floorComboBox.getValue();
-        if (selectedRoom == null || selectedFloor == null) {
+        if (selectedRoom == null || floorPreset == null) {
             throw new RuntimeException("selected room or floor null");
         }
         selectedRoom.setOccupied(true);
@@ -240,7 +241,7 @@ public class RegisterForm extends FormLayout {
 
     private void validateAndSave() {
         account = getEnteredValuesAsAccount();
-        fireEvent(new RegisterFormEvent.SaveEvent(this, account, selectedFloor, selectedRoom));
+        fireEvent(new RegisterFormEvent.SaveEvent(this, account, floorPreset, getSelectedRoom()));
     }
 
     public static abstract class RegisterFormEvent extends ComponentEvent<RegisterForm> {
@@ -274,8 +275,8 @@ public class RegisterForm extends FormLayout {
         }
 
         public static class CancelEvent extends RegisterFormEvent {
-            CancelEvent(RegisterForm source, Account account, Floor selectedFloor, Room selectedRoom) {
-                super(source, account, selectedFloor, selectedRoom);
+            CancelEvent(RegisterForm source) {
+                super(source, null, null, null);
             }
         }
     }

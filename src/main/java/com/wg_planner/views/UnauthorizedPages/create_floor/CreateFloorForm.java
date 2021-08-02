@@ -18,7 +18,7 @@ import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomC
 public class CreateFloorForm extends FormLayout {
     private Floor floorToCreate;
     private Binder<Floor> floorBinder = new BeanValidationBinder<>(Floor.class);
-    private TextField floorName = new TextField("", "Enter floor name or number");
+    private TextField floorName = new TextField("Floor Name", "Enter floor name or number");
     private CreateRoomsView roomsView = new CreateRoomsView();
     private CreateTasksView tasksView = new CreateTasksView();
 
@@ -29,6 +29,7 @@ public class CreateFloorForm extends FormLayout {
 
     public CreateFloorForm() {
         addClassName("create-floor-form");
+        setResponsiveSteps(new ResponsiveStep("0", 1));
         floorToCreate = new Floor(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE));
         floorBinder.bindInstanceFields(this);
         roomsView.addRoomsView();
