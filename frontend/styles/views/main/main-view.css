@@ -107,9 +107,11 @@ vaadin-tab[selected] {
     width: 45px;
     height: 40px !important;
 }
+
 :host {
     --vaadin-app-layout-drawer-offset-size: 320px;
 }
+
 [part="drawer"] {
     width: var(--vaadin-app-layout-drawer-offset-size);
 }

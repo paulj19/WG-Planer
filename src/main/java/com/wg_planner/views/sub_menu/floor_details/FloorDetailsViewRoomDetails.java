@@ -9,7 +9,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.wg_planner.backend.entity.Room;
-import com.wg_planner.views.register.admission.AdmitNewResidentView;
+import com.wg_planner.views.UnauthorizedPages.register.admission.AdmitNewResidentView;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.List;

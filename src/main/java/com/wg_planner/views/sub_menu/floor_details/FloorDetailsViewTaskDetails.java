@@ -6,11 +6,10 @@ import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.create_floor.CreateTaskView;
+import com.wg_planner.views.UnauthorizedPages.create_floor.CreateTaskView;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.utils.SessionHandler;
 

@@ -75,7 +75,6 @@ public class MainView extends AppLayout {
 
     private void getWindowWidth() {
         UI.getCurrent().getPage().retrieveExtendedClientDetails(details -> {
-//            if (details.getWindowInnerWidth() <= mobileWindowWidth || details.getWindowInnerWidth() == standardTabletWindowWidth) {
             if (details.getWindowInnerWidth() <= standardTabletWindowWidth) {
                 menu.setOrientation(Tabs.Orientation.HORIZONTAL);
                 addToNavbar(true, createNavContentMenuBar(menu));
@@ -87,16 +86,11 @@ public class MainView extends AppLayout {
     }
 
     private Component createSecondaryMenu() {
-//        HorizontalLayout layout = new HorizontalLayout();
-//        layout.setId("header");
-//        layout.setSpacing(false);
-//        layout.setAlignItems(FlexComponent.Alignment.CENTER);
         Image image = new Image("images/profile_pic.png", "profile pic");
         image.addClassName("profile-pic");
         image.addClickListener(event -> {
             UIHandler.getInstance().navigateToSubMenu();
         });
-//        layout.add(image);
         return image;
     }
 
@@ -114,7 +108,6 @@ public class MainView extends AppLayout {
         layout.setSizeFull();
         layout.setPadding(false);
         layout.setSpacing(false);
-        //        layout.getThemeList().set("spacing-s", true);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         HorizontalLayout logoLayout = new HorizontalLayout();
         logoLayout.setId("logo");

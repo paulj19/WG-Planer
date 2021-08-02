@@ -1,4 +1,4 @@
-package com.wg_planner.views.register;
+package com.wg_planner.views.UnauthorizedPages.register;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;

@@ -1,4 +1,4 @@
-package com.wg_planner.views.register.admission;
+package com.wg_planner.views.UnauthorizedPages.register.admission;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Key;

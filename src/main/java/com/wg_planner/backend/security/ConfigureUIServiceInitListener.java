@@ -1,15 +1,13 @@
 package com.wg_planner.backend.security;
 
-import com.wg_planner.views.create_floor.CreateFloorView;
+import com.wg_planner.views.UnauthorizedPages.create_floor.CreateFloorView;
 import com.wg_planner.views.login.LoginView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
-import com.wg_planner.views.register.RegisterView;
-import com.wg_planner.views.register.admission.AdmitNewResidentPresenter;
-import com.wg_planner.views.register.admission.AdmitNewResidentView;
-import com.wg_planner.views.register.admission.NewResidentAdmissionView;
+import com.wg_planner.views.UnauthorizedPages.register.RegisterView;
+import com.wg_planner.views.UnauthorizedPages.register.admission.NewResidentAdmissionView;
 import org.springframework.stereotype.Component;
 
 @Component

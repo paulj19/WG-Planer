@@ -1,4 +1,4 @@
-package com.wg_planner.views.register.admission;
+package com.wg_planner.views.UnauthorizedPages.register.admission;
 
 import com.wg_planner.backend.resident_admission.AdmissionCode;
 import com.wg_planner.backend.resident_admission.AdmissionDetails;
