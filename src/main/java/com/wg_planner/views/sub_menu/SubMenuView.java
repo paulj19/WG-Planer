@@ -1,20 +1,15 @@
 package com.wg_planner.views.sub_menu;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import com.vaadin.flow.router.RouterLink;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.sub_menu.account_details.AccountDetailsView;
 import com.wg_planner.views.sub_menu.account_details.ResidentAvailabilityView;
-import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-
-import java.util.Arrays;
 
 //todo block direct access to this url
 @Route(value = "user_details", layout = MainView.class)
@@ -34,35 +29,22 @@ public class SubMenuView extends VerticalLayout {
 
     private void createSubMenuTabs() {
         subMenu.setOrientation(Tabs.Orientation.HORIZONTAL);
-        Tab floorDetailsTab = addFloorDetailsTab();
-        subMenu.add(floorDetailsTab);
-        subMenu.add(addAccountDetailsTab());
+        Tab accountDetailsTab = addAccountDetailsTab();
+        subMenu.add(accountDetailsTab);
         subMenu.add(addAvailabilityStatusTab());
         subMenu.addSelectedChangeListener(event -> {
-            if (event.getSelectedTab().hasClassName(FloorDetailsView.class.getName())) {
-                removeAll();
-                add(subMenu);
-                add(new FloorDetailsView(beanFactory));
-            } else if(event.getSelectedTab().hasClassName(AccountDetailsView.class.getName())) {
+            if (event.getSelectedTab().hasClassName(AccountDetailsView.class.getName())) {
                 removeAll();
                 add(subMenu);
                 add(new AccountDetailsView(beanFactory));
-            }  else if(event.getSelectedTab().hasClassName(ResidentAvailabilityView.class.getName())) {
+            } else if (event.getSelectedTab().hasClassName(ResidentAvailabilityView.class.getName())) {
                 removeAll();
                 add(subMenu);
                 add(new ResidentAvailabilityView(beanFactory));
             }
         });
-        subMenu.setSelectedTab(floorDetailsTab);
-        add(new FloorDetailsView(beanFactory));
-    }
-
-    private Tab addFloorDetailsTab() {
-        Tab tab = new Tab();
-        setTabStyle(tab);
-        tab.setClassName(FloorDetailsView.class.getName());
-        tab.setLabel("Floor Details");
-        return tab;
+        subMenu.setSelectedTab(accountDetailsTab);
+        add(new AccountDetailsView(beanFactory));
     }
 
     private Tab addAccountDetailsTab() {
