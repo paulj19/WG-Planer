@@ -1,11 +1,11 @@
 package com.wg_planner.views.tasks.floor_tasks;
 
-import com.wg_planner.views.main.MainView;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.wg_planner.views.main.MainView;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 @Route(value = "floor_tasks", layout = MainView.class)

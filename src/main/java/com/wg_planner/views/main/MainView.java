@@ -21,11 +21,11 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+import com.wg_planner.views.floor_something.FloorSomethingView;
 import com.wg_planner.views.home_page.HomePageView;
 import com.wg_planner.views.sub_menu.account_details.AccountDetailsView;
 import com.wg_planner.views.sub_menu.account_details.ResidentAvailabilityView;
 import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
-import com.wg_planner.views.tasks.floor_tasks.FloorTasksView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
 import com.wg_planner.views.utils.SessionHandler;
@@ -142,7 +142,7 @@ public class MainView extends AppLayout {
     private Component[] createMenuItems() {
         RouterLink home = new RouterLink("Home", HomePageView.class);
         home.add(createIcon(VaadinIcon.HOME));
-        RouterLink floor_tasks = new RouterLink("Floor Tasks", FloorTasksView.class);
+        RouterLink floor_tasks = new RouterLink("Floor Something", FloorSomethingView.class);
         floor_tasks.add(createIcon(VaadinIcon.BULLETS));
         RouterLink my_tasks = new RouterLink("My Tasks", MyTasksView.class);
         my_tasks.add(createIcon(VaadinIcon.GRID_BIG_O));

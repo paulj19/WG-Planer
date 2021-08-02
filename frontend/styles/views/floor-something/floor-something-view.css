@@ -1,0 +1,13 @@
+.submenu-navbar {
+    width: 100%;
+}
+
+.submenu-layout {
+    padding: 0;
+}
+
+.subMenuTab-layout {
+    padding-top: 0;
+    width: 50px;
+    box-sizing: content-box;
+}
