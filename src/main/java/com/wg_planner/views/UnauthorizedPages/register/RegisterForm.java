@@ -37,11 +37,11 @@ public class RegisterForm extends FormLayout {
     PasswordEncoder passwordEncoder;
     FloorService floorService;
 
-    TextField firstName = new TextField("First Name", "Enter your first name");
-    TextField lastName = new TextField("Last Name", "Enter your last name");
-    EmailField email = new EmailField("Email", "Enter your company email address");
-    TextField username = new TextField("Username", "Enter a user name");
-    PasswordField password = new PasswordField("Password", "min 6 characters");
+    TextField firstName = new TextField("", "Enter your first name");
+    TextField lastName = new TextField("", "Enter your last name");
+    EmailField email = new EmailField("", "Enter your email address");
+    TextField username = new TextField("", "Enter user name");
+    PasswordField password = new PasswordField("", "Enter password");
     //    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor Name");
     TextField floorTextField = new TextField("Floor");
     ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room Name");
@@ -139,10 +139,10 @@ public class RegisterForm extends FormLayout {
             }
             checkAndSetRegisterButton();
         });
-        isReadyToAcceptTasks.setLabel("I am in the room and ready to accept tasks");
+        isReadyToAcceptTasks.setLabel("I am ready to accept tasks");
         isReadyToAcceptTasks.addValueChangeListener(checkboxBooleanComponentValueChangeEvent -> isAway =
                 !checkboxBooleanComponentValueChangeEvent.getValue());
-        setWidth("500px");
+//        setWidth("500px");
         add(firstName, lastName, email, username, password, floorTextField, roomsRoomComboBox, isReadyToAcceptTasks,
                 createButtonLayout());
     }
@@ -177,17 +177,21 @@ public class RegisterForm extends FormLayout {
     }
 
     private HorizontalLayout createButtonLayout() {
+        HorizontalLayout buttonLayout = new HorizontalLayout();
         register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         register.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
         register.setEnabled(false);
+        buttonLayout.getStyle().set("margin-top", "15px");
+
 
         register.addClickListener(event -> validateAndSave());
         cancel.addClickListener(event -> fireEvent(new RegisterFormEvent.CancelEvent(this, account, selectedFloor,
                 selectedRoom)));
-        return new HorizontalLayout(register, cancel);
+        buttonLayout.add(register, cancel);
+        return buttonLayout;
     }
 
     private boolean isNameValid(String nameToVerify) {

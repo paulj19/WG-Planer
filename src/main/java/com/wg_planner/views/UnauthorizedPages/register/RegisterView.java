@@ -12,6 +12,7 @@ import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
+import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
 import com.wg_planner.views.utils.UIStringConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Route(value = "register_form")
+@Route(value = "register_form", layout = UnauthorizedPagesView.class)
 @PageTitle("Register | WG Planner")
 @CssImport("./styles/views/register/register-view.css")
 public class RegisterView extends VerticalLayout implements HasUrlParameter<Long> {
@@ -31,6 +32,7 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     FloorService floorService;
 
     private RegisterForm registerForm;
+    private H1 heading = new H1("Register");
 
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter Long roomIdSelected) {
@@ -47,6 +49,7 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     }
 
     public RegisterView() {
+        heading.addClassName("create-room-heading");
     }
 
     public void init(Floor floorToPreset) {
@@ -62,11 +65,10 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     private void initListenersAndAdd() {
         setHeight("100%");
         getStyle().set("overflow-y", "auto");
-        setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         registerForm.addListener(RegisterForm.RegisterFormEvent.SaveEvent.class, this::saveAccount);
         registerForm.addListener(RegisterForm.RegisterFormEvent.CancelEvent.class, this::clearRegistrationForm);
-        add(new H1("Register"), registerForm);
+        add(heading, registerForm);
     }
 
     private void saveAccount(RegisterForm.RegisterFormEvent.SaveEvent event) {
