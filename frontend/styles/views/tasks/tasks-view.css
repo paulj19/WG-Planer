@@ -34,6 +34,15 @@
     font-size: 1.1em;
 }
 
+.assign-task-heading {
+    font-weight: normal;
+    margin: 30px 0 10px 0;
+    font-size: 2em;
+}
+.assign-task-view {
+    padding: 0;
+}
+
 @media screen and (max-width: 768px) {
 
     /*@media screen and (max-width: var(--mobile-viewport-width)) {*/

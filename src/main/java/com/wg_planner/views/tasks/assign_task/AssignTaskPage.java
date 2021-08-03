@@ -16,15 +16,20 @@ import com.wg_planner.views.utils.ConfirmationDialog;
 import java.util.List;
 
 public class AssignTaskPage extends VerticalLayout {
+    private Room roomSelected;
+    private Task taskToAssign;
 
-    Room roomSelected;
     public AssignTaskPage(Task taskToAssign, FloorService floorService) {
+        this.taskToAssign = taskToAssign;
+        addClassName("assign-task-view");
         add(getHeading(taskToAssign), getRoomsComboBox(taskToAssign, floorService));
         add(getButtonsLayout());
     }
 
     private H1 getHeading(Task taskToAssign) {
-        return new H1("Assign " + taskToAssign.getTaskName());
+        H1 heading = new H1("Assign Task: " + taskToAssign.getTaskName());
+        heading.addClassName("assign-task-heading");
+        return heading;
     }
 
     private ComboBox<Room> getRoomsComboBox(Task taskToAssign, FloorService floorService) {
@@ -38,7 +43,6 @@ public class AssignTaskPage extends VerticalLayout {
                 roomsInFloorComboBox.setErrorMessage("room not selected");
             }
         });
-//        floorComboBox.setInvalid(false);
         return roomsInFloorComboBox;
     }
 
@@ -46,8 +50,8 @@ public class AssignTaskPage extends VerticalLayout {
         HorizontalLayout registerCancelButtonsLayout = new HorizontalLayout();
         Button assign = new Button("Assign");
         Button cancel = new Button("Cancel");
-        assign.addClickListener(event -> fireEvent(new AssignTaskPageEvent.AssignEvent(this, roomSelected)));
-        cancel.addClickListener(event -> fireEvent(new AssignTaskPageEvent.CancelEvent(this, roomSelected)));
+        assign.addClickListener(event -> fireEvent(new AssignTaskPageEvent.AssignEvent(this, roomSelected, taskToAssign)));
+        cancel.addClickListener(event -> fireEvent(new AssignTaskPageEvent.CancelEvent(this, roomSelected, taskToAssign)));
         registerCancelButtonsLayout.add(assign, cancel);
         return registerCancelButtonsLayout;
     }
@@ -58,25 +62,31 @@ public class AssignTaskPage extends VerticalLayout {
 
     public static abstract class AssignTaskPageEvent extends ComponentEvent<AssignTaskPage> {
         private Room roomSelected;
+        private Task taskToAssign;
 
-        protected AssignTaskPageEvent(AssignTaskPage source, Room selectedRoom) {
+        protected AssignTaskPageEvent(AssignTaskPage source, Room selectedRoom, Task taskToAssign) {
             super(source, false);
             this.roomSelected = selectedRoom;
+            this.taskToAssign = taskToAssign;
         }
 
         public Room getRoomSelected() {
             return roomSelected;
         }
 
+        public Task getTaskToAssign() {
+            return taskToAssign;
+        }
+
         public static class AssignEvent extends AssignTaskPageEvent {
-            AssignEvent(AssignTaskPage source, Room selectedRoom) {
-                super(source, selectedRoom);
+            AssignEvent(AssignTaskPage source, Room selectedRoom, Task taskToAssign) {
+                super(source, selectedRoom, taskToAssign);
             }
         }
 
         public static class CancelEvent extends AssignTaskPageEvent {
-            CancelEvent(AssignTaskPage source, Room selectedRoom) {
-                super(source, selectedRoom);
+            CancelEvent(AssignTaskPage source, Room selectedRoom, Task taskToAssign) {
+                super(source, selectedRoom, taskToAssign);
             }
         }
     }
