@@ -23,6 +23,8 @@ public abstract class UIEventType {
         return sourceRoom;
     }
 
+    public abstract Object getEventRelatedObject();
+
     public abstract Component getUILayout(ConsensusListener consensusListener);
 
     public abstract long getTimeoutIntervalInMillis();

@@ -26,6 +26,11 @@ public class UIEventTypeTaskRemind extends UIEventType {
     }
 
     @Override
+    public Object getEventRelatedObject() {
+        return taskToRemind;
+    }
+
+    @Override
     public Component getUILayout(ConsensusListener consensusListener) {
         return createNotificationView(new Span(String.format(notificationTemplate,
 //                HelperMethods.getFirstLetterUpperCase(sourceRoom.getResidentAccount().getFirstName()),

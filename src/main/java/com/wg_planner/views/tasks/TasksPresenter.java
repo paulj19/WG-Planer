@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Scope("prototype")
@@ -53,13 +54,17 @@ public abstract class TasksPresenter {
         addTasks();
     }
 
-    public void taskDoneCallBack(TaskCard.TaskCardEvent event) {
+    //sync important because done and remind could happen at the same time
+    public synchronized void taskDoneCallBack(TaskCard.TaskCardEvent event) {
         taskService.transferTask(event.getTask(), floorService);
         addTasks();
+        List<UIEventType> taskRemindNotifications =
+                UIEventHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UIEventTypeTaskRemind && uiEventType.getEventRelatedObject().equals(event.getTask())).collect(Collectors.toList());
+        taskRemindNotifications.forEach(notification -> UIEventHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
     }
 
     //todo DialogBox are you really done/remind ----> UNDO!!
-    public void taskRemindCallBack(TaskCard.TaskCardEvent event) {
+    public synchronized void taskRemindCallBack(TaskCard.TaskCardEvent event) {
         UIEventType uiEventTypeTaskRemind = new UIEventTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(),
                 event.getTask());
         UIMessageBus.unicastTo(UIEventHandler.getInstance().createAndSaveUINotification(uiEventTypeTaskRemind,

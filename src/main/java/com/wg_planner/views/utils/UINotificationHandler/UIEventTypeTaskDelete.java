@@ -30,6 +30,11 @@ public class UIEventTypeTaskDelete extends UIEventType {
     }
 
     @Override
+    public Object getEventRelatedObject() {
+        return taskToDelete;
+    }
+
+    @Override
     public Component getUILayout(ConsensusListener consensusListener) {
         Div buttonLayout = new Div();
         buttonLayout.addClassName("home-page-button-layout");

@@ -108,22 +108,23 @@ public class Task extends AbstractEntity {
             return false;
         Task otherTask = (Task) other;
         EqualsBuilder equalsBuilder = new EqualsBuilder()
-                .append(getId(), otherTask.getId())
-                .append(taskName, otherTask.taskName);
-        if (floor != null && otherTask.floor != null)
-            equalsBuilder.append(floor.getId(), otherTask.floor.getId());
-        else if (floor == null && otherTask.floor == null)
-            isEqual = isEqual & true;
-        else
-            isEqual = isEqual & false;
-        if (assignedRoom != null && otherTask.assignedRoom != null)
-            equalsBuilder.append(assignedRoom.getId(), otherTask.assignedRoom.getId());
-        else if (assignedRoom == null && otherTask.assignedRoom == null)
-            isEqual = isEqual & true;
-        else
-            isEqual = isEqual & false;
-
-        return equalsBuilder.isEquals() && isEqual;
+                .append(getId(), otherTask.getId());
+        return equalsBuilder.isEquals();
+//                .append(taskName, otherTask.taskName);
+//        if (floor != null && otherTask.floor != null)
+//            equalsBuilder.append(floor.getId(), otherTask.floor.getId());
+//        else if (floor == null && otherTask.floor == null)
+//            isEqual = isEqual & true;
+//        else
+//            isEqual = isEqual & false;
+//        if (assignedRoom != null && otherTask.assignedRoom != null)
+//            equalsBuilder.append(assignedRoom.getId(), otherTask.assignedRoom.getId());
+//        else if (assignedRoom == null && otherTask.assignedRoom == null)
+//            isEqual = isEqual & true;
+//        else
+//            isEqual = isEqual & false;
+//
+//        return equalsBuilder.isEquals() && isEqual;
     }
 
     @Override
