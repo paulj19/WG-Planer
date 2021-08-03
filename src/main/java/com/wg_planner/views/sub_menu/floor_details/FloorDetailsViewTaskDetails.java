@@ -11,6 +11,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.UnauthorizedPages.create_floor.CreateTaskView;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
+import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;
 
 @CssImport(value = "./styles/views/floor-details/floor-details-view-task-details.css")
@@ -73,17 +74,19 @@ public class FloorDetailsViewTaskDetails {
             //            floorDetailsView.remove(newTaskCreateLayout);
             refreshTasksInFloor();
         });
-//        newTaskCreateLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-//        newTaskCreateLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        //        newTaskCreateLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        //        newTaskCreateLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         newTaskCreateLayout.add(createTaskView, saveNewTaskButton, cancelAddTaskButton);
         return newTaskCreateLayout;
     }
 
     private Component getTaskLayout(Task task) {
         HorizontalLayout taskLayout = new HorizontalLayout();
-            taskLayout.addClassName("floor-details-task-card");
-//        taskLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-//        taskLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog("Confirm Delete", "Are you sure to delete this task",
+                "Delete", "Cancel", task);
+        confirmationDialog.addListener(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent.class, this::onTaskDeleteConfirm);
+        confirmationDialog.addListener(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent.class, this::onTaskDeleteCancel);
+        taskLayout.addClassName("floor-details-task-card");
         Span taskName = new Span(task.getTaskName());
         taskName.addClassName("floor-details-task-name");
         if (floorDetailsPresenter.isObjectDeletable(task.getId())) {
@@ -91,7 +94,7 @@ public class FloorDetailsViewTaskDetails {
             addButtonClass(deleteTask);
             Button resetOrAssignTask = new Button(task.getAssignedRoom() == null ? "Assign" : "Reset");
             addButtonClass(resetOrAssignTask);
-            deleteTask.addClickListener(event -> floorDetailsView.fireEvent(new FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent(floorDetailsView, task)));
+            deleteTask.addClickListener(event -> confirmationDialog.open());
             resetOrAssignTask.addClickListener(event -> UI.getCurrent().navigate(AssignTaskView.class,
                     task.getId().toString()));
             taskLayout.add(taskName, resetOrAssignTask, deleteTask);
@@ -99,6 +102,14 @@ public class FloorDetailsViewTaskDetails {
             taskLayout.add(taskName);
         }
         return taskLayout;
+    }
+
+    private void onTaskDeleteConfirm(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent confirmEvent) {
+        floorDetailsView.fireEvent(new FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent(floorDetailsView,
+                (Task) confirmEvent.getObjectCorrespondingEvent()));
+    }
+
+    private void onTaskDeleteCancel(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {
     }
 
     private void addButtonClass(Button button) {
