@@ -1,5 +1,7 @@
 package com.wg_planner.views.utils;
 
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.server.VaadinSession;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.entity.ResidentAccount;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +49,11 @@ public class AccountDetailsHelper {
             throw new IllegalStateException("finding user name from getUserName failed");
         }
     }
-
+    public static void logoutAndNavigateToLoginPage() {
+        UI.getCurrent().getSession().close();
+        // Close the VaadinServiceSession
+        VaadinSession.getCurrent().getSession().invalidate();
+        // VaadinService.getCurrentRequest().getWrappedSession().invalidate();
+        UIHandler.getInstance().navigateToLoginPage();
+    }
 }

@@ -31,13 +31,4 @@ public class AccountDetailsPresenter {
         //        accountDetailsView.add(new ResidentAvailabilityView(residentAccountService, this));
         accountDetailsView.add(new AccountDeleteView(floorService, residentAccountService, taskService));
     }
-
-    void logout() {
-        UI.getCurrent().getSession().close();
-        // Close the VaadinServiceSession
-        VaadinSession.getCurrent().getSession().invalidate();
-        // VaadinService.getCurrentRequest().getWrappedSession().invalidate();
-        UIHandler.getInstance().navigateToLoginPage();
-    }
-
 }

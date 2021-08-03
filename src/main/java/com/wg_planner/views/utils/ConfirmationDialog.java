@@ -15,7 +15,7 @@ import com.vaadin.flow.shared.Registration;
 @CssImport(value = "./styles/views/utils/confirmation-dialog.css")
 public class ConfirmationDialog extends Dialog {
     private static final String defaultHeading = "Confirm";
-    private static final String defaultConfirmationDialogText = "Are you sure to complete this action";
+    private static final String defaultConfirmationDialogText = "Are you sure to complete this action?";
     private static final String defaultConfirmButtonText = "Confirm";
     private static final String defaultCancelButtonText = "Cancel";
     private Div heading;
@@ -23,7 +23,6 @@ public class ConfirmationDialog extends Dialog {
     private Button confirmButton;
     private Button rejectButton;
     private Button cancelButton;
-    boolean opened = false;
     private Object value;
 
     public static class ConfirmationDialogEvent extends ComponentEvent<ConfirmationDialog> {
@@ -146,5 +145,4 @@ public class ConfirmationDialog extends Dialog {
     public void close() {
         super.close();
     }
-
 }

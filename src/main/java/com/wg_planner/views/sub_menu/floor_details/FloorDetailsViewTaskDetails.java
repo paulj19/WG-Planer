@@ -71,11 +71,8 @@ public class FloorDetailsViewTaskDetails {
             refreshTasksInFloor();
         });
         cancelAddTaskButton.addClickListener(event -> {
-            //            floorDetailsView.remove(newTaskCreateLayout);
             refreshTasksInFloor();
         });
-        //        newTaskCreateLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        //        newTaskCreateLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         newTaskCreateLayout.add(createTaskView, saveNewTaskButton, cancelAddTaskButton);
         return newTaskCreateLayout;
     }

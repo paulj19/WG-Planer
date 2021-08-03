@@ -7,7 +7,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.wg_planner.views.main.MainView;
-import com.wg_planner.views.utils.UIHandler;
+import com.wg_planner.views.utils.AccountDetailsHelper;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 @Route(value = "account_details", layout = MainView.class)
@@ -29,7 +29,7 @@ public class AccountDetailsView extends VerticalLayout {
     public void addLogoutButton() {
         Button logoutButton = new Button("Logout");
         logoutButton.getStyle().set("margin", "0 1em");
-        logoutButton.addClickListener(event -> accountDetailsPresenter.logout());
+        logoutButton.addClickListener(event -> AccountDetailsHelper.logoutAndNavigateToLoginPage());
         add(logoutButton);
     }
 }

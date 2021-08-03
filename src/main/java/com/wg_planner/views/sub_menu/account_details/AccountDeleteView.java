@@ -8,9 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.TaskService;
-import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UIHandler;
-import com.wg_planner.views.utils.UIStringConstants;
+import com.wg_planner.views.utils.*;
 
 import static com.vaadin.flow.component.notification.Notification.Position.BOTTOM_STRETCH;
 
@@ -19,7 +17,7 @@ public class AccountDeleteView extends VerticalLayout {
     FloorService floorService;
     ResidentAccountService residentAccountService;
     TaskService taskService;
-    ConfirmDialog deleteConfirmDialog;
+    ConfirmationDialog deleteConfirmDialog;
 
 
     public AccountDeleteView(FloorService floorService,
@@ -27,23 +25,24 @@ public class AccountDeleteView extends VerticalLayout {
         this.floorService = floorService;
         this.residentAccountService = residentAccountService;
         this.taskService = taskService;
-        deleteConfirmDialog = new ConfirmDialog("Confirm Delete",
+        deleteConfirmDialog = new ConfirmationDialog("Confirm Delete",
                 "Are you sure you want to delete your account?",
                 "Delete",
-                this::onConfirmDelete,
-                "Cancel", this::onCancelDelete);
+                "Cancel", SessionHandler.getLoggedInResidentAccount());
+        deleteConfirmDialog.addListener(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent.class, this::onConfirmDelete);
+        deleteConfirmDialog.addListener(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent.class, this::onCancelDelete);
         deleteButton.addClickListener(event -> deleteConfirmDialog.open());
         add(deleteButton);
     }
 
-    private void onConfirmDelete(ConfirmDialog.ConfirmEvent confirmEvent) {
+    private void onConfirmDelete(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent confirmEvent) {
         residentAccountService.removeResidentAccount(SessionHandler.getLoggedInResidentAccount(),
                 floorService, taskService);
         Notification.show(UIStringConstants.getInstance().getAccountDeletedConfirmation(), 10000, BOTTOM_STRETCH);
-        UIHandler.getInstance().navigateToLoginPage();
+        AccountDetailsHelper.logoutAndNavigateToLoginPage();
     }
 
-    private void onCancelDelete(ConfirmDialog.CancelEvent cancelEvent) {
+    private void onCancelDelete(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {
         deleteConfirmDialog.close();
     }
 }
