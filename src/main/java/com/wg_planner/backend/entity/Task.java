@@ -67,7 +67,7 @@ public class Task extends AbstractEntity {
     }
 
     public void setAssignedRoom(Room assignedRoom) {
-        Validate.notNull(assignedRoom, "parameter assignedRoom must not be %s", (Object) null);
+//        Validate.notNull(assignedRoom, "parameter assignedRoom must not be %s", (Object) null);
         this.assignedRoom = assignedRoom;
     }
 

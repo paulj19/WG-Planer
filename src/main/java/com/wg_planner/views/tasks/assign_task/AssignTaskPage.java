@@ -37,6 +37,7 @@ public class AssignTaskPage extends VerticalLayout {
         List<Room> availableRoomsInFloor = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToAssign.getFloor());
         roomsInFloorComboBox.setItems(availableRoomsInFloor);
         roomsInFloorComboBox.setItemLabelGenerator(Room::getRoomName);
+        roomsInFloorComboBox.setValue(null);
         roomsInFloorComboBox.addValueChangeListener(event -> {
             roomSelected = event.getValue();
             if (roomSelected == null) {

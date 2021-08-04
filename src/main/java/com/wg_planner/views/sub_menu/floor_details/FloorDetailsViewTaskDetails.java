@@ -79,7 +79,8 @@ public class FloorDetailsViewTaskDetails {
 
     private Component getTaskLayout(Task task) {
         HorizontalLayout taskLayout = new HorizontalLayout();
-        ConfirmationDialog confirmationDialog = new ConfirmationDialog("Confirm Delete", "Are you sure to delete this task",
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog("Confirm Delete", "The task will be assigned to no one until " +
+                "everyone accepts to delete the task. Are you sure to delete this task?",
                 "Delete", "Cancel", task);
         confirmationDialog.addListener(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent.class, this::onTaskDeleteConfirm);
         confirmationDialog.addListener(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent.class, this::onTaskDeleteCancel);

@@ -31,8 +31,7 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
             .getName());
 
     @Override
-    public void setParameter(BeforeEvent event,
-                             @OptionalParameter String parameter) {
+    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         if (parameter != null && !parameter.isEmpty()) {
             taskToAssign = taskService.getTaskById(Long.parseLong(parameter));
             assignRequestingRoom = taskToAssign.getAssignedRoom();
@@ -62,5 +61,4 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     private void navigateBackMyTasks() {
         UI.getCurrent().navigate(MyTasksView.class);
     }
-
 }

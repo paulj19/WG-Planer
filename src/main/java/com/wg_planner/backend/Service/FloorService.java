@@ -85,7 +85,6 @@ public class FloorService {
     public Floor getFloorByName(String floorName) {
         Validate.notNull(floorName, "parameter floor must not be %s", null);
         Validate.notEmpty(floorName, "parameter floor number must not be empty");
-
         return floorRepository.findFloorByNumber(floorName);
     }
 
@@ -116,5 +115,4 @@ public class FloorService {
         Validate.notEmpty(floorCode, "parameter floorCode should not be empty");
         return floorRepository.findFloorByFloorCode(floorCode);
     }
-
 }
