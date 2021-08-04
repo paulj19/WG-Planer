@@ -1,19 +1,18 @@
 package com.wg_planner.views.tasks;
 
 import com.vaadin.flow.component.UI;
-import com.wg_planner.backend.Service.*;
+import com.wg_planner.backend.Service.FloorService;
+import com.wg_planner.backend.Service.ResidentAccountService;
+import com.wg_planner.backend.Service.RoomService;
+import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
 import com.wg_planner.backend.Service.notification.NotificationTypeTaskReminder;
-import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.backend.utils.consensus.ConsensusHandler;
-import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskDelete;
-import com.wg_planner.views.tasks.task_cards.TaskCard;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
+import com.wg_planner.views.tasks.task_cards.TaskCard;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UIEventHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UIEventType;
-import com.wg_planner.views.utils.UINotificationHandler.UIEventTypeTaskDelete;
 import com.wg_planner.views.utils.UINotificationHandler.UIEventTypeTaskRemind;
 import com.wg_planner.views.utils.UINotificationMessage;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
@@ -21,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,26 +52,35 @@ public abstract class TasksPresenter {
     }
 
     //sync important because done and remind could happen at the same time
-    public void taskDoneCallBack(TaskCard.TaskCardEvent event) {
-        synchronized (event.getTask()) {
+    public synchronized void taskDoneCallBack(TaskCard.TaskCardEvent event) {
+        //synchronization issue fix?
+        Task taskWithPossibleUpdate = taskService.getTaskById(event.getTask().getId());
+        if (taskWithPossibleUpdate.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
             taskService.transferTask(event.getTask(), floorService);
             addTasks();
             List<UIEventType> taskRemindNotifications =
                     UIEventHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UIEventTypeTaskRemind && uiEventType.getEventRelatedObject().equals(event.getTask())).collect(Collectors.toList());
             taskRemindNotifications.forEach(notification -> UIEventHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
+        } else {
+            UINotificationMessage.notify("A change has been made to the task, please refresh the page");
         }
     }
 
     //todo DialogBox are you really done/remind ----> UNDO!!
-    public void taskRemindCallBack(TaskCard.TaskCardEvent event) {
-        synchronized (event.getTask()) {
-            UIEventType uiEventTypeTaskRemind = new UIEventTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(),
-                    event.getTask());
+    public synchronized void taskRemindCallBack(TaskCard.TaskCardEvent event) {
+        //synchronization issue fix?
+        Task taskWithPossibleUpdate = taskService.getTaskById(event.getTask().getId());
+        if (event.getTask().getAssignedRoom().equals(taskWithPossibleUpdate.getAssignedRoom())) {
+            UIEventType uiEventTypeTaskRemind =
+                    new UIEventTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(),
+                            event.getTask());
             UIMessageBus.unicastTo(UIEventHandler.getInstance().createAndSaveUINotification(uiEventTypeTaskRemind,
                     event.getTask().getAssignedRoom()), event.getTask().getAssignedRoom());
             notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(event.getTask()),
                     event.getTask().getAssignedRoom().getResidentAccount());
             UINotificationMessage.notify("A reminder has been send");
+        } else {
+            UINotificationMessage.notify("A change has been made to the task, please refresh the page");
         }
     }
 
@@ -85,7 +91,8 @@ public abstract class TasksPresenter {
 
     private void sanityCheckTasks() {
         //        if (tasks == null || tasks.isEmpty()) {
-        //            LOGGER.log(Level.SEVERE, "Logged in Resident Account: " + AccountDetailsHelper.getLoggedInResidentAccount
+        //            LOGGER.log(Level.SEVERE, "Logged in Resident Account: " + AccountDetailsHelper
+        //            .getLoggedInResidentAccount
         //            (residentAccountService).toString());
         //            LOGGER.log(Level.SEVERE, "my room details: " + AccountDetailsHelper.getLoggedInResidentAccount
         //            (residentAccountService).getRoom().toString());
