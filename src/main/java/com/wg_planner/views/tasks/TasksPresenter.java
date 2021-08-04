@@ -55,23 +55,27 @@ public abstract class TasksPresenter {
     }
 
     //sync important because done and remind could happen at the same time
-    public synchronized void taskDoneCallBack(TaskCard.TaskCardEvent event) {
-        taskService.transferTask(event.getTask(), floorService);
-        addTasks();
-        List<UIEventType> taskRemindNotifications =
-                UIEventHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UIEventTypeTaskRemind && uiEventType.getEventRelatedObject().equals(event.getTask())).collect(Collectors.toList());
-        taskRemindNotifications.forEach(notification -> UIEventHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
+    public void taskDoneCallBack(TaskCard.TaskCardEvent event) {
+        synchronized (event.getTask()) {
+            taskService.transferTask(event.getTask(), floorService);
+            addTasks();
+            List<UIEventType> taskRemindNotifications =
+                    UIEventHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UIEventTypeTaskRemind && uiEventType.getEventRelatedObject().equals(event.getTask())).collect(Collectors.toList());
+            taskRemindNotifications.forEach(notification -> UIEventHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
+        }
     }
 
     //todo DialogBox are you really done/remind ----> UNDO!!
-    public synchronized void taskRemindCallBack(TaskCard.TaskCardEvent event) {
-        UIEventType uiEventTypeTaskRemind = new UIEventTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(),
-                event.getTask());
-        UIMessageBus.unicastTo(UIEventHandler.getInstance().createAndSaveUINotification(uiEventTypeTaskRemind,
-                event.getTask().getAssignedRoom()), event.getTask().getAssignedRoom());
-        notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(event.getTask()),
-                event.getTask().getAssignedRoom().getResidentAccount());
-        UINotificationMessage.notify("A reminder has been send");
+    public void taskRemindCallBack(TaskCard.TaskCardEvent event) {
+        synchronized (event.getTask()) {
+            UIEventType uiEventTypeTaskRemind = new UIEventTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(),
+                    event.getTask());
+            UIMessageBus.unicastTo(UIEventHandler.getInstance().createAndSaveUINotification(uiEventTypeTaskRemind,
+                    event.getTask().getAssignedRoom()), event.getTask().getAssignedRoom());
+            notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(event.getTask()),
+                    event.getTask().getAssignedRoom().getResidentAccount());
+            UINotificationMessage.notify("A reminder has been send");
+        }
     }
 
     public void taskAssignCallBack(TaskCard.TaskCardEvent event) {
