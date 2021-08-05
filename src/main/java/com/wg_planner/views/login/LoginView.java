@@ -5,7 +5,10 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 
 @Route("login")
 @PageTitle("login | WG Planner")
@@ -22,7 +25,12 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         Anchor register = new Anchor("register", "Sign Up");
         loginForm.setAction("login");
         Anchor create_floor = new Anchor("create_floor", "Create Floor");
-        add(new H1("WG Planner"), loginForm, register, create_floor);
+//        add(MainView.getAppNameHeader(), loginForm, register, create_floor);
+        H1 header = new H1("WG Planner");
+        header.getStyle().set("color", "hsl(214, 90%, 52%)");
+        header.getStyle().set("text-shadow", "2px 2px 0 rgba(0, 0, 0, 0.2)");
+
+        add(header, loginForm, register, create_floor);
     }
 
     @Override

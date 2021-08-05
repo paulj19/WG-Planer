@@ -115,3 +115,23 @@ vaadin-tab[selected] {
 [part="drawer"] {
     width: var(--vaadin-app-layout-drawer-offset-size);
 }
+
+.logo-wg-part {
+    width: 100%;
+    color: hsl(214, 90%, 52%);
+    font-size: 1.6em;
+    font-family: system-ui;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    margin-left: 15px;
+}
+
+/*.wg-logo {*/
+/*    width: 100%;*/
+/*    height: 30px;*/
+/*    !* background-color: hsl(214, 90%, 52%); *!*/
+/*    content: "WG";*/
+/*    color: hsl(214, 90%, 52%);*/
+/*    font-size: 1.4em;*/
+/*    !* font-family: georgia; *!*/
+/*    font-family: 'Ultra', sans-serif;*/
+/*}*/

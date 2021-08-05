@@ -5,7 +5,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -115,13 +115,18 @@ public class MainView extends AppLayout {
         logoLayout.setId("logo");
         logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         logoLayout.setWidth("100%");
-        logoLayout.add(new Image("images/logo.png", "WG Planner"));
-        H1 h1 = new H1("WG Planner");
-        h1.setWidthFull();
-        logoLayout.add(h1);
+
+        logoLayout.add(getAppNameHeader());
         logoLayout.add(createSecondaryMenu());
         layout.add(logoLayout);
         return layout;
+    }
+
+    public static Div getAppNameHeader() {
+        Div logo = new Div();
+        logo.setText("WG Planner");
+        logo.addClassName("logo-wg-part");
+        return logo;
     }
 
     private Component createNavContentMenuBar(Tabs menu) {
