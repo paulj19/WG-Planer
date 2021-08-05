@@ -54,15 +54,17 @@ public abstract class TasksPresenter {
     //sync important because done and remind could happen at the same time
     public synchronized void taskDoneCallBack(TaskCard.TaskCardEvent event) {
         //synchronization issue fix?
-        Task taskWithPossibleUpdate = taskService.getTaskById(event.getTask().getId());
-        if (taskWithPossibleUpdate.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
-            taskService.transferTask(event.getTask(), floorService);
-            addTasks();
-            List<UIEventType> taskRemindNotifications =
-                    UIEventHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UIEventTypeTaskRemind && uiEventType.getEventRelatedObject().equals(event.getTask())).collect(Collectors.toList());
-            taskRemindNotifications.forEach(notification -> UIEventHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
-        } else {
-            UINotificationMessage.notify("A change has been made to the task, please refresh the page");
+        Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
+        synchronized (taskPossiblyDirty) {
+            if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
+                taskService.transferTask(event.getTask(), floorService);
+                addTasks();
+                List<UIEventType> taskRemindNotifications =
+                        UIEventHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UIEventTypeTaskRemind && uiEventType.getEventRelatedObject().equals(event.getTask())).collect(Collectors.toList());
+                taskRemindNotifications.forEach(notification -> UIEventHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
+            } else {
+                UINotificationMessage.notify("A change has been made to the task, please refresh the page");
+            }
         }
     }
 

@@ -8,10 +8,9 @@ import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.main.MainView;
+import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.UINotificationMessage;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.logging.Level;
@@ -50,10 +49,15 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     }
 
     private void assignTask(AssignTaskPage.AssignTaskPageEvent.AssignEvent event) {
-        int i = 0;
-        synchronized (event.getTaskToAssign()) {
+        //synchronization issue fix?
+        Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
+        synchronized (taskPossiblyDirty) {
             taskService.assignTask(taskToAssign, event.getRoomSelected());
-            while(++i != 300000);
+            try {
+                Thread.sleep(20000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             navigateBackMyTasks();
             UINotificationMessage.notify("Task " + event.getTaskToAssign().getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());
         }
