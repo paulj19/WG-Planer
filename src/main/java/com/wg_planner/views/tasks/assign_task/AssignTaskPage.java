@@ -4,6 +4,7 @@ import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -22,8 +23,17 @@ public class AssignTaskPage extends VerticalLayout {
     public AssignTaskPage(Task taskToAssign, FloorService floorService) {
         this.taskToAssign = taskToAssign;
         addClassName("assign-task-view");
-        add(getHeading(taskToAssign), getRoomsComboBox(taskToAssign, floorService));
+        add(getHeading(taskToAssign), getAssignedRoomName(taskToAssign), getRoomsComboBox(taskToAssign, floorService));
         add(getButtonsLayout());
+    }
+
+    private Div getAssignedRoomName(Task task) {
+        Div assignedRoomName = new Div();
+        assignedRoomName.addClassName("room-name");
+        assignedRoomName.getStyle().set("margin", "0");
+        assignedRoomName.setText(task.getAssignedRoom() != null ? "Currently assigned room: " + task.getAssignedRoom().getRoomName() :
+                "Currently assigned room: none");
+        return assignedRoomName;
     }
 
     private H1 getHeading(Task taskToAssign) {
