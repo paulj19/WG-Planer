@@ -53,11 +53,6 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
         Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
         synchronized (taskPossiblyDirty) {
             taskService.assignTask(taskToAssign, event.getRoomSelected());
-            try {
-                Thread.sleep(20000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             navigateBackMyTasks();
             UINotificationMessage.notify("Task " + event.getTaskToAssign().getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());
         }

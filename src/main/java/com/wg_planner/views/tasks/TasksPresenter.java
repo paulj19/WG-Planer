@@ -52,10 +52,10 @@ public abstract class TasksPresenter {
     }
 
     //sync important because done and remind could happen at the same time
+    //todo implement has changed with hashcode. which changes including(somewhere something in the floor is changed) should affect the sync
     public synchronized void taskDoneCallBack(TaskCard.TaskCardEvent event) {
         //synchronization issue fix?
         Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
-        synchronized (taskPossiblyDirty) {
             if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
                 taskService.transferTask(event.getTask(), floorService);
                 addTasks();
@@ -65,7 +65,6 @@ public abstract class TasksPresenter {
             } else {
                 UINotificationMessage.notify("A change has been made to the task, please refresh the page");
             }
-        }
     }
 
     //todo DialogBox are you really done/remind ----> UNDO!!
