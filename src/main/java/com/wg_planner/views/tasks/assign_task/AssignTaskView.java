@@ -10,6 +10,7 @@ import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
+import com.wg_planner.views.utils.UINavigationHandler;
 import com.wg_planner.views.utils.UINotificationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -55,7 +56,7 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
         Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
         if(Objects.equals(event.getTaskToAssign().getAssignedRoom(), taskPossiblyDirty.getAssignedRoom())) {
             taskService.assignTask(taskToAssign, event.getRoomSelected());
-            navigateBackMyTasks();
+            UINavigationHandler.getInstance().navigateToHomePage();
             UINotificationMessage.notify("Task " + event.getTaskToAssign().getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());
         } else {
             UINotificationMessage.notify("A change has been made to the task, please refresh the page");
@@ -63,10 +64,7 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     }
 
     private void cancelAssign(AssignTaskPage.AssignTaskPageEvent.CancelEvent event) {
-        navigateBackMyTasks();
+            UINavigationHandler.getInstance().navigateToHomePage();
     }
 
-    private void navigateBackMyTasks() {
-        UI.getCurrent().navigate(MyTasksView.class);
-    }
 }
