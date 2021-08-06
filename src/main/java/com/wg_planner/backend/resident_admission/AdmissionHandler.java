@@ -14,7 +14,7 @@ import java.util.List;
 public class AdmissionHandler {
     private FloorService floorService;
     private AdmissionCodeStore admissionCodeStore;
-    private final long admissionCodeTimeoutInterval = 600000; //10 min
+    private final long admissionCodeTimeoutInterval = 180000; //3 min
     private final long admissionCodeRemovalInterval = 180000; //3 min; to let the user know timeout instead of removing and showing invalid
     TimerRelapse setAdmissionStatusToTimeout =
             (admissionCode) -> {
