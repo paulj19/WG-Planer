@@ -134,7 +134,7 @@ vaadin-tab[selected] {
     width: 100%;
     color: #000000;
     font-size: 1.6em;
-    font-family: system-ui;
+    /*font-family: system-ui;*/
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
     margin-left: 15px;
 }

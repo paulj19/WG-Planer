@@ -22,7 +22,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         addClassName("login-view");
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
-        Anchor register = new Anchor("register", "Sign Up");
+        Anchor register = new Anchor("register", "Register");
         loginForm.setAction("login");
         Anchor create_floor = new Anchor("create_floor", "Create Floor");
 //        add(MainView.getAppNameHeader(), loginForm, register, create_floor);

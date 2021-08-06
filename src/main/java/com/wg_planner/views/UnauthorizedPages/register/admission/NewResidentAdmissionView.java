@@ -106,7 +106,7 @@ public class NewResidentAdmissionView extends VerticalLayout {
     private void printAdmissionCodeAndWaitForConfirmation(Room roomNameSelected, AdmissionCode admissionCode) {
         Span admissionCodeDescription = new Span();
         admissionCodeDescription.setText("The one time code generated for room " + roomNameSelected.getRoomName() + " is " + admissionCode.toString() +
-                ". Ask one of your room mates to make use of the Admit Resident functionality to verify the code and " +
+                ". Ask one of your room mates to make use of the Admit Resident option in FloorDetails page to verify the code and " +
                 "admit you in.");
         removeAll();
         add(admissionCodeDescription);

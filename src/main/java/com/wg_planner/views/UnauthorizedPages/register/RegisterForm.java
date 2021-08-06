@@ -68,6 +68,7 @@ public class RegisterForm extends FormLayout {
         floorPreset = floorToPreset;
         sanityChecksInvalidParameters(floorToPreset);
         floorTextField.setValue(floorToPreset.getFloorName());
+        floorTextField.setReadOnly(true);
         roomsRoomComboBox.setRequiredIndicatorVisible(true);
         setRoomsInComboBoxFromSelectedFloor(floorToPreset);
         init();
