@@ -27,6 +27,20 @@
     font-weight: 600;
     margin: 0 var(--lumo-space-s);
 }
+.logo-6 h3 {
+    color: #e74c3c;
+    font-family: 'Cinzel', serif;
+    font-weight: 300;
+    font-size: 30px;
+    line-height:1.3;
+}
+.logo-6 h3 span {
+    background: #e74c3c;
+    color: #fff;
+    display: inline-block;
+    line-height: 1.8;
+    padding: 0 16px;
+}
 
 vaadin-tab {
     font-size: var(--lumo-font-size-s);
@@ -118,10 +132,10 @@ vaadin-tab[selected] {
 
 .logo-wg-part {
     width: 100%;
-    color: hsl(214, 90%, 52%);
+    color: #000000;
     font-size: 1.6em;
     font-family: system-ui;
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 1px 0 rgba(0, 0, 0, 0.2);
     margin-left: 15px;
 }
 

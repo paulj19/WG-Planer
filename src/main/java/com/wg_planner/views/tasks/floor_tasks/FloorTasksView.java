@@ -18,6 +18,7 @@ public class FloorTasksView extends VerticalLayout {
 
     public FloorTasksView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
+        addClassName("floor-tasks-layout");
         floorTasksPresenter = new FloorTasksPresenter();
         beanFactory.autowireBean(floorTasksPresenter);
         floorTasksPresenter.init(this);

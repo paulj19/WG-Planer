@@ -8,10 +8,8 @@
     margin: 0 0 0 0;
 }
 
-.tasks-layout {
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
+.floor-tasks-layout {
+    margin-top:0;
 }
 
 .task-card-button {
@@ -48,7 +46,7 @@
     /*@media screen and (max-width: var(--mobile-viewport-width)) {*/
     .task-name {
         margin-right: auto;
-        font-size: 1.3em;
+        font-size: 1.4em;
         /*width: 33vw;*/
         /*padding-left: 0.5em;*/
     }
