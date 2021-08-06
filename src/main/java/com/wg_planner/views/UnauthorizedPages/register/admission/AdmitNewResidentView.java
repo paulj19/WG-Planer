@@ -4,6 +4,7 @@ import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -24,7 +25,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 @CssImport("./styles/views/admit/admit-resident-view.css")
 public class AdmitNewResidentView extends VerticalLayout {
     AutowireCapableBeanFactory beanFactory;
-    TextField admissionCodeField = new TextField("Admission Code", "Enter admission code from resident to be admitted");
+    TextField admissionCodeField = new TextField("Admission Code", "New Resident Admission Code");
     Button submitAdmissionCodeButton = new Button("Submit");
     Button acceptButton = new Button("Admit");
     Button rejectButton = new Button("Reject");
@@ -32,6 +33,7 @@ public class AdmitNewResidentView extends VerticalLayout {
 
     public AdmitNewResidentView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
+
         admitNewResidentPresenter = new AdmitNewResidentPresenter(this);
         beanFactory.autowireBean(admitNewResidentPresenter);
         add(getAdmissionCodeLayout());
@@ -63,6 +65,11 @@ public class AdmitNewResidentView extends VerticalLayout {
 
     public void addAcceptRejectButtons(AdmissionCode admissionCode, String roomSelected) {
         VerticalLayout buttonsLayout = new VerticalLayout();
+        Div buttonLayout = new Div();
+        buttonLayout.addClassName("admit-page-button-layout");
+        acceptButton.addClassName("admit-page-button");
+        rejectButton.addClassName("admit-page-button");
+        buttonLayout.add(acceptButton, rejectButton);
         removeAll();
         buttonsLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         buttonsLayout.setJustifyContentMode(JustifyContentMode.CENTER);
@@ -70,7 +77,7 @@ public class AdmitNewResidentView extends VerticalLayout {
         acceptButton.addClickListener(event -> onAccept(event, admissionCode));
         rejectButton.addClickListener(event -> onReject(event, admissionCode));
         buttonsLayout.add(new HorizontalLayout(getAdmissionDescription(roomSelected),
-                acceptButton, rejectButton));
+                buttonLayout));
         removeAll();
         add(buttonsLayout);
     }
@@ -96,7 +103,7 @@ public class AdmitNewResidentView extends VerticalLayout {
     }
 
     public void printAlreadyDoneMessage(String roomName, String admissionStatus) {
-        printMessage("Admission to room " + roomName + " was already " + admissionStatus);// todo by? add admittedRoom in AdDetails
+        printMessage("Room " + roomName + " was already " + admissionStatus);// todo by? add admittedRoom in AdDetails
     }
 
     public void printAdmissionCodeInvalidMessage() {

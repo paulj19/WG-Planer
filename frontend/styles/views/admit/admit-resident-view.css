@@ -3,3 +3,15 @@ tasks-view,
     display: block;
     padding: 1em;
 }
+
+.admit-page-button-layout {
+    display: block;
+    margin-left: auto;
+    width: 30%;
+}
+
+.admit-page-button {
+    font-size: 1em;
+    height: 33px;
+    width: 85px;
+}
