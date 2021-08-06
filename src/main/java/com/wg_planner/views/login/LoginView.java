@@ -28,7 +28,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 //        add(MainView.getAppNameHeader(), loginForm, register, create_floor);
         H1 header = new H1("WG Planner");
         header.getStyle().set("color", "#000000)");
-        header.getStyle().set("text-shadow", "2px 2px 0 rgba(0, 0, 0, 0.2)");
+        header.getStyle().set("text-shadow", "1px 1px 0 rgba(0, 0, 0, 0.2)");
 
         add(header, loginForm, register, create_floor);
     }

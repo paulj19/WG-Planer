@@ -13,6 +13,7 @@ import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
+import com.wg_planner.views.utils.UINavigationHandler;
 import com.wg_planner.views.utils.UIStringConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -78,6 +79,7 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
 
 
     private void clearRegistrationForm(RegisterForm.RegisterFormEvent.CancelEvent event) {
-        //TODO
+        //TODO delete floor if was created
+        UINavigationHandler.getInstance().navigateToLoginPage();
     }
 }

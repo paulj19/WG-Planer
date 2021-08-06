@@ -38,7 +38,6 @@ public class Task extends AbstractEntity {
     TaskNotificationContent taskNotificationContent;
 
     public Task() {
-
     }
 
     public Task(@NotNull @NotEmpty String taskName, @NotNull @NotEmpty Floor floor) {
@@ -60,6 +59,11 @@ public class Task extends AbstractEntity {
         Validate.notEmpty(taskName, "parameter taskName must not be empty");
         Validate.isTrue(taskName.length() <= 250, "length of task name must not exceed 250 chars");
         this.taskName = taskName;
+        createTaskNotificationContent(taskName);
+    }
+
+    private void createTaskNotificationContent(String taskName) {
+        this.taskNotificationContent = new TaskNotificationContent(this, taskName + " Reminder");
     }
 
     public Room getAssignedRoom() {

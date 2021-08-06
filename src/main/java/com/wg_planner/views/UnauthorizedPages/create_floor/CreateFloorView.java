@@ -9,7 +9,7 @@ import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
-import com.wg_planner.views.utils.UIHandler;
+import com.wg_planner.views.utils.UINavigationHandler;
 import org.springframework.util.Assert;
 
 import java.util.logging.Level;
@@ -41,10 +41,10 @@ public class CreateFloorView extends VerticalLayout {
         Logger.getLogger(CreateFloorView.class.getName()).log(Level.INFO, "new floor created and " +
                 "saved: " + saveEvent.getFloorToCreate().toString());
         Notification.show("Floor created");
-        UIHandler.getInstance().navigateToRegisterPageParamFloorId(saveEvent.getFloorToCreate().getId());
+        UINavigationHandler.getInstance().navigateToRegisterPageParamFloorId(saveEvent.getFloorToCreate().getId());
     }
 
-
     private void clearCreateFloorForm(CreateFloorForm.CreateFloorFormEvent.CancelEvent cancelEvent) {
+        UINavigationHandler.getInstance().navigateToLoginPage();
     }
 }

@@ -54,6 +54,6 @@ public class AccountDetailsHelper {
         // Close the VaadinServiceSession
         VaadinSession.getCurrent().getSession().invalidate();
         // VaadinService.getCurrentRequest().getWrappedSession().invalidate();
-        UIHandler.getInstance().navigateToLoginPage();
+        UINavigationHandler.getInstance().navigateToLoginPage();
     }
 }

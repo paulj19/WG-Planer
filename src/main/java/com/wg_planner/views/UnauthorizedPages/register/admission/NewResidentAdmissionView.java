@@ -17,7 +17,7 @@ import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.resident_admission.AdmissionCode;
 import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
-import com.wg_planner.views.utils.UIHandler;
+import com.wg_planner.views.utils.UINavigationHandler;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.List;
@@ -115,7 +115,7 @@ public class NewResidentAdmissionView extends VerticalLayout {
     }
 
     public void onAccept() {
-        UIHandler.getInstance().navigateToRegisterPageParamRoomId(roomSelected.getId());
+        UINavigationHandler.getInstance().navigateToRegisterPageParamRoomId(roomSelected.getId());
     }
 
     public void onReject() {

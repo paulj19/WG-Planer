@@ -13,6 +13,7 @@ import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.UINotificationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Objects;
 import java.util.logging.Level;
 
 @Route(value = "assign_task", layout = MainView.class)
@@ -48,10 +49,11 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
         add(assignTaskPage);
     }
 
-    private void assignTask(AssignTaskPage.AssignTaskPageEvent.AssignEvent event) {
-        //synchronization issue fix?
+    private synchronized void assignTask(AssignTaskPage.AssignTaskPageEvent.AssignEvent event) {
+        //synchronization issue fix: the method sync ensures contention between assigns
+        // and if task has changed between opening assign page and clicking
         Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
-        if (event.getTaskToAssign().getAssignedRoom().equals(taskPossiblyDirty.getAssignedRoom())) {
+        if(Objects.equals(event.getTaskToAssign().getAssignedRoom(), taskPossiblyDirty.getAssignedRoom())) {
             taskService.assignTask(taskToAssign, event.getRoomSelected());
             navigateBackMyTasks();
             UINotificationMessage.notify("Task " + event.getTaskToAssign().getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());

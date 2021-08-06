@@ -6,20 +6,20 @@ import com.vaadin.flow.router.QueryParameters;
 import java.util.*;
 
 //todo change name to UINavigationHandler
-public class UIHandler {
-    private static UIHandler uiHandler;
+public class UINavigationHandler {
+    private static UINavigationHandler uiNavigationHandler;
     private final String LOGIN_URL = "login/";
     private final String USER_DETAILS_URL = "user_details/";
 
     static {
-        uiHandler = new UIHandler();
+        uiNavigationHandler = new UINavigationHandler();
     }
 
-    private UIHandler() {
+    private UINavigationHandler() {
     }
 
-    public static UIHandler getInstance() {
-        return uiHandler;
+    public static UINavigationHandler getInstance() {
+        return uiNavigationHandler;
     }
 
     public void navigateToLoginPage() {

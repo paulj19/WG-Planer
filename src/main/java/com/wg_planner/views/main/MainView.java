@@ -29,7 +29,7 @@ import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
 import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UIHandler;
+import com.wg_planner.views.utils.UINavigationHandler;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.Arrays;
@@ -91,7 +91,7 @@ public class MainView extends AppLayout {
         Image image = new Image("images/profile_pic.png", "profile pic");
         image.addClassName("profile-pic");
         image.addClickListener(event -> {
-            UIHandler.getInstance().navigateToSubMenu();
+            UINavigationHandler.getInstance().navigateToSubMenu();
         });
         return image;
     }
