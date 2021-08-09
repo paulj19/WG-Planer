@@ -25,13 +25,13 @@
     border: 1px solid rgba(192, 192, 192, 0.4);;
 }
 
-.home-page-button {
+.notifications-page-button {
     font-size: 1em;
     height: 33px;
     width: 85px;
 }
 
-.home-page-button-layout {
+.notifications-page-button-layout {
     display: block;
     margin-left: auto;
     width: 30%;

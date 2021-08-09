@@ -1,4 +1,4 @@
-package com.wg_planner.views.home_page;
+package com.wg_planner.views.notifications_page;
 
 import com.vaadin.flow.component.UI;
 import com.wg_planner.backend.Service.FloorService;
@@ -11,8 +11,8 @@ import com.wg_planner.views.utils.UINotificationHandler.UIEventType;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class HomePagePresenter implements UIMessageBus.BroadcastListener {
-    private HomePageView homePageView;
+public class NotificationsPagePresenter implements UIMessageBus.BroadcastListener {
+    private NotificationsPageView NotificationsPageView;
     @Autowired
     FloorService floorService;
     private Room attachedRoom;
@@ -34,19 +34,19 @@ public class HomePagePresenter implements UIMessageBus.BroadcastListener {
         }
     };
 
-    public void init(HomePageView homePageView) {
-        this.homePageView = homePageView;
+    public void init(NotificationsPageView NotificationsPageView) {
+        this.NotificationsPageView = NotificationsPageView;
         attachedRoom = SessionHandler.getLoggedInResidentAccount().getRoom();
-        homePageView.getHomeUI().addAfterNavigationListener(event -> UIEventHandler.getInstance().getAllNotificationsForRoom(attachedRoom).forEach(notification -> homePageView.addNotificationToView(notification.getUILayout(consensusListener))));
-        homePageView.addAttachListener(event -> {
+        NotificationsPageView.getNotificationsUI().addAfterNavigationListener(event -> UIEventHandler.getInstance().getAllNotificationsForRoom(attachedRoom).forEach(notification -> NotificationsPageView.addNotificationToView(notification.getUILayout(consensusListener))));
+        NotificationsPageView.addAttachListener(event -> {
             UIMessageBus.register(this);
         });
     }
 
     @Override
     public void receiveBroadcast(UIEventType uiNotification) {
-        if (homePageView != null && !uiNotification.getSourceRoom().equals(attachedRoom)) {
-            homePageView.addNotificationToView(uiNotification.getUILayout(consensusListener));
+        if (NotificationsPageView != null && !uiNotification.getSourceRoom().equals(attachedRoom)) {
+            NotificationsPageView.addNotificationToView(uiNotification.getUILayout(consensusListener));
         }
     }
 

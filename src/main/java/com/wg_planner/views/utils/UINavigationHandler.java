@@ -2,7 +2,7 @@ package com.wg_planner.views.utils;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.QueryParameters;
-import com.wg_planner.views.floor_something.FloorSomethingView;
+import com.wg_planner.views.home_page.HomePageView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 
 import java.util.*;
@@ -45,7 +45,7 @@ public class UINavigationHandler {
     }
 
     public void navigateToHomePage() {
-        UI.getCurrent().navigate(FloorSomethingView.class);
+        UI.getCurrent().navigate(HomePageView.class);
     }
     private void navigateBackMyTasks() {
         UI.getCurrent().navigate(MyTasksView.class);

@@ -21,8 +21,8 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
-import com.wg_planner.views.floor_something.FloorSomethingView;
 import com.wg_planner.views.home_page.HomePageView;
+import com.wg_planner.views.notifications_page.NotificationsPageView;
 import com.wg_planner.views.sub_menu.account_details.AccountDetailsView;
 import com.wg_planner.views.sub_menu.account_details.ResidentAvailabilityView;
 import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
@@ -145,12 +145,12 @@ public class MainView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        RouterLink home = new RouterLink("Home", HomePageView.class);
-        home.add(createIcon(VaadinIcon.HOME));
-        RouterLink floor_tasks = new RouterLink("Floor Something", FloorSomethingView.class);
-        floor_tasks.add(createIcon(VaadinIcon.BULLETS));
+        RouterLink home = new RouterLink("Notifications", NotificationsPageView.class);
+        home.add(createIcon(VaadinIcon.BELL_O   ));
+        RouterLink floor_tasks = new RouterLink("Home", HomePageView.class);
+        floor_tasks.add(createIcon(VaadinIcon.HOME));
         RouterLink my_tasks = new RouterLink("My Tasks", MyTasksView.class);
-        my_tasks.add(createIcon(VaadinIcon.GRID_BIG_O));
+        my_tasks.add(createIcon(VaadinIcon.BULLETS));
 
         RouterLink[] links = new RouterLink[]{home, floor_tasks, my_tasks};
         Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));

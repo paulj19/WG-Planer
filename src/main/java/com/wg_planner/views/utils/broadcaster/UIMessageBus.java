@@ -1,7 +1,6 @@
 package com.wg_planner.views.utils.broadcaster;
 
 import com.wg_planner.backend.entity.Room;
-import com.wg_planner.backend.utils.consensus.ConsensusObject;
 import com.wg_planner.views.utils.UINotificationHandler.UIEventType;
 
 import java.util.List;
@@ -33,9 +32,9 @@ public class UIMessageBus {
     }
 
     public static void unicastTo(final UIEventType uiEventType, Room roomToUnicast) {
-        Optional<BroadcastListener> homePagePresenterToUnicast =
+        Optional<BroadcastListener> NotificationsPageToUnicast =
                 listeners.stream().filter(listener -> listener.getCorrespondingRoom().equals(roomToUnicast)).findFirst();
-        homePagePresenterToUnicast.ifPresent(listener -> listener.receiveBroadcast(uiEventType));
+        NotificationsPageToUnicast.ifPresent(listener -> listener.receiveBroadcast(uiEventType));
     }
 
     public interface BroadcastListener {
