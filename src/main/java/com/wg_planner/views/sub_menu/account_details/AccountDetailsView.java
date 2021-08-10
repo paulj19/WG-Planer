@@ -10,8 +10,7 @@ import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
-@Route(value = "account_details", layout = MainView.class)
-@RouteAlias(value = "account_details", layout = MainView.class)
+@Route(layout = MainView.class)
 @PageTitle("Account Details")
 @CssImport("./styles/views/account-details/account-details-view.css")
 public class AccountDetailsView extends VerticalLayout {

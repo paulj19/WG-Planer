@@ -19,7 +19,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.List;
 
-@Route(value = "floor_details", layout = MainView.class)
+@Route(layout = MainView.class)
 @PageTitle("Floor Details")
 @CssImport(value = "./styles/views/floor-details/floor-details-view.css")
 public class FloorDetailsView extends VerticalLayout {

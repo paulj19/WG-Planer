@@ -12,7 +12,7 @@ import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UIStringConstants;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
-@Route(value = "resident_availability", layout = MainView.class)
+@Route(layout = MainView.class)
 @PageTitle("Resident Availability")
 public class ResidentAvailabilityView extends VerticalLayout {
     ResidentAccountService residentAccountService;

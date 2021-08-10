@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 @VaadinSessionScope
-@Route(value = "notification_page", layout = MainView.class)
-@RouteAlias(value = "notification_page", layout = MainView.class)
+@Route(value = "notifications", layout = MainView.class)
 @PageTitle("Notifications")
 @CssImport("./styles/views/notifications-page/notifications-view.css")
 public class NotificationsPageView extends VerticalLayout {
