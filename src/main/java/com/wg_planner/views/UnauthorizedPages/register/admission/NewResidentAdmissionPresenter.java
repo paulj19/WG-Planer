@@ -29,6 +29,10 @@ public class NewResidentAdmissionPresenter {
         return admissionHandler.generateAndSaveAdmissionCode(selectedRoom);
     }
 
+    long getValidityOfAdmissionCodeInMinutes() {
+        return admissionHandler.getAdmissionCodeTimeoutInterval()/60000;
+    }
+
     public void waitForAdmissionStatusChange(AdmissionCode admissionCode) {
         synchronized (admissionHandler.getAdmissionDetails(admissionCode)) {
             while (admissionHandler.getAdmissionDetails(admissionCode) != null &&

@@ -44,18 +44,12 @@ public class FloorDetailsViewRoomDetails {
 
     private Component getRoomsInFloorLayout(List<Room> roomsInFloor) {
         Grid<Room> roomListGrid = new Grid<>();
-        //        roomListGrid.setWidth("100vw");
         roomListGrid.addClassName("room-details-grid");
         roomListGrid.setItems(roomsInFloor);
         Div roomNameHeading = new Div();
         roomNameHeading.getElement().setProperty("innerHTML","Room <br />Name");
 
         roomListGrid.addColumn(Room::getRoomName).setHeader(roomNameHeading).setKey("Room Name");
-//        roomListGrid.addColumn(new ComponentRenderer<>(room -> {
-//            Checkbox isOccupiedCheckBox = new Checkbox(room.isOccupied());
-//            isOccupiedCheckBox.setReadOnly(true);
-//            return isOccupiedCheckBox;
-//        })).setHeader("Room Occupied").setKey("Room Occupied");
         roomListGrid.addColumn(new ComponentRenderer<>(room -> {
             if (room.getResidentAccount() != null) {
                 return new Span(room.getResidentAccount().getFullName());
@@ -75,9 +69,6 @@ public class FloorDetailsViewRoomDetails {
                 return new Span("-");
             }
         })).setHeader(residentPresentHeading).setKey("Resident Present");
-        //        roomListGrid.addColumn(room -> !room.getResidentAccount().isAway()).setHeader("Resident Present");
-        //        VerticalLayout roomsInFloorLayout = new VerticalLayout();
-        //        roomsInFloor.forEach(room -> roomsInFloorLayout.add(getRoomLayout(room)));
         addGridStyle(roomListGrid);
         return roomListGrid;
     }

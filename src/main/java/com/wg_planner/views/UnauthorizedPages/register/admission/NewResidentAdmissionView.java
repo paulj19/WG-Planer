@@ -97,6 +97,8 @@ public class NewResidentAdmissionView extends VerticalLayout {
             if (admissionCode != null && !admissionCode.toString().isEmpty()) {
                 printAdmissionCodeAndWaitForConfirmation(roomSelected, admissionCode);
             }
+        } else if (nonOccupiedRoomsComboBox.getValue() == null) {
+            nonOccupiedRoomsComboBox.setErrorMessage("Room not selected");
         } else {
             nonOccupiedRoomsComboBox.clear();
             nonOccupiedRoomsComboBox.setErrorMessage("An error occurred, try again");
@@ -107,7 +109,7 @@ public class NewResidentAdmissionView extends VerticalLayout {
         Span admissionCodeDescription = new Span();
         admissionCodeDescription.setText("The one time code generated for room " + roomNameSelected.getRoomName() + " is " + admissionCode.toString() +
                 ". Ask one of your room mates to make use of the Admit Resident option in FloorDetails page to verify the code and " +
-                "admit you in.");
+                "admit you in. The validity of this one time code is " + newResidentAdmissionPresenter.getValidityOfAdmissionCodeInMinutes() + " minutes. Please do not refresh or close this page before that.");
         removeAll();
         add(admissionCodeDescription);
         UI.getCurrent().push();
@@ -127,6 +129,7 @@ public class NewResidentAdmissionView extends VerticalLayout {
         printMessage("The one time code generated has timed out, please try again");
         backToRegisterPage();
     }
+
     public void printErrorOccurred() {
         printMessage("An error occurred, please try again");
         backToRegisterPage();

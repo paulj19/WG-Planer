@@ -34,7 +34,7 @@ public class FloorDetailsPresenter {
     }
 
     private synchronized void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
-        if (ConsensusHandler.getInstance().isObjectNotWaitingForConsensus(event.getTask().getId())) {
+        if (!ConsensusHandler.getInstance().isObjectWaitingForConsensus(event.getTask().getId())) {
             event.getTask().setAssignedRoom(null);
             taskService.save(event.getTask());
             UIMessageBus.broadcast(UIEventHandler.getInstance().createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), floorService.getAllRoomsInFloorByFloorId(event.getTask().getFloor().getId())));
@@ -49,7 +49,7 @@ public class FloorDetailsPresenter {
     }
 
     synchronized boolean isObjectDeletable(Long id) {
-        return ConsensusHandler.getInstance().isObjectNotWaitingForConsensus(id);
+        return !ConsensusHandler.getInstance().isObjectWaitingForConsensus(id);
     }
 
     void saveNewlyCreatedTask(Task taskCreated) {

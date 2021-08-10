@@ -145,14 +145,14 @@ public class MainView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        RouterLink home = new RouterLink("Notifications", NotificationsPageView.class);
-        home.add(createIcon(VaadinIcon.BELL_O   ));
-        RouterLink floor_tasks = new RouterLink("Home", HomePageView.class);
-        floor_tasks.add(createIcon(VaadinIcon.HOME));
+        RouterLink home = new RouterLink("Home", HomePageView.class);
+        home.add(createIcon(VaadinIcon.HOME));
         RouterLink my_tasks = new RouterLink("My Tasks", MyTasksView.class);
         my_tasks.add(createIcon(VaadinIcon.BULLETS));
+        RouterLink notifications = new RouterLink("Notifications", NotificationsPageView.class);
+        notifications.add(createIcon(VaadinIcon.BELL_O));
 
-        RouterLink[] links = new RouterLink[]{home, floor_tasks, my_tasks};
+        RouterLink[] links = new RouterLink[]{home, my_tasks, notifications};
         Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);
     }
