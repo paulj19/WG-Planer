@@ -19,7 +19,6 @@ public class AccountDeleteView extends VerticalLayout {
     TaskService taskService;
     ConfirmationDialog deleteConfirmDialog;
 
-
     public AccountDeleteView(FloorService floorService,
                              ResidentAccountService residentAccountService, TaskService taskService) {
         this.floorService = floorService;

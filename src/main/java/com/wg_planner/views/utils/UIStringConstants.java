@@ -3,7 +3,7 @@ package com.wg_planner.views.utils;
 public class UIStringConstants {
     private static UIStringConstants uiStringConstants;
     private final String ACCOUNT_CREATED_CONFIRMATION = "Account created";
-    private final String AVAILABILITY_STATUS_CHANGED = "Availability status changed and your tasks has been transferred, if any";
+    private final String AVAILABILITY_STATUS_CHANGED = "Availability status is changed";
     private final String ACCOUNT_DELETED_CONFIRMATION = "Your account is deleted";
 
     static {
