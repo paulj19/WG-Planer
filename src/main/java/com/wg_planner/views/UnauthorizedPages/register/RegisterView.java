@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 
-
 @Route(value = "register_form", layout = UnauthorizedPagesView.class)
 @PageTitle("Register | WG Planner")
 @CssImport("./styles/views/register/register-view.css")

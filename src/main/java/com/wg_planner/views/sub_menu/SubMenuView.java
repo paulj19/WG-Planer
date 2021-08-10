@@ -4,6 +4,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.wg_planner.views.main.MainView;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 @Route(value = "user_details", layout = MainView.class)
 @RouteAlias(value = "user_details", layout = MainView.class)
 @CssImport(value = "./styles/views/sub-menu/submenu-view.css")
+@PreserveOnRefresh
 public class SubMenuView extends VerticalLayout {
     private final Tabs subMenu = new Tabs();
     private AutowireCapableBeanFactory beanFactory;

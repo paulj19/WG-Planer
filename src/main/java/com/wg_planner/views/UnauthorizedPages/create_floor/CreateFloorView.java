@@ -5,6 +5,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
@@ -15,6 +16,7 @@ import org.springframework.util.Assert;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@PreserveOnRefresh
 @Route(value = "create_floor", layout = UnauthorizedPagesView.class)
 @PageTitle("Create Floor | WG Planner")
 @CssImport("./styles/views/create-floor/create-floor-view.css")

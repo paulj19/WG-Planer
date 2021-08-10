@@ -5,6 +5,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 @Route(value = "home", layout = MainView.class)
 @PageTitle("Home")
 @CssImport("./styles/views/home-page/home-page-view.css")
+@PreserveOnRefresh
 public class HomePageView extends VerticalLayout {
     private AutowireCapableBeanFactory beanFactory;
     private final Tabs subMenu = new Tabs();
