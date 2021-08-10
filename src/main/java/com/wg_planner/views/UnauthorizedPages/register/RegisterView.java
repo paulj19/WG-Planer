@@ -11,7 +11,6 @@ import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.entity.Floor;
-import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
 import com.wg_planner.views.utils.UINavigationHandler;
@@ -74,8 +73,8 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     }
 
     private void saveAccount(RegisterForm.RegisterFormEvent.SaveEvent event) {
-        residentAccountService.save((ResidentAccount) event.getAccount());
-        roomService.save(event.getSelectedRoom());
+        residentAccountService.save(event.getResidentAccount());
+        roomService.save(event.getResidentAccount().getRoom());
         Notification.show(UIStringConstants.getInstance().getAccountCreatedConfirmation());
         UI.getCurrent().navigate("login/");
     }

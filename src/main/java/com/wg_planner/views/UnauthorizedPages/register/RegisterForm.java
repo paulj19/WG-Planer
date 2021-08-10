@@ -1,9 +1,7 @@
 package com.wg_planner.views.UnauthorizedPages.register;
 
-import com.sun.org.apache.xml.internal.utils.StringToStringTable;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -13,25 +11,24 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.*;
-import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.validator.EmailValidator;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.Service.AccountDetailsService;
 import com.wg_planner.backend.Service.FloorService;
-import com.wg_planner.backend.entity.Account;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.views.utils.ErrorScreen;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 //todo registration form for different roles(combo box options) this is for residents, change name accordingly?
 public class RegisterForm extends FormLayout {
@@ -43,7 +40,6 @@ public class RegisterForm extends FormLayout {
     EmailField email = new EmailField("Email", "Enter your email address");
     TextField username = new TextField("Username", "Enter user name");
     PasswordField passwordField = new PasswordField("Password", "Minimum 6 characters");
-    //    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor Name");
     TextField floorTextField = new TextField("Floor");
     ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room Name");
     Checkbox isReadyToAcceptTasks = new Checkbox("I am ready to accept tasks");
@@ -85,31 +81,21 @@ public class RegisterForm extends FormLayout {
 
     private void init() {
         addClassName("register-form");
-        residentAccountBinder.forField(firstName).withConverter(new Converter<String, Object>() {
-            @Override
-            public Result<Object> convertToModel(String value, ValueContext context) {
-                return null;
-            }
-
-            @Override
-            public String convertToPresentation(Object value, ValueContext context) {
-                return value.toString().trim();
-            }
-        }).bind(ResidentAccount::getFirstName,
-            ResidentAccount::setFirstName);
+        residentAccountBinder.forField(firstName).bind(ResidentAccount::getFirstName, ResidentAccount::setFirstName);
         residentAccountBinder.forField(lastName).bind(ResidentAccount::getLastName, ResidentAccount::setLastName);
         residentAccountBinder.forField(email).withValidator(new EmailValidator("Not a valid email address")).bind(ResidentAccount::getEmail,
                 ResidentAccount::setEmail);
-        residentAccountBinder.forField(username).withValidator(username -> accountDetailsService.isUsernameUnique(username),
+        residentAccountBinder.forField(username).withValidator(username -> accountDetailsService.isUsernameUnique(username.trim()),
                 "Username already taken").bind(ResidentAccount::getUsername, ResidentAccount::setUsername);
-        residentAccountBinder.forField(passwordField).withValidator(password -> password.length() >= 6, "password should be at least 6 " +
-                "characters").bind(ResidentAccount::getPassword, ResidentAccount::setPassword);
+        residentAccountBinder.forField(passwordField).withValidator(password -> password.length() >= 6, "password " +
+                "should be at least 6 characters").bind(ResidentAccount::getPassword, ResidentAccount::setPassword);
         residentAccountBinder.forField(roomsRoomComboBox).bind(ResidentAccount::getRoom, ResidentAccount::setRoom);
-        residentAccountBinder.forField(isReadyToAcceptTasks).bind(ResidentAccount::isPresent, ResidentAccount::setPresent);
+        residentAccountBinder.forField(isReadyToAcceptTasks).bind(ResidentAccount::isPresent,
+                ResidentAccount::setPresent);
 
         setResponsiveSteps(new ResponsiveStep("0", 1));
-        firstName.setA
-        add(firstName, lastName, email, username, passwordField, floorTextField, roomsRoomComboBox, isReadyToAcceptTasks,
+        add(firstName, lastName, email, username, passwordField, floorTextField, roomsRoomComboBox,
+                isReadyToAcceptTasks,
                 createButtonLayout());
     }
 
@@ -150,7 +136,6 @@ public class RegisterForm extends FormLayout {
 
     private void validateAndSave() {
         try {
-            residentAccount.setEnabled(true);
             residentAccount.setAuthorities((getAuthorities()));
             residentAccountBinder.writeBean(residentAccount);
             fireEvent(new RegisterFormEvent.SaveEvent(this, residentAccount));
@@ -167,7 +152,7 @@ public class RegisterForm extends FormLayout {
             this.residentAccount = residentAccount;
         }
 
-        public Account getAccount() {
+        public ResidentAccount getResidentAccount() {
             return residentAccount;
         }
 

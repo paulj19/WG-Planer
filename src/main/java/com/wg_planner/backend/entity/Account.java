@@ -55,10 +55,10 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<GrantedAuthority> authorities;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-    private boolean enabled;
+    private boolean accountNonExpired = true;
+    private boolean accountNonLocked = true;
+    private boolean credentialsNonExpired = true;
+    private boolean enabled = true;
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -104,7 +104,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = firstName.trim();
     }
 
     public String getLastName() {
@@ -112,7 +112,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = lastName.trim();
     }
 
     public String getFullName() {
@@ -155,7 +155,7 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.trim();
     }
 
     public boolean isEnabled() {
