@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 public class Room extends AbstractEntity implements Cloneable {
@@ -56,12 +57,12 @@ public class Room extends AbstractEntity implements Cloneable {
         return roomName;
     }
 
-    public void setRoomName(String roomNumber) {
-        Validate.notNull(roomNumber, "parameter roomNumber to add must not be %s", null);
-        Validate.notEmpty(roomNumber, "parameter room number must not be empty");
-        Validate.isTrue(StringUtils.isAlphanumeric(roomNumber), "room number must be alphanumeric");
-        Validate.isTrue(roomNumber.length() <= 250, "length of room number must not exceed 250 chars");
-        this.roomName = roomNumber;
+    public void setRoomName(String roomName) {
+        Validate.notNull(roomName, "parameter roomNumber to add must not be %s", null);
+        Validate.notEmpty(roomName, "parameter room number must not be empty");
+        Validate.isTrue(StringUtils.isAlphanumeric(roomName.trim()), "room number must be alphanumeric");
+        Validate.isTrue(roomName.length() <= 250, "length of room number must not exceed 250 chars");
+        this.roomName = roomName.trim();
     }
 
     public Floor getFloor() {

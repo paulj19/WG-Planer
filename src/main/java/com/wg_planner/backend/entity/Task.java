@@ -58,8 +58,8 @@ public class Task extends AbstractEntity {
         Validate.notNull(taskName, "parameter taskName must not be %s", (Object) null);
         Validate.notEmpty(taskName, "parameter taskName must not be empty");
         Validate.isTrue(taskName.length() <= 250, "length of task name must not exceed 250 chars");
-        this.taskName = taskName;
-        createTaskNotificationContent(taskName);
+        this.taskName = taskName.trim();
+        createTaskNotificationContent(taskName.trim());
     }
 
     private void createTaskNotificationContent(String taskName) {

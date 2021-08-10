@@ -115,7 +115,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     }
 
     public void setFloorName(String floorName) {
-        this.floorName = floorName;
+        this.floorName = floorName.trim();
     }
 
     public String getFloorName() {
