@@ -1,5 +1,7 @@
 package com.wg_planner.views.sub_menu.account_details;
 
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
@@ -9,6 +11,7 @@ import com.vaadin.flow.router.Route;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;
+import com.wg_planner.views.utils.UIStringConstants;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 @Route(layout = MainView.class)
@@ -26,51 +29,38 @@ public class ResidentAvailabilityView extends VerticalLayout {
         isResidentPresent.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
         isResidentPresent.setItems(Boolean.TRUE, Boolean.FALSE);
         isResidentPresent.setRenderer(new TextRenderer<>(isAway -> {
-            if (SessionHandler.getLoggedInResidentAccount().isAway()) {
+            if (isAway) {
                 return "I am not ready to take tasks";
             } else {
                 return "I am ready to take tasks";
             }
         }));
         isResidentPresent.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
+        isResidentPresent.addValueChangeListener(event -> {
+            confirmationDialogStatusChange.open();
+        });
         add(isResidentPresent);
-//        confirmationDialogStatusChange = new ConfirmationDialog("Confirm Availability Status Change",
-//                "Are you sure you want to change availability status?",
-//                "Confirm",
-//                "Cancel", SessionHandler.getLoggedInResidentAccount());
-//        confirmationDialogStatusChange.addListener(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent.class,
-//                this::onConfirm);
-//        confirmationDialogStatusChange.addListener(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent.class,
-//                this::onCancel);
-//        addAvailabilityCheckBox();
+        confirmationDialogStatusChange = new ConfirmationDialog("Confirm Availability Status Change",
+                "Are you sure you want to change availability status?",
+                "Confirm",
+                "Cancel", SessionHandler.getLoggedInResidentAccount());
+        confirmationDialogStatusChange.addListener(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent.class,
+                this::onConfirm);
+        confirmationDialogStatusChange.addListener(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent.class,
+                this::onCancel);
+        confirmationDialogStatusChange.addDialogCloseActionListener(event -> {
+            isResidentPresent.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
+            confirmationDialogStatusChange.close();
+        });
     }
 
-//    private <T extends ComponentEvent<?>> void onConfirm(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent confirmEvent) {
-//        residentAvailabilityPresenter.setResidentAwayStatusAndSave(!SessionHandler.getLoggedInResidentAccount().isAway());
-//        isNotReadyCheckBox.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
-//        isReadyCheckBox.setValue(!SessionHandler.getLoggedInResidentAccount().isAway());
-//        Notification.show(UIStringConstants.getInstance().getAvailabilityStatusChanged());
-//    }
-//
-//    private <T extends ComponentEvent<?>> void onCancel(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {
-//        isNotReadyCheckBox.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
-//        isReadyCheckBox.setValue(!SessionHandler.getLoggedInResidentAccount().isAway());
-//        confirmationDialogStatusChange.close();
-//    }
-//
-//    private void addAvailabilityCheckBox() {
-//        isNotReadyCheckBox.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
-//        isReadyCheckBox.setValue(!SessionHandler.getLoggedInResidentAccount().isAway());
-//        isNotReadyCheckBox.addValueChangeListener(event -> {
-//            if (!SessionHandler.getLoggedInResidentAccount().isAway()) {
-//                confirmationDialogStatusChange.open();
-//            }
-//        });
-//        isReadyCheckBox.addValueChangeListener(event -> {
-//            confirmationDialogStatusChange.open();
-//            if (SessionHandler.getLoggedInResidentAccount().isAway()) {
-//            }
-//        });
-//        add(isNotReadyCheckBox, isReadyCheckBox);
-//    }
+    private <T extends ComponentEvent<?>> void onConfirm(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent confirmEvent) {
+        residentAvailabilityPresenter.setResidentAwayStatusAndSave(isResidentPresent.getValue());
+        Notification.show(UIStringConstants.getInstance().getAvailabilityStatusChanged());
+    }
+
+    private <T extends ComponentEvent<?>> void onCancel(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {
+        isResidentPresent.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
+        confirmationDialogStatusChange.close();
+    }
 }
