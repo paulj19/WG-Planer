@@ -30,4 +30,9 @@ public class AccountDetailsService implements UserDetailsService {
         Validate.notEmpty(username, "parameter username must not be empty");
         return accountRepository.findAccountByUsername(username);
     }
+
+    public boolean isUsernameUnique(String username) {
+        return accountRepository.findAccountByUsername(username) == null;
+    }
+
 }

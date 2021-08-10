@@ -41,8 +41,8 @@ public class CreateFloorForm extends FormLayout {
     private void createButtonLayout() {
         createFloorButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        createFloorButton.addClickShortcut(Key.ENTER);
-        cancelButton.addClickShortcut(Key.ESCAPE);
+//        createFloorButton.addClickShortcut(Key.ENTER);
+//        cancelButton.addClickShortcut(Key.ESCAPE);
         buttonLayout.getStyle().set("margin-top", "15px");
 
         createFloorButton.addClickListener(event -> validateAndSave());

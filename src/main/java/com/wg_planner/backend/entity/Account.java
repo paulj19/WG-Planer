@@ -67,11 +67,14 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     public Account() {
     }
 
-    public Account(String firstName, String lastName, String email, String username, String passwordHash, Collection<? extends GrantedAuthority> authorities) {
+    public Account(String firstName, String lastName, String email, String username, String passwordHash, Collection<?
+            extends GrantedAuthority> authorities) {
         this(firstName, lastName, email, username, passwordHash, true, true, true, true, authorities);
     }
 
-    public Account(String firstName, String lastName, String email, String username, String passwordHash, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public Account(String firstName, String lastName, String email, String username, String passwordHash, boolean enabled,
+                   boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<?
+            extends GrantedAuthority> authorities) {
         if (notNullOrEmptyOrLt250Chars(username) && notNullOrEmpty(passwordHash) && notNullOrEmptyOrLt250Chars(firstName) && notNullOrEmptyOrLt250Chars(lastName) && notNullOrEmpty(email) && email.matches(EMAIL_PATTERN) && authorities != null && !authorities.isEmpty()) {
             this.firstName = firstName;
             this.lastName = lastName;
@@ -124,6 +127,10 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         this.email = email;
     }
 
+    public void setAuthorities(Set<GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
     @PrePersist
     @PreUpdate
     private void prepareData() {
@@ -138,8 +145,17 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
         return this.passwordHash;
     }
 
+    public void setPassword(String rawPassword) {
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        this.passwordHash = encoder.encode(rawPassword);
+    }
+
     public String getUsername() {
         return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public boolean isEnabled() {
@@ -337,7 +353,8 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
 
         public UserDetails build() {
             String encodedPassword = (String) this.passwordEncoder.apply(this.password);
-            return new Account(this.firstName, this.lastName, this.email, this.username, encodedPassword, !this.disabled, !this.accountExpired, !this.credentialsExpired, !this.accountLocked, this.authorities);
+            return new Account(this.firstName, this.lastName, this.email, this.username, encodedPassword, !this.disabled,
+                    !this.accountExpired, !this.credentialsExpired, !this.accountLocked, this.authorities);
         }
     }
 

@@ -47,12 +47,21 @@ public class ResidentAccount extends Account implements Cloneable {
         setResidentDevices(residentDevices);
     }
 
+    //TODO change boolean from away to present
     public Boolean isAway() {
         return away;
     }
 
+    public boolean isPresent() {
+        return !isAway();
+    }
+
     public void setAway(Boolean away) {
         this.away = away;
+    }
+
+    public void setPresent(boolean present) {
+        setAway(!present);
     }
 
     public Room getRoom() {

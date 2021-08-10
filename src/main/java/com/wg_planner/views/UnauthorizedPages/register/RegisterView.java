@@ -6,6 +6,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
+import com.wg_planner.backend.Service.AccountDetailsService;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.RoomService;
@@ -31,6 +32,8 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     RoomService roomService;
     @Autowired
     FloorService floorService;
+    @Autowired
+    AccountDetailsService accountDetailsService;
 
     private RegisterForm registerForm;
     private H1 heading = new H1("Register");
@@ -54,12 +57,12 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     }
 
     public void init(Floor floorToPreset) {
-        registerForm = new RegisterForm(floorToPreset, floorService);
+        registerForm = new RegisterForm(floorToPreset, floorService, accountDetailsService);
         initListenersAndAdd();
     }
 
     public void init(Room roomToPreset) {
-        registerForm = new RegisterForm(roomToPreset, floorService);
+        registerForm = new RegisterForm(roomToPreset, floorService, accountDetailsService);
         initListenersAndAdd();
     }
 

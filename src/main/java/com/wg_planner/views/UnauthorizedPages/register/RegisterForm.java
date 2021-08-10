@@ -1,5 +1,6 @@
 package com.wg_planner.views.UnauthorizedPages.register;
 
+import com.sun.org.apache.xml.internal.utils.StringToStringTable;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
@@ -12,8 +13,12 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.*;
+import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
+import com.wg_planner.backend.Service.AccountDetailsService;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Account;
 import com.wg_planner.backend.entity.Floor;
@@ -26,45 +31,37 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 //todo registration form for different roles(combo box options) this is for residents, change name accordingly?
-// todo are you currently in the room and ready to take the tasks
 public class RegisterForm extends FormLayout {
-    //todo check why autowired not working
-    @Autowired
-    PasswordEncoder passwordEncoder;
     FloorService floorService;
+    AccountDetailsService accountDetailsService;
 
     TextField firstName = new TextField("First Name", "Enter your first name");
     TextField lastName = new TextField("Last Name", "Enter your last name");
     EmailField email = new EmailField("Email", "Enter your email address");
     TextField username = new TextField("Username", "Enter user name");
-    PasswordField password = new PasswordField("Password", "Enter password");
+    PasswordField passwordField = new PasswordField("Password", "Minimum 6 characters");
     //    ComboBox<Floor> floorComboBox = new ComboBox<>("Floor Name");
     TextField floorTextField = new TextField("Floor");
     ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room Name");
-    Checkbox isReadyToAcceptTasks = new Checkbox();
-    boolean isAway = true;
-    Account account;
+    Checkbox isReadyToAcceptTasks = new Checkbox("I am ready to accept tasks");
     Floor floorPreset;
     List<Room> rooms = new ArrayList<>();
-
+    private Binder<ResidentAccount> residentAccountBinder = new BeanValidationBinder<>(ResidentAccount.class);
+    ResidentAccount residentAccount = new ResidentAccount();
     Button register = new Button("Register");
     Button cancel = new Button("Cancel");
 
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-    private RegisterForm(FloorService floorService) {
+    private RegisterForm(FloorService floorService, AccountDetailsService accountDetailsService) {
         this.floorService = floorService;
+        this.accountDetailsService = accountDetailsService;
     }
 
 
-    public RegisterForm(Floor floorToPreset, FloorService floorService) {
-        this(floorService);
+    public RegisterForm(Floor floorToPreset, FloorService floorService, AccountDetailsService accountDetailsService) {
+        this(floorService, accountDetailsService);
         floorPreset = floorToPreset;
         sanityChecksInvalidParameters(floorToPreset);
         floorTextField.setValue(floorToPreset.getFloorName());
@@ -74,8 +71,8 @@ public class RegisterForm extends FormLayout {
         init();
     }
 
-    public RegisterForm(Room roomToPreset, FloorService floorService) {
-        this(floorService);
+    public RegisterForm(Room roomToPreset, FloorService floorService, AccountDetailsService accountDetailsService) {
+        this(floorService, accountDetailsService);
         floorPreset = roomToPreset.getFloor();
         sanityChecksInvalidParameters(roomToPreset);
         floorTextField.setValue(roomToPreset.getFloor().getFloorName());
@@ -88,65 +85,31 @@ public class RegisterForm extends FormLayout {
 
     private void init() {
         addClassName("register-form");
+        residentAccountBinder.forField(firstName).withConverter(new Converter<String, Object>() {
+            @Override
+            public Result<Object> convertToModel(String value, ValueContext context) {
+                return null;
+            }
+
+            @Override
+            public String convertToPresentation(Object value, ValueContext context) {
+                return value.toString().trim();
+            }
+        }).bind(ResidentAccount::getFirstName,
+            ResidentAccount::setFirstName);
+        residentAccountBinder.forField(lastName).bind(ResidentAccount::getLastName, ResidentAccount::setLastName);
+        residentAccountBinder.forField(email).withValidator(new EmailValidator("Not a valid email address")).bind(ResidentAccount::getEmail,
+                ResidentAccount::setEmail);
+        residentAccountBinder.forField(username).withValidator(username -> accountDetailsService.isUsernameUnique(username),
+                "Username already taken").bind(ResidentAccount::getUsername, ResidentAccount::setUsername);
+        residentAccountBinder.forField(passwordField).withValidator(password -> password.length() >= 6, "password should be at least 6 " +
+                "characters").bind(ResidentAccount::getPassword, ResidentAccount::setPassword);
+        residentAccountBinder.forField(roomsRoomComboBox).bind(ResidentAccount::getRoom, ResidentAccount::setRoom);
+        residentAccountBinder.forField(isReadyToAcceptTasks).bind(ResidentAccount::isPresent, ResidentAccount::setPresent);
+
         setResponsiveSteps(new ResponsiveStep("0", 1));
-        firstName.setValueChangeMode(ValueChangeMode.EAGER);
-        firstName.setMaxLength(250);
-        firstName.addValueChangeListener(textFieldBlurEvent -> {
-            if (!isNameValid(firstName.getValue())) {
-                firstName.setErrorMessage("invalid name");
-                firstName.setInvalid(true);
-            } else {
-                firstName.setInvalid(false);
-            }
-            checkAndSetRegisterButton();
-        });
-        lastName.setValueChangeMode(ValueChangeMode.EAGER);
-        lastName.setMaxLength(250);
-        lastName.addValueChangeListener(textFieldBlurEvent -> {
-            if (!isNameValid(lastName.getValue())) {
-                lastName.setErrorMessage("invalid name");
-                lastName.setInvalid(true);
-            } else {
-                lastName.setInvalid(false);
-            }
-            checkAndSetRegisterButton();
-        });
-        email.addValueChangeListener(textFieldBlurEvent -> {
-            if (!isEmailValid(email.getValue())) {
-                email.setErrorMessage("invalid email address");
-                email.setInvalid(true);
-            } else {
-                email.setInvalid(false);
-            }
-            checkAndSetRegisterButton();
-        });
-        username.setValueChangeMode(ValueChangeMode.EAGER);
-        username.setMaxLength(250);
-        username.addValueChangeListener(textFieldBlurEvent -> {
-            if (!isUsernameValid(username.getValue())) {
-                username.setErrorMessage("invalid username");
-                username.setInvalid(true);
-            } else {
-                username.setInvalid(false);
-            }
-            checkAndSetRegisterButton();
-        });
-        password.setValueChangeMode(ValueChangeMode.EAGER);
-        password.setMinLength(8);
-        password.addValueChangeListener(textFieldBlurEvent -> {
-            if (!isPasswordValid(password.getValue())) {
-                password.setErrorMessage("invalid password");
-                password.setInvalid(true);
-            } else {
-                password.setInvalid(false);
-            }
-            checkAndSetRegisterButton();
-        });
-        isReadyToAcceptTasks.setLabel("I am ready to accept tasks");
-        isReadyToAcceptTasks.addValueChangeListener(checkboxBooleanComponentValueChangeEvent -> isAway =
-                !checkboxBooleanComponentValueChangeEvent.getValue());
-//        setWidth("500px");
-        add(firstName, lastName, email, username, password, floorTextField, roomsRoomComboBox, isReadyToAcceptTasks,
+        firstName.setA
+        add(firstName, lastName, email, username, passwordField, floorTextField, roomsRoomComboBox, isReadyToAcceptTasks,
                 createButtonLayout());
     }
 
@@ -166,118 +129,57 @@ public class RegisterForm extends FormLayout {
     }
 
 
-    private void checkAndSetRegisterButton() {
-        register.setEnabled(isAllFieldsValid() && isAllFieldsFilled());
-    }
-
-    //TODO make better
-    private boolean isAllFieldsValid() {
-        return !firstName.isInvalid() && !lastName.isInvalid() && !email.isInvalid() && !username.isInvalid() && !password.isInvalid();
-    }
-
-    private boolean isAllFieldsFilled() {
-        return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !username.isEmpty() && !password.isEmpty();
-    }
-
     private HorizontalLayout createButtonLayout() {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        register.addClickShortcut(Key.ENTER);
-        cancel.addClickShortcut(Key.ESCAPE);
-        register.setEnabled(false);
+        register.setEnabled(true);
         buttonLayout.getStyle().set("margin-top", "15px");
-
-
         register.addClickListener(event -> validateAndSave());
         cancel.addClickListener(event -> fireEvent(new RegisterFormEvent.CancelEvent(this)));
         buttonLayout.add(register, cancel);
         return buttonLayout;
     }
 
-    private boolean isNameValid(String nameToVerify) {
-        return nameToVerify.matches("(?i)(^[a-z])((?![ .,'-]$)[a-z .,'-]){0,24}$");
-    }
-
-    private boolean isEmailValid(String emailToVerify) {
-        String EMAIL_PATTERN =
-                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-        return emailToVerify.matches(EMAIL_PATTERN);
-    }
-
-    private boolean isUsernameValid(String usernameToVerify) {
-        return true;
-    }
-
-    private boolean isPasswordValid(String usernameToVerify) {
-        return true;
-    }
-
-    private Room getSelectedRoom() throws RuntimeException {
-        Room selectedRoom = roomsRoomComboBox.getValue();
-        //        Floor selectedFloor = floorComboBox.getValue();
-        if (selectedRoom == null || floorPreset == null) {
-            throw new RuntimeException("selected room or floor null");
-        }
-        selectedRoom.setOccupied(true);
-        return selectedRoom;
-    }
-
-    private List<GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    private Set<GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("USER"));
         return authorities;
     }
 
-    private Account getEnteredValuesAsAccount() {
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        ResidentAccount residentAccount = new ResidentAccount(firstName.getValue(), lastName.getValue(),
-                email.getValue(),
-                username.getValue(), encoder.encode(password.getValue()), getSelectedRoom(), isAway, getAuthorities());
-        return residentAccount;
-    }
-
     private void validateAndSave() {
-        account = getEnteredValuesAsAccount();
-        fireEvent(new RegisterFormEvent.SaveEvent(this, account, floorPreset, getSelectedRoom()));
+        try {
+            residentAccount.setEnabled(true);
+            residentAccount.setAuthorities((getAuthorities()));
+            residentAccountBinder.writeBean(residentAccount);
+            fireEvent(new RegisterFormEvent.SaveEvent(this, residentAccount));
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
     }
 
     public static abstract class RegisterFormEvent extends ComponentEvent<RegisterForm> {
-        private Account account;
-        private Floor selectedFloor;
-        private Room selectedRoom;
+        private ResidentAccount residentAccount;
 
-        protected RegisterFormEvent(RegisterForm source, Account account, Floor selectedFloor, Room selectedRoom) {
+        protected RegisterFormEvent(RegisterForm source, ResidentAccount residentAccount) {
             super(source, false);
-            this.account = account;
-            this.selectedFloor = selectedFloor;
-            this.selectedRoom = selectedRoom;
+            this.residentAccount = residentAccount;
         }
 
         public Account getAccount() {
-            return account;
-        }
-
-        public Floor getSelectedFloor() {
-            return selectedFloor;
-        }
-
-        public Room getSelectedRoom() {
-            return selectedRoom;
+            return residentAccount;
         }
 
         public static class SaveEvent extends RegisterFormEvent {
-            SaveEvent(RegisterForm source, Account account, Floor selectedFloor, Room selectedRoom) {
-                super(source, account, selectedFloor, selectedRoom);
+            SaveEvent(RegisterForm source, ResidentAccount residentAccount) {
+                super(source, residentAccount);
             }
         }
 
         public static class CancelEvent extends RegisterFormEvent {
             CancelEvent(RegisterForm source) {
-                super(source, null, null, null);
+                super(source, null);
             }
         }
     }
