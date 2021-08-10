@@ -86,9 +86,10 @@ public class RegisterForm extends FormLayout {
         residentAccountBinder.forField(email).withValidator(new EmailValidator("Not a valid email address")).bind(ResidentAccount::getEmail,
                 ResidentAccount::setEmail);
         residentAccountBinder.forField(username).withValidator(username -> accountDetailsService.isUsernameUnique(username.trim()),
-                "Username already taken").bind(ResidentAccount::getUsername, ResidentAccount::setUsername);
-        residentAccountBinder.forField(passwordField).withValidator(password -> password.length() >= 6, "password " +
-                "should be at least 6 characters").bind(ResidentAccount::getPassword, ResidentAccount::setPassword);
+                "Username already taken").withValidator(username -> username.matches("[A-Za-z0-9_]+"),
+                "only alphanumeric and underscore permitted in username").bind(ResidentAccount::getUsername, ResidentAccount::setUsername);
+        residentAccountBinder.forField(passwordField).withValidator(password -> password.length() >= 6, "password should be at least 6 " +
+                "characters").bind(ResidentAccount::getPassword, ResidentAccount::setPassword);
         residentAccountBinder.forField(roomsRoomComboBox).bind(ResidentAccount::getRoom, ResidentAccount::setRoom);
         residentAccountBinder.forField(isReadyToAcceptTasks).bind(ResidentAccount::isPresent,
                 ResidentAccount::setPresent);
