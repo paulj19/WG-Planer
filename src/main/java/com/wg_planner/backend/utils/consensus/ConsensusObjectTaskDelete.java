@@ -1,7 +1,10 @@
 package com.wg_planner.backend.utils.consensus;
 
 import com.wg_planner.backend.Service.FloorService;
+import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+
+import java.util.List;
 
 public class ConsensusObjectTaskDelete extends ConsensusObject {
     private final long timeoutIntervalToRemoveTaskFromMapInMillis = 604800000;
@@ -10,11 +13,15 @@ public class ConsensusObjectTaskDelete extends ConsensusObject {
 
     ConsensusDone consensusDone = () -> floorService.deleteTaskAndUpdateFloor(taskToDelete);
 
+    private ConsensusObjectTaskDelete() {
+    }
+
     public ConsensusDone getConsensusDone() {
         return consensusDone;
     }
 
-    public ConsensusObjectTaskDelete(Task taskToDelete, FloorService floorService) {
+    public ConsensusObjectTaskDelete(Room roomInitialingConsensus, Task taskToDelete, FloorService floorService) {
+        setRoomInitiatingConsensus(roomInitialingConsensus);
         this.floorService = floorService;
         this.taskToDelete = taskToDelete;
     }
@@ -31,6 +38,9 @@ public class ConsensusObjectTaskDelete extends ConsensusObject {
 
     @Override
     public boolean test(ConsensusObject consensusObject) {//all the rooms should accept
-        return roomsAccepting.containsAll(floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor())) && floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor()).containsAll(roomsAccepting);
+        List<Room> roomsRequiredToAccept = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor());
+        roomsRequiredToAccept.remove(getRoomInitiatingConsensus());
+        assert roomsRequiredToAccept.size() == floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor()).size() - 1;
+        return roomsAccepting.containsAll(roomsRequiredToAccept) && roomsRequiredToAccept.containsAll(roomsAccepting);
     }
 }

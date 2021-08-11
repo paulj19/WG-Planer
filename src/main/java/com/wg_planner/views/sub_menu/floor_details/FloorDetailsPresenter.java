@@ -38,7 +38,8 @@ public class FloorDetailsPresenter {
             event.getTask().setAssignedRoom(null);
             taskService.save(event.getTask());
             UIMessageBus.broadcast(UIEventHandler.getInstance().createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), floorService.getAllRoomsInFloorByFloorId(event.getTask().getFloor().getId())));
-            ConsensusHandler.getInstance().add(new ConsensusObjectTaskDelete(event.getTask(), floorService));
+            ConsensusHandler.getInstance().add(new ConsensusObjectTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(),
+                    event.getTask(), floorService));
             UINotificationMessage.notify("The task has been send for approval, all the other residents should approve" +
                     " before task can be deleted");
         } else {

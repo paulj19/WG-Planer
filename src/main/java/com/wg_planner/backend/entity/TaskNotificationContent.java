@@ -23,7 +23,7 @@ public class TaskNotificationContent extends AbstractEntity {
     }
 
     public TaskNotificationContent(Task correspondingTask, @NotNull String title) {
-        this(correspondingTask, title, String.format("You have been reminded about task %s which you are assigned that needs attention.",
+        this(correspondingTask, title, String.format("You have been reminded about task %s which you are assigned and needs attention.",
                 correspondingTask.getTaskName()));
     }
 

@@ -8,6 +8,7 @@ import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.main.MainView;
+import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINavigationHandler;
 import com.wg_planner.views.utils.UINotificationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import java.util.logging.Level;
 @CssImport("./styles/views/tasks/tasks-view.css")
 public class AssignTaskView extends VerticalLayout implements HasUrlParameter<String> {
     private Task taskToAssign;
-    private Room assignRequestingRoom;
     @Autowired
     TaskService taskService;
     @Autowired
@@ -34,8 +34,10 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         if (parameter != null && !parameter.isEmpty()) {
             taskToAssign = taskService.getTaskById(Long.parseLong(parameter));
-            assignRequestingRoom = taskToAssign.getAssignedRoom();
-            addAssignPage();
+            //TODO create roles and privelages
+            if(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor().getTasks().contains(taskToAssign)) {
+                addAssignPage();
+            }
         } else {
             LOGGER.log(Level.SEVERE, "url parameter in AssignTaskView must not be null or empty");
         }
