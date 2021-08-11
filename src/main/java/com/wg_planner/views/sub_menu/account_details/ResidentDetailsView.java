@@ -1,7 +1,6 @@
 package com.wg_planner.views.sub_menu.account_details;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.entity.ResidentAccount;
@@ -19,7 +18,6 @@ public class ResidentDetailsView extends VerticalLayout {
         add(getResidentFloorCodeAsTextField());
         add(getResidentRoomAsTextField());
         add(getResidentUsernameAsTextField());
-        add(getResidentPasswordAsPasswordField());
     }
 
     private TextField getResidentNameAsTextField() {
@@ -48,13 +46,6 @@ public class ResidentDetailsView extends VerticalLayout {
         UsernameField.setReadOnly(true);
         UsernameField.setValue(residentAccount.getUsername());
         return UsernameField;
-    }
-
-    private PasswordField getResidentPasswordAsPasswordField() {
-        PasswordField passwordField = new PasswordField("Password");
-        passwordField.setReadOnly(true);
-        passwordField.setValue(residentAccount.getPassword());
-        return passwordField;
     }
 
 }
