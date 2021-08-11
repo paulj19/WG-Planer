@@ -7,9 +7,11 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.sub_menu.account_details.AccountDetailsView;
 import com.wg_planner.views.sub_menu.account_details.ResidentAvailabilityView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 //todo block direct access to this url
@@ -20,6 +22,8 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 public class SubMenuView extends VerticalLayout {
     private final Tabs subMenu = new Tabs();
     private AutowireCapableBeanFactory beanFactory;
+    @Autowired
+    ResidentAccountService residentAccountService;
 
     public SubMenuView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
@@ -42,7 +46,7 @@ public class SubMenuView extends VerticalLayout {
             } else if (event.getSelectedTab().hasClassName(ResidentAvailabilityView.class.getName())) {
                 removeAll();
                 add(subMenu);
-                add(new ResidentAvailabilityView(beanFactory));
+                add(new ResidentAvailabilityView(beanFactory, residentAccountService));
             }
         });
         subMenu.setSelectedTab(accountDetailsTab);

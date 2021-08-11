@@ -42,7 +42,7 @@ public class AssignRoomToTaskPage extends VerticalLayout {
     }
 
     private ComboBox<Room> getRoomsComboBox(Task taskToAssign, FloorService floorService) {
-        ComboBox<Room> roomsInFloorComboBox = new ComboBox<>("Choose a room");
+        ComboBox<Room> roomsInFloorComboBox = new ComboBox<>("Rooms ready to accept tasks:");
         List<Room> availableRoomsInFloor = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToAssign.getFloor());
         if (taskToAssign.getAssignedRoom() != null) {
             availableRoomsInFloor.remove(taskToAssign.getAssignedRoom());

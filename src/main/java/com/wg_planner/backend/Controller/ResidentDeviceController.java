@@ -95,7 +95,7 @@ public class ResidentDeviceController {
         Validate.notEmpty(registrationToken, "parameter registration  token must not be empty");
 
         ResidentAccount ownerResidentAccount =
-                residentAccountService.getResidentAccount(residentAccountId);
+                residentAccountService.getResidentAccountById(residentAccountId);
         if (ownerResidentAccount == null) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }

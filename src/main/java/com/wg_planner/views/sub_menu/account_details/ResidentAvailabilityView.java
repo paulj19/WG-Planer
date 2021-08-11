@@ -8,6 +8,7 @@ import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;
@@ -17,13 +18,16 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 @Route(layout = MainView.class)
 @PageTitle("Resident Availability")
 public class ResidentAvailabilityView extends VerticalLayout {
-    ResidentAvailabilityPresenter residentAvailabilityPresenter;
+    private ResidentAvailabilityPresenter residentAvailabilityPresenter;
+    private ResidentAccountService residentAccountService;
     private AutowireCapableBeanFactory beanFactory;
-    RadioButtonGroup<Boolean> isResidentPresent = new RadioButtonGroup<>();
-    ConfirmationDialog confirmationDialogStatusChange;
+    private RadioButtonGroup<Boolean> isResidentPresent = new RadioButtonGroup<>();
+    private ConfirmationDialog confirmationDialogStatusChange;
 
-    public ResidentAvailabilityView(AutowireCapableBeanFactory beanFactory) {
+    public ResidentAvailabilityView(AutowireCapableBeanFactory beanFactory,
+                                    ResidentAccountService residentAccountService) {
         this.beanFactory = beanFactory;
+        this.residentAccountService = residentAccountService;
         residentAvailabilityPresenter = new ResidentAvailabilityPresenter();
         beanFactory.autowireBean(residentAvailabilityPresenter);
         isResidentPresent.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
@@ -35,13 +39,14 @@ public class ResidentAvailabilityView extends VerticalLayout {
                 return "I am ready to take tasks";
             }
         }));
-        isResidentPresent.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
+        isResidentPresent.setValue(residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId()).isAway());
         isResidentPresent.addValueChangeListener(event -> {
             confirmationDialogStatusChange.open();
         });
         add(isResidentPresent);
         confirmationDialogStatusChange = new ConfirmationDialog("Confirm Availability Status Change",
-                "Are you sure you want to change availability status?",
+                "If you are not ready to take tasks, all your tasks will be transferred to the next available " +
+                        "resident. Are you sure you want to change availability status?",
                 "Confirm",
                 "Cancel", SessionHandler.getLoggedInResidentAccount());
         confirmationDialogStatusChange.addListener(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent.class,
@@ -49,7 +54,7 @@ public class ResidentAvailabilityView extends VerticalLayout {
         confirmationDialogStatusChange.addListener(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent.class,
                 this::onCancel);
         confirmationDialogStatusChange.addDialogCloseActionListener(event -> {
-            isResidentPresent.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
+            isResidentPresent.setValue(residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId()).isAway());
             confirmationDialogStatusChange.close();
         });
     }
@@ -60,7 +65,7 @@ public class ResidentAvailabilityView extends VerticalLayout {
     }
 
     private <T extends ComponentEvent<?>> void onCancel(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {
-        isResidentPresent.setValue(SessionHandler.getLoggedInResidentAccount().isAway());
+        isResidentPresent.setValue(residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId()).isAway());
         confirmationDialogStatusChange.close();
     }
 }

@@ -20,7 +20,8 @@ public class ResidentAvailabilityPresenter {
 
     @Transactional
     public void setResidentAwayStatusAndSave(boolean isAway) {
-        ResidentAccount currentResidentAccount = SessionHandler.getLoggedInResidentAccount();
+        ResidentAccount currentResidentAccount =
+                residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId());
         if (isAway) {
             residentAccountService.transferTasksOfResidentToNext(currentResidentAccount, floorService, taskService);
         }

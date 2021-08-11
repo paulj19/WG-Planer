@@ -5,7 +5,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.TaskService;
-import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.utils.SessionHandler;
@@ -35,7 +34,7 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
         if (parameter != null && !parameter.isEmpty()) {
             taskToAssign = taskService.getTaskById(Long.parseLong(parameter));
             //TODO create roles and privelages
-            if(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor().getTasks().contains(taskToAssign)) {
+            if (floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()).contains(taskToAssign)) {
                 addAssignPage();
             }
         } else {
@@ -46,7 +45,8 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     public void addAssignPage() {
         AssignRoomToTaskPage assignRoomToTaskPage = new AssignRoomToTaskPage(taskToAssign, floorService);
         assignRoomToTaskPage.addListener(AssignRoomToTaskPage.AssignTaskPageEvent.AssignEvent.class, this::assignTask);
-        assignRoomToTaskPage.addListener(AssignRoomToTaskPage.AssignTaskPageEvent.CancelEvent.class, this::cancelAssign);
+        assignRoomToTaskPage.addListener(AssignRoomToTaskPage.AssignTaskPageEvent.CancelEvent.class,
+                this::cancelAssign);
         add(assignRoomToTaskPage);
     }
 
@@ -54,7 +54,7 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
         //synchronization issue fix: the method sync ensures contention between assigns
         // and if task has changed between opening assign page and clicking
         Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
-        if(Objects.equals(event.getTaskToAssign().getAssignedRoom(), taskPossiblyDirty.getAssignedRoom())) {
+        if (Objects.equals(event.getTaskToAssign().getAssignedRoom(), taskPossiblyDirty.getAssignedRoom())) {
             taskService.assignTask(taskToAssign, event.getRoomSelected());
             UINavigationHandler.getInstance().navigateToHomePage();
             UINotificationMessage.notify("Task " + event.getTaskToAssign().getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());
@@ -64,7 +64,7 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     }
 
     private void cancelAssign(AssignRoomToTaskPage.AssignTaskPageEvent.CancelEvent event) {
-            UINavigationHandler.getInstance().navigateToHomePage();
+        UINavigationHandler.getInstance().navigateToHomePage();
     }
 
 }

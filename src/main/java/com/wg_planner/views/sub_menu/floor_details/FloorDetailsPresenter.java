@@ -1,7 +1,9 @@
- package com.wg_planner.views.sub_menu.floor_details;
+package com.wg_planner.views.sub_menu.floor_details;
 
 import com.wg_planner.backend.Service.FloorService;
+import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.TaskService;
+import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskDelete;
@@ -19,12 +21,17 @@ public class FloorDetailsPresenter {
     private FloorService floorService;
     @Autowired
     TaskService taskService;
+    @Autowired
+    ResidentAccountService residentAccountService;
+
     private FloorDetailsView floorDetailsView;
 
     public void init(FloorDetailsView floorDetailsView) {
         this.floorDetailsView = floorDetailsView;
-        if (!SessionHandler.getLoggedInResidentAccount().getRoom().getFloor().getFloorName().isEmpty()) {
-            floorDetailsView.addFloorName(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor().getFloorName());
+        Floor floor =
+                residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId()).getRoom().getFloor();
+        if (!floor.getFloorName().isEmpty()) {
+            floorDetailsView.addFloorName(floor.getFloorName());
         }
         floorDetailsView.addFloorCode(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor().getFloorCode());
         floorDetailsView.addRoomsInFloor(floorService.getAllRoomsInFloorByFloorId(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));

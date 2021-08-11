@@ -20,6 +20,7 @@ public class SessionHandler {
         VaadinSession.getCurrent().getSession().setAttribute(LOGGED_IN_RESIDENT_ACCOUNT, residentAccountToSave);
     }
 
+    //loading residentAccount always from DB might be unnecessary and heavy load on the DB
     public static ResidentAccount getLoggedInResidentAccount() {
         return (ResidentAccount) VaadinSession.getCurrent().getSession().getAttribute(LOGGED_IN_RESIDENT_ACCOUNT);
     }

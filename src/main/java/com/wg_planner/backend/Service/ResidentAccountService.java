@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class ResidentAccountService {
@@ -32,7 +31,7 @@ public class ResidentAccountService {
         this.accountRepository = accountRepository;
     }
 
-    public ResidentAccount getResidentAccount(Long accountId) {
+    public ResidentAccount getResidentAccountById(Long accountId) {
         Validate.notNull(accountId, "parameter account id must not be %s", null);
         return residentAccountRepository.getResidentAccount(accountId);
     }

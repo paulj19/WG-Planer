@@ -36,7 +36,7 @@ public class NotificationsPagePresenter implements UIMessageBus.BroadcastListene
 
     public void init(NotificationsPageView NotificationsPageView) {
         this.NotificationsPageView = NotificationsPageView;
-        attachedRoom = SessionHandler.getLoggedInResidentAccount().getRoom();
+        attachedRoom = SessionHandler.getLoggedInResidentAccount().getRoom();//room residentAccount never get outdated
         NotificationsPageView.getNotificationsUI().addAfterNavigationListener(event -> UIEventHandler.getInstance().getAllNotificationsForRoom(attachedRoom).forEach(notification -> NotificationsPageView.addNotificationToView(notification.getUILayout(consensusListener))));
         NotificationsPageView.addAttachListener(event -> {
             UIMessageBus.register(this);
