@@ -7,6 +7,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -39,10 +40,11 @@ import java.util.Optional;
  * The main view is a top-level placeholder for other views.
  */
 @Push
+@JsModule("@vaadin/vaadin-lumo-styles/badge.js")
 @JsModule("./styles/shared-styles.js")
 @PWA(name = "WG_Planner", shortName = "WG_Planner", enableInstallPrompt = false)
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
-@CssImport("./styles/views/main/main-view.css")
+@CssImport(value = "./styles/views/main/main-view.css", include = "lumo-badge")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 public class MainView extends AppLayout {
     private final Tabs menu;
@@ -150,11 +152,28 @@ public class MainView extends AppLayout {
         RouterLink my_tasks = new RouterLink("My Tasks", MyTasksView.class);
         my_tasks.add(createIcon(VaadinIcon.BULLETS));
         RouterLink notifications = new RouterLink("Notifications", NotificationsPageView.class);
-        notifications.add(createIcon(VaadinIcon.BELL_O));
+        notifications.add(getNotificationIconWithBadge());
 
         RouterLink[] links = new RouterLink[]{home, my_tasks, notifications};
         Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);
+    }
+
+    private Span getNotificationIconWithBadge() {
+        Span numberOfNotifications = new Span("4");
+        Icon notificationIcon = createIcon(VaadinIcon.BELL_O);
+        numberOfNotifications.getElement()
+                .getThemeList()
+                .addAll(Arrays.asList("badge", "error", "primary", "small", "pill"));
+        numberOfNotifications.getStyle()
+                .set("position", "absolute")
+                .set("transform", "translate(-35%, -10%)")
+                .set("width", "0px")
+                .set("height", "18px");
+
+        Span notSpan = new Span(notificationIcon);
+        notSpan.getElement().appendChild(numberOfNotifications.getElement());
+        return notSpan;
     }
 
     private Icon createIcon(VaadinIcon vaadinIcon) {
