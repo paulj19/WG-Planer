@@ -14,7 +14,10 @@ public class CreateTaskView extends HorizontalLayout {
     private Binder<Task> taskBinder = new BeanValidationBinder<>(Task.class);
 
     public CreateTaskView() {
-        taskBinder.forField(taskNameTextField).bind(Task::getTaskName, Task::setTaskName);
+        taskBinder.forField(taskNameTextField).withValidator(taskName -> taskName.length() <= 16,
+                "task name should not exceed 16 characters").withValidator(taskName -> taskName.length() >= 1,
+                "task name should contain at least 1 character").bind(Task::getTaskName,
+                Task::setTaskName);
         setWidthFull();
         taskNameTextField.setWidthFull();
         setJustifyContentMode(JustifyContentMode.CENTER);

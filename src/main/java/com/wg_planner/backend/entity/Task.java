@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "task")
@@ -16,6 +17,7 @@ public class Task extends AbstractEntity {
 
     @NotNull
     @NotEmpty
+    @Size(max = 16)
     private String taskName;
 
     @NotNull
