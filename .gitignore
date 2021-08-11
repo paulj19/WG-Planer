@@ -26,15 +26,3 @@ webpack.generated.js
 /src/js/script.js
 /firebase_private_key/wg-planner-firebase-adminsdk-xiq7d-e83704d07b.json
 /firebase_private_key/firebase_private-key.json
-/db_before_home_coming/mydb.mv.db
-/db/testTcp.mv.db
-/db/testTcp.trace.db
-/db/mydb.mv.db
-/db/mydb.trace.db
-\db\*
-/db.zip
-/db_before_home_coming/db_backup/db/mydb.mv.db
-/db_before_home_coming/db_backup/db/mydb.trace.db
-/db_before_home_coming/db_backup/db/testTcp.mv.db
-/db_before_home_coming/db_backup/db/testTcp.trace.db
-src/main/resources/application-dev.properties
