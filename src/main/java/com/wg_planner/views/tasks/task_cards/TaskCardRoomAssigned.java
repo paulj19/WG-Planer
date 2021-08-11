@@ -1,8 +1,8 @@
 package com.wg_planner.views.tasks.task_cards;
 
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Span;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 
 //@CssImport("./styles/views/tasks/tasks-view.css")
 
@@ -19,8 +19,10 @@ public class TaskCardRoomAssigned extends TaskCardWithDetails {
     }
 
     private void initializeWithAssignedRoom() {
-//        assignedRoomName.setMinWidth("10em");
-        assignedRoomName.setText(task.getAssignedRoom() != null ? task.getAssignedRoom().getRoomName() : "no room assigned");
+        boolean taskWaitingToBeDeleted = ConsensusHandler.getInstance().isObjectWaitingForConsensus(task.getId());
+        //todo fix css alignment
+        assignedRoomName.setText(taskWaitingToBeDeleted ? "waiting to be deleted" :
+                task.getAssignedRoom() != null ? task.getAssignedRoom().getRoomName() : "no room assigned");
         assignedRoomName.addClassName("room-name");
     }
 

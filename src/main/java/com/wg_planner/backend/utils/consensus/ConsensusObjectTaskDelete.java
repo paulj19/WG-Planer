@@ -11,6 +11,7 @@ public class ConsensusObjectTaskDelete extends ConsensusObject {
     private Task taskToDelete;
     private FloorService floorService;
 
+    //TODO remove it from store once the task is deleted
     ConsensusDone consensusDone = () -> floorService.deleteTaskAndUpdateFloor(taskToDelete);
 
     private ConsensusObjectTaskDelete() {

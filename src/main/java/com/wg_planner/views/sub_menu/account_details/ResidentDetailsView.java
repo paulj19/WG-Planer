@@ -47,5 +47,4 @@ public class ResidentDetailsView extends VerticalLayout {
         UsernameField.setValue(residentAccount.getUsername());
         return UsernameField;
     }
-
 }

@@ -1,17 +1,15 @@
 package com.wg_planner.views.tasks.task_cards;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Span;
 import com.wg_planner.backend.entity.Task;
 
 public class TaskCardWithConditionalButton extends TaskCardWithDetails {
-    private String buttonAssignLabel;
+    private String buttonLabel;
     private Button buttonAssign;
 
-    public TaskCardWithConditionalButton(TaskCard taskCard, Task task, String buttonAssignLabel) {
+    public TaskCardWithConditionalButton(TaskCard taskCard, Task task, String buttonLabel) {
         super(taskCard, task);
-        this.buttonAssignLabel = buttonAssignLabel;
+        this.buttonLabel = buttonLabel;
         createAndAddButtonLayout();
         super.add(buttonAssign);
     }
@@ -28,7 +26,7 @@ public class TaskCardWithConditionalButton extends TaskCardWithDetails {
     }
 
     private void createAndAddButtonLayout() {
-        buttonAssign = new Button(buttonAssignLabel);
+        buttonAssign = new Button(buttonLabel);
         buttonAssign.addClassName("task-card-button");
         buttonAssign.addClickListener(event -> fireEvent(new AssignEvent(this, task)));
     }
