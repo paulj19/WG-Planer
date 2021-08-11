@@ -29,17 +29,17 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
     private static final Log logger = LogFactory.getLog(Account.class);
 
     @NotBlank
-    @Size(max = 255)
+    @Size(max = 64)
     @Column(nullable = false)
     private String firstName;
 
     @NotBlank
-    @Size(max = 255)
+    @Size(max = 64)
     @Column(nullable = false)
     private String lastName;
 
     @Email
-    @Size(max = 255)
+    @Size(max = 64)
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -55,14 +55,16 @@ public class Account extends AbstractEntity implements UserDetails, CredentialsC
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<GrantedAuthority> authorities;
+
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
+    private static final String EMAIL_PATTERN = "^" + "([a-zA-Z0-9_\\.\\-+])+" // local
+            + "@" + "[a-zA-Z0-9-.]+" // domain
+            + "\\." + "[a-zA-Z0-9-]{2,}" // tld
+            + "$";
 
     public Account() {
     }

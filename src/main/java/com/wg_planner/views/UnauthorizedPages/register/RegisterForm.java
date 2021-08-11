@@ -15,7 +15,6 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.validator.EmailValidator;
-import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.Service.AccountDetailsService;
 import com.wg_planner.backend.Service.FloorService;
@@ -82,8 +81,10 @@ public class RegisterForm extends FormLayout {
 
     private void init() {
         addClassName("register-form");
-        residentAccountBinder.forField(firstName).bind(ResidentAccount::getFirstName, ResidentAccount::setFirstName);
-        residentAccountBinder.forField(lastName).bind(ResidentAccount::getLastName, ResidentAccount::setLastName);
+        residentAccountBinder.forField(firstName).withValidator(firstName -> firstName.length() <= 64,
+                "first name should not exceed 64 characters").bind(ResidentAccount::getFirstName, ResidentAccount::setFirstName);
+        residentAccountBinder.forField(lastName).withValidator(lastName -> lastName.length() <= 64,
+                "last name should not exceed 64 characters").bind(ResidentAccount::getLastName, ResidentAccount::setLastName);
         residentAccountBinder.forField(email).withValidator(new EmailValidator("Not a valid email address")).bind(ResidentAccount::getEmail,
                 ResidentAccount::setEmail);
         residentAccountBinder.forField(username).withValidator(username -> accountDetailsService.isUsernameUnique(username.trim()),
