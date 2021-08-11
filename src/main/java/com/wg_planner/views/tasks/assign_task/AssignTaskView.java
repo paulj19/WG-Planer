@@ -1,6 +1,5 @@
 package com.wg_planner.views.tasks.assign_task;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
@@ -9,7 +8,6 @@ import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.main.MainView;
-import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.UINavigationHandler;
 import com.wg_planner.views.utils.UINotificationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +42,13 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     }
 
     public void addAssignPage() {
-        AssignTaskPage assignTaskPage = new AssignTaskPage(taskToAssign, floorService);
-        assignTaskPage.addListener(AssignTaskPage.AssignTaskPageEvent.AssignEvent.class, this::assignTask);
-        assignTaskPage.addListener(AssignTaskPage.AssignTaskPageEvent.CancelEvent.class, this::cancelAssign);
-        add(assignTaskPage);
+        AssignRoomToTaskPage assignRoomToTaskPage = new AssignRoomToTaskPage(taskToAssign, floorService);
+        assignRoomToTaskPage.addListener(AssignRoomToTaskPage.AssignTaskPageEvent.AssignEvent.class, this::assignTask);
+        assignRoomToTaskPage.addListener(AssignRoomToTaskPage.AssignTaskPageEvent.CancelEvent.class, this::cancelAssign);
+        add(assignRoomToTaskPage);
     }
 
-    private synchronized void assignTask(AssignTaskPage.AssignTaskPageEvent.AssignEvent event) {
+    private synchronized void assignTask(AssignRoomToTaskPage.AssignTaskPageEvent.AssignEvent event) {
         //synchronization issue fix: the method sync ensures contention between assigns
         // and if task has changed between opening assign page and clicking
         Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
@@ -63,7 +61,7 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
         }
     }
 
-    private void cancelAssign(AssignTaskPage.AssignTaskPageEvent.CancelEvent event) {
+    private void cancelAssign(AssignRoomToTaskPage.AssignTaskPageEvent.CancelEvent event) {
             UINavigationHandler.getInstance().navigateToHomePage();
     }
 

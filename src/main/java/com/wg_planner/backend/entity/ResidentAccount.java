@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class ResidentAccount extends Account implements Cloneable {
 
     private Boolean away = false;
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     private Room room;
@@ -70,6 +71,7 @@ public class ResidentAccount extends Account implements Cloneable {
 
     public void setRoom(Room room) {
         Validate.notNull(room, "room assigned to resident account must not be null");
+        room.setOccupied(true);
         this.room = room;
     }
 
@@ -78,7 +80,7 @@ public class ResidentAccount extends Account implements Cloneable {
     }
 
     public List<ResidentDevice> getResidentDevicesActive() {
-        return residentDevices.stream().filter(residentDevice -> residentDevice.isActive()).collect(Collectors.toList());
+        return residentDevices.stream().filter(AbstractEntity::isActive).collect(Collectors.toList());
     }
 
     public void setResidentDevices(List<ResidentDevice> residentDevices) {

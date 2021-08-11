@@ -12,15 +12,14 @@ import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.utils.ConfirmationDialog;
 
 import java.util.List;
 
-public class AssignTaskPage extends VerticalLayout {
+public class AssignRoomToTaskPage extends VerticalLayout {
     private Room roomSelected;
     private Task taskToAssign;
 
-    public AssignTaskPage(Task taskToAssign, FloorService floorService) {
+    public AssignRoomToTaskPage(Task taskToAssign, FloorService floorService) {
         this.taskToAssign = taskToAssign;
         addClassName("assign-task-view");
         add(getHeading(taskToAssign), getAssignedRoomName(taskToAssign), getRoomsComboBox(taskToAssign, floorService));
@@ -45,6 +44,9 @@ public class AssignTaskPage extends VerticalLayout {
     private ComboBox<Room> getRoomsComboBox(Task taskToAssign, FloorService floorService) {
         ComboBox<Room> roomsInFloorComboBox = new ComboBox<>("Choose a room");
         List<Room> availableRoomsInFloor = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToAssign.getFloor());
+        if (taskToAssign.getAssignedRoom() != null) {
+            availableRoomsInFloor.remove(taskToAssign.getAssignedRoom());
+        }
         roomsInFloorComboBox.setItems(availableRoomsInFloor);
         roomsInFloorComboBox.setItemLabelGenerator(Room::getRoomName);
         roomsInFloorComboBox.setValue(null);
@@ -71,11 +73,11 @@ public class AssignTaskPage extends VerticalLayout {
         return getEventBus().addListener(eventType, listener);
     }
 
-    public static abstract class AssignTaskPageEvent extends ComponentEvent<AssignTaskPage> {
+    public static abstract class AssignTaskPageEvent extends ComponentEvent<AssignRoomToTaskPage> {
         private Room roomSelected;
         private Task taskToAssign;
 
-        protected AssignTaskPageEvent(AssignTaskPage source, Room selectedRoom, Task taskToAssign) {
+        protected AssignTaskPageEvent(AssignRoomToTaskPage source, Room selectedRoom, Task taskToAssign) {
             super(source, false);
             this.roomSelected = selectedRoom;
             this.taskToAssign = taskToAssign;
@@ -90,13 +92,13 @@ public class AssignTaskPage extends VerticalLayout {
         }
 
         public static class AssignEvent extends AssignTaskPageEvent {
-            AssignEvent(AssignTaskPage source, Room selectedRoom, Task taskToAssign) {
+            AssignEvent(AssignRoomToTaskPage source, Room selectedRoom, Task taskToAssign) {
                 super(source, selectedRoom, taskToAssign);
             }
         }
 
         public static class CancelEvent extends AssignTaskPageEvent {
-            CancelEvent(AssignTaskPage source, Room selectedRoom, Task taskToAssign) {
+            CancelEvent(AssignRoomToTaskPage source, Room selectedRoom, Task taskToAssign) {
                 super(source, selectedRoom, taskToAssign);
             }
         }
