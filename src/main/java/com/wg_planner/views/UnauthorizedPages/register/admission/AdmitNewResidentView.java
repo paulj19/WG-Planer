@@ -38,13 +38,12 @@ public class AdmitNewResidentView extends VerticalLayout {
     private AdmitNewResidentPresenter admitNewResidentPresenter;
 
     public AdmitNewResidentView(AutowireCapableBeanFactory beanFactory) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admitter field to admit new resident open.",
+                SessionHandler.getLoggedInResidentAccount().getId());
         this.beanFactory = beanFactory;
-
         admitNewResidentPresenter = new AdmitNewResidentPresenter(this);
         beanFactory.autowireBean(admitNewResidentPresenter);
         add(getAdmissionCodeLayout());
-        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admitter field to admit new resident open.",
-                SessionHandler.getLoggedInResidentAccount().getId());
     }
 
     private VerticalLayout getAdmissionCodeLayout() {
@@ -63,12 +62,14 @@ public class AdmitNewResidentView extends VerticalLayout {
 
     private void onSubmitAdmissionCode(ClickEvent<Button> buttonClickEvent) {
         if (!admissionCodeField.isInvalid()) {
-            LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admission code {} entered",SessionHandler.getLoggedInResidentAccount().getId(), admissionCodeField.getValue());
+            LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admission code {} entered",
+                    SessionHandler.getLoggedInResidentAccount().getId(), admissionCodeField.getValue());
             admitNewResidentPresenter.onSubmitAdmissionCode(admissionCodeField.getValue());
             admissionCodeField.clear();
         } else {
             setInvalidCodeMessage();
-            LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admission code field is invalid", SessionHandler.getLoggedInResidentAccount().getId());
+            LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admission code field is invalid",
+                    SessionHandler.getLoggedInResidentAccount().getId());
         }
     }
 
@@ -89,7 +90,8 @@ public class AdmitNewResidentView extends VerticalLayout {
                 buttonLayout));
         removeAll();
         add(buttonsLayout);
-        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Accept Reject buttons added", SessionHandler.getLoggedInResidentAccount().getId());
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Accept Reject buttons added",
+                SessionHandler.getLoggedInResidentAccount().getId());
     }
 
     private void onAccept(ClickEvent<Button> buttonClickEvent, AdmissionCode admissionCode) {
@@ -99,16 +101,17 @@ public class AdmitNewResidentView extends VerticalLayout {
                     SessionHandler.getLoggedInResidentAccount().getId(), admissionCode.toString());
         }
         admitNewResidentPresenter.setAdmissionStatus(admissionCode, AdmissionDetails.AdmissionStatus.ADMITTED);
-        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. onAccept status set to admitted", SessionHandler.getLoggedInResidentAccount().getId());
     }
 
     private void onReject(ClickEvent<Button> buttonClickEvent, AdmissionCode admissionCode) {
         if (admitNewResidentPresenter.isAdmissionCodeInvalid(admissionCode)) {
             printAdmissionCodeInvalidMessage();
-            LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. onAccept admission code {} is invalid",SessionHandler.getLoggedInResidentAccount().getId(), admissionCode.toString());
+            LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. onAccept admission code {} is invalid",
+                    SessionHandler.getLoggedInResidentAccount().getId(), admissionCode.toString());
         }
         admitNewResidentPresenter.setAdmissionStatus(admissionCode, AdmissionDetails.AdmissionStatus.REJECTED);
-        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. onAccept status set to rejected", SessionHandler.getLoggedInResidentAccount().getId());
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. onAccept status set to rejected",
+                SessionHandler.getLoggedInResidentAccount().getId());
     }
 
     private Span getAdmissionDescription(String roomName) {

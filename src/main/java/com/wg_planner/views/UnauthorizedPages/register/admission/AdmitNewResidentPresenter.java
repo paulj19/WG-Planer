@@ -9,11 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.logging.Level;
-
 public class AdmitNewResidentPresenter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdmitNewResidentPresenter.class);
-
     private AdmitNewResidentView admitNewResidentView;
     @Autowired
     AdmissionHandler admissionHandler;
@@ -27,11 +24,13 @@ public class AdmitNewResidentPresenter {
             if (!isAlreadyAcceptedOrRejected(admissionHandler.getAdmissionDetails(admissionCode))) {
                 admissionHandler.setAdmissionStatus(admissionCode, admissionStatus);
                 admitNewResidentView.printMessage("New Resident request to room " + admissionHandler.getAdmissionDetails(admissionCode).getRoomToAdmit().getRoomName() + " " + admissionStatus.toString());
-                LOGGER.info(LogHandler.getTestRun(), "admission code {} status set to {}", admissionCode, admissionStatus.toString());
+                LOGGER.info(LogHandler.getTestRun(), "admission code {} status set to {}", admissionCode,
+                        admissionStatus.toString());
             }
             admissionHandler.getAdmissionDetails(admissionCode).notify();
             LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admission code {} notified waiting thread",
                     SessionHandler.getLoggedInResidentAccount().getId(), admissionCode);
+            LOGGER.info("Resident Account id {}. New resident admitted.", SessionHandler.getLoggedInResidentAccount().getId());
         }
     }
 
@@ -53,15 +52,13 @@ public class AdmitNewResidentPresenter {
 
     public void onSubmitAdmissionCode(String admissionCodeSubmitted) {
         AdmissionCode admissionCode = new AdmissionCode(admissionCodeSubmitted);
-        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. admission code submitted {}",
-                SessionHandler.getLoggedInResidentAccount().getId(),
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. admission code submitted {}", SessionHandler.getLoggedInResidentAccount().getId(),
                 admissionCodeSubmitted);
 
         if (admissionHandler.getAdmissionDetails(admissionCode) == null) { //not present in map
             admitNewResidentView.setInvalidCodeMessage();
             LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. AdmissionHandler.getAdmissionDetails(admissionCode) = null, " +
-                            "admissionCode {}", SessionHandler.getLoggedInResidentAccount().getId(),
-                    admissionCodeSubmitted);
+                    "admissionCode {}", SessionHandler.getLoggedInResidentAccount().getId(), admissionCodeSubmitted);
             return;
         }
         synchronized (admissionHandler.getAdmissionDetails(admissionCode)) {
@@ -70,23 +67,24 @@ public class AdmitNewResidentPresenter {
             AdmissionDetails admissionDetails = admissionHandler.getAdmissionDetails(admissionCode);
             if (admissionDetails.getAdmissionStatus() == AdmissionDetails.AdmissionStatus.PENDING) {
                 admissionHandler.setAdmissionStatus(admissionCode, AdmissionDetails.AdmissionStatus.WORKING);
-                LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admission status for admission code {} was AdmissionStatus" +
-                        ".PENDING set to, AdmissionStatus.WORKING", SessionHandler.getLoggedInResidentAccount().getId(), admissionCode);
+                LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admission status for admission code {} " +
+                                "was AdmissionStatus.PENDING set to, AdmissionStatus.WORKING",
+                        SessionHandler.getLoggedInResidentAccount().getId(), admissionCode);
             }
             sanityCheckAssertions(admissionDetails);
             if (!admissionDetails.getRoomToAdmit().getFloor().equals(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor())) {
                 //submitted room not in current loggedIn floor
-                LOGGER.error("Resident Account id {}. Room does not belong to this floor, must not happen. Admission Code {}. " +
-                                "LoggedInResidentAccount {}. " +
-                                "RoomToAdmit {}. ", SessionHandler.getLoggedInResidentAccount().getId(), admissionCode.toString(),
+                LOGGER.error("Resident Account id {}. Room does not belong to this floor, must not happen. Admission Code {}. LoggedInResidentAccount {}. " +
+                                "RoomToAdmit {}. ", SessionHandler.getLoggedInResidentAccount().getId(),
+                        admissionCode.toString(),
                         SessionHandler.getLoggedInResidentAccount().toString(),
                         admissionDetails.getRoomToAdmit().toString());
                 admitNewResidentView.setInvalidCodeMessage();
             } else {
-                admitNewResidentView.addAcceptRejectButtons(admissionCode, admissionDetails.getRoomToAdmit().getRoomName());
+                admitNewResidentView.addAcceptRejectButtons(admissionCode,
+                        admissionDetails.getRoomToAdmit().getRoomName());
                 LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Adding accept reject buttons for admission code {}",
-                        SessionHandler.getLoggedInResidentAccount().getId(),
-                        admissionCode);
+                        SessionHandler.getLoggedInResidentAccount().getId(), admissionCode);
             }
         }
     }

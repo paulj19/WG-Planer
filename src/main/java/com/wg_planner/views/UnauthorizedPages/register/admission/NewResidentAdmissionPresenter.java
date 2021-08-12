@@ -49,9 +49,9 @@ public class NewResidentAdmissionPresenter {
                     e.printStackTrace();
                 }
             }
-            LOGGER.info(LogHandler.getTestRun(), "waitForAdmissionStatusChange woke up from sleep");
+            LOGGER.info(LogHandler.getTestRun(), "waitForAdmissionStatusChange woke up from wait");
             if (admissionHandler.getAdmissionDetails(admissionCode) == null) { //removed after idle
-                LOGGER.info(LogHandler.getTestRun(), "admissionHandler.getAdmissionDetails(admissionCode) returned null, Room to admit " +
+                LOGGER.debug("admissionHandler.getAdmissionDetails(admissionCode) returned null, Room to admit " +
                         "{}, admission code {}", admissionHandler.getAdmissionDetails(admissionCode).getRoomToAdmit().toString(),
                         admissionCode.toString());
                 newResidentAdmissionView.printErrorOccurred();
@@ -70,7 +70,7 @@ public class NewResidentAdmissionPresenter {
             } else if (admissionHandler.getAdmissionStatus(admissionCode) == AdmissionDetails.AdmissionStatus.TIME_OUT) {
                 newResidentAdmissionView.onTimeOut();
                 admissionHandler.getAdmissionDetails(admissionCode).notify();
-                LOGGER.info(LogHandler.getTestRun(), "admissionHandler.getAdmissionStatus(admissionCode) = AdmissionDetails" +
+                LOGGER.debug("admissionHandler.getAdmissionStatus(admissionCode) = AdmissionDetails" +
                                 ".AdmissionStatus.TIME_OUT. Room to admit " + "{}, admission code {}",
                         admissionHandler.getAdmissionDetails(admissionCode).getRoomToAdmit().toString(),
                         admissionCode.toString());
