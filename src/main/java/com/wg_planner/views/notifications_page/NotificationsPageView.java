@@ -8,7 +8,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import com.wg_planner.views.main.MainView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,10 @@ public class NotificationsPageView extends VerticalLayout {
     }
 
     void addNotificationToView(Component notificationComponent) {
-        getUI().ifPresent(ui -> ui.access(() -> add(notificationComponent)));
+        getUI().ifPresent(ui -> ui.access(() -> {
+            removeAll();
+            add(notificationComponent);
+        }));
     }
 
     public UI getNotificationsUI() {

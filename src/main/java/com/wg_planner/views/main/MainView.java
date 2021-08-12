@@ -56,17 +56,17 @@ public class MainView extends AppLayout {
 
     public MainView(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
-        getWindowWidth();
-        addBrowserWindowResizeListener();
-        menu = createMenu();
-        addToNavbar(false, createNavContentTitle());
         mainViewPresenter = new MainViewPresenter();
         accountDetailsHelper = new AccountDetailsHelper();
         beanFactory.autowireBean(mainViewPresenter);
         beanFactory.autowireBean(accountDetailsHelper);
+        getWindowWidth();
+        addBrowserWindowResizeListener();
         AccountDetailsHelper.setAccountDetailsHelper(accountDetailsHelper);
-        //todo this should go direct after login
         SessionHandler.saveLoggedInResidentAccount(accountDetailsHelper.getLoggedInResidentAccount());
+        menu = createMenu();
+        addToNavbar(false, createNavContentTitle());
+        //todo this should go direct after login
         mainViewPresenter.init();
     }
 
@@ -152,27 +152,34 @@ public class MainView extends AppLayout {
         RouterLink my_tasks = new RouterLink("My Tasks", MyTasksView.class);
         my_tasks.add(createIcon(VaadinIcon.BULLETS));
         RouterLink notifications = new RouterLink("Notifications", NotificationsPageView.class);
-        notifications.add(getNotificationIconWithBadge());
-
+        getNotificationIconWithBadge(notifications);
         RouterLink[] links = new RouterLink[]{home, my_tasks, notifications};
         Arrays.stream(links).forEach(routerLink -> routerLink.addClassNames("navigation-bar-menu"));
         return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);
     }
 
-    private Span getNotificationIconWithBadge() {
-        Span numberOfNotifications = new Span("4");
+    private Span getNotificationIconWithBadge(RouterLink notifications) {
         Icon notificationIcon = createIcon(VaadinIcon.BELL_O);
-        numberOfNotifications.getElement()
-                .getThemeList()
-                .addAll(Arrays.asList("badge", "error", "primary", "small", "pill"));
-        numberOfNotifications.getStyle()
-                .set("position", "absolute")
-                .set("transform", "translate(-35%, -10%)")
-                .set("width", "0px")
-                .set("height", "18px");
-
         Span notSpan = new Span(notificationIcon);
-        notSpan.getElement().appendChild(numberOfNotifications.getElement());
+        int numberOfExistingNotifications = mainViewPresenter.getNumberOfNotificationsOfResident();
+        if (numberOfExistingNotifications != 0) {
+            Span numberOfNotifications = new Span(String.valueOf(numberOfExistingNotifications));
+            numberOfNotifications.getElement()
+                    .getThemeList()
+                    .addAll(Arrays.asList("badge", "error", "primary", "small", "pill"));
+            numberOfNotifications.getStyle()
+                    .set("position", "absolute")
+                    .set("transform", "translate(80%, -60%)")
+                    .set("width", "0px")
+                    .set("height", "18px");
+            notifications.getElement().appendChild(numberOfNotifications.getElement());
+            notifications.addBlurListener(event -> {
+                if(notifications.getElement().getChildren().anyMatch(element -> element.equals(numberOfNotifications.getElement()))) {
+                    notifications.getElement().removeChild(numberOfNotifications.getElement());
+                }
+            });
+        }
+        notifications.add(notSpan);
         return notSpan;
     }
 
