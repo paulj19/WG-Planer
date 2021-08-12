@@ -8,8 +8,12 @@ import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Room;
 
 import com.vaadin.flow.component.textfield.TextField;
+import com.wg_planner.backend.utils.LogHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CreateRoomView extends HorizontalLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateRoomView.class);
     TextField roomNameTextField = new TextField("", "Enter Room number or name");
     Room roomToCreate = new Room();
     private Binder<Room> roomBinder = new BeanValidationBinder<>(Room.class);
@@ -22,12 +26,14 @@ public class CreateRoomView extends HorizontalLayout {
         roomNameTextField.setWidthFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
         add(roomNameTextField);
+        LOGGER.info(LogHandler.getTestRun(), "create room view called");
     }
 
     public Room validateAndSave(Floor floorToCreated) {
         try {
             roomToCreate.setFloor(floorToCreated);
             roomBinder.writeBean(roomToCreate);
+            LOGGER.info(LogHandler.getTestRun(), "create room validate and save. Room details: {}", roomToCreate.toString() );
             return roomToCreate;
         } catch (ValidationException e) {
             e.printStackTrace();

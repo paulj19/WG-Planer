@@ -9,18 +9,20 @@ import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
 import com.wg_planner.views.utils.UINavigationHandler;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @PreserveOnRefresh
 @Route(value = "create_floor", layout = UnauthorizedPagesView.class)
 @PageTitle("Create Floor | WG Planner")
 @CssImport("./styles/views/create-floor/create-floor-view.css")
 public class CreateFloorView extends VerticalLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateFloorView.class);
     private CreateFloorForm createFloorForm = new CreateFloorForm();
     private FloorService floorService;
     private RoomService roomService;
@@ -35,18 +37,19 @@ public class CreateFloorView extends VerticalLayout {
         createFloorForm.addListener(CreateFloorForm.CreateFloorFormEvent.CancelEvent.class,
                 this::clearCreateFloorForm);
         add(heading, createFloorForm);
+        LOGGER.info(LogHandler.getTestRun(), "floor creation view called");
     }
 
     private void saveFloorAndNavigateToRegister(CreateFloorForm.CreateFloorFormEvent.SaveEvent saveEvent) {
         Assert.notNull(saveEvent.getFloorToCreate(), "floor passed to saveFloor event must not be null");
         floorService.save(saveEvent.getFloorToCreate());
-        Logger.getLogger(CreateFloorView.class.getName()).log(Level.INFO, "new floor created and " +
-                "saved: " + saveEvent.getFloorToCreate().toString());
         Notification.show("Floor created");
+        LOGGER.info("new floor created and saved. Floor details: {}", saveEvent.getFloorToCreate().toString());
         UINavigationHandler.getInstance().navigateToRegisterPageParamFloorId(saveEvent.getFloorToCreate().getId());
     }
 
     private void clearCreateFloorForm(CreateFloorForm.CreateFloorFormEvent.CancelEvent cancelEvent) {
+        LOGGER.info(LogHandler.getTestRun(), "floor creation cancelled");
         UINavigationHandler.getInstance().navigateToLoginPage();
     }
 }

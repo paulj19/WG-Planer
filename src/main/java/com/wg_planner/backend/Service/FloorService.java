@@ -6,6 +6,8 @@ import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import org.apache.commons.lang3.Validate;
+import org.apache.juli.logging.LogFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import java.util.logging.Logger;
 public class FloorService {
     private static final Logger LOGGER = Logger.getLogger(FloorService.class
             .getName());
+//    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FloorService.class);
+
     private final TaskRepository taskRepository;
     private final FloorRepository floorRepository;
 

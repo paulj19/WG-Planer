@@ -122,7 +122,6 @@ public class RegisterForm extends FormLayout {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-
         register.setEnabled(true);
         buttonLayout.getStyle().set("margin-top", "15px");
         register.addClickListener(event -> validateAndSave());

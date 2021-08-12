@@ -16,8 +16,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.resident_admission.AdmissionCode;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
+import com.wg_planner.views.UnauthorizedPages.register.RegisterView;
+import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINavigationHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.List;
@@ -27,6 +32,7 @@ import java.util.List;
 @PageTitle("Register | WG Planner")
 @CssImport("./styles/views/register/register-view.css")
 public class NewResidentAdmissionView extends VerticalLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewResidentAdmissionView.class);
     private NewResidentAdmissionPresenter newResidentAdmissionPresenter;
     private AutowireCapableBeanFactory beanFactory;
     private TextField floorCode = new TextField("Floor Code", "Enter your floor code");
@@ -43,6 +49,7 @@ public class NewResidentAdmissionView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         add(getFloorCodeLayout());
         newResidentAdmissionPresenter.init(this);
+        LOGGER.info(LogHandler.getTestRun(), "new resident admit screen to enter floor code");
     }
 
     private VerticalLayout getFloorCodeLayout() {
@@ -63,12 +70,16 @@ public class NewResidentAdmissionView extends VerticalLayout {
         if (!floorCode.isInvalid()) {
             List<Room> nonOccupiedRooms =
                     newResidentAdmissionPresenter.verifyFloorCodeAndGetNonOccupiedRooms(floorCode.getValue());
+            String floorCodeValue = floorCode.getValue();
             floorCode.clear();
             if (nonOccupiedRooms == null) {
                 floorCode.setErrorMessage("Invalid floor code, try again");
+                LOGGER.info(LogHandler.getTestRun(), "non occupied rooms returned null {}.", floorCode.getValue());
             } else if (nonOccupiedRooms.isEmpty()) {
                 floorCode.setErrorMessage("No free rooms available in this floor");
+                LOGGER.info(LogHandler.getTestRun(), "No free rooms available in this floor. Floor code {}.", floorCode.getValue());
             } else {
+                nonOccupiedRooms.forEach(room -> LOGGER.info(LogHandler.getTestRun(), ", {}", room.getId()));
                 VerticalLayout selectRoomVerticalLayout = new VerticalLayout();
                 nonOccupiedRoomsComboBox = new ComboBox<>("select a room");
                 nonOccupiedRoomsComboBox.setItems(nonOccupiedRooms);
@@ -83,9 +94,12 @@ public class NewResidentAdmissionView extends VerticalLayout {
                 selectRoomButton.addClickListener(this::onRoomSelect);
                 removeAll();
                 add(selectRoomVerticalLayout);
+                LOGGER.info(LogHandler.getTestRun(), "Floor code entered valid. Floor code {} available room ids ",
+                        floorCodeValue);
             }
         } else {
             floorCode.setErrorMessage("Invalid floor code, try again");
+            LOGGER.info(LogHandler.getTestRun(), "Invalid floor code {}.", floorCode.getValue());
         }
     }
 
@@ -95,6 +109,8 @@ public class NewResidentAdmissionView extends VerticalLayout {
             AdmissionCode admissionCode =
                     newResidentAdmissionPresenter.generateAndSaveAdmissionCode(roomSelected);
             if (admissionCode != null && !admissionCode.toString().isEmpty()) {
+                LOGGER.info(LogHandler.getTestRun(), "admission code {}. Selected room {}.",
+                        admissionCode, roomSelected.toString());
                 printAdmissionCodeAndWaitForConfirmation(roomSelected, admissionCode);
             }
         } else if (nonOccupiedRoomsComboBox.getValue() == null) {
@@ -102,6 +118,7 @@ public class NewResidentAdmissionView extends VerticalLayout {
         } else {
             nonOccupiedRoomsComboBox.clear();
             nonOccupiedRoomsComboBox.setErrorMessage("An error occurred, try again");
+            LOGGER.info(LogHandler.getTestRun(), "Error occurred, room combobox is either invalid or room combobox getValue is null.");
         }
     }
 
@@ -117,21 +134,25 @@ public class NewResidentAdmissionView extends VerticalLayout {
     }
 
     public void onAccept() {
+        LOGGER.info(LogHandler.getTestRun(), "Admission request accepted, navigating to register page");
         UINavigationHandler.getInstance().navigateToRegisterPageParamRoomId(roomSelected.getId());
     }
 
     public void onReject() {
         printMessage("Your admission to room " + roomSelected.getRoomName() + " has been rejected");
+        LOGGER.info(LogHandler.getTestRun(), "Admission request rejected, navigating to floor code enter page");
         backToRegisterPage();
     }
 
     public void onTimeOut() {
         printMessage("The one time code generated has timed out, please try again");
+        LOGGER.info(LogHandler.getTestRun(), "OTP timeout");
         backToRegisterPage();
     }
 
     public void printErrorOccurred() {
         printMessage("An error occurred, please try again");
+        LOGGER.info(LogHandler.getTestRun(), "Error occurred");
         backToRegisterPage();
     }
 

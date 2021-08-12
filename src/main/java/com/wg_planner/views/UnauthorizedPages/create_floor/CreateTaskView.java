@@ -7,9 +7,13 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.LogHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CreateTaskView extends HorizontalLayout {
-    TextField taskNameTextField = new TextField("","Enter task name");
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateTaskView.class);
+    TextField taskNameTextField = new TextField("", "Enter task name");
     Task taskToCreate = new Task();
     private Binder<Task> taskBinder = new BeanValidationBinder<>(Task.class);
 
@@ -28,6 +32,7 @@ public class CreateTaskView extends HorizontalLayout {
         try {
             taskToCreate.setFloor(floorToCreate);
             taskBinder.writeBean(taskToCreate);
+            LOGGER.info(LogHandler.getTestRun(), "create task validate and save. Task details: {}", taskToCreate.toString());
             return taskToCreate;
         } catch (ValidationException e) {
             e.printStackTrace();

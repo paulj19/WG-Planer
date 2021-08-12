@@ -12,9 +12,13 @@ import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Room;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
+import com.wg_planner.views.UnauthorizedPages.create_floor.CreateTaskView;
 import com.wg_planner.views.utils.UINavigationHandler;
 import com.wg_planner.views.utils.UIStringConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -24,6 +28,7 @@ import java.util.Map;
 @PageTitle("Register | WG Planner")
 @CssImport("./styles/views/register/register-view.css")
 public class RegisterView extends VerticalLayout implements HasUrlParameter<Long> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterView.class);
     @Autowired
     ResidentAccountService residentAccountService;
     @Autowired
@@ -43,9 +48,13 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
         Map<String, List<String>> parametersMap = queryParameters.getParameters();
         if (parametersMap.containsKey("floor_id")) {
             assert floorService.getFloorById(Long.valueOf(parametersMap.get("floor_id").get(0))) != null;
+            LOGGER.info(LogHandler.getTestRun(),
+                    "register view called with floor_id: {} as parameter.", Long.valueOf(parametersMap.get("floor_id").get(0)));
             init(floorService.getFloorById(Long.valueOf(parametersMap.get("floor_id").get(0))));
         } else if (parametersMap.containsKey("room_id")) {
             assert roomService.getRoomById(Long.valueOf(parametersMap.get("room_id").get(0))) != null;
+            LOGGER.info(LogHandler.getTestRun(),
+                    "register view called with room_id: {} as parameter.", Long.valueOf(parametersMap.get("room_id").get(0)));
             init(roomService.getRoomById(Long.valueOf(parametersMap.get("room_id").get(0))));
         }
     }
@@ -75,6 +84,8 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
         residentAccountService.save(event.getResidentAccount());
         roomService.save(event.getResidentAccount().getRoom());
         Notification.show(UIStringConstants.getInstance().getAccountCreatedConfirmation());
+        LOGGER.info("new resident account created and saved in register view. Created resident account details: " +
+                "{}.", event.getResidentAccount().toString());
         UI.getCurrent().navigate("login/");
     }
 
@@ -82,5 +93,6 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     private void clearRegistrationForm(RegisterForm.RegisterFormEvent.CancelEvent event) {
         //TODO delete floor if was created
         UINavigationHandler.getInstance().navigateToLoginPage();
+        LOGGER.info(LogHandler.getTestRun(), "resident account creation cancelled");
     }
 }
