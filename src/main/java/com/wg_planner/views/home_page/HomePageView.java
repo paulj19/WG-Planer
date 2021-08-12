@@ -15,7 +15,6 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 @Route(value = "home", layout = MainView.class)
 @PageTitle("Home")
 @CssImport("./styles/views/home-page/home-page-view.css")
-@PreserveOnRefresh
 public class HomePageView extends VerticalLayout {
     private AutowireCapableBeanFactory beanFactory;
     private final Tabs subMenu = new Tabs();

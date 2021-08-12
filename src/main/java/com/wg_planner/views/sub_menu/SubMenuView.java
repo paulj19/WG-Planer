@@ -18,7 +18,6 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 @Route(value = "user_details", layout = MainView.class)
 @RouteAlias(value = "user_details", layout = MainView.class)
 @CssImport(value = "./styles/views/sub-menu/submenu-view.css")
-@PreserveOnRefresh
 public class SubMenuView extends VerticalLayout {
     private final Tabs subMenu = new Tabs();
     private AutowireCapableBeanFactory beanFactory;
