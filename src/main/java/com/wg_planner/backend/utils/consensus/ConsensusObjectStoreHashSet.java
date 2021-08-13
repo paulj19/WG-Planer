@@ -1,5 +1,9 @@
 package com.wg_planner.backend.utils.consensus;
 
+import com.wg_planner.backend.utils.LogHandler;
+import com.wg_planner.views.utils.SessionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -7,6 +11,7 @@ import java.util.Optional;
 
 @Component
 public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsensusObjectStoreHashSet.class);
     private static ConsensusObjectStoreHashSet consensusObjectStoreHashSet;
 
     private HashSet<ConsensusObject> consensusEntities = new HashSet();
@@ -20,6 +25,10 @@ public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
 
     @Override
     public boolean add(ConsensusObject consensusObject) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. ConsensusObjectStore addobject. Room initiating consensus {}, Consensus Type {}," +
+                        "consensus object id {}",
+                SessionHandler.getLoggedInResidentAccount().getId(), consensusObject.getRoomInitiatingConsensus().getId(), getClass().toString(),
+                consensusObject.getId());
         return consensusEntities.add(consensusObject);
     }
 
@@ -32,6 +41,10 @@ public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
 
     @Override
     public void remove(ConsensusObject consensusObject) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. ConsensusObjectStore remove. Room initiating consensus {}, Consensus Type {}," +
+                        "consensus object id {}",
+                SessionHandler.getLoggedInResidentAccount().getId(), consensusObject.getRoomInitiatingConsensus().getId(), getClass().toString(),
+                consensusObject.getId());
         consensusEntities.remove(consensusObject);
     }
 

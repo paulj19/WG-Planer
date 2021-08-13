@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 public class FloorService {
     private static final Logger LOGGER = Logger.getLogger(FloorService.class
             .getName());
-//    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FloorService.class);
 
     private final TaskRepository taskRepository;
     private final FloorRepository floorRepository;

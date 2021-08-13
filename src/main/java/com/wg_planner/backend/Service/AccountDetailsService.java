@@ -13,9 +13,6 @@ import java.util.logging.Logger;
 @Service("accountDetailsService")
 public class AccountDetailsService implements UserDetailsService {
 
-    private static final Logger LOGGER = Logger.getLogger(AccountDetailsService.class
-            .getName());
-
     private final AccountRepository accountRepository;
 
     @Autowired

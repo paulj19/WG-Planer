@@ -7,22 +7,23 @@ import com.wg_planner.backend.entity.NotificationChannel;
 import com.wg_planner.backend.entity.NotificationChannelFirebase;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.ResidentDevice;
+import com.wg_planner.views.main.MainView;
 import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 public class NotificationServiceFirebase implements NotificationService {
 
     private final FirebaseMessaging firebaseMessaging;
-    private static final Logger LOGGER = Logger.getLogger(NotificationServiceFirebase.class
-            .getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationServiceFirebase.class);
 
     @Autowired
     public NotificationServiceFirebase(FirebaseMessaging firebaseMessaging) {
@@ -33,14 +34,12 @@ public class NotificationServiceFirebase implements NotificationService {
     @Override
     public void sendNotification(NotificationFirebaseType notificationFirebaseType,
                                  ResidentAccount residentAccountToNotify) {
-        LOGGER.log(Level.INFO,
-                "Sending notification " + "Resident Account " + residentAccountToNotify.toString() +
-                        notificationFirebaseType.toString());
+        LOGGER.info("Sending notification " + "Resident Account " + residentAccountToNotify.toString() +
+                notificationFirebaseType.toString());
         for (String token : getTokensFromResidentAccount(residentAccountToNotify)) {
             if (sendNotificationToSingleDevice(notificationFirebaseType.getNotificationMessage(token)) == SendResult.FAILURE) {
-                LOGGER.log(Level.SEVERE,
-                        "Notification send failed. " + "Resident Account " + residentAccountToNotify.toString() +
-                                notificationFirebaseType.toString() + "Token :" + token);
+                LOGGER.info("Notification send failed. " + "Resident Account " + residentAccountToNotify.toString() +
+                        notificationFirebaseType.toString() + "Token :" + token);
             }
 
         }
@@ -68,8 +67,7 @@ public class NotificationServiceFirebase implements NotificationService {
                     "for " +
                     "residentAccount" + residentAccountToNotify.toString());
         }
-        residentDevicesToNotify.stream().forEach(residentDevice -> LOGGER.log(Level.INFO,
-                "getTokensFromResidentAccount returning resident devices" + residentDevice.toString()));
+        residentDevicesToNotify.stream().forEach(residentDevice -> LOGGER.info("getTokensFromResidentAccount returning resident devices" + residentDevice.toString()));
         return residentDevicesToNotify.stream().map(residentDevice -> residentDevice.getDeviceNotificationChannels().stream().map(NotificationChannel::getNotificationToken).collect(Collectors.toList())).collect(Collectors.toList()).stream().flatMap(List::stream)
                 .collect(Collectors.toList());
     }
