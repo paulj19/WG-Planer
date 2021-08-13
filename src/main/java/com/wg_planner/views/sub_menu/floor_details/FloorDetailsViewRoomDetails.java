@@ -9,19 +9,26 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.wg_planner.backend.entity.Room;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.UnauthorizedPages.register.admission.AdmitNewResidentView;
+import com.wg_planner.views.utils.SessionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.List;
 
 @CssImport(value = "./styles/views/floor-details/floor-details-view.css")
 public class FloorDetailsViewRoomDetails {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FloorDetailsViewRoomDetails.class);
     private AutowireCapableBeanFactory beanFactory;
 
     private FloorDetailsViewRoomDetails() {
     }
 
     public FloorDetailsViewRoomDetails(AutowireCapableBeanFactory beanFactory) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. FloorDetailsViewRoomDetails selected.",
+                SessionHandler.getLoggedInResidentAccount().getId());
         this.beanFactory = beanFactory;
     }
 

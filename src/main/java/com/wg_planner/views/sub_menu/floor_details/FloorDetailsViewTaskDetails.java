@@ -9,13 +9,17 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.UnauthorizedPages.create_floor.CreateTaskView;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CssImport(value = "./styles/views/floor-details/floor-details-view-task-details.css")
 public class FloorDetailsViewTaskDetails {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FloorDetailsViewTaskDetails.class);
     private Accordion tasksAccordion;
     private Component tasksInFloorComponent;
     private FloorDetailsView floorDetailsView;
@@ -25,6 +29,8 @@ public class FloorDetailsViewTaskDetails {
     }
 
     public FloorDetailsViewTaskDetails(FloorDetailsView floorDetailsView, FloorDetailsPresenter floorDetailsPresenter) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. FloorDetailsViewTaskDetails selected.",
+                SessionHandler.getLoggedInResidentAccount().getId());
         this.floorDetailsView = floorDetailsView;
         this.floorDetailsPresenter = floorDetailsPresenter;
     }

@@ -12,8 +12,13 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.sub_menu.SubMenuView;
+import com.wg_planner.views.sub_menu.account_details.ResidentDetailsView;
+import com.wg_planner.views.utils.SessionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
@@ -23,6 +28,7 @@ import java.util.List;
 @PageTitle("Floor Details")
 @CssImport(value = "./styles/views/floor-details/floor-details-view.css")
 public class FloorDetailsView extends VerticalLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FloorDetailsView.class);
     private AutowireCapableBeanFactory beanFactory;
     private FloorDetailsPresenter floorDetailsPresenter;
     private Component tasksInFloorComponent;
@@ -32,6 +38,8 @@ public class FloorDetailsView extends VerticalLayout {
 
     @Autowired
     public FloorDetailsView(AutowireCapableBeanFactory beanFactory) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. FloorDetailsView selected.",
+                SessionHandler.getLoggedInResidentAccount().getId());
         this.beanFactory = beanFactory;
         addClassName("fields-view");
         floorDetailsPresenter = new FloorDetailsPresenter();
