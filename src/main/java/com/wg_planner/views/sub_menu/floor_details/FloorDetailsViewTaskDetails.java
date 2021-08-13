@@ -29,8 +29,6 @@ public class FloorDetailsViewTaskDetails {
     }
 
     public FloorDetailsViewTaskDetails(FloorDetailsView floorDetailsView, FloorDetailsPresenter floorDetailsPresenter) {
-        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. FloorDetailsViewTaskDetails selected.",
-                SessionHandler.getLoggedInResidentAccount().getId());
         this.floorDetailsView = floorDetailsView;
         this.floorDetailsPresenter = floorDetailsPresenter;
     }

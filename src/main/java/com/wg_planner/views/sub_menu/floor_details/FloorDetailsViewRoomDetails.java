@@ -27,8 +27,6 @@ public class FloorDetailsViewRoomDetails {
     }
 
     public FloorDetailsViewRoomDetails(AutowireCapableBeanFactory beanFactory) {
-        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. FloorDetailsViewRoomDetails selected.",
-                SessionHandler.getLoggedInResidentAccount().getId());
         this.beanFactory = beanFactory;
     }
 
