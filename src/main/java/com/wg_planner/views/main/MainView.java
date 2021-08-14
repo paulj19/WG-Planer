@@ -10,6 +10,7 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -33,6 +34,8 @@ import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINavigationHandler;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -173,9 +176,20 @@ public class MainView extends AppLayout {
                     .set("width", "0px")
                     .set("height", "18px");
             notifications.getElement().appendChild(numberOfNotifications.getElement());
-            notifications.addBlurListener(event -> {
-                if(notifications.getElement().getChildren().anyMatch(element -> element.equals(numberOfNotifications.getElement()))) {
+            notifications.addFocusListener(event -> {
+                if (notifications.getElement().getChildren().anyMatch(element -> element.equals(numberOfNotifications.getElement()))) {
                     notifications.getElement().removeChild(numberOfNotifications.getElement());
+                }
+            });
+            //TODO analyse how much show fix(notifications page reload and bubble not going away) is)
+            UI.getCurrent().getPage().executeJs("return window.location.href").then(String.class, location -> {
+                try {
+                    URL locationUrl = new URL(location);
+                if (locationUrl.getPath().equals("/notifications")) {
+                    notifications.focus();
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
                 }
             });
         }

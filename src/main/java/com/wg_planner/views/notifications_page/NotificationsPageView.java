@@ -33,7 +33,6 @@ public class NotificationsPageView extends VerticalLayout {
 
     void addNotificationToView(Component notificationComponent) {
         getUI().ifPresent(ui -> ui.access(() -> {
-            removeAll();
             add(notificationComponent);
         }));
     }
