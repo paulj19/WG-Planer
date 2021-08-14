@@ -95,19 +95,8 @@ public class MainView extends AppLayout {
     private Component createSecondaryMenu() {
         Image image = new Image("images/profile_pic.png", "profile pic");
         image.addClassName("profile-pic");
-        image.addClickListener(event -> {
-            UINavigationHandler.getInstance().navigateToSubMenu();
-        });
+        image.addClickListener(event -> UINavigationHandler.getInstance().navigateToSubMenu());
         return image;
-    }
-
-    private Component[] createSubMenuItems() {
-        RouterLink[] links = new RouterLink[]{
-                new RouterLink("Account Details", AccountDetailsView.class),
-                new RouterLink("Floor Details", FloorDetailsView.class),
-                new RouterLink("Availability Status", ResidentAvailabilityView.class),
-        };
-        return Arrays.stream(links).map(MainView::createTab).toArray(Tab[]::new);
     }
 
     private Component createNavContentTitle() {
@@ -216,7 +205,12 @@ public class MainView extends AppLayout {
     }
 
     private void updateChrome() {
-        getTabWithCurrentRoute().ifPresent(menu::setSelectedTab);
+        Optional<Tab> selectedTab = getTabWithCurrentRoute();
+        if(selectedTab.isPresent()) {
+            menu.setSelectedTab(selectedTab.get());
+        } else{
+            menu.setSelectedTab(null);
+        }
     }
 
     private Optional<Tab> getTabWithCurrentRoute() {
