@@ -65,10 +65,12 @@ public class FloorDetailsViewTaskDetails {
         Button saveNewTaskButton = new Button("Save");
         addButtonClass(saveNewTaskButton);
         saveNewTaskButton.getStyle().set("font-size", "0.9em");
+        saveNewTaskButton.getStyle().set("margin-top", "23px");
 //        saveNewTaskButton.getStyle().set("font-size", "0.8em");
         Button cancelAddTaskButton = new Button("Cancel");
         addButtonClass(cancelAddTaskButton);
         cancelAddTaskButton.getStyle().set("font-size", "0.85em");
+        cancelAddTaskButton.getStyle().set("margin-top", "23px");
         saveNewTaskButton.addClickListener(event -> {
             floorDetailsPresenter.saveNewlyCreatedTask(createTaskView.validateTask(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
             refreshTasksInFloor();

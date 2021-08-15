@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class CreateTaskView extends HorizontalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateTaskView.class);
-    TextField taskNameTextField = new TextField("", "Enter task name");
+    TextField taskNameTextField = new TextField("Task Name", "Enter task name");
     Task taskToCreate = new Task();
     private Binder<Task> taskBinder = new BeanValidationBinder<>(Task.class);
 

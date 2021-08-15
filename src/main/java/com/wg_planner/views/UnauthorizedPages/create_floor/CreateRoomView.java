@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 public class CreateRoomView extends HorizontalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateRoomView.class);
-    TextField roomNameTextField = new TextField("", "Enter Room number or name");
+    TextField roomNameTextField = new TextField("Room Name", "Enter Room number or name");
     Room roomToCreate = new Room();
     private Binder<Room> roomBinder = new BeanValidationBinder<>(Room.class);
 
