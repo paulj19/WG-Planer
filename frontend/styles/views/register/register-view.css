@@ -12,6 +12,12 @@
     font-size: 1.3em;
 }
 
+.helper-text {
+    width: 45vw;
+    margin: 0;
+    font-size: 0.8em;
+}
+
 @media screen and (min-width: 768px) {
     .register-form {
         max-width: 50%;

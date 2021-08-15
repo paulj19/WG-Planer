@@ -7,17 +7,20 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.resident_admission.AdmissionCode;
 import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
+import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
 import com.wg_planner.views.utils.UINavigationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,15 +28,15 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.util.List;
 
-@Push
-@Route(value = "register")
+@Route(value = "register", layout = UnauthorizedPagesView.class)
 @PageTitle("Register | WG Planner")
 @CssImport("./styles/views/register/register-view.css")
 public class NewResidentAdmissionView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(NewResidentAdmissionView.class);
     private NewResidentAdmissionPresenter newResidentAdmissionPresenter;
     private AutowireCapableBeanFactory beanFactory;
-    private TextField floorCode = new TextField("Floor Code", "Enter your floor code");
+    private TextField floorCodeField = new TextField("Floor Code", "Enter your floor code");
+    Span helperText = new Span("Found in Floor Details in Home page in a floor already created.");
     private ComboBox<Room> nonOccupiedRoomsComboBox;
     private Button submitFloorCodeButton = new Button("Submit");
     private Button selectRoomButton = new Button("Select");
@@ -52,12 +55,15 @@ public class NewResidentAdmissionView extends VerticalLayout {
 
     private VerticalLayout getFloorCodeLayout() {
         VerticalLayout floorCodeLayout = new VerticalLayout();
-        floorCode.setMaxLength(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE.getCodeLength());
-        floorCode.setMinLength(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE.getCodeLength());
-        floorCode.setAutofocus(true);
+        floorCodeField.setMaxLength(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE.getCodeLength());
+        floorCodeField.setMinLength(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE.getCodeLength());
+        floorCodeField.setAutofocus(true);
+        helperText.addClassName("helper-text");
         floorCodeLayout.setAlignItems(Alignment.CENTER);
         floorCodeLayout.setJustifyContentMode(JustifyContentMode.CENTER);
-        floorCodeLayout.add(floorCode);
+        floorCodeLayout.add(floorCodeField);
+        floorCodeLayout.add(helperText);
+        floorCodeLayout.add(helperText);
         floorCodeLayout.add(submitFloorCodeButton);
         submitFloorCodeButton.addClickShortcut(Key.ENTER);
         submitFloorCodeButton.addClickListener(this::onSubmitFloorCode);
@@ -65,16 +71,16 @@ public class NewResidentAdmissionView extends VerticalLayout {
     }
 
     public void onSubmitFloorCode(ClickEvent<Button> buttonClickEvent) {
-        if (!floorCode.isInvalid()) {
+        if (!floorCodeField.isInvalid()) {
             List<Room> nonOccupiedRooms =
-                    newResidentAdmissionPresenter.verifyFloorCodeAndGetNonOccupiedRooms(floorCode.getValue());
-            String floorCodeValue = floorCode.getValue();
-            floorCode.clear();
+                    newResidentAdmissionPresenter.verifyFloorCodeAndGetNonOccupiedRooms(floorCodeField.getValue());
+            String floorCodeValue = floorCodeField.getValue();
+            floorCodeField.clear();
             if (nonOccupiedRooms == null) {
-                floorCode.setErrorMessage("Invalid floor code, try again");
+                floorCodeField.setErrorMessage("Invalid floor code, try again");
                 LOGGER.info(LogHandler.getStrange(), "floor code {} valid. Non occupied rooms returned null.", floorCodeValue);
             } else if (nonOccupiedRooms.isEmpty()) {
-                floorCode.setErrorMessage("No free rooms available in this floor");
+                floorCodeField.setErrorMessage("No free rooms available in this floor");
                 LOGGER.info(LogHandler.getTestRun(), "No free rooms available in this floor. Floor code {}.", floorCodeValue);
             } else {
                 VerticalLayout selectRoomVerticalLayout = new VerticalLayout();
@@ -95,8 +101,8 @@ public class NewResidentAdmissionView extends VerticalLayout {
                 nonOccupiedRooms.forEach(room -> LOGGER.info(LogHandler.getTestRun(), ", {}", room.getId()));
             }
         } else {
-            floorCode.setErrorMessage("Invalid floor code, try again");
-            LOGGER.info(LogHandler.getTestRun(), "Invalid floor code {}.", floorCode.getValue());
+            floorCodeField.setErrorMessage("Invalid floor code, try again");
+            LOGGER.info(LogHandler.getTestRun(), "Invalid floor code {}.", floorCodeField.getValue());
         }
     }
 
@@ -136,18 +142,18 @@ public class NewResidentAdmissionView extends VerticalLayout {
     }
 
     public void onReject() {
-        printMessage("Your admission to room " + roomSelected.getRoomName() + " has been rejected");
+        printMessage("Your admission to room " + roomSelected.getRoomName() + " has been rejected.");
         LOGGER.debug("Admission request rejected. Room {}.", roomSelected.getId());
         backToRegisterPage();
     }
 
     public void onTimeOut() {
-        printMessage("The one time code generated has timed out, please try again");
+        printMessage("The one time code generated has timed out, please try again.");
         backToRegisterPage();
     }
 
     public void printErrorOccurred() {
-        printMessage("An error occurred, please try again");
+        printMessage("An error occurred, please try again.");
         backToRegisterPage();
     }
 
