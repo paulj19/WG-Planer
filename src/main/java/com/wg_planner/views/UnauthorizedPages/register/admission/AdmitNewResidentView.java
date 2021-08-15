@@ -31,7 +31,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 public class AdmitNewResidentView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdmitNewResidentView.class);
     AutowireCapableBeanFactory beanFactory;
-    TextField admissionCodeField = new TextField("Admission Code", "New Resident Admission Code");
+    TextField admissionCodeField = new TextField("Admission Code", "Enter Admission Code");
     Button submitAdmissionCodeButton = new Button("Submit");
     Button acceptButton = new Button("Admit");
     Button rejectButton = new Button("Reject");
@@ -53,6 +53,7 @@ public class AdmitNewResidentView extends VerticalLayout {
         admissionCodeField.setAutofocus(true);
         floorCodeLayout.setAlignItems(Alignment.CENTER);
         floorCodeLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+        floorCodeLayout.getStyle().set("padding", "0");
         floorCodeLayout.add(admissionCodeField);
         floorCodeLayout.add(submitAdmissionCodeButton);
         submitAdmissionCodeButton.addClickShortcut(Key.ENTER);

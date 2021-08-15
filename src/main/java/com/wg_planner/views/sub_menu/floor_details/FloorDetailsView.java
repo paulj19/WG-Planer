@@ -53,7 +53,7 @@ public class FloorDetailsView extends VerticalLayout {
         TextField floorCodeField = new TextField(fieldLabel);
         floorCodeField.setReadOnly(true);
         floorCodeField.setValue(fieldValue);
-//        floorCodeField.getStyle().set("border", "1px solid");
+        //        floorCodeField.getStyle().set("border", "1px solid");
         add(floorCodeField);
     }
 

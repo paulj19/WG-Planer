@@ -7,6 +7,8 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.views.UnauthorizedPages.register.admission.AdmitNewResidentView;
@@ -34,10 +36,12 @@ public class FloorDetailsViewRoomDetails {
 
     public Component addAdmitNewResidentView() {
         Accordion admitNewRoomAccordion = new Accordion();
+        Span helperText = new Span("Admission code is used to add new residents to the floor. At the end of the registration process the new resident gets an" +
+                " admission code which is to be entered here to complete the admission process.");
         admitNewRoomAccordion.setWidthFull();
         AdmitNewResidentView admitNewResidentView = new AdmitNewResidentView(beanFactory);
         admitNewResidentView.addClassName("floor-view-admit-new-resident");
-        admitNewRoomAccordion.add("Add New Resident", admitNewResidentView);
+        admitNewRoomAccordion.add("Add New Resident", new VerticalLayout(helperText, admitNewResidentView));
         admitNewRoomAccordion.close();
         return admitNewRoomAccordion;
     }
@@ -47,7 +51,7 @@ public class FloorDetailsViewRoomDetails {
         roomListGrid.addClassName("room-details-grid");
         roomListGrid.setItems(roomsInFloor);
         Div roomNameHeading = new Div();
-        roomNameHeading.getElement().setProperty("innerHTML","Room <br />Name");
+        roomNameHeading.getElement().setProperty("innerHTML", "Room <br />Name");
 
         roomListGrid.addColumn(Room::getRoomName).setHeader(roomNameHeading).setKey("Room Name");
         roomListGrid.addColumn(new ComponentRenderer<>(room -> {
@@ -58,7 +62,7 @@ public class FloorDetailsViewRoomDetails {
             }
         })).setHeader("Resident Name").setKey("Resident Name");
         Div residentPresentHeading = new Div();
-        residentPresentHeading.getElement().setProperty("innerHTML","Resident <br />Present");
+        residentPresentHeading.getElement().setProperty("innerHTML", "Resident <br />Present");
         residentPresentHeading.addClassName("resident-present-heading");
         roomListGrid.addColumn(new ComponentRenderer<>(room -> {
             if (room.getResidentAccount() != null) {
@@ -74,9 +78,9 @@ public class FloorDetailsViewRoomDetails {
     }
 
     private void addGridStyle(Grid<Room> roomListGrid) {
-//        roomListGrid.getStyle().set("column-gap", "10px");
+        //        roomListGrid.getStyle().set("column-gap", "10px");
         roomListGrid.getColumnByKey("Room Name").setWidth("10vw");
-//        roomListGrid.getColumnByKey("Room Occupied").setWidth("15px");
+        //        roomListGrid.getColumnByKey("Room Occupied").setWidth("15px");
         roomListGrid.getColumnByKey("Resident Name").setAutoWidth(true);
         roomListGrid.getColumnByKey("Resident Present").setWidth("3vw");
     }
