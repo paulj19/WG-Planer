@@ -19,14 +19,22 @@ public class CreateRoomView extends HorizontalLayout {
     private Binder<Room> roomBinder = new BeanValidationBinder<>(Room.class);
 
     public CreateRoomView() {
+        setFieldProperties();
         roomBinder.forField(roomNameTextField).withValidator(roomName -> roomName.length() <= 16,
                 "room name should not exceed 16 characters").withValidator(roomName -> roomName.length() >= 1,
-                "room name should not be less than 1 character").bind(Room::getRoomName, Room::setRoomName);
+                "room name should not be empty").withValidator(roomName -> (roomName != null && !roomName.isEmpty()),
+                "room name should not be empty").bind(Room::getRoomName, Room::setRoomName);
         setWidthFull();
         roomNameTextField.setWidthFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
         add(roomNameTextField);
         LOGGER.info(LogHandler.getTestRun(), "create room view called");
+    }
+
+    private void setFieldProperties() {
+        roomNameTextField.setClearButtonVisible(true);
+        roomNameTextField.setMaxLength(16);
+        roomNameTextField.setRequired(true);
     }
 
     public Room validateAndSave(Floor floorToCreated) {

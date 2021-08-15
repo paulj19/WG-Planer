@@ -136,8 +136,8 @@ public class Floor extends AbstractEntity implements Cloneable {
 
     public void setRooms(List<Room> rooms) {
         Validate.notNull(rooms, "parameter rooms must not be %s", null);
-        if (!rooms.isEmpty())
-            setFirstRoomNumber(rooms.get(0).getRoomName());
+        Validate.notNull(rooms.get(0), "parameter rooms must not be %s", null);
+        setInitialRoomInFloor(rooms.get(0));
         this.rooms = new ArrayList<>(rooms);
     }
 
@@ -164,10 +164,9 @@ public class Floor extends AbstractEntity implements Cloneable {
         tasks.remove(task);
     }
 
-    public void setFirstRoomNumber(String roomStartIndex) {
-        Validate.notNull(roomStartIndex, "parameter roomStartIndex must not be %s", null);
-        Validate.notEmpty(roomStartIndex, "parameter roomStartIndex must not be empty");
-        this.roomStartIndex = roomStartIndex;
+    public void setInitialRoomInFloor(Room initialRoomInFloor) {
+        Validate.notNull(initialRoomInFloor, "parameter roomStartIndex must not be %s", null);
+        this.initialRoomInFloor = initialRoomInFloor;
     }
 
     public String getFloorCode() {

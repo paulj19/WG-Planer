@@ -29,6 +29,7 @@ public class CreateFloorForm extends FormLayout {
 
     public CreateFloorForm() {
         addClassName("create-floor-form");
+        setFieldProperties();
         setResponsiveSteps(new ResponsiveStep("0", 1));
         floorToCreate = new Floor(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE));
         floorBinder.bindInstanceFields(this);
@@ -36,6 +37,11 @@ public class CreateFloorForm extends FormLayout {
         tasksView.addTaskView();
         createButtonLayout();
         add(floorName, roomsView, tasksView, buttonLayout);
+    }
+    private void setFieldProperties() {
+        floorName.setClearButtonVisible(true);
+        floorName.setMaxLength(255);
+        floorName.setRequired(true);
     }
 
     private void createButtonLayout() {
@@ -52,9 +58,9 @@ public class CreateFloorForm extends FormLayout {
 
     private void validateAndSave() {
         try {
-            floorBinder.writeBean(floorToCreate);
             floorToCreate.setRooms(roomsView.validateAndSave(floorToCreate));
             floorToCreate.setTasks(tasksView.validateAndSave(floorToCreate));
+            floorBinder.writeBean(floorToCreate);
             fireEvent(new CreateFloorFormEvent.SaveEvent(this, floorToCreate));
         } catch (ValidationException e) {
             e.printStackTrace();

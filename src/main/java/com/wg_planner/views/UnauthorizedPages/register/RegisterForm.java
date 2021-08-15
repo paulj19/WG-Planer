@@ -80,7 +80,6 @@ public class RegisterForm extends FormLayout {
     private void init() {
         addClassName("register-form");
         setFieldProperties();
-        roomComboBox.setPlaceholder("Select a room");
         residentAccountBinder.forField(firstName).withValidator(firstName -> firstName.length() <= 64,
                 "first name must not exceed 64 characters").withValidator(firstName -> (firstName != null && !firstName.isEmpty()),
                 "first name must not be empty").bind(ResidentAccount::getFirstName, ResidentAccount::setFirstName);
@@ -94,8 +93,8 @@ public class RegisterForm extends FormLayout {
                 "only alphanumeric and underscore permitted in username").bind(ResidentAccount::getUsername, ResidentAccount::setUsername);
         residentAccountBinder.forField(passwordField).withValidator(password -> password.length() >= 6, "password should be at least 6 " +
                 "characters").bind(ResidentAccount::getPassword, ResidentAccount::setPassword);
-        residentAccountBinder.forField(roomComboBox).withValidator(Objects::nonNull,
-                "room must not be empty").bind(ResidentAccount::getRoom, ResidentAccount::setRoom);
+        residentAccountBinder.forField(roomComboBox).withValidator(Objects::nonNull, "room must not be empty").bind(ResidentAccount::getRoom,
+                ResidentAccount::setRoom);
         residentAccountBinder.forField(isReadyToAcceptTasks).bind(ResidentAccount::isPresent,
                 ResidentAccount::setPresent);
 
@@ -108,8 +107,11 @@ public class RegisterForm extends FormLayout {
     private void setFieldProperties() {
         firstName.setClearButtonVisible(true);
         firstName.setMaxLength(64);
-        firstName.setMinLength(1);
-        firstName.setPreventInvalidInput(true);
+        lastName.setClearButtonVisible(true);
+        lastName.setMaxLength(64);
+        username.setMaxLength(255);
+        passwordField.setMinLength(6);
+        roomComboBox.setPlaceholder("Select a room");
     }
 
     private void sanityChecksInvalidParameters(Object object) {
@@ -149,7 +151,7 @@ public class RegisterForm extends FormLayout {
     private void validateAndSave() {
         try {
             residentAccount.setAuthorities((getAuthorities()));
-            residentAccountBinder. writeBean(residentAccount);
+            residentAccountBinder.writeBean(residentAccount);
             fireEvent(new RegisterFormEvent.SaveEvent(this, residentAccount));
         } catch (ValidationException e) {
             e.printStackTrace();
