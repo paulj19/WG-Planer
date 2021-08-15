@@ -47,10 +47,10 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
         QueryParameters queryParameters = location.getQueryParameters();
         Map<String, List<String>> parametersMap = queryParameters.getParameters();
         if (parametersMap.containsKey("floor_id")) {
-            assert floorService.getFloorById(Long.valueOf(parametersMap.get("floor_id").get(0))) != null;
+            assert floorService.getFloorById(Long.parseLong(parametersMap.get("floor_id").get(0))) != null;
             LOGGER.info(LogHandler.getTestRun(),
                     "register view called with floor_id: {} as parameter.", Long.valueOf(parametersMap.get("floor_id").get(0)));
-            init(floorService.getFloorById(Long.valueOf(parametersMap.get("floor_id").get(0))));
+            init(floorService.getFloorById(Long.parseLong(parametersMap.get("floor_id").get(0))));
         } else if (parametersMap.containsKey("room_id")) {
             assert roomService.getRoomById(Long.valueOf(parametersMap.get("room_id").get(0))) != null;
             LOGGER.info(LogHandler.getTestRun(),

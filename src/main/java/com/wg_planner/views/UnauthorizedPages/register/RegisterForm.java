@@ -25,10 +25,7 @@ import com.wg_planner.views.utils.ErrorScreen;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //todo registration form for different roles(combo box options) this is for residents, change name accordingly?
 public class RegisterForm extends FormLayout {
@@ -41,7 +38,7 @@ public class RegisterForm extends FormLayout {
     TextField username = new TextField("Username", "Enter user name");
     PasswordField passwordField = new PasswordField("Password", "Minimum 6 characters");
     TextField floorTextField = new TextField("Floor");
-    ComboBox<Room> roomsRoomComboBox = new ComboBox<>("Room Name");
+    ComboBox<Room> roomComboBox = new ComboBox<>("Room");
     Checkbox isReadyToAcceptTasks = new Checkbox("I am ready to accept tasks");
     Floor floorPreset;
     List<Room> rooms = new ArrayList<>();
@@ -62,7 +59,8 @@ public class RegisterForm extends FormLayout {
         sanityChecksInvalidParameters(floorToPreset);
         floorTextField.setValue(floorToPreset.getFloorName());
         floorTextField.setReadOnly(true);
-        roomsRoomComboBox.setRequiredIndicatorVisible(true);
+        roomComboBox.setRequiredIndicatorVisible(true);
+        roomComboBox.setRequired(true);
         setRoomsInComboBoxFromSelectedFloor(floorToPreset);
         init();
     }
@@ -74,32 +72,44 @@ public class RegisterForm extends FormLayout {
         floorTextField.setValue(roomToPreset.getFloor().getFloorName());
         floorTextField.setReadOnly(true);
         setRoomsInComboBoxFromSelectedFloor(roomToPreset.getFloor());
-        roomsRoomComboBox.setValue(roomToPreset);
-        roomsRoomComboBox.setReadOnly(true);
+        roomComboBox.setValue(roomToPreset);
+        roomComboBox.setReadOnly(true);
         init();
     }
 
     private void init() {
         addClassName("register-form");
+        setFieldProperties();
+        roomComboBox.setPlaceholder("Select a room");
         residentAccountBinder.forField(firstName).withValidator(firstName -> firstName.length() <= 64,
-                "first name should not exceed 64 characters").bind(ResidentAccount::getFirstName, ResidentAccount::setFirstName);
+                "first name must not exceed 64 characters").withValidator(firstName -> (firstName != null && !firstName.isEmpty()),
+                "first name must not be empty").bind(ResidentAccount::getFirstName, ResidentAccount::setFirstName);
         residentAccountBinder.forField(lastName).withValidator(lastName -> lastName.length() <= 64,
-                "last name should not exceed 64 characters").bind(ResidentAccount::getLastName, ResidentAccount::setLastName);
+                "last name must not exceed 64 characters").withValidator(lastName -> (lastName != null && !lastName.isEmpty()),
+                "last name must not be empty").bind(ResidentAccount::getLastName, ResidentAccount::setLastName);
         residentAccountBinder.forField(email).withValidator(new EmailValidator("Not a valid email address")).bind(ResidentAccount::getEmail,
                 ResidentAccount::setEmail);
         residentAccountBinder.forField(username).withValidator(username -> accountDetailsService.isUsernameUnique(username.trim()),
-                "Username already taken").withValidator(username -> username.matches("[A-Za-z0-9_]+"),
+                "username already taken").withValidator(username -> username.matches("[A-Za-z0-9_]+"),
                 "only alphanumeric and underscore permitted in username").bind(ResidentAccount::getUsername, ResidentAccount::setUsername);
         residentAccountBinder.forField(passwordField).withValidator(password -> password.length() >= 6, "password should be at least 6 " +
                 "characters").bind(ResidentAccount::getPassword, ResidentAccount::setPassword);
-        residentAccountBinder.forField(roomsRoomComboBox).bind(ResidentAccount::getRoom, ResidentAccount::setRoom);
+        residentAccountBinder.forField(roomComboBox).withValidator(Objects::nonNull,
+                "room must not be empty").bind(ResidentAccount::getRoom, ResidentAccount::setRoom);
         residentAccountBinder.forField(isReadyToAcceptTasks).bind(ResidentAccount::isPresent,
                 ResidentAccount::setPresent);
 
         setResponsiveSteps(new ResponsiveStep("0", 1));
-        add(firstName, lastName, email, username, passwordField, floorTextField, roomsRoomComboBox,
+        add(firstName, lastName, email, username, passwordField, floorTextField, roomComboBox,
                 isReadyToAcceptTasks,
                 createButtonLayout());
+    }
+
+    private void setFieldProperties() {
+        firstName.setClearButtonVisible(true);
+        firstName.setMaxLength(64);
+        firstName.setMinLength(1);
+        firstName.setPreventInvalidInput(true);
     }
 
     private void sanityChecksInvalidParameters(Object object) {
@@ -113,8 +123,8 @@ public class RegisterForm extends FormLayout {
 
     private void setRoomsInComboBoxFromSelectedFloor(Floor selectedFloor) {
         rooms = floorService.getAllNonOccupiedRoomsInFloor(selectedFloor);
-        roomsRoomComboBox.setItems(rooms);
-        roomsRoomComboBox.setItemLabelGenerator(Room::getRoomName);
+        roomComboBox.setItems(rooms);
+        roomComboBox.setItemLabelGenerator(Room::getRoomName);
     }
 
 
@@ -139,7 +149,7 @@ public class RegisterForm extends FormLayout {
     private void validateAndSave() {
         try {
             residentAccount.setAuthorities((getAuthorities()));
-            residentAccountBinder.writeBean(residentAccount);
+            residentAccountBinder. writeBean(residentAccount);
             fireEvent(new RegisterFormEvent.SaveEvent(this, residentAccount));
         } catch (ValidationException e) {
             e.printStackTrace();
