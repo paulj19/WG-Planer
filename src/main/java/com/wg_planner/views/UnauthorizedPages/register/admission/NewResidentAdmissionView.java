@@ -36,7 +36,7 @@ public class NewResidentAdmissionView extends VerticalLayout {
     private NewResidentAdmissionPresenter newResidentAdmissionPresenter;
     private AutowireCapableBeanFactory beanFactory;
     private TextField floorCodeField = new TextField("Floor Code", "Enter your floor code");
-    Span helperText = new Span("Found in Floor Details in Home page in a floor already created.");
+    Span helperText = new Span("Find it in Floor Details in Home page in a floor already created.");
     private ComboBox<Room> nonOccupiedRoomsComboBox;
     private Button submitFloorCodeButton = new Button("Submit");
     private Button selectRoomButton = new Button("Select");

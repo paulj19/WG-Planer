@@ -31,6 +31,9 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 public class AdmitNewResidentView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdmitNewResidentView.class);
     AutowireCapableBeanFactory beanFactory;
+    VerticalLayout admissionCodeLayout = new VerticalLayout();
+    Span helperText = new Span("Admission code is used to add new residents to the floor. At the end of the registration process the new resident gets an" +
+            " admission code which is to be entered here to complete the admission process.");
     TextField admissionCodeField = new TextField("Admission Code", "Enter Admission Code");
     Button submitAdmissionCodeButton = new Button("Submit");
     Button acceptButton = new Button("Admit");
@@ -47,18 +50,20 @@ public class AdmitNewResidentView extends VerticalLayout {
     }
 
     private VerticalLayout getAdmissionCodeLayout() {
-        VerticalLayout floorCodeLayout = new VerticalLayout();
         admissionCodeField.setMaxLength(CustomCodeCreator.CodeGenerationPurposes.ADMISSION_CODE.getCodeLength());
         admissionCodeField.setMinLength(CustomCodeCreator.CodeGenerationPurposes.ADMISSION_CODE.getCodeLength());
         admissionCodeField.setAutofocus(true);
-        floorCodeLayout.setAlignItems(Alignment.CENTER);
-        floorCodeLayout.setJustifyContentMode(JustifyContentMode.CENTER);
-        floorCodeLayout.getStyle().set("padding", "0");
-        floorCodeLayout.add(admissionCodeField);
-        floorCodeLayout.add(submitAdmissionCodeButton);
+        admissionCodeLayout.setAlignItems(Alignment.CENTER);
+        admissionCodeLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+        admissionCodeLayout.getStyle().set("padding", "0");
+        helperText.getStyle().set("padding-left", "20px");
+        helperText.getStyle().set("padding-right", "12px");
+        admissionCodeLayout.add(helperText);
+        admissionCodeLayout.add(admissionCodeField);
+        admissionCodeLayout.add(submitAdmissionCodeButton);
         submitAdmissionCodeButton.addClickShortcut(Key.ENTER);
         submitAdmissionCodeButton.addClickListener(this::onSubmitAdmissionCode);
-        return floorCodeLayout;
+        return admissionCodeLayout;
     }
 
     private void onSubmitAdmissionCode(ClickEvent<Button> buttonClickEvent) {
@@ -119,6 +124,10 @@ public class AdmitNewResidentView extends VerticalLayout {
         Span admissionDescription = new Span();
         admissionDescription.setText("Resident has requested admission in room " + roomName);
         return admissionDescription;
+    }
+
+    void removeHelperText() {
+        admissionCodeLayout.remove(helperText);
     }
 
     public void printAlreadyDoneMessage(String roomName, String admissionStatus) {

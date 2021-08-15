@@ -36,12 +36,11 @@ public class FloorDetailsViewRoomDetails {
 
     public Component addAdmitNewResidentView() {
         Accordion admitNewRoomAccordion = new Accordion();
-        Span helperText = new Span("Admission code is used to add new residents to the floor. At the end of the registration process the new resident gets an" +
-                " admission code which is to be entered here to complete the admission process.");
+
         admitNewRoomAccordion.setWidthFull();
         AdmitNewResidentView admitNewResidentView = new AdmitNewResidentView(beanFactory);
         admitNewResidentView.addClassName("floor-view-admit-new-resident");
-        admitNewRoomAccordion.add("Add New Resident", new VerticalLayout(helperText, admitNewResidentView));
+        admitNewRoomAccordion.add("Add New Resident", admitNewResidentView);
         admitNewRoomAccordion.close();
         return admitNewRoomAccordion;
     }

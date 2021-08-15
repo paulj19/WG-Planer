@@ -23,6 +23,7 @@ public class AdmitNewResidentPresenter {
         synchronized (admissionHandler.getAdmissionDetails(admissionCode)) {
             if (!isAlreadyAcceptedOrRejected(admissionHandler.getAdmissionDetails(admissionCode))) {
                 admissionHandler.setAdmissionStatus(admissionCode, admissionStatus);
+                admitNewResidentView.removeHelperText();
                 admitNewResidentView.printMessage("New Resident request to room " + admissionHandler.getAdmissionDetails(admissionCode).getRoomToAdmit().getRoomName() + " " + admissionStatus.toString());
                 LOGGER.info(LogHandler.getTestRun(), "admission code {} status set to {}", admissionCode,
                         admissionStatus.toString());
