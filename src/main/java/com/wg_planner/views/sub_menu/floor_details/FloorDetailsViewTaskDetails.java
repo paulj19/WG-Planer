@@ -52,7 +52,7 @@ public class FloorDetailsViewTaskDetails {
         });
         tasksInFloorLayout.add(addTaskButton);
         tasksInFloorComponent = tasksInFloorLayout;
-        tasksAccordion.add("Tasks", tasksInFloorLayout);
+        tasksAccordion.add("Edit Tasks", tasksInFloorLayout);
         return tasksInFloorLayout;
     }
 
