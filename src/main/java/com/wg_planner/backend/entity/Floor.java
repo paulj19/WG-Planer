@@ -28,6 +28,7 @@ public class Floor extends AbstractEntity implements Cloneable {
     @Size(min = 4, max = 4)
     private String floorCode;
 
+    //ideal datastructure for storing rooms is LinkedHashSet which would ensure uniqueness of elements and ordering
     @OneToMany(mappedBy = "floor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 

@@ -76,7 +76,6 @@ public class FloorService {
         Validate.notNull(roomsInFloor, "getAllAvailableRooms() returned %s", null);
         Validate.notEmpty(roomsInFloor, "getAllAvailableRooms() returned empty list");
 
-        roomsInFloor.sort(Comparator.comparing(Room::getRoomName));
         //returns the room with the next index after the passed room
         return roomsInFloor.get((roomsInFloor.indexOf(room) + 1) % roomsInFloor.size());
     }

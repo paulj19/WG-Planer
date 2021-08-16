@@ -5,7 +5,9 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -15,12 +17,15 @@ import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
 
+@CssImport("./styles/views/create-floor/create-floor-view.css")
 public class CreateFloorForm extends FormLayout {
     private Floor floorToCreate;
     private Binder<Floor> floorBinder = new BeanValidationBinder<>(Floor.class);
     private TextField floorName = new TextField("Floor Name", "Enter floor name or number");
     private CreateRoomsView roomsView = new CreateRoomsView();
     private CreateTasksView tasksView = new CreateTasksView();
+    private Span roomOrderHelperText = new Span("The following order of rooms will be order in which the tasks will be rotated in the floor, this order " +
+            "cannot be changed later.");
 
     Button createFloorButton = new Button("Create Floor");
     Button cancelButton = new Button("Cancel");
@@ -29,6 +34,7 @@ public class CreateFloorForm extends FormLayout {
 
     public CreateFloorForm() {
         addClassName("create-floor-form");
+        roomOrderHelperText.addClassName("room-order-helper-text");
         setFieldProperties();
         setResponsiveSteps(new ResponsiveStep("0", 1));
         floorToCreate = new Floor(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE));
@@ -36,8 +42,9 @@ public class CreateFloorForm extends FormLayout {
         roomsView.addRoomsView();
         tasksView.addTaskView();
         createButtonLayout();
-        add(floorName, roomsView, tasksView, buttonLayout);
+        add(floorName, roomOrderHelperText, roomsView, tasksView, buttonLayout);
     }
+
     private void setFieldProperties() {
         floorName.setClearButtonVisible(true);
         floorName.setMaxLength(255);
@@ -47,8 +54,8 @@ public class CreateFloorForm extends FormLayout {
     private void createButtonLayout() {
         createFloorButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-//        createFloorButton.addClickShortcut(Key.ENTER);
-//        cancelButton.addClickShortcut(Key.ESCAPE);
+        //        createFloorButton.addClickShortcut(Key.ENTER);
+        //        cancelButton.addClickShortcut(Key.ESCAPE);
         buttonLayout.getStyle().set("margin-top", "15px");
 
         createFloorButton.addClickListener(event -> validateAndSave());
