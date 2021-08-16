@@ -11,22 +11,29 @@ import com.wg_planner.backend.utils.LogHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.Objects;
+
 public class CreateTaskView extends HorizontalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateTaskView.class);
     TextField taskNameTextField = new TextField("Task Name", "Enter task name");
     Task taskToCreate = new Task();
     private Binder<Task> taskBinder = new BeanValidationBinder<>(Task.class);
 
-    public CreateTaskView() {
+    public CreateTaskView(List<CreateTaskView> tasksView) {
         setFieldProperties();
         taskBinder.forField(taskNameTextField).withValidator(taskName -> taskName.length() <= 16,
                 "task name should not exceed 16 characters").withValidator(taskName -> taskName.length() >= 1,
-                "task name should not be empty").bind(Task::getTaskName,
-                Task::setTaskName);
+                "task name should not be empty").withValidator(taskName -> isTaskNameUnique(taskName, tasksView),
+                "task names in a floor must be unique").bind(Task::getTaskName, Task::setTaskName);
         setWidthFull();
         taskNameTextField.setWidthFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
         add(taskNameTextField);
+    }
+
+    public boolean isTaskNameUnique(String taskName, List<CreateTaskView> tasksView) {
+        return tasksView.stream().filter(taskView -> !Objects.equals(taskView, this)).map(taskView -> taskView.getTaskToCreate().getTaskName()).noneMatch(taskName::equals);
     }
 
     private void setFieldProperties() {
@@ -35,15 +42,14 @@ public class CreateTaskView extends HorizontalLayout {
         taskNameTextField.setRequired(true);
     }
 
-    public Task validateTask(Floor floorToCreate) {
+    public Task validateAndSave(Floor floorToCreate) throws ValidationException {
         try {
             taskToCreate.setFloor(floorToCreate);
             taskBinder.writeBean(taskToCreate);
             LOGGER.info(LogHandler.getTestRun(), "create task validate and save. Task details: {}", taskToCreate.toString());
             return taskToCreate;
         } catch (ValidationException e) {
-            e.printStackTrace();
-            return null;
+            throw e;
         }
     }
 

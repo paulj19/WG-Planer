@@ -20,12 +20,12 @@ public class Task extends AbstractEntity {
     @Size(max = 16)
     private String taskName;
 
-    @NotNull
     //todo floor does not track track anything of the task except the list of tasks in the floor
     //hence unnecessary to save or refresh floor tasks when floor is saved
     //and also nothing really is done by taking floor from task but other way around
     //UPDATE tasks sometimes are saved alone(creation, updation etc)
     // and change need to reflect on floor BUT change seen on floor without cascading
+    @NotNull
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;

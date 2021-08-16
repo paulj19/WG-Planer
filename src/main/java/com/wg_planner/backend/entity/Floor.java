@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 //TODO change members to final
@@ -73,7 +74,12 @@ public class Floor extends AbstractEntity implements Cloneable {
 
         public void setRooms(List<Room> rooms) {
             Validate.notNull(rooms, "parameter rooms must not be %s", null);
+            Validate.isTrue(areRoomNamesUnique(rooms), "room names in a floor should be unique");
             this.rooms = new ArrayList<>(rooms);
+        }
+
+        private boolean areRoomNamesUnique(List<Room> rooms) {
+            return rooms.stream().allMatch(new HashSet<>()::add);
         }
 
         public FloorBuilder setTasks(List<Task> tasks) {

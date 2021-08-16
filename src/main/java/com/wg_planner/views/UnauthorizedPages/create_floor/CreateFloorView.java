@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
 
-@PreserveOnRefresh
 @Route(value = "create_floor", layout = UnauthorizedPagesView.class)
 @PageTitle("Create Floor | WG Planner")
 @CssImport("./styles/views/create-floor/create-floor-view.css")

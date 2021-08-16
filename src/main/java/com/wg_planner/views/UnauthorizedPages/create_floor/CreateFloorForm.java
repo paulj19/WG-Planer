@@ -15,6 +15,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Floor;
+import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
 
 @CssImport("./styles/views/create-floor/create-floor-view.css")
@@ -38,7 +39,9 @@ public class CreateFloorForm extends FormLayout {
         setFieldProperties();
         setResponsiveSteps(new ResponsiveStep("0", 1));
         floorToCreate = new Floor(CustomCodeCreator.getInstance().generateCode(CustomCodeCreator.CodeGenerationPurposes.FLOOR_CODE));
-        floorBinder.bindInstanceFields(this);
+//        floorBinder.bindInstanceFields(this);
+        floorBinder.forField(floorName).withValidator(taskName -> !taskName.isEmpty(),
+                "floor name should not be empty").bind(Floor::getFloorName, Floor::setFloorName);
         roomsView.addRoomsView();
         tasksView.addTaskView();
         createButtonLayout();

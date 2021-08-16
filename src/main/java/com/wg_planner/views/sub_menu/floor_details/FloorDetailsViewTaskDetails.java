@@ -8,6 +8,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.UnauthorizedPages.create_floor.CreateTaskView;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
@@ -59,7 +60,7 @@ public class FloorDetailsViewTaskDetails {
     private Component getNewTaskCreateLayout() {
         HorizontalLayout newTaskCreateLayout = new HorizontalLayout();
         newTaskCreateLayout.addClassName("new-task-layout");
-        CreateTaskView createTaskView = new CreateTaskView();
+        CreateTaskView createTaskView = new CreateTaskView(null);
         createTaskView.getTaskNameTextField().setWidth("46vw");
         createTaskView.getTaskNameTextField().getStyle().set("padding-top", "0");
         Button saveNewTaskButton = new Button("Save");
@@ -72,7 +73,11 @@ public class FloorDetailsViewTaskDetails {
         cancelAddTaskButton.getStyle().set("font-size", "0.85em");
         cancelAddTaskButton.getStyle().set("margin-top", "23px");
         saveNewTaskButton.addClickListener(event -> {
-            floorDetailsPresenter.saveNewlyCreatedTask(createTaskView.validateTask(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
+            try {
+                floorDetailsPresenter.saveNewlyCreatedTask(createTaskView.validateAndSave(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
+            } catch (ValidationException e) {
+                e.printStackTrace();
+            }
             refreshTasksInFloor();
         });
         cancelAddTaskButton.addClickListener(event -> {
