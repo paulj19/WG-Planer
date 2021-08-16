@@ -14,7 +14,6 @@ import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
-import com.wg_planner.views.UnauthorizedPages.create_floor.CreateTaskView;
 import com.wg_planner.views.utils.UINavigationHandler;
 import com.wg_planner.views.utils.UIStringConstants;
 import org.slf4j.Logger;

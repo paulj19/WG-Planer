@@ -9,12 +9,15 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.views.UnauthorizedPages.create_floor.CreateTaskView;
+import com.wg_planner.views.UnauthorizedPages.create_floor.NewTaskView;
+import com.wg_planner.views.UnauthorizedPages.create_floor.NewTaskViewCreator;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;
 
+@PreserveOnRefresh
 @CssImport(value = "./styles/views/floor-details/floor-details-view-task-details.css")
 public class FloorDetailsViewTaskDetails {
     private Accordion tasksAccordion;
@@ -60,21 +63,21 @@ public class FloorDetailsViewTaskDetails {
     private Component getNewTaskCreateLayout() {
         HorizontalLayout newTaskCreateLayout = new HorizontalLayout();
         newTaskCreateLayout.addClassName("new-task-layout");
-        CreateTaskView createTaskView = new CreateTaskView(null);
-        createTaskView.getTaskNameTextField().setWidth("46vw");
-        createTaskView.getTaskNameTextField().getStyle().set("padding-top", "0");
+        NewTaskView newTaskView = NewTaskViewCreator.createTaskFromFloorTasks(floorDetailsPresenter.getTasksInFloor());
+        newTaskView.getTaskNameTextField().setWidth("46vw");
+        newTaskView.getTaskNameTextField().getStyle().set("padding-top", "0");
         Button saveNewTaskButton = new Button("Save");
         addButtonClass(saveNewTaskButton);
         saveNewTaskButton.getStyle().set("font-size", "0.9em");
         saveNewTaskButton.getStyle().set("margin-top", "23px");
-//        saveNewTaskButton.getStyle().set("font-size", "0.8em");
+        //        saveNewTaskButton.getStyle().set("font-size", "0.8em");
         Button cancelAddTaskButton = new Button("Cancel");
         addButtonClass(cancelAddTaskButton);
         cancelAddTaskButton.getStyle().set("font-size", "0.85em");
         cancelAddTaskButton.getStyle().set("margin-top", "23px");
         saveNewTaskButton.addClickListener(event -> {
             try {
-                floorDetailsPresenter.saveNewlyCreatedTask(createTaskView.validateAndSave(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
+                floorDetailsPresenter.saveNewlyCreatedTask(newTaskView.validateAndSave(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
             } catch (ValidationException e) {
                 e.printStackTrace();
             }
@@ -83,7 +86,7 @@ public class FloorDetailsViewTaskDetails {
         cancelAddTaskButton.addClickListener(event -> {
             refreshTasksInFloor();
         });
-        newTaskCreateLayout.add(createTaskView, saveNewTaskButton, cancelAddTaskButton);
+        newTaskCreateLayout.add(newTaskView, saveNewTaskButton, cancelAddTaskButton);
         return newTaskCreateLayout;
     }
 

@@ -2,7 +2,6 @@ package com.wg_planner.views.UnauthorizedPages.create_floor;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -15,7 +14,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.entity.Floor;
-import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
 
 @CssImport("./styles/views/create-floor/create-floor-view.css")
@@ -23,8 +21,8 @@ public class CreateFloorForm extends FormLayout {
     private Floor floorToCreate;
     private Binder<Floor> floorBinder = new BeanValidationBinder<>(Floor.class);
     private TextField floorName = new TextField("Floor Name", "Enter floor name or number");
-    private CreateRoomsView roomsView = new CreateRoomsView();
-    private CreateTasksView tasksView = new CreateTasksView();
+    private NewRoomsView roomsView = new NewRoomsView();
+    private NewTasksView tasksView = new NewTasksView();
     private Span roomOrderHelperText = new Span("The following order of rooms will be order in which the tasks will be rotated in the floor, this order " +
             "cannot be changed later.");
 
