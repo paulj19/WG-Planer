@@ -4,6 +4,7 @@ import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Floor;
+import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskDelete;
@@ -44,7 +45,9 @@ public class FloorDetailsPresenter {
         if (!ConsensusHandler.getInstance().isObjectWaitingForConsensus(event.getTask().getId())) {
             event.getTask().setAssignedRoom(null);
             taskService.save(event.getTask());
-            UIMessageBus.broadcast(UIEventHandler.getInstance().createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), floorService.getAllRoomsInFloorByFloorId(event.getTask().getFloor().getId())));
+            List<Room> roomsToSentNotification = floorService.getAllOccupiedAndResidentNotAwayRooms(event.getTask().getFloor());
+            roomsToSentNotification.removeIf(room -> room.equals(SessionHandler.getLoggedInResidentAccount().getRoom()));
+            UIMessageBus.broadcast(UIEventHandler.getInstance().createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), roomsToSentNotification));
             ConsensusHandler.getInstance().add(new ConsensusObjectTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(),
                     event.getTask(), floorService));
             UINotificationMessage.notify("All other residents are notified, all the other residents should accept" +
