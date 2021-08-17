@@ -26,7 +26,7 @@ public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
     public ConsensusObject get(Long id) {
         Optional<ConsensusObject> searchResult =
                 consensusEntities.stream().filter(consensusObject -> consensusObject.getId().equals(id)).findFirst();
-        return searchResult.isPresent() ? searchResult.get() : null;
+        return searchResult.orElse(null);
     }
 
     @Override

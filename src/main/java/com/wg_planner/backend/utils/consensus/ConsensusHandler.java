@@ -21,7 +21,6 @@ public class ConsensusHandler {
         return consensusHandler;
     }
 
-
     public boolean processAccept(Task task, Room acceptor) {
         Validate.notNull(task, "argument must not be null");
         return processAccept(ConsensusObjectStore.getInstance().get(task.getId()), acceptor);
