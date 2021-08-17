@@ -10,6 +10,7 @@ import org.apache.juli.logging.LogFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -95,14 +96,17 @@ public class FloorService {
         return floorRepository.findFloorById(floorId);
     }
 
+    @Transactional
     public void deleteTaskAndUpdateFloor(Task task) {
         Validate.notNull(task, "parameter task to delete must not be %s", null);
         task.getFloor().removeTaskFromFloor(task);
         if(task.getAssignedRoom() != null) {
             task.getAssignedRoom().removeAssignedTask(task);
         }
+        task.setActive(false);
         save(task.getFloor());
-        taskRepository.delete(task);
+        taskRepository.save(task);
+//        taskRepository.delete(task);
     }
 
     public void save(Floor floorToSave) {
