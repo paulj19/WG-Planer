@@ -6,8 +6,8 @@ import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusListener;
 import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UIEventHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UIEventType;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationType;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,7 +20,7 @@ public class NotificationsPagePresenter implements UIMessageBus.BroadcastListene
         @Override
         public synchronized void onAccept(Long consensusObjectId, String notificationId) {
             ConsensusHandler.getInstance().processAccept(consensusObjectId, attachedRoom);
-            UIEventHandler.getInstance().removeNotification(attachedRoom.getId(), notificationId);
+            UINotificationHandler.getInstance().removeNotification(attachedRoom.getId(), notificationId);
             //todo something better than reload
             UI.getCurrent().getPage().reload();
         }
@@ -28,7 +28,7 @@ public class NotificationsPagePresenter implements UIMessageBus.BroadcastListene
         @Override
         public synchronized void onReject(Long consensusObjectId, String notificationId) {
             ConsensusHandler.getInstance().processReject(consensusObjectId);
-            UIEventHandler.getInstance().removeAllNotificationObjectsInFloorOfNotification(notificationId,
+            UINotificationHandler.getInstance().removeAllNotificationObjectsInFloorOfNotification(notificationId,
                     floorService.getAllRoomsInFloorByFloorId(attachedRoom.getFloor().getId()));
             UI.getCurrent().getPage().reload();
         }
@@ -39,7 +39,7 @@ public class NotificationsPagePresenter implements UIMessageBus.BroadcastListene
         attachedRoom = SessionHandler.getLoggedInResidentAccount().getRoom();//room residentAccount never get outdated
         notificationsPageView.getNotificationsUI().addAfterNavigationListener(event -> {
             notificationsPageView.removeAll();
-            UIEventHandler.getInstance().getAllNotificationsForRoom(attachedRoom).forEach(notification -> notificationsPageView.addNotificationToView(notification.getUILayout(consensusListener)));
+            UINotificationHandler.getInstance().getAllNotificationsForRoom(attachedRoom).forEach(notification -> notificationsPageView.addNotificationToView(notification.getUILayout(consensusListener)));
         });
         notificationsPageView.addAttachListener(event -> {
             UIMessageBus.register(this);
@@ -47,7 +47,7 @@ public class NotificationsPagePresenter implements UIMessageBus.BroadcastListene
     }
 
     @Override
-    public void receiveBroadcast(UIEventType uiNotification) {
+    public void receiveBroadcast(UINotificationType uiNotification) {
         if (notificationsPageView != null && !uiNotification.getSourceRoom().equals(attachedRoom)) {
             notificationsPageView.addNotificationToView(uiNotification.getUILayout(consensusListener));
         }

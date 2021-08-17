@@ -11,7 +11,7 @@ import com.wg_planner.backend.utils.consensus.ConsensusListener;
 
 import java.util.UUID;
 
-public abstract class UIEventType {
+public abstract class UINotificationType {
     private final String id = UUID.randomUUID().toString();
     public Room sourceRoom;
 

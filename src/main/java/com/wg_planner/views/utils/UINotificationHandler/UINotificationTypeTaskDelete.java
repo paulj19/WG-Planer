@@ -5,23 +5,21 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.router.PreserveOnRefresh;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.HelperMethods;
 import com.wg_planner.backend.utils.consensus.ConsensusListener;
 
-@PreserveOnRefresh
 @CssImport("./styles/views/notifications-page/notification-layout.css")
-public class UIEventTypeTaskDelete extends UIEventType {
+public class UINotificationTypeTaskDelete extends UINotificationType {
     private String notificationTemplate = "%s from room %s has deleted task %s.";
     public Task taskToDelete;
     private final long timeoutIntervalInMillis = 604800000; //7 days
 
-    private UIEventTypeTaskDelete() {
+    private UINotificationTypeTaskDelete() {
     }
 
-    public UIEventTypeTaskDelete(Room sourceRoom, Task taskToDelete) {
+    public UINotificationTypeTaskDelete(Room sourceRoom, Task taskToDelete) {
         this.sourceRoom = sourceRoom;
         this.taskToDelete = taskToDelete;
     }

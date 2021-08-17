@@ -11,9 +11,9 @@ import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.tasks.task_cards.TaskCard;
 import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UIEventHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UIEventType;
-import com.wg_planner.views.utils.UINotificationHandler.UIEventTypeTaskRemind;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationType;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeTaskRemind;
 import com.wg_planner.views.utils.UINotificationMessage;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +59,9 @@ public abstract class TasksPresenter {
             if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
                 taskService.transferTask(event.getTask(), floorService);
                 addTasks();
-                List<UIEventType> taskRemindNotifications =
-                        UIEventHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UIEventTypeTaskRemind && uiEventType.getEventRelatedObject().equals(event.getTask())).collect(Collectors.toList());
-                taskRemindNotifications.forEach(notification -> UIEventHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
+                List<UINotificationType> taskRemindNotifications =
+                        UINotificationHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UINotificationTypeTaskRemind && uiEventType.getEventRelatedObject().equals(event.getTask())).collect(Collectors.toList());
+                taskRemindNotifications.forEach(notification -> UINotificationHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
             } else {
                 UINotificationMessage.notify("A change has been made to the task, please refresh the page");
             }
@@ -72,10 +72,10 @@ public abstract class TasksPresenter {
         //synchronization issue fix?
         Task taskWithPossibleUpdate = taskService.getTaskById(event.getTask().getId());
         if (event.getTask().getAssignedRoom().equals(taskWithPossibleUpdate.getAssignedRoom())) {
-            UIEventType uiEventTypeTaskRemind =
-                    new UIEventTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(),
+            UINotificationType uiNotificationTypeTaskRemind =
+                    new UINotificationTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(),
                             event.getTask());
-            UIMessageBus.unicastTo(UIEventHandler.getInstance().createAndSaveUINotification(uiEventTypeTaskRemind,
+            UIMessageBus.unicastTo(UINotificationHandler.getInstance().createAndSaveUINotification(uiNotificationTypeTaskRemind,
                     event.getTask().getAssignedRoom()), event.getTask().getAssignedRoom());
             notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(event.getTask()),
                     event.getTask().getAssignedRoom().getResidentAccount());

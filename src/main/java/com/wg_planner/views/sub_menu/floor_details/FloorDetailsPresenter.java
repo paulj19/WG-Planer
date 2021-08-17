@@ -9,8 +9,8 @@ import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskDelete;
 import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UIEventHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UIEventTypeTaskDelete;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeTaskDelete;
 import com.wg_planner.views.utils.UINotificationMessage;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class FloorDetailsPresenter {
             taskService.save(event.getTask());
             List<Room> roomsToSentNotification = floorService.getAllOccupiedAndResidentNotAwayRooms(event.getTask().getFloor());
             roomsToSentNotification.removeIf(room -> room.equals(SessionHandler.getLoggedInResidentAccount().getRoom()));
-            UIMessageBus.broadcast(UIEventHandler.getInstance().createAndSaveUINotification(new UIEventTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), roomsToSentNotification));
+            UIMessageBus.broadcast(UINotificationHandler.getInstance().createAndSaveUINotification(new UINotificationTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), roomsToSentNotification));
             ConsensusHandler.getInstance().add(new ConsensusObjectTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(),
                     event.getTask(), floorService));
             UINotificationMessage.notify("All other residents are notified, all the other residents should accept" +

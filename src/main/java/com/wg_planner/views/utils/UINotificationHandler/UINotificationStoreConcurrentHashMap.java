@@ -1,30 +1,28 @@
 package com.wg_planner.views.utils.UINotificationHandler;
 
-import org.springframework.stereotype.Controller;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class UIEventStoreConcurrentHashMap extends UIEventStore {
-    private static UIEventStoreConcurrentHashMap uiEventStoreConcurrentHashMap;
+public class UINotificationStoreConcurrentHashMap extends UINotificationStore {
+    private static UINotificationStoreConcurrentHashMap uiEventStoreConcurrentHashMap;
 
-    private ConcurrentHashMap<Long, List<UIEventType>> notificationMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Long, List<UINotificationType>> notificationMap = new ConcurrentHashMap<>();
 
     static {
-        uiEventStoreConcurrentHashMap = new UIEventStoreConcurrentHashMap();
+        uiEventStoreConcurrentHashMap = new UINotificationStoreConcurrentHashMap();
     }
-    private UIEventStoreConcurrentHashMap() {
+    private UINotificationStoreConcurrentHashMap() {
     }
 
-    public static UIEventStoreConcurrentHashMap getInstance() {
+    public static UINotificationStoreConcurrentHashMap getInstance() {
         return uiEventStoreConcurrentHashMap;
     }
 
     @Override
-    public boolean saveNotification(Long roomId, UIEventType newNotification) {
-        List<UIEventType> residentNotificationList = notificationMap.get(roomId);
+    public boolean saveNotification(Long roomId, UINotificationType newNotification) {
+        List<UINotificationType> residentNotificationList = notificationMap.get(roomId);
         if (residentNotificationList != null) {
             return residentNotificationList.add(newNotification); //true if this collection changed as a result of
             // the call
@@ -43,7 +41,7 @@ public class UIEventStoreConcurrentHashMap extends UIEventStore {
 //            throw new RuntimeException("notification to remove not found in the map. notificationId: " + notificationId);
 //        }
 //        notificationMap.get(roomId).remove(uiNotificationContentToRemove.get());
-        List<UIEventType> notificationsOfRoom = notificationMap.get(roomId);
+        List<UINotificationType> notificationsOfRoom = notificationMap.get(roomId);
         if(notificationsOfRoom != null){
             notificationsOfRoom.removeIf(uiNotificationType -> uiNotificationType.getId().equals(notificationId));
         }
@@ -55,7 +53,7 @@ public class UIEventStoreConcurrentHashMap extends UIEventStore {
     }
 
     @Override
-    public List<UIEventType> getAllNotificationsOfRoom(Long roomId) {
+    public List<UINotificationType> getAllNotificationsOfRoom(Long roomId) {
         if (notificationMap.get(roomId) == null) {
             return Collections.emptyList();
         }

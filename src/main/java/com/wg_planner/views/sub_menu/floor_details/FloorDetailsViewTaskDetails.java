@@ -17,7 +17,6 @@ import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;
 
-@PreserveOnRefresh
 @CssImport(value = "./styles/views/floor-details/floor-details-view-task-details.css")
 public class FloorDetailsViewTaskDetails {
     private Accordion tasksAccordion;
