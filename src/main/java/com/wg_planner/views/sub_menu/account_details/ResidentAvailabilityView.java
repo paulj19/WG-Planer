@@ -45,7 +45,7 @@ public class ResidentAvailabilityView extends VerticalLayout {
         });
         add(isResidentPresent);
         confirmationDialogStatusChange = new ConfirmationDialog("Confirm Availability Status Change",
-                "If you are not ready to take tasks, all your tasks will be transferred to the next available " +
+                "If you are not ready to take tasks(if any), all your tasks will be transferred to the next available " +
                         "resident. Are you sure you want to change availability status?",
                 "Confirm",
                 "Cancel", SessionHandler.getLoggedInResidentAccount());

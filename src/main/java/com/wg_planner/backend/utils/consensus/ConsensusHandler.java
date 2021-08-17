@@ -4,8 +4,8 @@ import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.resident_admission.EventTimer;
 import org.apache.commons.lang3.Validate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
+import java.util.Collection;
 
 public class ConsensusHandler {
     private static ConsensusHandler consensusHandler;
@@ -53,6 +53,10 @@ public class ConsensusHandler {
         return removeConsensusObjectFromStore(consensusObject);
     }
 
+    public boolean removeConsensusObjectFromStore(Long consensusObjectId) {
+        return removeConsensusObjectFromStore(getConsensusObject(consensusObjectId));
+    }
+
     private boolean removeConsensusObjectFromStore(ConsensusObject consensusObject) {
         if (consensusObject == null) {
             return false;
@@ -73,11 +77,15 @@ public class ConsensusHandler {
                 consensusObject.getTimeoutInterval());
     }
 
-    public ConsensusObject get(Long id) {
+    public ConsensusObject getConsensusObject(Long id) {
         return ConsensusObjectStore.getInstance().get(id);
     }
 
     public boolean isObjectWaitingForConsensus(Long objectId) {
         return ConsensusObjectStore.getInstance().containsObject(objectId);
+    }
+
+    public Collection<ConsensusObject> getAllConsensusObjects() {
+        return ConsensusObjectStore.getInstance().getAllConsensusObjects();
     }
 }

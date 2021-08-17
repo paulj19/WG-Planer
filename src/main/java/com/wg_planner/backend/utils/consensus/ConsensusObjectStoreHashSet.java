@@ -2,8 +2,7 @@ package com.wg_planner.backend.utils.consensus;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
@@ -40,7 +39,13 @@ public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
         return consensusEntities.stream().anyMatch(consensusObject -> consensusObject.getId().equals(id));
     }
 
+    @Override
+    public Collection<ConsensusObject> getAllConsensusObjects() {
+        return Collections.unmodifiableSet(consensusEntities);
+    }
+
     public static ConsensusObjectStoreHashSet getInstance() {
         return consensusObjectStoreHashSet;
     }
+
 }

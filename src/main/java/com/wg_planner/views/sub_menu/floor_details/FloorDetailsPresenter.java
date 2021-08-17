@@ -7,10 +7,12 @@ import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
+import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskCreate;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskDelete;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeTaskDelete;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeRequireConsensusTaskCreate;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeRequireConsensusTaskDelete;
 import com.wg_planner.views.utils.UINotificationMessage;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +49,13 @@ public class FloorDetailsPresenter {
             taskService.save(event.getTask());
             List<Room> roomsToSentNotification = floorService.getAllOccupiedAndResidentNotAwayRooms(event.getTask().getFloor());
             roomsToSentNotification.removeIf(room -> room.equals(SessionHandler.getLoggedInResidentAccount().getRoom()));
-            UIMessageBus.broadcast(UINotificationHandler.getInstance().createAndSaveUINotification(new UINotificationTypeTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), roomsToSentNotification));
+            UIMessageBus.broadcast(UINotificationHandler.getInstance().createAndSaveUINotification(new UINotificationTypeRequireConsensusTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask()), roomsToSentNotification));
             ConsensusHandler.getInstance().add(new ConsensusObjectTaskDelete(SessionHandler.getLoggedInResidentAccount().getRoom(),
                     event.getTask(), floorService));
             UINotificationMessage.notify("All other residents are notified, all the other residents should accept" +
                     " before task can be deleted");
         } else {
-            UINotificationMessage.notify("Some other resident tried to delete the task and has already been send for " +
-                    "approval by all residents");
+            UINotificationMessage.notify("Some other resident tried to delete the task and is waiting for approval by all residents");
         }
         floorDetailsView.refreshTasksInFloor();
     }
@@ -63,8 +64,23 @@ public class FloorDetailsPresenter {
         return !ConsensusHandler.getInstance().isObjectWaitingForConsensus(id);
     }
 
-    void saveNewlyCreatedTask(Task taskCreated) {
-        taskService.save(taskCreated);
+    synchronized void saveNewlyCreatedTask(Task taskToCreate) {
+        boolean isAnotherTaskCreatedWithSameNameWaitingForConsensus =
+                ConsensusHandler.getInstance().getAllConsensusObjects().stream().filter(consensusObject -> consensusObject.getRelatedObject() instanceof Task && ((Task) consensusObject.getRelatedObject()).getFloor().equals(taskToCreate.getFloor())).anyMatch(consensusObject -> ((Task) consensusObject.getRelatedObject()).getTaskName().equals(taskToCreate.getTaskName()));
+        //task Name should be unique in floor
+        if (!isAnotherTaskCreatedWithSameNameWaitingForConsensus) {
+            taskToCreate.setActive(false);
+            taskService.save(taskToCreate);
+            List<Room> roomsToSentNotification = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToCreate.getFloor());
+            roomsToSentNotification.removeIf(room -> room.equals(SessionHandler.getLoggedInResidentAccount().getRoom()));
+            UIMessageBus.broadcast(UINotificationHandler.getInstance().createAndSaveUINotification(new UINotificationTypeRequireConsensusTaskCreate(SessionHandler.getLoggedInResidentAccount().getRoom(), taskToCreate), roomsToSentNotification));
+            ConsensusHandler.getInstance().add(new ConsensusObjectTaskCreate(SessionHandler.getLoggedInResidentAccount().getRoom(),
+                    taskToCreate, floorService, taskService));
+            UINotificationMessage.notify("All other residents are notified, all the other residents should accept" +
+                    " before task can be created");
+        } else {
+            UINotificationMessage.notify("Some other resident tried to create the task with the same name and is waiting for approval by all residents");
+        }
     }
 
     List<Task> getTasksInFloor() {

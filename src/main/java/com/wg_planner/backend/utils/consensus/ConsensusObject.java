@@ -16,6 +16,8 @@ public abstract class ConsensusObject implements Predicate<ConsensusObject> {
 
     public abstract Long getId();
 
+    public abstract Object getRelatedObject();
+
     public abstract ConsensusDone getConsensusDone();
 
     Room getRoomInitiatingConsensus() {

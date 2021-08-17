@@ -34,8 +34,8 @@ public class UINotificationHandler {
 
     private void setTimer(UINotificationType uiNotificationType, List<Room> roomsInFloor) {
         EventTimer.getInstance().setTimer(uiNotificationType, o -> {
-            if (o instanceof UINotificationTypeTaskDelete) {
-                removeAllNotificationObjectsInFloorOfNotification(((UINotificationTypeTaskDelete) o).getId(), roomsInFloor);
+            if (o instanceof UINotificationTypeRequireConsensusTaskDelete) {
+                removeAllNotificationObjectsInFloorOfNotification(((UINotificationTypeRequireConsensusTaskDelete) o).getId(), roomsInFloor);
             }
         }, uiNotificationType.getTimeoutIntervalInMillis());
     }

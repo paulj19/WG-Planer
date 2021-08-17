@@ -1,33 +1,37 @@
 package com.wg_planner.backend.utils.consensus;
 
 import com.wg_planner.backend.Service.FloorService;
+import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 
 import java.util.List;
 
-public class ConsensusObjectTaskDelete extends ConsensusObject {
+public class ConsensusObjectTaskCreate extends ConsensusObject {
     private final long timeoutIntervalToRemoveTaskFromMapInMillis = 604800000;
-    private Task taskToDelete;
+    private Task taskToCreate;
+    private TaskService taskService;
     private FloorService floorService;
 
-    //TODO remove it from store once the task is deleted
+    //TODO remove it from store once the task is created
     ConsensusDone consensusDone = () -> {
-        floorService.deleteTaskAndUpdateFloor(taskToDelete);
-        ConsensusHandler.getInstance().removeConsensusObjectFromStore(taskToDelete.getId());
-    };
+        taskToCreate.setActive(true);
+        taskService.save(taskToCreate);
+        ConsensusHandler.getInstance().removeConsensusObjectFromStore(taskToCreate.getId());
+    };;
 
-    private ConsensusObjectTaskDelete() {
+    private ConsensusObjectTaskCreate() {
     }
 
     public ConsensusDone getConsensusDone() {
         return consensusDone;
     }
 
-    public ConsensusObjectTaskDelete(Room roomInitialingConsensus, Task taskToDelete, FloorService floorService) {
+    public ConsensusObjectTaskCreate(Room roomInitialingConsensus, Task taskToCreate, FloorService floorService, TaskService taskService) {
         setRoomInitiatingConsensus(roomInitialingConsensus);
         this.floorService = floorService;
-        this.taskToDelete = taskToDelete;
+        this.taskService = taskService;
+        this.taskToCreate = taskToCreate;
     }
 
     @Override
@@ -37,19 +41,20 @@ public class ConsensusObjectTaskDelete extends ConsensusObject {
 
     @Override
     public Long getId() {
-        return taskToDelete.getId();
+        return taskToCreate.getId();
     }
 
     @Override
     public Object getRelatedObject() {
-        return taskToDelete;
+        return taskToCreate;
     }
 
     @Override
     public boolean test(ConsensusObject consensusObject) {
-        List<Room> roomsRequiredToAccept = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor());
+        List<Room> roomsRequiredToAccept = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToCreate.getFloor());
         roomsRequiredToAccept.remove(getRoomInitiatingConsensus());
-        assert roomsRequiredToAccept.size() == floorService.getAllOccupiedAndResidentNotAwayRooms(taskToDelete.getFloor()).size() - 1;
+        assert roomsRequiredToAccept.size() == floorService.getAllOccupiedAndResidentNotAwayRooms(taskToCreate.getFloor()).size() - 1;
         return roomsAccepting.containsAll(roomsRequiredToAccept) && roomsRequiredToAccept.containsAll(roomsAccepting);
     }
 }
+

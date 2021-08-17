@@ -5,29 +5,29 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
+import com.wg_planner.backend.entity.AbstractEntity;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.HelperMethods;
 import com.wg_planner.backend.utils.consensus.ConsensusListener;
+import com.wg_planner.backend.utils.consensus.ConsensusObject;
 
 @CssImport("./styles/views/notifications-page/notification-layout.css")
-public class UINotificationTypeTaskDelete extends UINotificationType {
-    private String notificationTemplate = "%s from room %s has deleted task %s.";
-    public Task taskToDelete;
+public abstract class UINotificationTypeRequireConsensus extends UINotificationType {
     private final long timeoutIntervalInMillis = 604800000; //7 days
 
-    private UINotificationTypeTaskDelete() {
-    }
-
-    public UINotificationTypeTaskDelete(Room sourceRoom, Task taskToDelete) {
+    public UINotificationTypeRequireConsensus(Room sourceRoom) {
         this.sourceRoom = sourceRoom;
-        this.taskToDelete = taskToDelete;
     }
 
-    @Override
-    public Object getEventRelatedObject() {
-        return taskToDelete;
+    public UINotificationTypeRequireConsensus() {
     }
+
+    abstract public Object getEventRelatedObject();
+
+    abstract public String getEventRelatedObjectName();
+
+    abstract public String getNotificationTemplate();
 
     @Override
     public Component getUILayout(ConsensusListener consensusListener) {
@@ -38,14 +38,15 @@ public class UINotificationTypeTaskDelete extends UINotificationType {
         acceptButton.addClassName("notifications-page-button");
         rejectButton.addClassName("notifications-page-button");
         buttonLayout.add(acceptButton, rejectButton);
-        acceptButton.addClickListener(event -> consensusListener.onAccept(taskToDelete.getId(), getId()));
-        rejectButton.addClickListener(event -> consensusListener.onReject(taskToDelete.getId(), getId()));
+        //todo fix me: there is no guarentee that a consensus object will be an AbstractEntity
+        acceptButton.addClickListener(event -> consensusListener.onAccept(((AbstractEntity) getEventRelatedObject()).getId(), getId()));
+        rejectButton.addClickListener(event -> consensusListener.onReject(((AbstractEntity) getEventRelatedObject()).getId(), getId()));
 
-        Span notificationMessage = new Span(String.format(notificationTemplate,
+        Span notificationMessage = new Span(String.format(getNotificationTemplate(),
                 HelperMethods.getFirstLetterUpperCase(sourceRoom.getResidentAccount().getFirstName()),
-                sourceRoom.getRoomName(), taskToDelete.getTaskName()));
+                sourceRoom.getRoomName(), getEventRelatedObjectName()));
         notificationMessage.addClassName("notification-message");
-        return createNotificationView(notificationMessage, "task-delete-type", buttonLayout);
+        return createNotificationView(notificationMessage, "consensus-type", buttonLayout);
     }
 
     @Override
