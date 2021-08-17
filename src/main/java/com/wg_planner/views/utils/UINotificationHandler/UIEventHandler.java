@@ -23,12 +23,11 @@ public class UIEventHandler {
     }
 
     public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType, Room room) {
-        return createAndSaveUINotification(uiEventType, new ArrayList<Room>(Arrays.asList(room)));
+        return createAndSaveUINotification(uiEventType, new ArrayList<>(Arrays.asList(room)));
     }
+
     public synchronized UIEventType createAndSaveUINotification(UIEventType uiEventType, List<Room> roomsInFloor) {
-        roomsInFloor.removeIf(room -> room.equals(uiEventType.getSourceRoom()));
-        roomsInFloor.forEach(room -> UIEventStore.getInstance().saveNotification(room.getId(),
-                uiEventType));
+        roomsInFloor.forEach(room -> UIEventStore.getInstance().saveNotification(room.getId(), uiEventType));
         setTimer(uiEventType, roomsInFloor);
         return uiEventType;
     }
