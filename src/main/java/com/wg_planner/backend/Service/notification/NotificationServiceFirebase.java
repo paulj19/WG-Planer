@@ -7,7 +7,10 @@ import com.wg_planner.backend.entity.NotificationChannel;
 import com.wg_planner.backend.entity.NotificationChannelFirebase;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.ResidentDevice;
+import com.wg_planner.backend.utils.LogHandler;
+import com.wg_planner.views.UnauthorizedPages.create_floor.NewRoomView;
 import org.apache.commons.lang3.Validate;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +24,7 @@ import java.util.stream.Collectors;
 public class NotificationServiceFirebase implements NotificationService {
 
     private final FirebaseMessaging firebaseMessaging;
-    private static final Logger LOGGER = Logger.getLogger(NotificationServiceFirebase.class
-            .getName());
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(NewRoomView.class);
 
     @Autowired
     public NotificationServiceFirebase(FirebaseMessaging firebaseMessaging) {
@@ -33,16 +35,15 @@ public class NotificationServiceFirebase implements NotificationService {
     @Override
     public void sendNotification(NotificationFirebaseType notificationFirebaseType,
                                  ResidentAccount residentAccountToNotify) {
-        LOGGER.log(Level.INFO,
-                "Sending notification " + "Resident Account " + residentAccountToNotify.toString() +
-                        notificationFirebaseType.toString());
         for (String token : getTokensFromResidentAccount(residentAccountToNotify)) {
             if (sendNotificationToSingleDevice(notificationFirebaseType.getNotificationMessage(token)) == SendResult.FAILURE) {
-                LOGGER.log(Level.SEVERE,
-                        "Notification send failed. " + "Resident Account " + residentAccountToNotify.toString() +
-                                notificationFirebaseType.toString() + "Token :" + token);
+                LOGGER.error(LogHandler.getNotificationError(),
+                        "Notification send failed, Resident Account: {}, Notification Details: {}, Token: {}." + residentAccountToNotify.toString(),
+                        notificationFirebaseType.toString(), token);
             }
-
+            LOGGER.info(LogHandler.getTestRun(),
+                    "Sending notification successful, Resident Account: {}, Notification Details: {}" + residentAccountToNotify.toString(),
+                    notificationFirebaseType.toString());
         }
     }
 
@@ -63,12 +64,10 @@ public class NotificationServiceFirebase implements NotificationService {
         List<ResidentDevice> residentDevicesToNotify =
                 residentAccountToNotify.getResidentDevicesActive().stream().filter(residentDevice -> residentDevice.getDeviceNotificationChannels().stream().anyMatch(notificationChannel -> notificationChannel.getClass().equals(NotificationChannelFirebase.class))).collect(Collectors.toList());
         if (residentDevicesToNotify.isEmpty()) {
-            throw new RuntimeException("Error: Notification send not successful no " +
-                    "notificationChannelFirebase found " +
-                    "for " +
-                    "residentAccount" + residentAccountToNotify.toString());
+            LOGGER.error("Notification send not successful no notificationChannelFirebase found for " +
+                    "Resident Account: {} ", residentAccountToNotify.toString());
         }
-        residentDevicesToNotify.stream().forEach(residentDevice -> LOGGER.log(Level.INFO,
+        residentDevicesToNotify.forEach(residentDevice -> LOGGER.info(LogHandler.getNotificationError(),
                 "getTokensFromResidentAccount returning resident devices" + residentDevice.toString()));
         return residentDevicesToNotify.stream().map(residentDevice -> residentDevice.getDeviceNotificationChannels().stream().map(NotificationChannel::getNotificationToken).collect(Collectors.toList())).collect(Collectors.toList()).stream().flatMap(List::stream)
                 .collect(Collectors.toList());
