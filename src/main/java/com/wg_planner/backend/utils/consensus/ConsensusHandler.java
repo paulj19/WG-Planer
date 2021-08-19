@@ -1,7 +1,6 @@
 package com.wg_planner.backend.utils.consensus;
 
 import com.wg_planner.backend.entity.Room;
-import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.resident_admission.EventTimer;
 import org.apache.commons.lang3.Validate;
 
@@ -21,16 +20,20 @@ public class ConsensusHandler {
         return consensusHandler;
     }
 
-    public boolean processAccept(Task task, Room acceptor) {
-        Validate.notNull(task, "argument must not be null");
-        return processAccept(ConsensusObjectStore.getInstance().get(task.getId()), acceptor);
+    public ConsensusObject getConsensusObject(Object objectForConsensus) {
+        return ConsensusObjectStore.getInstance().getByObjectForConsensus(objectForConsensus);
     }
 
-    public boolean processAccept(Long id, Room acceptor) {
-        if (ConsensusObjectStore.getInstance().get(id) == null) {
+    public boolean processAccept(Object objectForConsensus, Room acceptor) {
+        Validate.notNull(objectForConsensus, "argument must not be null");
+        return processAccept(getConsensusObject(objectForConsensus), acceptor);
+    }
+
+    public boolean processAccept(Long consensusObjectId, Room acceptor) {
+        if (getConsensusObject(consensusObjectId) == null) {
             return false;
         }
-        return processAccept(ConsensusObjectStore.getInstance().get(id), acceptor);
+        return processAccept(getConsensusObject(consensusObjectId), acceptor);
     }
 
     public boolean processAccept(ConsensusObject consensusObject, Room acceptor) {
@@ -43,20 +46,20 @@ public class ConsensusHandler {
         return true;
     }
 
-    public boolean processReject(Long id) {
-        Validate.notNull(id, "argument must not be null");
-        return processReject(ConsensusObjectStore.getInstance().get(id));
+    public boolean processReject(Object objectForConsensus) {
+        Validate.notNull(objectForConsensus, "argument must not be null");
+        return processReject(getConsensusObject(objectForConsensus));
     }
 
     public boolean processReject(ConsensusObject consensusObject) {
-        return removeConsensusObjectFromStore(consensusObject);
+        return removeConsensusObjectByObjectToConsensus(consensusObject);
     }
 
-    public boolean removeConsensusObjectFromStore(Long consensusObjectId) {
-        return removeConsensusObjectFromStore(getConsensusObject(consensusObjectId));
+    public boolean removeConsensusObjectByObjectToConsensus(Object objectForConsensus) {
+        return removeConsensusObjectByObjectToConsensus(getConsensusObject(objectForConsensus));
     }
 
-    private boolean removeConsensusObjectFromStore(ConsensusObject consensusObject) {
+    private boolean removeConsensusObjectByObjectToConsensus(ConsensusObject consensusObject) {
         if (consensusObject == null) {
             return false;
         }
@@ -72,16 +75,12 @@ public class ConsensusHandler {
     }
 
     private void setTimer(ConsensusObject consensusObject) {
-        EventTimer.getInstance().setTimer(consensusObject, o -> removeConsensusObjectFromStore(consensusObject),
+        EventTimer.getInstance().setTimer(consensusObject, o -> removeConsensusObjectByObjectToConsensus(consensusObject),
                 consensusObject.getTimeoutInterval());
     }
 
-    public ConsensusObject getConsensusObject(Long id) {
-        return ConsensusObjectStore.getInstance().get(id);
-    }
-
-    public boolean isObjectWaitingForConsensus(Long objectId) {
-        return ConsensusObjectStore.getInstance().containsObject(objectId);
+    public boolean isObjectWaitingForConsensus(Object objectForConsensus) {
+        return ConsensusObjectStore.getInstance().containsObject(objectForConsensus);
     }
 
     public Collection<ConsensusObject> getAllConsensusObjects() {

@@ -16,7 +16,7 @@ public class TaskCardCreator {
 
     public static TaskCard createAllTaskCard(Task task, TasksPresenter tasksPresenter) {
         if (task.getAssignedRoom() == null) {
-            if (ConsensusHandler.getInstance().isObjectWaitingForConsensus(task.getId())) {
+            if (ConsensusHandler.getInstance().isObjectWaitingForConsensus(task)) {
                 return new TaskCardRoomAssigned(new TaskCardWithTaskLabel(task), task);
             }
             TaskCard taskCard =

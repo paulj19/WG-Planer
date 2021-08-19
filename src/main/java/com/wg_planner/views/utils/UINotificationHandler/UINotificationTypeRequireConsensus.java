@@ -39,8 +39,8 @@ public abstract class UINotificationTypeRequireConsensus extends UINotificationT
         rejectButton.addClassName("notifications-page-button");
         buttonLayout.add(acceptButton, rejectButton);
         //todo fix me: there is no guarentee that a consensus object will be an AbstractEntity
-        acceptButton.addClickListener(event -> consensusListener.onAccept(((AbstractEntity) getEventRelatedObject()).getId(), getId()));
-        rejectButton.addClickListener(event -> consensusListener.onReject(((AbstractEntity) getEventRelatedObject()).getId(), getId()));
+        acceptButton.addClickListener(event -> consensusListener.onAccept(getEventRelatedObject(), getId()));
+        rejectButton.addClickListener(event -> consensusListener.onReject(getEventRelatedObject(), getId()));
 
         Span notificationMessage = new Span(String.format(getNotificationTemplate(),
                 HelperMethods.getFirstLetterUpperCase(sourceRoom.getResidentAccount().getFirstName()),

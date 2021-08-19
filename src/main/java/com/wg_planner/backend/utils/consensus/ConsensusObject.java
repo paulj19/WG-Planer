@@ -5,20 +5,26 @@ import org.apache.commons.lang3.Validate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 public abstract class ConsensusObject implements Predicate<ConsensusObject> {
+    private final String id = UUID.randomUUID().toString();
     protected Room roomInitiatingConsensus;
     protected List<Room> roomsAccepting = new ArrayList<>();
     protected List<Room> roomsRejecting = new ArrayList<>();
 
     public abstract long getTimeoutInterval();
 
-    public abstract Long getId();
+    public String getId() {
+        return id;
+    };
 
     public abstract Object getRelatedObject();
 
     public abstract ConsensusDone getConsensusDone();
+
+    public abstract String getCurrentStatus();
 
     Room getRoomInitiatingConsensus() {
         return roomInitiatingConsensus;

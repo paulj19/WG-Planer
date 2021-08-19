@@ -18,16 +18,16 @@ public class NotificationsPagePresenter implements UIMessageBus.BroadcastListene
     private Room attachedRoom;
     private ConsensusListener consensusListener = new ConsensusListener() {
         @Override
-        public synchronized void onAccept(Long consensusObjectId, String notificationId) {
-            ConsensusHandler.getInstance().processAccept(consensusObjectId, attachedRoom);
+        public synchronized void onAccept(Object objectForConsensus, String notificationId) {
+            ConsensusHandler.getInstance().processAccept(objectForConsensus, attachedRoom);
             UINotificationHandler.getInstance().removeNotification(attachedRoom.getId(), notificationId);
             //todo something better than reload
             UI.getCurrent().getPage().reload();
         }
 
         @Override
-        public synchronized void onReject(Long consensusObjectId, String notificationId) {
-            ConsensusHandler.getInstance().processReject(consensusObjectId);
+        public synchronized void onReject(Object objectForConsensus, String notificationId) {
+            ConsensusHandler.getInstance().processReject(objectForConsensus);
             UINotificationHandler.getInstance().removeAllNotificationObjectsInFloorOfNotification(notificationId,
                     floorService.getAllRoomsInFloorByFloorId(attachedRoom.getFloor().getId()));
             UI.getCurrent().getPage().reload();

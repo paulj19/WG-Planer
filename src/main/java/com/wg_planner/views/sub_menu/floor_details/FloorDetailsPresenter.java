@@ -44,7 +44,7 @@ public class FloorDetailsPresenter {
     }
 
     private synchronized void onTaskDelete(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent event) {
-        if (!ConsensusHandler.getInstance().isObjectWaitingForConsensus(event.getTask().getId())) {
+        if (!ConsensusHandler.getInstance().isObjectWaitingForConsensus(event.getTask())) {
             event.getTask().setAssignedRoom(null);
             taskService.save(event.getTask());
             List<Room> roomsToSentNotification = floorService.getAllOccupiedAndResidentNotAwayRooms(event.getTask().getFloor());
@@ -55,13 +55,13 @@ public class FloorDetailsPresenter {
             UINotificationMessage.notify("All other residents are notified, all the other residents should accept" +
                     " before task can be deleted");
         } else {
-            UINotificationMessage.notify("Some other resident tried to delete the task and is waiting for approval by all residents");
+            UINotificationMessage.notify("Some other resident tried to delete the task and is waiting for approval by all available residents");
         }
         floorDetailsView.refreshTasksInFloor();
     }
 
-    synchronized boolean isObjectDeletable(Long id) {
-        return !ConsensusHandler.getInstance().isObjectWaitingForConsensus(id);
+    synchronized boolean isObjectDeletable(Task taskToDelete) {
+        return !ConsensusHandler.getInstance().isObjectWaitingForConsensus(taskToDelete);
     }
 
     synchronized void saveNewlyCreatedTask(Task taskToCreate) {
@@ -69,8 +69,6 @@ public class FloorDetailsPresenter {
                 ConsensusHandler.getInstance().getAllConsensusObjects().stream().filter(consensusObject -> consensusObject.getRelatedObject() instanceof Task && ((Task) consensusObject.getRelatedObject()).getFloor().equals(taskToCreate.getFloor())).anyMatch(consensusObject -> ((Task) consensusObject.getRelatedObject()).getTaskName().equals(taskToCreate.getTaskName()));
         //task Name should be unique in floor
         if (!isAnotherTaskCreatedWithSameNameWaitingForConsensus) {
-            taskToCreate.setActive(false);
-            taskService.save(taskToCreate);
             List<Room> roomsToSentNotification = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToCreate.getFloor());
             roomsToSentNotification.removeIf(room -> room.equals(SessionHandler.getLoggedInResidentAccount().getRoom()));
             UIMessageBus.broadcast(UINotificationHandler.getInstance().createAndSaveUINotification(new UINotificationTypeRequireConsensusTaskCreate(SessionHandler.getLoggedInResidentAccount().getRoom(), taskToCreate), roomsToSentNotification));
@@ -79,7 +77,7 @@ public class FloorDetailsPresenter {
             UINotificationMessage.notify("All other residents are notified, all the other residents should accept" +
                     " before task can be created");
         } else {
-            UINotificationMessage.notify("Some other resident tried to create the task with the same name and is waiting for approval by all residents");
+            UINotificationMessage.notify("Some other resident tried to create the task with the same name and is waiting for approval by all available residents");
         }
     }
 

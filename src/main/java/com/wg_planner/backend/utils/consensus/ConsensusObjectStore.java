@@ -7,11 +7,13 @@ import java.util.Set;
 public abstract class ConsensusObjectStore {
     public abstract boolean add(ConsensusObject o);
 
-    public abstract ConsensusObject get(Long id);
+    public abstract ConsensusObject getById(String id);
+
+    public abstract ConsensusObject getByObjectForConsensus(Object objectForConsensus);
 
     public abstract void remove(ConsensusObject consensusObject);
 
-    public abstract boolean containsObject(Long id);
+    public abstract boolean containsObject(Object objectForConsensus);
 
     public abstract Collection<ConsensusObject> getAllConsensusObjects();
 

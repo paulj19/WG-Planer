@@ -99,7 +99,7 @@ public class FloorDetailsViewTaskDetails {
         taskLayout.addClassName("floor-details-task-card");
         Span taskName = new Span(task.getTaskName());
         taskName.addClassName("floor-details-task-name");
-        if (floorDetailsPresenter.isObjectDeletable(task.getId())) {
+        if (floorDetailsPresenter.isObjectDeletable(task)) {
             Button deleteTask = new Button("Delete");
             addButtonClass(deleteTask);
             Button resetOrAssignTask = new Button(task.getAssignedRoom() == null ? "Assign" : "Reset");

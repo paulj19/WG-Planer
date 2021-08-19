@@ -8,6 +8,7 @@ import com.wg_planner.backend.entity.Task;
 import java.util.List;
 
 public class ConsensusObjectTaskCreate extends ConsensusObject {
+    private final String taskStatus = "waiting to be created";
     private final long timeoutIntervalToRemoveTaskFromMapInMillis = 604800000;
     private Task taskToCreate;
     private TaskService taskService;
@@ -15,9 +16,8 @@ public class ConsensusObjectTaskCreate extends ConsensusObject {
 
     //TODO remove it from store once the task is created
     ConsensusDone consensusDone = () -> {
-        taskToCreate.setActive(true);
         taskService.save(taskToCreate);
-        ConsensusHandler.getInstance().removeConsensusObjectFromStore(taskToCreate.getId());
+        ConsensusHandler.getInstance().removeConsensusObjectByObjectToConsensus(taskToCreate);
     };;
 
     private ConsensusObjectTaskCreate() {
@@ -25,6 +25,11 @@ public class ConsensusObjectTaskCreate extends ConsensusObject {
 
     public ConsensusDone getConsensusDone() {
         return consensusDone;
+    }
+
+    @Override
+    public String getCurrentStatus() {
+        return taskStatus;
     }
 
     public ConsensusObjectTaskCreate(Room roomInitialingConsensus, Task taskToCreate, FloorService floorService, TaskService taskService) {
@@ -37,11 +42,6 @@ public class ConsensusObjectTaskCreate extends ConsensusObject {
     @Override
     public long getTimeoutInterval() {
         return timeoutIntervalToRemoveTaskFromMapInMillis;
-    }
-
-    @Override
-    public Long getId() {
-        return taskToCreate.getId();
     }
 
     @Override

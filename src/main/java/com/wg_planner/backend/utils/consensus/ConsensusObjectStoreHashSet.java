@@ -23,10 +23,15 @@ public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
     }
 
     @Override
-    public ConsensusObject get(Long id) {
+    public ConsensusObject getById(String id) {
         Optional<ConsensusObject> searchResult =
                 consensusEntities.stream().filter(consensusObject -> consensusObject.getId().equals(id)).findFirst();
         return searchResult.orElse(null);
+    }
+
+    @Override
+    public ConsensusObject getByObjectForConsensus(Object objectForConsensus) {
+        return consensusEntities.stream().filter(consensusObject -> Objects.equals(consensusObject.getRelatedObject(), objectForConsensus)).findFirst().get();
     }
 
     @Override
@@ -35,8 +40,8 @@ public class ConsensusObjectStoreHashSet extends ConsensusObjectStore {
     }
 
     @Override
-    public boolean containsObject(Long id) {
-        return consensusEntities.stream().anyMatch(consensusObject -> consensusObject.getId().equals(id));
+    public boolean containsObject(Object objectForConsensus) {
+        return consensusEntities.stream().anyMatch(consensusObject -> Objects.equals(consensusObject.getRelatedObject(),objectForConsensus));
     }
 
     @Override

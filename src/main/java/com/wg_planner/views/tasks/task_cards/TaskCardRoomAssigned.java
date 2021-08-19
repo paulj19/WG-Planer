@@ -12,17 +12,18 @@ public class TaskCardRoomAssigned extends TaskCardWithDetails {
     public TaskCardRoomAssigned(TaskCard taskCard, Task task) {
         super(taskCard, task);
         initializeWithAssignedRoom();
-//        addClassName("task-box");
+        //        addClassName("task-box");
         super.add(assignedRoomName);
         super.getStyle().set("display", "block");
         super.getStyle().set("margin", "0");
     }
 
     private void initializeWithAssignedRoom() {
-        boolean taskWaitingToBeDeleted = ConsensusHandler.getInstance().isObjectWaitingForConsensus(task.getId());
-        //todo fix css alignment
-        assignedRoomName.setText(taskWaitingToBeDeleted ? "waiting to be deleted" :
-                task.getAssignedRoom() != null ? task.getAssignedRoom().getRoomName() : "no room assigned");
+        if (ConsensusHandler.getInstance().isObjectWaitingForConsensus(task)) {
+            assignedRoomName.setText(ConsensusHandler.getInstance().getConsensusObject(task).getCurrentStatus());
+        } else {
+            assignedRoomName.setText(task.getAssignedRoom() != null ? task.getAssignedRoom().getRoomName() : "no room assigned");
+        }
         assignedRoomName.addClassName("room-name");
     }
 

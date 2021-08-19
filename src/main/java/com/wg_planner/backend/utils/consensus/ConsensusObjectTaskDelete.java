@@ -7,6 +7,7 @@ import com.wg_planner.backend.entity.Task;
 import java.util.List;
 
 public class ConsensusObjectTaskDelete extends ConsensusObject {
+    private final String taskStatus = "waiting to be deleted";
     private final long timeoutIntervalToRemoveTaskFromMapInMillis = 604800000;
     private Task taskToDelete;
     private FloorService floorService;
@@ -14,7 +15,7 @@ public class ConsensusObjectTaskDelete extends ConsensusObject {
     //TODO remove it from store once the task is deleted
     ConsensusDone consensusDone = () -> {
         floorService.deleteTaskAndUpdateFloor(taskToDelete);
-        ConsensusHandler.getInstance().removeConsensusObjectFromStore(taskToDelete.getId());
+        ConsensusHandler.getInstance().removeConsensusObjectByObjectToConsensus(taskToDelete);
     };
 
     private ConsensusObjectTaskDelete() {
@@ -22,6 +23,11 @@ public class ConsensusObjectTaskDelete extends ConsensusObject {
 
     public ConsensusDone getConsensusDone() {
         return consensusDone;
+    }
+
+    @Override
+    public String getCurrentStatus() {
+        return taskStatus;
     }
 
     public ConsensusObjectTaskDelete(Room roomInitialingConsensus, Task taskToDelete, FloorService floorService) {
@@ -33,11 +39,6 @@ public class ConsensusObjectTaskDelete extends ConsensusObject {
     @Override
     public long getTimeoutInterval() {
         return timeoutIntervalToRemoveTaskFromMapInMillis;
-    }
-
-    @Override
-    public Long getId() {
-        return taskToDelete.getId();
     }
 
     @Override
