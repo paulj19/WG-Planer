@@ -47,7 +47,12 @@ public class UINavigationHandler {
     public void navigateToHomePage() {
         UI.getCurrent().navigate(HomePageView.class);
     }
+
     private void navigateBackMyTasks() {
         UI.getCurrent().navigate(MyTasksView.class);
+    }
+
+    public void refreshPage() {
+        UI.getCurrent().getPage().reload();
     }
 }

@@ -15,7 +15,7 @@ public abstract class TaskCard extends HorizontalLayout {
     }
 
     public TaskCard(Task task) {
-//        addClassName("task-box");
+        //        addClassName("task-box");
         this.task = task;
     }
 
@@ -38,5 +38,6 @@ public abstract class TaskCard extends HorizontalLayout {
         else
             throw new RuntimeException("Event class must be of type TaskCard.TaskCardEvent");
     }
+
     public abstract Class getEventClass();
 }
