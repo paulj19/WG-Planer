@@ -76,7 +76,7 @@ public class MainView extends AppLayout {
     private void addBrowserWindowResizeListener() {
         UI.getCurrent().getPage().addBrowserWindowResizeListener(event -> {
             getWindowWidth();
-            UI.getCurrent().getPage().reload();
+            UINavigationHandler.getInstance().reloadPage();
         });
     }
 

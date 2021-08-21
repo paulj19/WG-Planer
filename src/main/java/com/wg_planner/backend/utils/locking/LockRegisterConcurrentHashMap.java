@@ -1,22 +1,21 @@
 package com.wg_planner.backend.utils.locking;
 
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class LockStoreConcurrentHashMap extends LockStore {
-    private static LockStoreConcurrentHashMap lockStoreConcurrentHashMap;
+public class LockRegisterConcurrentHashMap extends LockRegister {
+    private static LockRegisterConcurrentHashMap lockStoreConcurrentHashMap;
     private ConcurrentHashMap<Long, CustomLock> lockMap = new ConcurrentHashMap<>();
 
     static {
-        lockStoreConcurrentHashMap = new LockStoreConcurrentHashMap();
+        lockStoreConcurrentHashMap = new LockRegisterConcurrentHashMap();
     }
 
-    public static LockStoreConcurrentHashMap getInstance() {
+    public static LockRegisterConcurrentHashMap getInstance() {
         return lockStoreConcurrentHashMap;
     }
 
     @Override
-    public CustomLock addLock(Long objectToLockId, long ownerThreadId) {
+    public CustomLock addLockCallingThread(Long objectToLockId, long ownerThreadId) {
         return lockMap.putIfAbsent(objectToLockId, new CustomLock(ownerThreadId));
     }
 
@@ -26,7 +25,7 @@ public class LockStoreConcurrentHashMap extends LockStore {
     }
 
     @Override
-    public void removeLock(Long objectToLockId) {
+    public void removeLockCallingThread(Long objectToLockId) {
         lockMap.remove(objectToLockId);
     }
 }

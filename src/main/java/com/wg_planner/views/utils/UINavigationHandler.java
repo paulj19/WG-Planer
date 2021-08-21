@@ -52,7 +52,7 @@ public class UINavigationHandler {
         UI.getCurrent().navigate(MyTasksView.class);
     }
 
-    public void refreshPage() {
+    public void reloadPage() {
         UI.getCurrent().getPage().reload();
     }
 }

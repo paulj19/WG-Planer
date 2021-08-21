@@ -6,6 +6,7 @@ import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusListener;
 import com.wg_planner.views.utils.SessionHandler;
+import com.wg_planner.views.utils.UINavigationHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationType;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
@@ -22,7 +23,7 @@ public class NotificationsPagePresenter implements UIMessageBus.BroadcastListene
             ConsensusHandler.getInstance().processAccept(objectForConsensus, attachedRoom);
             UINotificationHandler.getInstance().removeNotification(attachedRoom.getId(), notificationId);
             //todo something better than reload
-            UI.getCurrent().getPage().reload();
+            UINavigationHandler.getInstance().reloadPage();
         }
 
         @Override
@@ -30,7 +31,7 @@ public class NotificationsPagePresenter implements UIMessageBus.BroadcastListene
             ConsensusHandler.getInstance().processReject(objectForConsensus);
             UINotificationHandler.getInstance().removeAllNotificationObjectsInFloorOfNotification(notificationId,
                     floorService.getAllRoomsInFloorByFloorId(attachedRoom.getFloor().getId()));
-            UI.getCurrent().getPage().reload();
+            UINavigationHandler.getInstance().reloadPage();
         }
     };
 

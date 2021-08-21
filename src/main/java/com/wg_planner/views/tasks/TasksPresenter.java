@@ -8,7 +8,7 @@ import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
 import com.wg_planner.backend.Service.notification.NotificationTypeTaskReminder;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.backend.utils.locking.LockHandler;
+import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.tasks.task_cards.TaskCard;
 import com.wg_planner.views.utils.SessionHandler;
@@ -56,18 +56,15 @@ public abstract class TasksPresenter {
     //sync important because done and remind could happen at the same time
     //todo implement has changed with hashcode. which changes including(somewhere something in the floor is changed) should affect the sync
     public synchronized void taskDoneCallBack(TaskCard.TaskCardEvent event) {
-        //synchronization issue fix?
         try {
-            Object taskLock = LockHandler.getInstance().getLock(event.getTask().getId());
+            Object taskLock = LockRegisterHandler.getInstance().registerLock(event.getTask().getId());
             synchronized (taskLock) {
                 Thread.sleep(20000);
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
                 if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
                     taskService.transferTask(event.getTask(), floorService);
                     addTasks();
-                    List<UINotificationType> taskRemindNotifications =
-                            UINotificationHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UINotificationTypeTaskRemind && uiEventType.getEventRelatedObject().equals(event.getTask())).collect(Collectors.toList());
-                    taskRemindNotifications.forEach(notification -> UINotificationHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
+                    removeNotificationsForDoneTask(event.getTask());
                     UINotificationMessage.notify("The task is passed to next available resident");
                     return;
                 }
@@ -75,17 +72,22 @@ public abstract class TasksPresenter {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            LockHandler.getInstance().unlock(event.getTask().getId());
+            LockRegisterHandler.getInstance().unregisterLock(event.getTask().getId());
         }
-        UINavigationHandler.getInstance().refreshPage();
+        UINavigationHandler.getInstance().reloadPage();
         UINotificationMessage.notify("A change was made to the task since the last access");
+    }
+
+    private void removeNotificationsForDoneTask(Task taskDone) {
+        List<UINotificationType> taskRemindNotifications =
+                UINotificationHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UINotificationTypeTaskRemind && uiEventType.getEventRelatedObject().equals(taskDone)).collect(Collectors.toList());
+        taskRemindNotifications.forEach(notification -> UINotificationHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
     }
 
     //todo DialogBox are you really done/remind ----> UNDO!!
     public synchronized void taskRemindCallBack(TaskCard.TaskCardEvent event) {
-        //synchronization issue fix?
         try {
-            Object taskLock = LockHandler.getInstance().getLock(event.getTask().getId());
+            Object taskLock = LockRegisterHandler.getInstance().registerLock(event.getTask().getId());
             synchronized (taskLock) {
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
                 if (event.getTask().getAssignedRoom().equals(taskPossiblyDirty.getAssignedRoom())) {
@@ -100,9 +102,9 @@ public abstract class TasksPresenter {
                 }
             }
         } finally {
-            LockHandler.getInstance().unlock(event.getTask().getId());
+            LockRegisterHandler.getInstance().unregisterLock(event.getTask().getId());
         }
-        UINavigationHandler.getInstance().refreshPage();
+        UINavigationHandler.getInstance().reloadPage();
         UINotificationMessage.notify("A change was made to the task since the last access");
     }
 
