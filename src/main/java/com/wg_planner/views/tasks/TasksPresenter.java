@@ -60,7 +60,7 @@ public abstract class TasksPresenter {
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
                 if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
                     try {
-                        Thread.sleep(20000);
+                        Thread.sleep(40000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
