@@ -1,13 +1,26 @@
 package com.wg_planner.backend.utils.locking;
 
-public class CustomLock {
-    long id;
+import java.util.HashSet;
 
-    public CustomLock(long id) {
-        this.id = id;
+public class CustomLock {
+    HashSet<Long> threadsRequestingLock = new HashSet<>();
+
+    public CustomLock(Long threadId) {
+        addToThreadsRequestingLock(threadId);
     }
 
-    public long getId() {
-        return id;
+    public synchronized boolean addToThreadsRequestingLock(Long threadId) {
+        return threadsRequestingLock.add(threadId);
+    }
+
+    public synchronized boolean containsLockRequestFromThread(Long threadId) {
+        return threadsRequestingLock.contains(threadId);
+    }
+
+    public synchronized boolean removeLockRequestFromThread(Long threadId) {
+        return threadsRequestingLock.remove(threadId);
+    }
+    public synchronized boolean isThreadsRequestingLocksEmpty() {
+        return threadsRequestingLock.isEmpty();
     }
 }

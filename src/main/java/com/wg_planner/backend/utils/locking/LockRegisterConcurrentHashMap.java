@@ -15,8 +15,8 @@ public class LockRegisterConcurrentHashMap extends LockRegister {
     }
 
     @Override
-    public CustomLock addLockCallingThread(Long objectToLockId, long ownerThreadId) {
-        return lockMap.putIfAbsent(objectToLockId, new CustomLock(ownerThreadId));
+    public CustomLock addLockCallingThread(Long objectToLockId, CustomLock customLock) {
+        return lockMap.putIfAbsent(objectToLockId, customLock);
     }
 
     @Override

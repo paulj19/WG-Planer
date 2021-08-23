@@ -1,7 +1,7 @@
 package com.wg_planner.backend.utils.locking;
 
 public abstract class LockRegister {
-    public abstract CustomLock addLockCallingThread(Long objectToLockId, long ownerThreadId);
+    public abstract CustomLock addLockCallingThread(Long objectToLockId, CustomLock customLock);
 
     public abstract CustomLock getLock(Long objectToLockId);
 

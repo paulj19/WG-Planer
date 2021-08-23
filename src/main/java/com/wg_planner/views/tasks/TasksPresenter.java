@@ -12,7 +12,6 @@ import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.tasks.task_cards.TaskCard;
 import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UINavigationHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationType;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeTaskRemind;
@@ -74,8 +73,7 @@ public abstract class TasksPresenter {
         } finally {
             LockRegisterHandler.getInstance().unregisterLock(event.getTask().getId());
         }
-        UINavigationHandler.getInstance().reloadPage();
-        UINotificationMessage.notify("A change was made to the task since the last access");
+        UINotificationMessage.notify("A change was made to the task since this page was last loaded, please refresh the page.");
     }
 
     private void removeNotificationsForDoneTask(Task taskDone) {
@@ -104,8 +102,7 @@ public abstract class TasksPresenter {
         } finally {
             LockRegisterHandler.getInstance().unregisterLock(event.getTask().getId());
         }
-        UINavigationHandler.getInstance().reloadPage();
-        UINotificationMessage.notify("A change was made to the task since the last access");
+        UINotificationMessage.notify("A change was made to the task since this page was last loaded, please refresh the page.");
     }
 
     public void taskAssignCallBack(TaskCard.TaskCardEvent event) {
