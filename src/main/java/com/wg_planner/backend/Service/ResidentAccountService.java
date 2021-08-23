@@ -6,6 +6,7 @@ import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,16 @@ public class ResidentAccountService {
     public void transferTasksOfResidentToNext(ResidentAccount currentResidentAccount,
                                               FloorService floorService, TaskService taskService) {
         List<Task> assignedTasks = new ArrayList<>(currentResidentAccount.getRoom().getAssignedTasks());
-        assignedTasks.forEach(task -> taskService.transferTask(task, floorService));
+        assignedTasks.forEach(task -> {
+            try {
+                Object taskLock = LockRegisterHandler.getInstance().registerLock(task.getId());
+                synchronized (taskLock) {
+                    taskService.transferTask(task, floorService);
+                }
+            } finally {
+                LockRegisterHandler.getInstance().unregisterLock(task.getId());
+            }
+        });
         Assert.isTrue(currentResidentAccount.getRoom().getAssignedTasks().isEmpty(), "assigned " +
                 "tasks to the room after transfer task of resident must be empty");
     }

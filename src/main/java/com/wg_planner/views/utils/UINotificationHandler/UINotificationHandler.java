@@ -1,11 +1,14 @@
 package com.wg_planner.views.utils.UINotificationHandler;
 
 import com.wg_planner.backend.entity.Room;
+import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.resident_admission.EventTimer;
+import com.wg_planner.views.utils.SessionHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UINotificationHandler {
     //sync in function calling saveNotification
@@ -53,4 +56,7 @@ public class UINotificationHandler {
         UINotificationStore.getInstance().removeNotification(roomId, id);
     }
 
+    public void removeAllRemindNotificationsForObject(Object o, Room taskAssignedRoom) {
+        getAllNotificationsForRoom(taskAssignedRoom).stream().filter(uiEventType -> uiEventType instanceof UINotificationTypeTaskRemind && uiEventType.getEventRelatedObject().equals(o)).collect(Collectors.toList()).forEach(notification -> UINotificationHandler.getInstance().removeNotification(taskAssignedRoom.getId(), notification.getId()));
+    }
 }

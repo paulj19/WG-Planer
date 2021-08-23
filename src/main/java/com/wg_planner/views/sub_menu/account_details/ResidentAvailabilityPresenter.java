@@ -5,6 +5,7 @@ import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.views.utils.SessionHandler;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,9 @@ public class ResidentAvailabilityPresenter {
                 residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId());
         if (isAway) {
             residentAccountService.transferTasksOfResidentToNext(currentResidentAccount, floorService, taskService);
+            currentResidentAccount.getRoom().getAssignedTasks().forEach(task -> {
+                UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(task, currentResidentAccount.getRoom());
+            });
         }
         currentResidentAccount.setAway(isAway);
         residentAccountService.save(currentResidentAccount);

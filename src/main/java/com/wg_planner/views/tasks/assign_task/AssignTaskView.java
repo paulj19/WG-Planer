@@ -6,9 +6,11 @@ import com.vaadin.flow.router.*;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINavigationHandler;
+import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
 import com.wg_planner.views.utils.UINotificationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -51,20 +53,25 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     }
 
     private synchronized void assignTask(AssignRoomToTaskPage.AssignTaskPageEvent.AssignEvent event) {
-        //synchronization issue fix: the method sync ensures contention between assigns
-        // and if task has changed between opening assign page and clicking
-        Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
-        if (Objects.equals(event.getTaskToAssign().getAssignedRoom(), taskPossiblyDirty.getAssignedRoom())) {
-            taskService.assignTask(taskToAssign, event.getRoomSelected());
-            UINavigationHandler.getInstance().navigateToHomePage();
-            UINotificationMessage.notify("Task " + event.getTaskToAssign().getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());
-        } else {
-            UINotificationMessage.notify("A change has been made to the task, please refresh the page");
+        try {
+            Object taskLock = LockRegisterHandler.getInstance().registerLock(taskToAssign.getId());
+            synchronized (taskLock) {
+                Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
+                if (Objects.equals(taskPossiblyDirty.getAssignedRoom(), taskToAssign.getAssignedRoom())) {
+                    taskService.assignTask(taskToAssign, event.getRoomSelected());
+                    UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(event.getTaskToAssign(), taskToAssign.getAssignedRoom());
+                    UINavigationHandler.getInstance().navigateToHomePage();
+                    UINotificationMessage.notify("Task " + event.getTaskToAssign().getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());
+                    return;
+                }
+            }
+        } finally {
+            LockRegisterHandler.getInstance().unregisterLock(taskToAssign.getId());
         }
+        UINotificationMessage.notifyTaskChange();
     }
 
     private void cancelAssign(AssignRoomToTaskPage.AssignTaskPageEvent.CancelEvent event) {
         UINavigationHandler.getInstance().navigateToHomePage();
     }
-
 }

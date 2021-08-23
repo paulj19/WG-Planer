@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @Scope("prototype")
@@ -58,28 +57,24 @@ public abstract class TasksPresenter {
         try {
             Object taskLock = LockRegisterHandler.getInstance().registerLock(event.getTask().getId());
             synchronized (taskLock) {
-                Thread.sleep(20000);
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
                 if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
+                    try {
+                        Thread.sleep(20000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     taskService.transferTask(event.getTask(), floorService);
-                    addTasks();
-                    removeNotificationsForDoneTask(event.getTask());
+                    UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(event.getTask(), event.getTask().getAssignedRoom());
                     UINotificationMessage.notify("The task is passed to next available resident");
+                    addTasks();
                     return;
                 }
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         } finally {
             LockRegisterHandler.getInstance().unregisterLock(event.getTask().getId());
         }
-        UINotificationMessage.notify("A change was made to the task since this page was last loaded, please refresh the page.");
-    }
-
-    private void removeNotificationsForDoneTask(Task taskDone) {
-        List<UINotificationType> taskRemindNotifications =
-                UINotificationHandler.getInstance().getAllNotificationsForRoom(SessionHandler.getLoggedInResidentAccount().getRoom()).stream().filter(uiEventType -> uiEventType instanceof UINotificationTypeTaskRemind && uiEventType.getEventRelatedObject().equals(taskDone)).collect(Collectors.toList());
-        taskRemindNotifications.forEach(notification -> UINotificationHandler.getInstance().removeNotification(SessionHandler.getLoggedInResidentAccount().getRoom().getId(), notification.getId()));
+        UINotificationMessage.notifyTaskChange();
     }
 
     //todo DialogBox are you really done/remind ----> UNDO!!
@@ -102,7 +97,7 @@ public abstract class TasksPresenter {
         } finally {
             LockRegisterHandler.getInstance().unregisterLock(event.getTask().getId());
         }
-        UINotificationMessage.notify("A change was made to the task since this page was last loaded, please refresh the page.");
+        UINotificationMessage.notifyTaskChange();
     }
 
     public void taskAssignCallBack(TaskCard.TaskCardEvent event) {
