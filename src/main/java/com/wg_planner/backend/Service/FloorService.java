@@ -6,16 +6,14 @@ import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import org.apache.commons.lang3.Validate;
-import org.apache.juli.logging.LogFactory;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +21,7 @@ import java.util.logging.Logger;
 public class FloorService {
     private static final Logger LOGGER = Logger.getLogger(FloorService.class
             .getName());
-//    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FloorService.class);
+    //    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FloorService.class);
 
     private final TaskRepository taskRepository;
     private final FloorRepository floorRepository;
@@ -49,7 +47,7 @@ public class FloorService {
         return nonOccupiedRoomsInFloor;
     }
 
-    public List<Room> getAllRoomsInFloorByFloorId(@NotNull Floor floor) {
+    public List<Room> getAllRoomsInFloor(@NotNull Floor floor) {
         Validate.notNull(floor, "parameter floor must not be %s", null);
         return floorRepository.findAllRoomsInFloor(floor.getId());
     }
@@ -73,12 +71,24 @@ public class FloorService {
         Validate.isTrue(floorRepository.findAllRoomsInFloor(floor.getId()).contains(room),
                 " parameter " + room.toString() + " not found in set of available rooms in floor" + floor.toString());
 
-        List<Room> roomsInFloor = getAllOccupiedAndResidentNotAwayRooms(floor);
-        Validate.notNull(roomsInFloor, "getAllAvailableRooms() returned %s", null);
-        Validate.notEmpty(roomsInFloor, "getAllAvailableRooms() returned empty list");
+        List<Room> roomsInFloor = getAllRoomsInFloor(floor);
+        Validate.notNull(roomsInFloor, "getAllRoomsInFloor must not return %s", null);
+        Validate.notEmpty(roomsInFloor, "getAllAvailableRooms() must not return empty list");
 
-        //returns the room with the next index after the passed room
-        return roomsInFloor.get((roomsInFloor.indexOf(room) + 1) % roomsInFloor.size());
+        Room nextAvailableRoom = null;
+        int i = roomsInFloor.indexOf(room);
+        while (true) {
+            i = (i + 1) % roomsInFloor.size();
+            //if all rooms are empty in the floor
+            if (i == roomsInFloor.indexOf(room) && (roomsInFloor.get(i).getResidentAccount().isAway()) || !roomsInFloor.get(i).isOccupied()) {
+                break;
+            }
+            if (roomsInFloor.get(i).isOccupied() && !roomsInFloor.get(i).getResidentAccount().isAway()) {
+                nextAvailableRoom = roomsInFloor.get(i);
+                break;
+            }
+        }
+        return nextAvailableRoom;
     }
 
     public List<Task> getAllTasksInFloor(Floor floor) {
@@ -100,13 +110,13 @@ public class FloorService {
     public void deleteTaskAndUpdateFloor(Task task) {
         Validate.notNull(task, "parameter task to delete must not be %s", null);
         task.getFloor().removeTaskFromFloor(task);
-        if(task.getAssignedRoom() != null) {
+        if (task.getAssignedRoom() != null) {
             task.getAssignedRoom().removeAssignedTask(task);
         }
         task.setActive(false);
         save(task.getFloor());
         taskRepository.save(task);
-//        taskRepository.delete(task);
+        //        taskRepository.delete(task);
     }
 
     public void save(Floor floorToSave) {

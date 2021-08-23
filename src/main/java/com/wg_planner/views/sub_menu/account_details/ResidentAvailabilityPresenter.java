@@ -23,13 +23,13 @@ public class ResidentAvailabilityPresenter {
     public void setResidentAwayStatusAndSave(boolean isAway) {
         ResidentAccount currentResidentAccount =
                 residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId());
+        currentResidentAccount.setAway(isAway);
+        residentAccountService.save(currentResidentAccount);
         if (isAway) {
             residentAccountService.transferTasksOfResidentToNext(currentResidentAccount, floorService, taskService);
             currentResidentAccount.getRoom().getAssignedTasks().forEach(task -> {
                 UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(task, currentResidentAccount.getRoom());
             });
         }
-        currentResidentAccount.setAway(isAway);
-        residentAccountService.save(currentResidentAccount);
     }
 }

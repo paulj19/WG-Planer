@@ -9,7 +9,6 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.router.PreserveOnRefresh;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.UnauthorizedPages.create_floor.NewTaskView;
 import com.wg_planner.views.UnauthorizedPages.create_floor.NewTaskViewCreator;
@@ -53,7 +52,9 @@ public class FloorDetailsViewTaskDetails {
         addTaskButton.addClickListener(event -> {
             tasksInFloorLayout.replace(addTaskButton, getNewTaskCreateLayout());
         });
-        tasksInFloorLayout.add(addTaskButton);
+        if (floorDetailsPresenter.isAnyResidentPresentInFloor()) {
+            tasksInFloorLayout.add(addTaskButton);
+        }
         tasksInFloorComponent = tasksInFloorLayout;
         tasksAccordion.add("Edit Tasks", tasksInFloorLayout);
         return tasksInFloorLayout;
@@ -99,17 +100,15 @@ public class FloorDetailsViewTaskDetails {
         taskLayout.addClassName("floor-details-task-card");
         Span taskName = new Span(task.getTaskName());
         taskName.addClassName("floor-details-task-name");
-        if (floorDetailsPresenter.isObjectDeletable(task)) {
-            Button deleteTask = new Button("Delete");
-            addButtonClass(deleteTask);
+        taskLayout.add(taskName);
+        if (floorDetailsPresenter.isTaskEditable(task)) {
             Button resetOrAssignTask = new Button(task.getAssignedRoom() == null ? "Assign" : "Reset");
+            Button deleteTask = new Button("Delete");
             addButtonClass(resetOrAssignTask);
+            addButtonClass(deleteTask);
+            resetOrAssignTask.addClickListener(event -> UI.getCurrent().navigate(AssignTaskView.class, task.getId().toString()));
             deleteTask.addClickListener(event -> confirmationDialog.open());
-            resetOrAssignTask.addClickListener(event -> UI.getCurrent().navigate(AssignTaskView.class,
-                    task.getId().toString()));
-            taskLayout.add(taskName, resetOrAssignTask, deleteTask);
-        } else {
-            taskLayout.add(taskName);
+            taskLayout.add(resetOrAssignTask, deleteTask);
         }
         return taskLayout;
     }

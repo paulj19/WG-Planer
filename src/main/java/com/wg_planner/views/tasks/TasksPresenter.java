@@ -59,11 +59,6 @@ public abstract class TasksPresenter {
             synchronized (taskLock) {
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
                 if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
-                    try {
-                        Thread.sleep(40000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     taskService.transferTask(event.getTask(), floorService);
                     UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(event.getTask(), event.getTask().getAssignedRoom());
                     UINotificationMessage.notify("The task is passed to next available resident");

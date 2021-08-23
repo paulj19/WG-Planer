@@ -38,7 +38,7 @@ public class FloorDetailsPresenter {
             floorDetailsView.addFloorName(floor.getFloorName());
         }
         floorDetailsView.addFloorCode(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor().getFloorCode());
-        floorDetailsView.addRoomsInFloor(floorService.getAllRoomsInFloorByFloorId(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
+        floorDetailsView.addRoomsInFloor(floorService.getAllRoomsInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()));
         floorDetailsView.addAdmitNewResidentView();
         floorDetailsView.addListener(FloorDetailsView.TaskUpdateEvent.DeleteTaskEvent.class, this::onTaskDelete);
         floorDetailsView.addTasksInFloor();
@@ -68,8 +68,12 @@ public class FloorDetailsPresenter {
         floorDetailsView.refreshTasksInFloor();
     }
 
-    synchronized boolean isObjectDeletable(Task taskToDelete) {
-        return !ConsensusHandler.getInstance().isObjectWaitingForConsensus(taskToDelete);
+    synchronized boolean isTaskEditable(Task taskToDelete) {
+        return !ConsensusHandler.getInstance().isObjectWaitingForConsensus(taskToDelete) && !floorService.getAllOccupiedAndResidentNotAwayRooms(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()).isEmpty();
+    }
+
+    boolean isAnyResidentPresentInFloor() {
+        return !floorService.getAllOccupiedAndResidentNotAwayRooms(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()).isEmpty();
     }
 
     synchronized void saveNewlyCreatedTask(Task taskToCreate) {
