@@ -4,13 +4,19 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.entity.ResidentAccount;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.utils.SessionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResidentDetailsView extends VerticalLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResidentDetailsView.class);
     ResidentAccountService residentAccountService;
     ResidentAccount residentAccount;
 
     public ResidentDetailsView(ResidentAccountService residentAccountService) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. ResidentDetailsView selected.",
+                SessionHandler.getLoggedInResidentAccount().getId());
         this.residentAccountService = residentAccountService;
         residentAccount =
                 residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId());

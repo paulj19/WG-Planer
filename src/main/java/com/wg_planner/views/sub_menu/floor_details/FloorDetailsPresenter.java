@@ -6,9 +6,11 @@ import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Floor;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskCreate;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskDelete;
+import com.wg_planner.views.sub_menu.account_details.ResidentDetailsView;
 import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
@@ -16,11 +18,14 @@ import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeRequir
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeRequireConsensusTaskDelete;
 import com.wg_planner.views.utils.UINotificationMessage;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class FloorDetailsPresenter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FloorDetailsPresenter.class);
     @Autowired
     private FloorService floorService;
     @Autowired
@@ -49,6 +54,8 @@ public class FloorDetailsPresenter {
             try {
                 Object taskLock = LockRegisterHandler.getInstance().registerLock(event.getTask().getId());
                 synchronized (taskLock) {
+                    LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. onTaskDelete. Task {}.",
+                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString());
                     event.getTask().setAssignedRoom(null);
                     taskService.save(event.getTask());
                 }
@@ -63,6 +70,8 @@ public class FloorDetailsPresenter {
             UINotificationMessage.notify("All other residents are notified, all the other residents should accept" +
                     " before task can be deleted");
         } else {
+            LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. onTaskDelete already up for consensus. Task {}.",
+                    SessionHandler.getLoggedInResidentAccount().getId(), event.getTask());
             UINotificationMessage.notify("Some other resident tried to delete the task and is waiting for approval by all available residents");
         }
         floorDetailsView.refreshTasksInFloor();

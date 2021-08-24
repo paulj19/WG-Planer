@@ -23,6 +23,7 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.home_page.HomePageView;
 import com.wg_planner.views.notifications_page.NotificationsPageView;
 import com.wg_planner.views.sub_menu.account_details.AccountDetailsView;
@@ -32,6 +33,8 @@ import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINavigationHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import java.net.MalformedURLException;
@@ -50,6 +53,7 @@ import java.util.Optional;
 @CssImport(value = "./styles/views/main/main-view.css", include = "lumo-badge")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 public class MainView extends AppLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainView.class);
     private final Tabs menu;
     final int mobileWindowWidth = 480;//px
     final int standardTabletWindowWidth = 768;//px
@@ -63,12 +67,13 @@ public class MainView extends AppLayout {
         accountDetailsHelper = new AccountDetailsHelper();
         beanFactory.autowireBean(mainViewPresenter);
         beanFactory.autowireBean(accountDetailsHelper);
-        getWindowWidth();
-        addBrowserWindowResizeListener();
         AccountDetailsHelper.setAccountDetailsHelper(accountDetailsHelper);
         SessionHandler.saveLoggedInResidentAccount(accountDetailsHelper.getLoggedInResidentAccount());
+        getWindowWidth();
+        addBrowserWindowResizeListener();
         menu = createMenu();
         addToNavbar(false, createNavContentTitle());
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Main page view selected.", SessionHandler.getLoggedInResidentAccount().getId());
         //todo this should go direct after login
         mainViewPresenter.init();
     }
@@ -83,6 +88,8 @@ public class MainView extends AppLayout {
     private void getWindowWidth() {
         UI.getCurrent().getPage().retrieveExtendedClientDetails(details -> {
             if (details.getWindowInnerWidth() <= standardTabletWindowWidth) {
+                LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Screen size changed to {}.",
+                        details.getWindowInnerWidth(), SessionHandler.getLoggedInResidentAccount().getId());
                 menu.setOrientation(Tabs.Orientation.HORIZONTAL);
                 addToNavbar(true, createNavContentMenuBar(menu));
             } else {

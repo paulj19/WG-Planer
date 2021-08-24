@@ -9,15 +9,19 @@ import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.Service.ResidentAccountService;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UIStringConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 @Route(layout = MainView.class)
 @PageTitle("Resident Availability")
 public class ResidentAvailabilityView extends VerticalLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResidentAvailabilityView.class);
     private ResidentAvailabilityPresenter residentAvailabilityPresenter;
     private ResidentAccountService residentAccountService;
     private AutowireCapableBeanFactory beanFactory;
@@ -26,6 +30,8 @@ public class ResidentAvailabilityView extends VerticalLayout {
 
     public ResidentAvailabilityView(AutowireCapableBeanFactory beanFactory,
                                     ResidentAccountService residentAccountService) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. ResidentAvailabilityView selected.",
+                SessionHandler.getLoggedInResidentAccount().getId());
         this.beanFactory = beanFactory;
         this.residentAccountService = residentAccountService;
         residentAvailabilityPresenter = new ResidentAvailabilityPresenter();
@@ -60,11 +66,15 @@ public class ResidentAvailabilityView extends VerticalLayout {
     }
 
     private <T extends ComponentEvent<?>> void onConfirm(ConfirmationDialog.ConfirmationDialogEvent.ConfirmEvent confirmEvent) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Confirm set away status to {}.",
+                SessionHandler.getLoggedInResidentAccount().getId(), isResidentPresent.getValue());
         residentAvailabilityPresenter.setResidentAwayStatusAndSave(isResidentPresent.getValue());
         Notification.show(UIStringConstants.getInstance().getAvailabilityStatusChanged());
     }
 
     private <T extends ComponentEvent<?>> void onCancel(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Cancel set away status.",
+                SessionHandler.getLoggedInResidentAccount().getId());
         isResidentPresent.setValue(residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId()).isAway());
         confirmationDialogStatusChange.close();
     }

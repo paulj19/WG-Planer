@@ -6,8 +6,13 @@ import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.LogHandler;
+import com.wg_planner.views.sub_menu.account_details.ResidentAvailabilityView;
+import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +23,7 @@ import java.util.List;
 
 @Service
 public class ResidentAccountService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResidentAccountService.class);
     private final ResidentAccountRepository residentAccountRepository;
     private final RoomRepository roomRepository;
     private final AccountRepository accountRepository;
@@ -76,10 +82,13 @@ public class ResidentAccountService {
     public void transferTasksOfResidentToNext(ResidentAccount currentResidentAccount,
                                               FloorService floorService, TaskService taskService) {
         List<Task> assignedTasks = new ArrayList<>(currentResidentAccount.getRoom().getAssignedTasks());
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. transferTasksOfResidentToNext. Tasks transferred: ",
+                SessionHandler.getLoggedInResidentAccount().getId());
         assignedTasks.forEach(task -> {
             try {
                 Object taskLock = LockRegisterHandler.getInstance().registerLock(task.getId());
                 synchronized (taskLock) {
+                    LOGGER.info(LogHandler.getTestRun(), ", {}", task.getId());
                     taskService.transferTask(task, floorService);
                 }
             } finally {

@@ -7,15 +7,21 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
+import com.wg_planner.backend.utils.LogHandler;
+import com.wg_planner.views.UnauthorizedPages.create_floor.CreateFloorView;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
 import com.wg_planner.views.tasks.floor_tasks.FloorTasksView;
+import com.wg_planner.views.utils.SessionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 @Route(value = "home", layout = MainView.class)
 @PageTitle("Home")
 @CssImport("./styles/views/home-page/home-page-view.css")
 public class HomePageView extends VerticalLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomePageView.class);
     private AutowireCapableBeanFactory beanFactory;
     private final Tabs subMenu = new Tabs();
 
@@ -25,6 +31,8 @@ public class HomePageView extends VerticalLayout {
         subMenu.addClassName("submenu-navbar");
         add(subMenu);
         createSubMenuTabs();
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Home page view selected.",
+                SessionHandler.getLoggedInResidentAccount().getId());
     }
 
     private void createSubMenuTabs() {

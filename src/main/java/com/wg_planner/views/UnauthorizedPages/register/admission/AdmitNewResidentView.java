@@ -41,8 +41,6 @@ public class AdmitNewResidentView extends VerticalLayout {
     private AdmitNewResidentPresenter admitNewResidentPresenter;
 
     public AdmitNewResidentView(AutowireCapableBeanFactory beanFactory) {
-        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Admitter field to admit new resident open.",
-                SessionHandler.getLoggedInResidentAccount().getId());
         this.beanFactory = beanFactory;
         admitNewResidentPresenter = new AdmitNewResidentPresenter(this);
         beanFactory.autowireBean(admitNewResidentPresenter);

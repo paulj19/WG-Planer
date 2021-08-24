@@ -12,12 +12,17 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.UnauthorizedPages.create_floor.NewTaskView;
 import com.wg_planner.views.UnauthorizedPages.create_floor.NewTaskViewCreator;
+import com.wg_planner.backend.utils.LogHandler;
+import com.wg_planner.views.UnauthorizedPages.create_floor.CreateTaskView;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CssImport(value = "./styles/views/floor-details/floor-details-view-task-details.css")
 public class FloorDetailsViewTaskDetails {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FloorDetailsViewTaskDetails.class);
     private Accordion tasksAccordion;
     private Component tasksInFloorComponent;
     private FloorDetailsView floorDetailsView;

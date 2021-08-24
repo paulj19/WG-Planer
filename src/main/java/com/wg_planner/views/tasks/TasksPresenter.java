@@ -9,7 +9,9 @@ import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
 import com.wg_planner.backend.Service.notification.NotificationTypeTaskReminder;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.locking.LockRegisterHandler;
+import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
+import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.tasks.task_cards.TaskCard;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
@@ -17,6 +19,8 @@ import com.wg_planner.views.utils.UINotificationHandler.UINotificationType;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationTypeTaskRemind;
 import com.wg_planner.views.utils.UINotificationMessage;
 import com.wg_planner.views.utils.broadcaster.UIMessageBus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,7 +30,7 @@ import java.util.List;
 @Controller
 @Scope("prototype")
 public abstract class TasksPresenter {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(TasksPresenter.class);
     @Autowired
     protected FloorService floorService;
     @Autowired
@@ -38,16 +42,12 @@ public abstract class TasksPresenter {
     @Autowired
     NotificationServiceFirebase notificationServiceFirebase;
 
-    protected static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(TasksPresenter.class
-            .getName());
-
     protected List<Task> tasks;
 
     abstract public void addTasks();
 
     public void init() {
         tasks = floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor());
-        sanityCheckTasks();
         addTasks();
     }
 
@@ -59,17 +59,22 @@ public abstract class TasksPresenter {
             synchronized (taskLock) {
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
                 if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
+                    LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Task Done callback task {}.",
+                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString());
                     taskService.transferTask(event.getTask(), floorService);
                     UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(event.getTask(), event.getTask().getAssignedRoom());
                     UINotificationMessage.notify("The task is passed to next available resident");
                     addTasks();
                     return;
+                } else {
+                    LOGGER.warn("invalid task on task done callback. Resident Account id {}. Task from event {}. Task from DB {}.",
+                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString(), taskPossiblyDirty.toString());
+                    UINotificationMessage.notifyTaskChange();
                 }
             }
         } finally {
             LockRegisterHandler.getInstance().unregisterLock(event.getTask().getId());
         }
-        UINotificationMessage.notifyTaskChange();
     }
 
     //todo DialogBox are you really done/remind ----> UNDO!!
@@ -79,6 +84,8 @@ public abstract class TasksPresenter {
             synchronized (taskLock) {
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
                 if (event.getTask().getAssignedRoom().equals(taskPossiblyDirty.getAssignedRoom())) {
+                    LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Task Remind callback task {}.",
+                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString());
                     UINotificationType uiNotificationTypeTaskRemind =
                             new UINotificationTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask());
                     UIMessageBus.unicastTo(UINotificationHandler.getInstance().createAndSaveUINotification(uiNotificationTypeTaskRemind,
@@ -87,12 +94,15 @@ public abstract class TasksPresenter {
                             event.getTask().getAssignedRoom().getResidentAccount());
                     UINotificationMessage.notify("A reminder has been send");
                     return;
+                } else {
+                    LOGGER.warn("invalid task on task remind callback. Resident Account id {}. Task from event {}. Task from DB {}.",
+                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString(), taskWithPossibleUpdate.toString());
+                    UINotificationMessage.notifyTaskChange();
                 }
             }
         } finally {
             LockRegisterHandler.getInstance().unregisterLock(event.getTask().getId());
         }
-        UINotificationMessage.notifyTaskChange();
     }
 
     public void taskAssignCallBack(TaskCard.TaskCardEvent event) {

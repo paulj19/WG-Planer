@@ -1,12 +1,16 @@
 package com.wg_planner.backend.utils.consensus;
 
+import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.resident_admission.EventTimer;
+import com.wg_planner.backend.utils.LogHandler;
+import com.wg_planner.views.utils.SessionHandler;
 import org.apache.commons.lang3.Validate;
 
 import java.util.Collection;
 
 public class ConsensusHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsensusHandler.class);
     private static ConsensusHandler consensusHandler;
 
     static {
@@ -39,6 +43,10 @@ public class ConsensusHandler {
     public boolean processAccept(ConsensusObject consensusObject, Room acceptor) {
         Validate.notNull(consensusObject, "argument must not be null");
         Validate.notNull(acceptor, "argument must not be null");
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. ConsensusHandler processAccept. Room initiating consensus {}, Consensus Type {}, " +
+                        "consensus object id {} Room acceptor {}.",
+                SessionHandler.getLoggedInResidentAccount().getId(), consensusObject.getRoomInitiatingConsensus().getId(), consensusObject.getClass().toString(),
+                consensusObject.getId(), acceptor.getId());
         consensusObject.addAcceptingRoom(acceptor);
         if (consensusObject.test(consensusObject)) {
             consensusObject.getConsensusDone().onConsensusDone();
@@ -52,6 +60,10 @@ public class ConsensusHandler {
     }
 
     public boolean processReject(ConsensusObject consensusObject) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. ConsensusHandler processAccept. Room initiating consensus {}, Consensus Type {}, " +
+                        "consensus object id {}.",
+                SessionHandler.getLoggedInResidentAccount().getId(), consensusObject.getRoomInitiatingConsensus(), consensusObject.getClass().toString(),
+                consensusObject.getId());
         return removeConsensusObjectByObjectToConsensus(consensusObject);
     }
 

@@ -12,14 +12,22 @@ import com.vaadin.flow.shared.Registration;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.LogHandler;
+import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
+import com.wg_planner.views.utils.SessionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class AssignRoomToTaskPage extends VerticalLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssignRoomToTaskPage.class);
     private Room roomSelected;
     private Task taskToAssign;
 
     public AssignRoomToTaskPage(Task taskToAssign, FloorService floorService) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. AssignRoomToTaskPage open. Task to Assign {}",
+                SessionHandler.getLoggedInResidentAccount().getId(), taskToAssign.toString());
         this.taskToAssign = taskToAssign;
         addClassName("assign-task-view");
         add(getHeading(taskToAssign), getAssignedRoomName(taskToAssign), getRoomsComboBox(taskToAssign, floorService));
@@ -47,6 +55,10 @@ public class AssignRoomToTaskPage extends VerticalLayout {
         if (taskToAssign.getAssignedRoom() != null) {
             availableRoomsInFloor.remove(taskToAssign.getAssignedRoom());
         }
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. AssignRoomToTaskPage rooms shown:",
+                SessionHandler.getLoggedInResidentAccount().getId());
+        availableRoomsInFloor.forEach(room -> LOGGER.info(LogHandler.getTestRun(), "id {} ",
+                room.getId()));
         roomsInFloorComboBox.setItems(availableRoomsInFloor);
         roomsInFloorComboBox.setItemLabelGenerator(Room::getRoomName);
         roomsInFloorComboBox.setValue(null);
