@@ -2,7 +2,6 @@ package com.wg_planner.backend.resident_admission;
 
 import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UINotificationHandler.UIEventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

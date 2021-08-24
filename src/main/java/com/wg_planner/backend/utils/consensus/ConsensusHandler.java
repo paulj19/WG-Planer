@@ -1,11 +1,12 @@
 package com.wg_planner.backend.utils.consensus;
 
-import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.resident_admission.EventTimer;
 import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.utils.SessionHandler;
 import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 

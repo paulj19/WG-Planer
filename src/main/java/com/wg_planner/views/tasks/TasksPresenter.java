@@ -8,10 +8,9 @@ import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
 import com.wg_planner.backend.Service.notification.NotificationTypeTaskReminder;
 import com.wg_planner.backend.entity.Task;
-import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import com.wg_planner.backend.utils.LogHandler;
+import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
-import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.tasks.task_cards.TaskCard;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
@@ -96,7 +95,7 @@ public abstract class TasksPresenter {
                     return;
                 } else {
                     LOGGER.warn("invalid task on task remind callback. Resident Account id {}. Task from event {}. Task from DB {}.",
-                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString(), taskWithPossibleUpdate.toString());
+                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString(), taskPossiblyDirty.toString());
                     UINotificationMessage.notifyTaskChange();
                 }
             }
