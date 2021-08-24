@@ -7,14 +7,11 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.resident_admission.AdmissionCode;
@@ -80,7 +77,7 @@ public class NewResidentAdmissionView extends VerticalLayout {
                 floorCodeField.setErrorMessage("Invalid floor code, try again");
                 LOGGER.info(LogHandler.getStrange(), "floor code {} valid. Non occupied rooms returned null.", floorCodeValue);
             } else if (nonOccupiedRooms.isEmpty()) {
-                floorCodeField.setErrorMessage("No free rooms available in this floor");
+                floorCodeField.setErrorMessage("Floor not available.");
                 LOGGER.info(LogHandler.getTestRun(), "No free rooms available in this floor. Floor code {}.", floorCodeValue);
             } else {
                 VerticalLayout selectRoomVerticalLayout = new VerticalLayout();

@@ -12,8 +12,6 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.views.UnauthorizedPages.create_floor.NewTaskView;
 import com.wg_planner.views.UnauthorizedPages.create_floor.NewTaskViewCreator;
-import com.wg_planner.backend.utils.LogHandler;
-import com.wg_planner.views.UnauthorizedPages.create_floor.CreateTaskView;
 import com.wg_planner.views.tasks.assign_task.AssignTaskView;
 import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;

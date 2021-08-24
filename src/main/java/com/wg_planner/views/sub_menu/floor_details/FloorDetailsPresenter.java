@@ -10,7 +10,6 @@ import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusHandler;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskCreate;
 import com.wg_planner.backend.utils.consensus.ConsensusObjectTaskDelete;
-import com.wg_planner.views.sub_menu.account_details.ResidentDetailsView;
 import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINotificationHandler.UINotificationHandler;
@@ -92,14 +91,21 @@ public class FloorDetailsPresenter {
         if (!isAnotherTaskCreatedWithSameNameWaitingForConsensus) {
             List<Room> roomsToSentNotification = floorService.getAllOccupiedAndResidentNotAwayRooms(taskToCreate.getFloor());
             roomsToSentNotification.removeIf(room -> room.equals(SessionHandler.getLoggedInResidentAccount().getRoom()));
+            if (roomsToSentNotification.isEmpty()) {
+                if (floorService.getAllRoomsInFloor(taskToCreate.getFloor()).size() == 1) {
+                    taskService.save(taskToCreate);
+                    UINotificationMessage.notify(String.format("Created new task %s.", taskToCreate.getTaskName()));
+                } else {
+                    UINotificationMessage.notify("A new task can be created only when at least one other resident is available in the floor.");
+                }
+                return;
+            }
             UIMessageBus.broadcast(UINotificationHandler.getInstance().createAndSaveUINotification(new UINotificationTypeRequireConsensusTaskCreate(SessionHandler.getLoggedInResidentAccount().getRoom(), taskToCreate), roomsToSentNotification));
             ConsensusHandler.getInstance().add(new ConsensusObjectTaskCreate(SessionHandler.getLoggedInResidentAccount().getRoom(),
                     taskToCreate, floorService, taskService));
-            UINotificationMessage.notify("All other residents are notified, all the other residents should accept" +
-                    " before task can be created");
+            UINotificationMessage.notify("All other residents are notified, all the other residents should accept before task can be created");
         } else {
-            UINotificationMessage.notify("Some other resident tried to create the task with the same name and is waiting for approval by all available " +
-                    "residents");
+            UINotificationMessage.notify("Some other resident tried to create the task with the same name and is waiting for approval by all available residents.");
         }
     }
 

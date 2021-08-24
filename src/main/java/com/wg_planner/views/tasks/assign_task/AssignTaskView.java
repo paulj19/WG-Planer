@@ -6,6 +6,8 @@ import com.vaadin.flow.router.*;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.entity.Task;
+import com.wg_planner.backend.utils.LogHandler;
+import com.wg_planner.backend.utils.locking.LockRegisterHandler;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.views.utils.UINavigationHandler;
@@ -17,7 +19,6 @@ import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
-import java.util.logging.Level;
 
 @Route(value = "assign_task", layout = MainView.class)
 @RouteAlias(value = "assign_task", layout = MainView.class)

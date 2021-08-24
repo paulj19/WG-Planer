@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UINotificationStoreConcurrentHashMap extends UINotificationStore {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UIEventStoreConcurrentHashMap.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UINotificationStoreConcurrentHashMap.class);
     private static UINotificationStoreConcurrentHashMap uiEventStoreConcurrentHashMap;
 
     private ConcurrentHashMap<Long, List<UINotificationType>> notificationMap = new ConcurrentHashMap<>();

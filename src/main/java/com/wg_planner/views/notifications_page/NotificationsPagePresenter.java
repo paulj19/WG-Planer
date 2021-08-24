@@ -1,6 +1,5 @@
 package com.wg_planner.views.notifications_page;
 
-import com.vaadin.flow.component.UI;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.utils.LogHandler;
@@ -45,33 +44,34 @@ public class NotificationsPagePresenter implements UIMessageBus.BroadcastListene
         notificationsPageView.getNotificationsUI().addAfterNavigationListener(event -> {
             notificationsPageView.removeAll();
             UINotificationHandler.getInstance().getAllNotificationsForRoom(attachedRoom).forEach(notification -> {
-                LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Adding notification id", SessionHandler.getLoggedInResidentAccount().getId(),
+                LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Adding notification id {}", SessionHandler.getLoggedInResidentAccount().getId(),
                         notification.getId());
-                NotificationsPageView.addNotificationToView(notification.getUILayout(consensusListener)););
+                notificationsPageView.addNotificationToView(notification.getUILayout(consensusListener));
             });
-            notificationsPageView.addAttachListener(event -> {
-                UIMessageBus.register(this);
-            });
-        }
+        });
+        notificationsPageView.addAttachListener(event -> {
+            UIMessageBus.register(this);
+        });
+    }
 
-        @Override
-        public void receiveBroadcast (UINotificationType uiNotification){
-            LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Received broadcast notification id.",
-                    SessionHandler.getLoggedInResidentAccount().getId(), uiNotification.getId());
+    @Override
+    public void receiveBroadcast(UINotificationType uiNotification) {
+        LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Received broadcast notification id.",
+                SessionHandler.getLoggedInResidentAccount().getId(), uiNotification.getId());
 
-            if (notificationsPageView != null && !uiNotification.getSourceRoom().equals(attachedRoom)) {
-                LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Adding notification id", SessionHandler.getLoggedInResidentAccount().getId(),
-                        uiNotification.getId());
-                notificationsPageView.addNotificationToView(uiNotification.getUILayout(consensusListener));
-            }
-        }
-
-        @Override
-        public Room getCorrespondingRoom () {
-            return attachedRoom;
-        }
-
-        public void onDetachUI () {
-            UIMessageBus.unregister(this);
+        if (notificationsPageView != null && !uiNotification.getSourceRoom().equals(attachedRoom)) {
+            LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Adding notification id", SessionHandler.getLoggedInResidentAccount().getId(),
+                    uiNotification.getId());
+            notificationsPageView.addNotificationToView(uiNotification.getUILayout(consensusListener));
         }
     }
+
+    @Override
+    public Room getCorrespondingRoom() {
+        return attachedRoom;
+    }
+
+    public void onDetachUI() {
+        UIMessageBus.unregister(this);
+    }
+}
