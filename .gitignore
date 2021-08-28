@@ -26,3 +26,8 @@ webpack.generated.js
 /src/js/script.js
 /firebase_private_key/wg-planner-firebase-adminsdk-xiq7d-e83704d07b.json
 /firebase_private_key/firebase_private-key.json
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
