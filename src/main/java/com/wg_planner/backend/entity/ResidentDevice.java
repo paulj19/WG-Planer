@@ -57,12 +57,10 @@ public class ResidentDevice extends AbstractEntity implements Cloneable {
         }
     }
 
-    public void removeResidentDevices(NotificationChannel notificationChannelToRemove) {
-        Validate.notNull(notificationChannelToRemove, "parameter notificationChannelToRemove to " +
+    public void removeNotificationChannel(String notificationChannelToRemoveToken) {
+        Validate.notNull(notificationChannelToRemoveToken, "parameter notificationChannelToRemove to " +
                 "add must not be %s", null);
-        Validate.isTrue(deviceNotificationChannels.contains(notificationChannelToRemove),
-                "residentDevice to remove must be already present");
-        deviceNotificationChannels.remove(notificationChannelToRemove);
+        deviceNotificationChannels.removeIf(notificationChannel -> notificationChannel.getNotificationToken().equals(notificationChannelToRemoveToken));
     }
 
     @Override

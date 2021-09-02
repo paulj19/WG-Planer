@@ -2,11 +2,11 @@ package com.wg_planner.views.utils;
 
 import com.vaadin.flow.component.notification.Notification;
 
-import static com.vaadin.flow.component.notification.Notification.Position.BOTTOM_STRETCH;
+import static com.vaadin.flow.component.notification.Notification.Position.BOTTOM_CENTER;
 
 public class UINotificationMessage {
     public static void notify(String notificationMessage) {
-        Notification.show(notificationMessage, 10000, BOTTOM_STRETCH);
+        Notification.show(notificationMessage, 5000, BOTTOM_CENTER);
     }
 
     public static void notifyTaskChange() {
