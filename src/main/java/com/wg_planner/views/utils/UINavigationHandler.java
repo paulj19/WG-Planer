@@ -11,7 +11,7 @@ import java.util.*;
 public class UINavigationHandler {
     private static UINavigationHandler uiNavigationHandler;
     private final String LOGIN_URL = "login/";
-    private final String USER_DETAILS_URL = "user_details/";
+    private final String ACCOUNT_DETAILS_URL = "account_details/";
 
     static {
         uiNavigationHandler = new UINavigationHandler();
@@ -29,7 +29,7 @@ public class UINavigationHandler {
     }
 
     public void navigateToSubMenu() {
-        UI.getCurrent().navigate(USER_DETAILS_URL);
+        UI.getCurrent().navigate(ACCOUNT_DETAILS_URL);
     }
 
     public void navigateToRegisterPageParamRoomId(Long roomId) {

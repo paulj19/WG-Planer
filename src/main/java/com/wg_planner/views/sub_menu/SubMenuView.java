@@ -4,7 +4,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.router.PreserveOnRefresh;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.wg_planner.backend.Service.ResidentAccountService;
@@ -15,8 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 //todo block direct access to this url
-@Route(value = "user_details", layout = MainView.class)
-@RouteAlias(value = "user_details", layout = MainView.class)
+@PageTitle("Account Details")
+@Route(value = "account_details", layout = MainView.class)
+@RouteAlias(value = "account_details", layout = MainView.class)
 @CssImport(value = "./styles/views/sub-menu/submenu-view.css")
 public class SubMenuView extends VerticalLayout {
     private final Tabs subMenu = new Tabs();
