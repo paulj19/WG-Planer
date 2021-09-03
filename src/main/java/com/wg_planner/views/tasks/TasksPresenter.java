@@ -59,15 +59,15 @@ public abstract class TasksPresenter {
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
                 if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
                     LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Task Done callback task {}.",
-                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString());
-                    taskService.transferTask(event.getTask(), floorService);
-                    UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(event.getTask(), event.getTask().getAssignedRoom());
+                            SessionHandler.getLoggedInResidentAccount().getId(), taskPossiblyDirty.toString());
+                    taskService.transferTask(taskPossiblyDirty, floorService);
+                    UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(taskPossiblyDirty, taskPossiblyDirty.getAssignedRoom());
                     UINotificationMessage.notify("The task is passed to next available resident");
                     addTasks();
                     return;
                 } else {
                     LOGGER.warn("invalid task on task done callback. Resident Account id {}. Task from event {}. Task from DB {}.",
-                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString(), taskPossiblyDirty.toString());
+                            SessionHandler.getLoggedInResidentAccount().getId(), taskPossiblyDirty.toString(), taskPossiblyDirty.toString());
                     UINotificationMessage.notifyTaskChange();
                 }
             }
@@ -84,18 +84,18 @@ public abstract class TasksPresenter {
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTask().getId());
                 if (event.getTask().getAssignedRoom().equals(taskPossiblyDirty.getAssignedRoom())) {
                     LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Task Remind callback task {}.",
-                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString());
+                            SessionHandler.getLoggedInResidentAccount().getId(), taskPossiblyDirty.toString());
                     UINotificationType uiNotificationTypeTaskRemind =
-                            new UINotificationTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(), event.getTask());
+                            new UINotificationTypeTaskRemind(SessionHandler.getLoggedInResidentAccount().getRoom(), taskPossiblyDirty);
                     UIMessageBus.unicastTo(UINotificationHandler.getInstance().createAndSaveUINotification(uiNotificationTypeTaskRemind,
-                            event.getTask().getAssignedRoom()), event.getTask().getAssignedRoom());
-                    notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(event.getTask()),
-                            event.getTask().getAssignedRoom().getResidentAccount());
+                            taskPossiblyDirty.getAssignedRoom()), taskPossiblyDirty.getAssignedRoom());
+                    notificationServiceFirebase.sendNotification(NotificationTypeTaskReminder.getInstance(taskPossiblyDirty),
+                            taskPossiblyDirty.getAssignedRoom().getResidentAccount());
                     UINotificationMessage.notify("A reminder has been send");
                     return;
                 } else {
                     LOGGER.warn("invalid task on task remind callback. Resident Account id {}. Task from event {}. Task from DB {}.",
-                            SessionHandler.getLoggedInResidentAccount().getId(), event.getTask().toString(), taskPossiblyDirty.toString());
+                            SessionHandler.getLoggedInResidentAccount().getId(), taskPossiblyDirty.toString(), taskPossiblyDirty.toString());
                     UINotificationMessage.notifyTaskChange();
                 }
             }

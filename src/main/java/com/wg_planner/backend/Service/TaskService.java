@@ -43,14 +43,14 @@ public class TaskService {
 
     //sync fix to assign/reset and done/remind click at the same time. happens before is ordered in this class, not higher level
     @Transactional
-    public synchronized void assignTask(Task taskToAssign, Room selectedRoom) {
+    public synchronized void assignTask(Task taskToAssign, Room roomToAssign) {
         Validate.notNull(taskToAssign, "parameter taskToAssign must not be %s", null);
         if (taskToAssign.getAssignedRoom() != null) {
-            taskToAssign.getAssignedRoom().removeAssignedTask(taskToAssign);
+            taskToAssign.getAssignedRoom().removeFromAssignedTask(taskToAssign);
         }
-        taskToAssign.setAssignedRoom(selectedRoom);
-        if (selectedRoom != null) {
-            selectedRoom.addToAssignedTasks(taskToAssign);
+        taskToAssign.setAssignedRoom(roomToAssign);
+        if (roomToAssign != null) {
+            roomToAssign.addToAssignedTasks(taskToAssign);
         }
         save(taskToAssign);
     }

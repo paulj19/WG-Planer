@@ -156,7 +156,7 @@ public class RoomTest  {
         testRoom.setAssignedTasks(tasks);
         roomService.save(testRoom);
         Assert.assertEquals(tasks, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
-        testRoom.removeAssignedTask(task);
+        testRoom.removeFromAssignedTask(task);
         roomService.save(testRoom);
         Assert.assertNotEquals(tasks, roomService.getRoomByNumber("222", testFloor).getAssignedTasks());
         Assert.assertFalse(roomService.getRoomByNumber("222", testFloor).getAssignedTasks().contains(task));

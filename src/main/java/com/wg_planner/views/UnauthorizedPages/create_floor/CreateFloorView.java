@@ -2,18 +2,17 @@ package com.wg_planner.views.UnauthorizedPages.create_floor;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.RoomService;
 import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
 import com.wg_planner.views.utils.UINavigationHandler;
-import org.slf4j.LoggerFactory;
+import com.wg_planner.views.utils.UINotificationMessage;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 
@@ -42,7 +41,7 @@ public class CreateFloorView extends VerticalLayout {
     private void saveFloorAndNavigateToRegister(CreateFloorForm.CreateFloorFormEvent.SaveEvent saveEvent) {
         Assert.notNull(saveEvent.getFloorToCreate(), "floor passed to saveFloor event must not be null");
         floorService.save(saveEvent.getFloorToCreate());
-        Notification.show("Floor created");
+        UINotificationMessage.notify("Floor created");
         LOGGER.info("new floor created and saved. Floor details: {}", saveEvent.getFloorToCreate().toString());
         UINavigationHandler.getInstance().navigateToRegisterPageParamFloorId(saveEvent.getFloorToCreate().getId());
     }

@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -111,7 +110,7 @@ public class FloorService {
         Validate.notNull(task, "parameter task to delete must not be %s", null);
         task.getFloor().removeTaskFromFloor(task);
         if (task.getAssignedRoom() != null) {
-            task.getAssignedRoom().removeAssignedTask(task);
+            task.getAssignedRoom().removeFromAssignedTask(task);
         }
         task.setActive(false);
         save(task.getFloor());

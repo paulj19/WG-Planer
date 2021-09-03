@@ -1,20 +1,14 @@
 package com.wg_planner.views.sub_menu.account_details;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.Service.TaskService;
 import com.wg_planner.backend.utils.LogHandler;
-import com.wg_planner.views.utils.AccountDetailsHelper;
-import com.wg_planner.views.utils.ConfirmationDialog;
-import com.wg_planner.views.utils.SessionHandler;
-import com.wg_planner.views.utils.UIStringConstants;
+import com.wg_planner.views.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.vaadin.flow.component.notification.Notification.Position.BOTTOM_STRETCH;
 
 public class AccountDeleteView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountDeleteView.class);
@@ -48,7 +42,7 @@ public class AccountDeleteView extends VerticalLayout {
                 SessionHandler.getLoggedInResidentAccount().getId());
         residentAccountService.removeResidentAccount(residentAccountService.getResidentAccountById(SessionHandler.getLoggedInResidentAccount().getId()),
                 floorService, taskService);//residentAccount could be outdated thus loading from DB
-        Notification.show(UIStringConstants.getInstance().getAccountDeletedConfirmation(), 10000, BOTTOM_STRETCH);
+        UINotificationMessage.notify(UIStringConstants.getInstance().getAccountDeletedConfirmation());
         AccountDetailsHelper.logoutAndNavigateToLoginPage();
     }
 

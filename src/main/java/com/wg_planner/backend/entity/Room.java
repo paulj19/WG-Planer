@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Entity
 public class Room extends AbstractEntity implements Cloneable {
@@ -106,7 +105,7 @@ public class Room extends AbstractEntity implements Cloneable {
         }
     }
 
-    public void removeAssignedTask(Task task) {
+    public void removeFromAssignedTask(Task task) {
         Validate.notNull(task, "parameter task to add must not be %s", null);
         Validate.isTrue(assignedTasks.contains(task), "task to remove must already be added");
         assignedTasks.remove(task);

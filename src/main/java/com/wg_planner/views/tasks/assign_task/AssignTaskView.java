@@ -62,9 +62,9 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
                 if (Objects.equals(taskPossiblyDirty.getAssignedRoom(), taskToAssign.getAssignedRoom())) {
                     taskService.assignTask(taskToAssign, event.getRoomSelected());
-                    UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(event.getTaskToAssign(), taskToAssign.getAssignedRoom());
+                    UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(taskPossiblyDirty, taskToAssign.getAssignedRoom());
                     UINavigationHandler.getInstance().navigateToHomePage();
-                    UINotificationMessage.notify("Task " + event.getTaskToAssign().getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());
+                    UINotificationMessage.notify("Task " + taskPossiblyDirty.getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());
                     return;
                 } else {
                     LOGGER.warn("invalid task on assign task. Resident Account id {}. Task from event {}. Task from DB {}. Room selected {}",

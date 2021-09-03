@@ -1,7 +1,6 @@
 package com.wg_planner.views.sub_menu.account_details;
 
 import com.vaadin.flow.component.ComponentEvent;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
@@ -13,6 +12,7 @@ import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.utils.ConfirmationDialog;
 import com.wg_planner.views.utils.SessionHandler;
+import com.wg_planner.views.utils.UINotificationMessage;
 import com.wg_planner.views.utils.UIStringConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +69,7 @@ public class ResidentAvailabilityView extends VerticalLayout {
         LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Confirm set away status to {}.",
                 SessionHandler.getLoggedInResidentAccount().getId(), isResidentPresent.getValue());
         residentAvailabilityPresenter.setResidentAwayStatusAndSave(isResidentPresent.getValue());
-        Notification.show(UIStringConstants.getInstance().getAvailabilityStatusChanged());
+        UINotificationMessage.notify(UIStringConstants.getInstance().getAvailabilityStatusChanged());
     }
 
     private <T extends ComponentEvent<?>> void onCancel(ConfirmationDialog.ConfirmationDialogEvent.CancelEvent cancelEvent) {

@@ -3,7 +3,6 @@ package com.wg_planner.views.UnauthorizedPages.register;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.wg_planner.backend.Service.AccountDetailsService;
@@ -15,6 +14,7 @@ import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
 import com.wg_planner.views.utils.UINavigationHandler;
+import com.wg_planner.views.utils.UINotificationMessage;
 import com.wg_planner.views.utils.UIStringConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +82,7 @@ public class RegisterView extends VerticalLayout implements HasUrlParameter<Long
     private void saveAccount(RegisterForm.RegisterFormEvent.SaveEvent event) {
         residentAccountService.save(event.getResidentAccount());
         roomService.save(event.getResidentAccount().getRoom());
-        Notification.show(UIStringConstants.getInstance().getAccountCreatedConfirmation());
+        UINotificationMessage.notify(UIStringConstants.getInstance().getAccountCreatedConfirmation());
         LOGGER.info("new resident account created and saved in register view. Created resident account details: " +
                 "{}.", event.getResidentAccount().toString());
         UI.getCurrent().navigate("login/");
