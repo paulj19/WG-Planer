@@ -51,9 +51,8 @@ public class UINotificationStoreConcurrentHashMap extends UINotificationStore {
 //            throw new RuntimeException("notification to remove not found in the map. notificationId: " + notificationId);
 //        }
 //        notificationMap.get(roomId).remove(uiNotificationContentToRemove.get());
-        List<UINotificationType> notificationsOfRoom = notificationMap.get(roomId);
-        if(notificationsOfRoom != null){
-            notificationsOfRoom.removeIf(uiNotificationType -> uiNotificationType.getId().equals(notificationId));
+        if(notificationMap.get(roomId) != null){
+            notificationMap.get(roomId).removeIf(uiNotificationType -> uiNotificationType.getId().equals(notificationId));
             LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Notification {} removed for room {}",
                     SessionHandler.getLoggedInResidentAccount().getId(), notificationId, roomId);
             logMapContents();
