@@ -17,7 +17,7 @@ public class Task extends AbstractEntity {
 
     @NotNull
     @NotEmpty
-    @Size(max = 16)
+    @Size(max = 24)
     private String taskName;
 
     //todo floor does not track track anything of the task except the list of tasks in the floor

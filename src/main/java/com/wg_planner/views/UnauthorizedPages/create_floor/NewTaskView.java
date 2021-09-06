@@ -26,8 +26,8 @@ public class NewTaskView extends HorizontalLayout {
 
     public void setNewTaskCreateViewList(List<NewTaskView> tasksView) {
         init();
-        taskBinder.forField(taskNameTextField).withValidator(taskName -> taskName.length() <= 16,
-                "task name should not exceed 16 characters").withValidator(taskName -> taskName.length() >= 1,
+        taskBinder.forField(taskNameTextField).withValidator(taskName -> taskName.length() <= 24,
+                "task name should not exceed 24 characters").withValidator(taskName -> taskName.length() >= 1,
                 "task name should not be empty").withValidator(taskName -> isTaskNameUniqueWithInFloorCreateForm(taskName.toLowerCase(Locale.GERMANY),
                 tasksView),
                 "task names in a floor must be unique").bind(Task::getTaskName, Task::setTaskName);
@@ -37,8 +37,8 @@ public class NewTaskView extends HorizontalLayout {
     public void setTasksInFloor(List<Task> tasksAlreadyCreated) {
         init();
         //since lambda captures the variables this will not work with newly created task which should bind later
-        taskBinder.forField(taskNameTextField).withValidator(taskName -> taskName.length() <= 16,
-                "task name should not exceed 16 characters").withValidator(taskName -> taskName.length() >= 1,
+        taskBinder.forField(taskNameTextField).withValidator(taskName -> taskName.length() <= 24,
+                "task name should not exceed 24 characters").withValidator(taskName -> taskName.length() >= 1,
                 "task name should not be empty").withValidator(taskName -> isTaskNameUnique(taskName.toLowerCase(Locale.GERMANY), tasksAlreadyCreated),
                 "task names in a floor must be unique").bind(Task::getTaskName, Task::setTaskName);
     }
@@ -69,7 +69,7 @@ public class NewTaskView extends HorizontalLayout {
 
     private void setFieldProperties() {
         taskNameTextField.setClearButtonVisible(true);
-        taskNameTextField.setMaxLength(16);
+        taskNameTextField.setMaxLength(24);
         taskNameTextField.setRequired(true);
     }
 
