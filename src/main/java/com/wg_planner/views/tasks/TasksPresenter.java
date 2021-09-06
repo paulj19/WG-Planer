@@ -60,8 +60,8 @@ public abstract class TasksPresenter {
                 if (taskPossiblyDirty.getAssignedRoom().equals(SessionHandler.getLoggedInResidentAccount().getRoom())) {
                     LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Task Done callback task {}.",
                             SessionHandler.getLoggedInResidentAccount().getId(), taskPossiblyDirty.toString());
-                    taskService.transferTask(taskPossiblyDirty, floorService);
                     UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(taskPossiblyDirty, taskPossiblyDirty.getAssignedRoom());
+                    taskService.transferTask(taskPossiblyDirty, floorService);
                     UINotificationMessage.notify("The task is passed to next available resident");
                     addTasks();
                     return;
