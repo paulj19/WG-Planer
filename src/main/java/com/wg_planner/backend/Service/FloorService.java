@@ -79,7 +79,7 @@ public class FloorService {
         while (true) {
             i = (i + 1) % roomsInFloor.size();
             //if all rooms are empty in the floor
-            if (i == roomsInFloor.indexOf(room) && (roomsInFloor.get(i).getResidentAccount().isAway()) || !roomsInFloor.get(i).isOccupied()) {
+            if (i == roomsInFloor.indexOf(room) && (roomsInFloor.get(i).getResidentAccount().isAway() || !roomsInFloor.get(i).isOccupied())) {
                 break;
             }
             if (roomsInFloor.get(i).isOccupied() && !roomsInFloor.get(i).getResidentAccount().isAway()) {

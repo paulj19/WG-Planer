@@ -28,7 +28,7 @@ public class FloorTasksPresenter extends TasksPresenter {
         floorTasksView.removeAll();
         LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Adding following tasks to floorTaskView.",
                 SessionHandler.getLoggedInResidentAccount().getId());
-        tasks.forEach(task -> {
+        floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor()).forEach(task -> {
             LOGGER.info(LogHandler.getTestRun(), ", {}", task.getId());
             TaskCard taskCard = TaskCardCreator.createAllTaskCard(task, this);
             taskCard.addClassName("task-card");

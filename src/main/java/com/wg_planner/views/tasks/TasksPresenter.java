@@ -24,8 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
-
 @Controller
 @Scope("prototype")
 public abstract class TasksPresenter {
@@ -41,12 +39,9 @@ public abstract class TasksPresenter {
     @Autowired
     NotificationServiceFirebase notificationServiceFirebase;
 
-    protected List<Task> tasks;
-
     abstract public void addTasks();
 
     public void init() {
-        tasks = floorService.getAllTasksInFloor(SessionHandler.getLoggedInResidentAccount().getRoom().getFloor());
         addTasks();
     }
 
@@ -64,7 +59,6 @@ public abstract class TasksPresenter {
                     taskService.transferTask(taskPossiblyDirty, floorService);
                     UINotificationMessage.notify("The task is passed to next available resident");
                     addTasks();
-                    return;
                 } else {
                     LOGGER.warn("invalid task on task done callback. Resident Account id {}. Task from event {}. Task from DB {}.",
                             SessionHandler.getLoggedInResidentAccount().getId(), taskPossiblyDirty.toString(), taskPossiblyDirty.toString());
