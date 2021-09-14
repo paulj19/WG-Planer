@@ -10,7 +10,7 @@ public abstract class FeatureView extends VerticalLayout {
     Div featureBlock = new Div();
     Span description = new Span();
     H1 title = new H1();
-    Span illustration = new Span();
+    Div illustration = new Div();
 
     public FeatureView() {
         featureBlockWrapper.addClassName("feature-block-wrapper");

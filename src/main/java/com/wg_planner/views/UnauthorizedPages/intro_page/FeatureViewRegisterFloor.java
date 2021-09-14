@@ -19,13 +19,16 @@ public class FeatureViewRegisterFloor extends FeatureView {
 
     @Override
     void addFeatureDescription() {
-        description.add("You can start using WG Planner for your shared apartment by creating a new floor.");
+        description.add("You can start using WG Planner for your shared apartment by creating a new floor. The creator of the floor can register his/her room" +
+                " directly.");
     }
 
     @Override
     void addFeatureIllustration() {
         Image createFloorScreenShot = new Image("images/intro_images/phone/7register_floor.png", "create floor screenshot");
+        Image registerResidentScreenShot = new Image("images/intro_images/phone/8register_room.png", "register room screenshot");
         createFloorScreenShot.addClassName("feature-image");
-        illustration.add(createFloorScreenShot);
+        registerResidentScreenShot.addClassName("feature-image");
+        illustration.add(createFloorScreenShot, registerResidentScreenShot);
     }
 }
