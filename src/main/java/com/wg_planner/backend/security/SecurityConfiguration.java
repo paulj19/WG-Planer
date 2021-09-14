@@ -19,6 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String REGISTER_URL = "/register";
     private static final String REGISTER_FORM = "/register_form";
     private static final String CREATE_FLOOR_URL = "/create_floor";
+    private static final String GETTING_STARTED_URL = "/getting_started";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception     {
@@ -28,6 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(REGISTER_URL).permitAll()
                 .antMatchers(REGISTER_FORM).denyAll()
                 .antMatchers(CREATE_FLOOR_URL).permitAll()
+                .antMatchers(GETTING_STARTED_URL).permitAll()
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()

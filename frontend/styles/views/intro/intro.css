@@ -1,0 +1,26 @@
+.feature-block-wrapper {
+    margin: auto auto;
+    /*width: 90vw;*/
+}
+.feature-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.feature-description {
+    /*flex: 1;*/
+    width: 40vw;
+}
+
+.feature-illustration {
+    /*flex: 1;*/
+    width: 40vw;
+}
+.feature-title {
+    font-weight: lighter;
+}
+.feature-image {
+    max-width: 25vw;
+    max-height: 70vh;
+}
