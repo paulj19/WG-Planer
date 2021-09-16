@@ -22,7 +22,8 @@ public class FeatureViewRegisterResident extends FeatureView {
 
     @Override
     void addFeatureIllustration() {
-        Image createFloorScreenShot = new Image("images/intro_images/phone/7register_floor.png", "create floor screenshot");
+
+        Image createFloorScreenShot = new Image("images/getting_stared/phone/7register_floor.png", "create floor screenshot");
         createFloorScreenShot.addClassName("feature-image");
         illustration.add(createFloorScreenShot);
     }

@@ -1,10 +1,12 @@
 package com.wg_planner.views.UnauthorizedPages.intro_page;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+@CssImport("./styles/views/intro/intro.css")
 public abstract class FeatureView extends VerticalLayout {
     Div featureBlockWrapper = new Div();
     Div featureBlock = new Div();

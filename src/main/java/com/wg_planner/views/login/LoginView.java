@@ -13,7 +13,6 @@ import com.vaadin.flow.router.Route;
 @Route("login")
 @PageTitle("login | WG Planner")
 @JsModule("/js/loggedInResidentAccountIdHandler.js")
-
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private LoginForm loginForm = new LoginForm();

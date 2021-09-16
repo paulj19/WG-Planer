@@ -1,9 +1,7 @@
 package com.wg_planner.views.UnauthorizedPages.intro_page;
 
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Span;
 
 @CssImport("./styles/views/intro/intro.css")
 public class FeatureViewRegisterFloor extends FeatureView {
@@ -25,10 +23,11 @@ public class FeatureViewRegisterFloor extends FeatureView {
 
     @Override
     void addFeatureIllustration() {
-        Image createFloorScreenShot = new Image("images/intro_images/phone/7register_floor.png", "create floor screenshot");
-        Image registerResidentScreenShot = new Image("images/intro_images/phone/8register_room.png", "register room screenshot");
+        Image createFloorScreenShot = new Image("images/getting_stared/phone/7register_floor.png", "create floor screenshot");
+        Image registerResidentScreenShot = new Image("images/getting_stared/phone/8register_room.png", "register room screenshot");
+        Carousel carousel = new Carousel(createFloorScreenShot, registerResidentScreenShot);
         createFloorScreenShot.addClassName("feature-image");
         registerResidentScreenShot.addClassName("feature-image");
-        illustration.add(createFloorScreenShot, registerResidentScreenShot);
+        illustration.add(carousel);
     }
 }
