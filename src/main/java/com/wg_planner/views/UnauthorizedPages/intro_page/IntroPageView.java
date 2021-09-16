@@ -14,6 +14,11 @@ public class IntroPageView extends VerticalLayout {
         addTitle();
         addAppDescription();
         add(new FeatureViewRegisterFloor());
+        add(new FeatureViewRegisterResident());
+        add(new FeatureViewTasksListing());
+        add(new FeatureViewManageTasks());
+        add(new FeatureViewAvailabilityStatus());
+        add(new FeatureViewNotifications());
     }
 
     void addTitle() {
@@ -21,7 +26,7 @@ public class IntroPageView extends VerticalLayout {
     }
 
     void addAppDescription() {
-        add("WG Planner helps you create and assign tasks to residents in your shared apartment and remind them about it. Once you" +
+        add("WG Planner helps you organize your shared apartment. Once you" +
                 " are done with a task, it automatically goes to the next available resident. If you are going away, you can update your status and no tasks " +
                 "will be assigned to you until you come back. When you are away all your assigned tasks will be automatically assigned to next available " +
                 "resident.");
