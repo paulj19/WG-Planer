@@ -15,7 +15,7 @@ public class FeatureViewRegisterResident extends FeatureView {
 
     @Override
     void addTitle() {
-        title.add("Register Resident");
+        title.add("Register New Resident");
     }
 
     @Override
@@ -31,6 +31,6 @@ public class FeatureViewRegisterResident extends FeatureView {
             Image image = new Image("images/intro/phone/register_new_resident/" + i + ".png ", ".");
             images.add(image);
         }
-        illustration.add(new Carousel(getWrappedImages(images)));
+        illustration.add(new Carousel(images));
     }
 }

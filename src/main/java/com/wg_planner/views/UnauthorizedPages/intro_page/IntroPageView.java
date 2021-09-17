@@ -1,39 +1,29 @@
 package com.wg_planner.views.UnauthorizedPages.intro_page;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
+import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesViewWithLogin;
+import com.wg_planner.views.utils.UINavigationHandler;
 
-@Route(value = "getting_started", layout = UnauthorizedPagesView.class)
+@Route(value = "getting_started", layout = UnauthorizedPagesViewWithLogin.class)
 @PageTitle("Getting Started | WG Planner")
 @CssImport("./styles/views/intro/intro.css")
 public class IntroPageView extends VerticalLayout {
 
     public IntroPageView() {
-        addTitle();
-        addAppDescription();
         addClassName("ver-layout");
+        add(new FeatureViewHandleTasks());
         add(new FeatureViewRegisterFloor());
         add(new FeatureViewRegisterResident());
         add(new FeatureViewTasksListing());
         add(new FeatureViewManageTasks());
-        add(new FeatureViewHandleTasks());
         add(new FeatureViewAvailabilityStatus());
         add(new FeatureViewNotifications());
     }
-
-    void addTitle() {
-        add(new H1("Getting Started"));
-    }
-
-    void addAppDescription() {
-        add("WG Planner helps you organize your shared apartment. Once you" +
-                " are done with a task, it automatically goes to the next available resident. If you are going away, you can update your status and no tasks " +
-                "will be assigned to you until you come back. When you are away all your assigned tasks will be automatically assigned to next available " +
-                "resident.");
-    }
-
 }

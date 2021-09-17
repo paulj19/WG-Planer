@@ -29,6 +29,6 @@ public class FeatureViewNotifications extends FeatureView {
             Image image = new Image("images/intro/phone/notifications/" + i + ".png ", ".");
             images.add(image);
         }
-        illustration.add(new Carousel(getWrappedImages(images)));
+        illustration.add(new Carousel(images));
     }
 }

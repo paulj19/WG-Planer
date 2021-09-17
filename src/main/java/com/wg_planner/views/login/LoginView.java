@@ -21,15 +21,13 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         addClassName("login-view");
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
-        Anchor register = new Anchor("register", "Register");
         loginForm.setAction("login");
-        Anchor create_floor = new Anchor("create_floor", "Create Floor");
 //        add(MainView.getAppNameHeader(), loginForm, register, create_floor);
         H1 header = new H1("WG Planner");
         header.getStyle().set("color", "#000000)");
         header.getStyle().set("text-shadow", "1px 1px 0 rgba(0, 0, 0, 0.2)");
 
-        add(header, loginForm, register, create_floor);
+        add(header, loginForm);
     }
 
     @Override

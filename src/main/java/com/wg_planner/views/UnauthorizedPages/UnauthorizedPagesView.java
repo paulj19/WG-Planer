@@ -17,18 +17,18 @@ import com.wg_planner.views.main.MainView;
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 public class UnauthorizedPagesView extends AppLayout {
+    VerticalLayout layout = new VerticalLayout();
+    HorizontalLayout logoLayout = new HorizontalLayout();
 
     public UnauthorizedPagesView() {
         addToNavbar(createNavContentTitle());
     }
 
     private Component createNavContentTitle() {
-        VerticalLayout layout = new VerticalLayout();
         layout.setSizeFull();
         layout.setPadding(false);
         layout.setSpacing(false);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        HorizontalLayout logoLayout = new HorizontalLayout();
         logoLayout.setId("logo");
         logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         logoLayout.setWidth("100%");
@@ -36,5 +36,4 @@ public class UnauthorizedPagesView extends AppLayout {
         layout.add(logoLayout);
         return layout;
     }
-
 }

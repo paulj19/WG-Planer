@@ -29,6 +29,6 @@ public class FeatureViewRegisterFloor extends FeatureView {
         Image image = new Image("images/intro/phone/register_floor/1.png", "availability status");
         images.add(image);
 
-        illustration.add(new Carousel(getWrappedImages(images)));
+        illustration.add(new Carousel(images));
     }
 }

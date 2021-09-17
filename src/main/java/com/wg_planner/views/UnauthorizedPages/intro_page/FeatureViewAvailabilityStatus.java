@@ -28,6 +28,6 @@ public class FeatureViewAvailabilityStatus extends FeatureView {
         List<Image> images = new ArrayList<>();
         Image image = new Image("images/intro/phone/handle_tasks/1.png ", ".");
         images.add(image);
-        illustration.add(new Carousel(getWrappedImages(images)));
+        illustration.add(new Carousel(images));
     }
 }

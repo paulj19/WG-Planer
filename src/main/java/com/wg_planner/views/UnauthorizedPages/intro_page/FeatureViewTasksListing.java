@@ -28,7 +28,7 @@ public class FeatureViewTasksListing extends FeatureView {
             Image image = new Image("images/intro/phone/my_tasks_floor_tasks/" + i + ".png ", ".");
             images.add(image);
         }
-        illustration.add(new Carousel(getWrappedImages(images)));
+        illustration.add(new Carousel(images));
     }
 }
 

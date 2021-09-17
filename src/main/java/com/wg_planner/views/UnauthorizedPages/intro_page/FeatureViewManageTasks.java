@@ -30,6 +30,6 @@ public class FeatureViewManageTasks extends FeatureView {
             Image image = new Image("images/intro/phone/manage_tasks/" + i + ".png ", ".");
             images.add(image);
         }
-        illustration.add(new Carousel(getWrappedImages(images)));
+        illustration.add(new Carousel(images));
     }
 }

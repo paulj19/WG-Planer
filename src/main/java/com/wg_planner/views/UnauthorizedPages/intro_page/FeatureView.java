@@ -14,7 +14,7 @@ import java.util.List;
 @CssImport("./styles/views/intro/intro.css")
 public abstract class FeatureView extends VerticalLayout {
     Div featureBlockWrapper = new Div();
-    Div featureBlock = new Div();
+    Div featureBlockText = new Div();
     Span description = new Span();
     H1 title = new H1();
     Div illustration = new Div();
@@ -23,15 +23,15 @@ public abstract class FeatureView extends VerticalLayout {
     public FeatureView() {
         addClassName("ver-layout");
         featureBlockWrapper.addClassName("feature-block-wrapper");
-        featureBlock.addClassName("feature-block");
+        featureBlockText.addClassName("feature-block-text");
         title.addClassName("feature-title");
         description.addClassName("feature-description");
         illustration.addClassName("feature-illustration");
         addTitle();
         addFeatureDescription();
         addFeatureIllustration();
-        featureBlock.add(illustration, description);
-        featureBlockWrapper.add(title, featureBlock);
+        featureBlockText.add(title, description);
+        featureBlockWrapper.add(illustration, featureBlockText);
         add(featureBlockWrapper);
     }
 
@@ -49,7 +49,6 @@ public abstract class FeatureView extends VerticalLayout {
             Div image_wrapper = new Div();
             phone_frame_wrapper.addClassName("phone-frame-wrapper");
             image_wrapper.addClassName("feature-image-wrapper");
-            image.addClassName("feature-image");
             image_wrapper.add(image);
             phone_frame_wrapper.add(phone_frame, image_wrapper);
             wrappedImages.add(phone_frame_wrapper);

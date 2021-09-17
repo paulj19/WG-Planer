@@ -3,6 +3,7 @@ package com.wg_planner.views.UnauthorizedPages.intro_page;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -21,35 +22,54 @@ public class Carousel extends VerticalLayout {
     Span rightArrow = new Span();
     Span leftArrow = new Span();
     List<Div> imageList = new ArrayList<>();
+    List<Span> dotList = new ArrayList<>();
     HashMap<Span, Div> imageMap = new HashMap<>();
     Div currentlyDisplayed;
     Span currentDot;
 
-    public Carousel(List<Component> components) {
-        dots.getStyle().set("text-align", "center")
-                .set("width", "83%");
-        navigation.getStyle().set("width", "80%").set("padding-left", "10px");
+    public Carousel(List<Image> images) {
+        addClassName("carousel-layout");
+//        dots.getStyle().set("width", "8vw").set("text-align", "center").set("margin-left", "5px");
+        //                .set("width", "83%");
+        dots.addClassName("dots");
+//        navigation.getStyle().set("width", "21vw").set("margin", "0");//.set("padding-left", "10px");
+        navigation.addClassNames("navigation");
         rightArrow.addClassNames("arrow", "right");
         leftArrow.addClassNames("arrow", "left");
-        previous.add(leftArrow, new Label("previous"));
-        previous.getStyle().set("align-items", "center");
+        Label labelPrevious = new Label("previous");
+//        labelPrevious.getStyle().set("padding-left", "8px").set("margin", "0 ");
+        labelPrevious.addClassName("label-previous");
+        previous.add(leftArrow, labelPrevious);
+//        previous.getStyle().set("align-items", "center").set("margin-left", "20px");
+        previous.addClassName("previous");
         previous.addClickListener(event -> {
             removeAll();
-            currentlyDisplayed = imageList.get((imageList.indexOf(currentlyDisplayed) + 1) % imageList.size());
+            currentlyDisplayed = imageList.get((imageList.indexOf(currentlyDisplayed) == 0 ? imageList.size() - 1 : imageList.indexOf(currentlyDisplayed) - 1));
+            currentDot.getStyle().set("background-color", "#bbbbbb");
+            currentDot = dotList.get((dotList.indexOf(currentDot) == 0 ? dotList.size() - 1 : dotList.indexOf(currentDot) - 1));
+            currentDot.getStyle().set("background-color", "#717171");
             add(currentlyDisplayed);
             add(navigation);
         });
-        next.add(new Label("next"), rightArrow);
+        Label labelNext = new Label("next");
+//        labelNext.getStyle().set("padding-right", "8px").set("margin-right", "-12px");
+        labelNext.addClassName("label-next");
+        next.add(labelNext, rightArrow);
         next.getStyle().set("align-items", "center");
         next.addClickListener(event -> {
             removeAll();
-            currentlyDisplayed = imageList.get((imageList.indexOf(currentlyDisplayed) == 0 ? imageList.size() - 1 : imageList.indexOf(currentlyDisplayed) - 1));
+            currentlyDisplayed = imageList.get((imageList.indexOf(currentlyDisplayed) + 1) % imageList.size());
+            currentDot.getStyle().set("background-color", "#bbbbbb");
+            currentDot = dotList.get((dotList.indexOf(currentDot) + 1) % dotList.size());
+            currentDot.getStyle().set("background-color", "#717171");
+
             add(currentlyDisplayed);
             add(navigation);
         });
-        for (Component component : components) {
+        for (Image image : images) {
             Div div = new Div();
             Span dot = new Span();
+            image.addClassName("feature-image");
             dot.addClickListener(event -> {
                 removeAll();
                 currentlyDisplayed = imageMap.get(dot);
@@ -59,10 +79,10 @@ public class Carousel extends VerticalLayout {
                 add(currentlyDisplayed);
                 add(navigation);
             });
-            div.add(component);
+            div.add(image);
 
-//            div.addClassNames("mySlides", "fade");
-//            dot.addClassName("dot");
+            //            div.addClassNames("mySlides", "fade");
+            //            dot.addClassName("dot");
             setDotProperties(dot);
             if (imageMap.isEmpty()) {
                 currentlyDisplayed = div;
@@ -73,6 +93,7 @@ public class Carousel extends VerticalLayout {
             imageList.add(div);
             imageMap.put(dot, div);
             dots.add(dot);
+            dotList.add(dot);
         }
         if (imageList.size() > 1) {
             navigation.add(previous, dots, next);
