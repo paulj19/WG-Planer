@@ -1,5 +1,6 @@
 package com.wg_planner.views.UnauthorizedPages.intro_page;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -8,15 +9,18 @@ import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
 
 @Route(value = "getting_started", layout = UnauthorizedPagesView.class)
 @PageTitle("Getting Started | WG Planner")
+@CssImport("./styles/views/intro/intro.css")
 public class IntroPageView extends VerticalLayout {
 
     public IntroPageView() {
         addTitle();
         addAppDescription();
+        addClassName("ver-layout");
         add(new FeatureViewRegisterFloor());
         add(new FeatureViewRegisterResident());
         add(new FeatureViewTasksListing());
         add(new FeatureViewManageTasks());
+        add(new FeatureViewHandleTasks());
         add(new FeatureViewAvailabilityStatus());
         add(new FeatureViewNotifications());
     }

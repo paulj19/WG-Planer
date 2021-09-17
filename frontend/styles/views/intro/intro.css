@@ -22,14 +22,35 @@
     font-weight: lighter;
 }
 
+.phone-frame-wrapper {
+    position: relative;
+    top: 0;
+    left: 0;
+}
 .feature-image {
-    max-width: 25vw;
-    max-height: 70vh;
+    width: 17vw;
+    height: 59vh;
+}
+.phone-frame {
+    width: 21vw;
+    height: 83vh;
+}
+.feature-image-wrapper {
+    position: absolute;
+    top: 13vh;
+    left: 2vw;
+    z-index: 1;
 }
 
 @media screen and (max-width: 768px) {
+    .ver-layout {
+        padding-right: 0;
+        padding-left: 0;
+    }
     .feature-block-wrapper {
         max-width: 88vw;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .feature-block {
@@ -49,8 +70,22 @@
         margin: 0;
         padding: 15px 0 15px 0;
     }
-
-    .feature-image {
-        max-width: 80vw;
+    .phone-frame {
+        width: 80vw;
+        height: 84vh;
+        margin-left: 6vw;
     }
+    .feature-image-wrapper {
+        position: absolute;
+        top: 12vh;
+        left: 12vw;
+        z-index: 1;
+    }
+    .feature-image {
+        width: 68vw;
+        height: 61vh;
+    }
+    /*.feature-image {*/
+    /*    max-width: 80vw;*/
+    /*}*/
 }

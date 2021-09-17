@@ -1,8 +1,8 @@
 package com.wg_planner.views.UnauthorizedPages.intro_page;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -25,7 +25,7 @@ public class Carousel extends VerticalLayout {
     Div currentlyDisplayed;
     Span currentDot;
 
-    public Carousel(Image... images) {
+    public Carousel(List<Component> components) {
         dots.getStyle().set("text-align", "center")
                 .set("width", "83%");
         navigation.getStyle().set("width", "80%").set("padding-left", "10px");
@@ -47,7 +47,7 @@ public class Carousel extends VerticalLayout {
             add(currentlyDisplayed);
             add(navigation);
         });
-        for (Image image : images) {
+        for (Component component : components) {
             Div div = new Div();
             Span dot = new Span();
             dot.addClickListener(event -> {
@@ -59,7 +59,7 @@ public class Carousel extends VerticalLayout {
                 add(currentlyDisplayed);
                 add(navigation);
             });
-            div.add(image);
+            div.add(component);
 
 //            div.addClassNames("mySlides", "fade");
 //            dot.addClassName("dot");

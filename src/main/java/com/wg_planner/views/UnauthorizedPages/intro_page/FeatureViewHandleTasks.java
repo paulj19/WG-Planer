@@ -2,6 +2,9 @@ package com.wg_planner.views.UnauthorizedPages.intro_page;
 
 import com.vaadin.flow.component.html.Image;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeatureViewHandleTasks extends FeatureView {
 
     public FeatureViewHandleTasks() {
@@ -21,9 +24,12 @@ public class FeatureViewHandleTasks extends FeatureView {
 
     @Override
     void addFeatureIllustration() {
-        Image image = new Image("images/getting_started/phone/3notifications.png", "notifications");
-        image.addClassName("feature-image");
-        illustration.add(new Carousel(image));
+        List<Image> images = new ArrayList<>();
+        for(int i = 1; i <= 5 ; i++ ) {
+            Image image = new Image("images/intro/phone/handle_tasks/" + i + ".png ", ".");
+            images.add(image);
+        }
+        illustration.add(new Carousel(getWrappedImages(images)));
     }
 }
 

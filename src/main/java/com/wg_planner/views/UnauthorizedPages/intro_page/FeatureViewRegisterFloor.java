@@ -3,6 +3,9 @@ package com.wg_planner.views.UnauthorizedPages.intro_page;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Image;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @CssImport("./styles/views/intro/intro.css")
 public class FeatureViewRegisterFloor extends FeatureView {
 
@@ -22,11 +25,10 @@ public class FeatureViewRegisterFloor extends FeatureView {
 
     @Override
     void addFeatureIllustration() {
-        Image image1 = new Image("images/getting_started/phone/7register_floor.png", "create floor");
-        Image image2 = new Image("images/getting_started/phone/8register_room.png", "register room");
-        Carousel carousel = new Carousel(image1, image2);
-        image1.addClassName("feature-image");
-        image2.addClassName("feature-image");
-        illustration.add(carousel);
+        List<Image> images = new ArrayList<>();
+        Image image = new Image("images/intro/phone/register_floor/1.png", "availability status");
+        images.add(image);
+
+        illustration.add(new Carousel(getWrappedImages(images)));
     }
 }

@@ -3,6 +3,9 @@ package com.wg_planner.views.UnauthorizedPages.intro_page;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Image;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @CssImport("./styles/views/intro/intro.css")
 public class FeatureViewRegisterResident extends FeatureView {
 
@@ -23,8 +26,11 @@ public class FeatureViewRegisterResident extends FeatureView {
 
     @Override
     void addFeatureIllustration() {
-        Image image = new Image("images/getting_started/phone/8register_room.png", "register resident");
-        image.addClassName("feature-image");
-        illustration.add(new Carousel(image));
+        List<Image> images = new ArrayList<>();
+        for(int i = 1; i <= 10 ; i++ ) {
+            Image image = new Image("images/intro/phone/register_new_resident/" + i + ".png ", ".");
+            images.add(image);
+        }
+        illustration.add(new Carousel(getWrappedImages(images)));
     }
 }

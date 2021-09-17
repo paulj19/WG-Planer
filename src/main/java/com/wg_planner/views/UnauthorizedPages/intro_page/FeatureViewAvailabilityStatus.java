@@ -2,6 +2,9 @@ package com.wg_planner.views.UnauthorizedPages.intro_page;
 
 import com.vaadin.flow.component.html.Image;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeatureViewAvailabilityStatus extends FeatureView {
 
     public FeatureViewAvailabilityStatus() {
@@ -22,8 +25,9 @@ public class FeatureViewAvailabilityStatus extends FeatureView {
 
     @Override
     void addFeatureIllustration() {
-        Image image = new Image("images/getting_started/phone/6availability_status.png", "availability status");
-        image.addClassName("feature-image");
-        illustration.add(new Carousel(image));
+        List<Image> images = new ArrayList<>();
+        Image image = new Image("images/intro/phone/handle_tasks/1.png ", ".");
+        images.add(image);
+        illustration.add(new Carousel(getWrappedImages(images)));
     }
 }
