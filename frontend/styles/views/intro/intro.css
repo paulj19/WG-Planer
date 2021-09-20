@@ -22,9 +22,10 @@
 .feature-description {
     /*flex: 1;*/
     width: 34vw;
-    font-family:  "Trebuchet MS", Verdana, sans-serif;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
     line-height: 2em;
 }
+
 .front-view {
     line-height: 3em;
 
@@ -34,11 +35,17 @@
     /*width: 25vw;*/
 }
 
+@font-face {
+    font-family: 'Hahmlet';
+    src: url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;600&display=swap');
+    font-weight: 600;
+    /*font-style: normal;*/
+}
+
 .feature-title {
-    font-weight: lighter;
+    /*font-weight: lighter;*/
     margin-top: 15px;
-    /*font-family:sans-serif;*/
-    font-family: var(--lumo-font-family),  "Trebuchet MS", Verdana, sans-serif;
+    font-family: 'Hahmlet', serif;
     /*font-family: "Trebuchet MS", Verdana, sans-serif;*/
 }
 
@@ -47,16 +54,19 @@
     top: 0;
     left: 0;
 }
+
 .phone-frame {
     width: 21vw;
     height: 83vh;
 }
+
 .feature-image-wrapper {
     position: absolute;
     top: 13vh;
     left: 2vw;
     z-index: 1;
 }
+
 .button-layout {
     margin-top: 10vh;
     margin-left: 10vw;
@@ -71,6 +81,7 @@
         /*padding-right: 0;*/
         /*padding-left: 0;*/
     }
+
     .feature-block-wrapper {
         display: flex;
         flex-direction: column-reverse;
@@ -95,17 +106,20 @@
         padding: 15px 0 15px 0;
         font-size: 2.3em;
     }
+
     .phone-frame {
         width: 80vw;
         height: 84vh;
         margin-left: 6vw;
     }
+
     .feature-image-wrapper {
         position: absolute;
         top: 12vh;
         left: 12vw;
         z-index: 1;
     }
+
     /*.feature-image {*/
     /*    width: 68vw;*/
     /*    height: 61vh;*/
@@ -119,6 +133,7 @@
         margin-right: 20px;
         width: inherit;
     }
+
     .button-layout {
         align-items: center;
         margin-left: 0vw;
@@ -127,6 +142,7 @@
     .register-create-floor-button {
         width: 70vw;
     }
+
     .front-view {
         line-height: 2em;
 

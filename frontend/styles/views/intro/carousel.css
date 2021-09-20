@@ -35,7 +35,7 @@
 }
 
 .navigation {
-    width: 21vw;
+    width: 20vw;
     margin: 0;
 }
 
@@ -52,8 +52,9 @@
 }
 
 .label-next {
-    padding-right: 8px;
-    margin-right: -12px;
+    padding-right: 0;
+    margin-right: -8px;
+    margin-left: 10px;
     cursor: pointer;
 }
 
