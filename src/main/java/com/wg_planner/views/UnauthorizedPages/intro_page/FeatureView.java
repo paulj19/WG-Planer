@@ -27,10 +27,10 @@ public abstract class FeatureView extends VerticalLayout {
         title.addClassName("feature-title");
         description.addClassName("feature-description");
         illustration.addClassName("feature-illustration");
+        featureBlockText.add(title, description);
         addTitle();
         addFeatureDescription();
         addFeatureIllustration();
-        featureBlockText.add(title, description);
         featureBlockWrapper.add(illustration, featureBlockText);
         add(featureBlockWrapper);
     }

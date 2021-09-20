@@ -11,12 +11,12 @@ import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesView;
 import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesViewWithLogin;
 import com.wg_planner.views.utils.UINavigationHandler;
 
-@Route(value = "getting_started", layout = UnauthorizedPagesViewWithLogin.class)
-@PageTitle("Getting Started | WG Planner")
+@Route(value = "overview", layout = UnauthorizedPagesViewWithLogin.class)
+@PageTitle("WG Planner")
 @CssImport("./styles/views/intro/intro.css")
-public class IntroPageView extends VerticalLayout {
+public class AppOverviewPage extends VerticalLayout {
 
-    public IntroPageView() {
+    public AppOverviewPage() {
         addClassName("ver-layout");
         add(new FeatureViewHandleTasks());
         add(new FeatureViewRegisterFloor());

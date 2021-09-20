@@ -1,7 +1,7 @@
 package com.wg_planner.backend.security;
 
 import com.wg_planner.views.UnauthorizedPages.create_floor.CreateFloorView;
-import com.wg_planner.views.UnauthorizedPages.intro_page.IntroPageView;
+import com.wg_planner.views.UnauthorizedPages.intro_page.AppOverviewPage;
 import com.wg_planner.views.login.LoginView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -24,7 +24,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
         if (!LoginView.class.equals(event.getNavigationTarget())
                 && !RegisterView.class.equals(event.getNavigationTarget())
                 && !CreateFloorView.class.equals(event.getNavigationTarget())
-                && !IntroPageView.class.equals(event.getNavigationTarget())
+                && !AppOverviewPage.class.equals(event.getNavigationTarget())
                 && !NewResidentAdmissionView.class.equals(event.getNavigationTarget())
                 && !SecurityUtils.isUserLoggedIn()) {
             event.rerouteTo(LoginView.class);

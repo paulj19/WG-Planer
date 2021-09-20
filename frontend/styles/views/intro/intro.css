@@ -22,6 +22,12 @@
 .feature-description {
     /*flex: 1;*/
     width: 34vw;
+    font-family:  "Trebuchet MS", Verdana, sans-serif;
+    line-height: 2em;
+}
+.front-view {
+    line-height: 3em;
+
 }
 
 .feature-illustration {
@@ -31,6 +37,9 @@
 .feature-title {
     font-weight: lighter;
     margin-top: 15px;
+    /*font-family:sans-serif;*/
+    font-family: var(--lumo-font-family),  "Trebuchet MS", Verdana, sans-serif;
+    /*font-family: "Trebuchet MS", Verdana, sans-serif;*/
 }
 
 .phone-frame-wrapper {
@@ -47,6 +56,14 @@
     top: 13vh;
     left: 2vw;
     z-index: 1;
+}
+.button-layout {
+    margin-top: 10vh;
+    margin-left: 10vw;
+}
+
+.register-create-floor-button {
+    width: 15vw;
 }
 
 @media screen and (max-width: 768px) {
@@ -76,6 +93,7 @@
         font-weight: lighter;
         margin: 0;
         padding: 15px 0 15px 0;
+        font-size: 2.3em;
     }
     .phone-frame {
         width: 80vw;
@@ -100,5 +118,17 @@
         margin-left: 20px;
         margin-right: 20px;
         width: inherit;
+    }
+    .button-layout {
+        align-items: center;
+        margin-left: 0vw;
+    }
+
+    .register-create-floor-button {
+        width: 70vw;
+    }
+    .front-view {
+        line-height: 2em;
+
     }
 }
