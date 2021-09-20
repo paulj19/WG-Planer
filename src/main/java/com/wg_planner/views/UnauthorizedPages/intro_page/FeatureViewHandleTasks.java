@@ -32,7 +32,7 @@ public class FeatureViewHandleTasks extends FeatureView {
     @Override
     void addFeatureIllustration() {
         List<Image> images = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 7; i++) {
             Image image = new Image("images/intro/phone/handle_tasks/" + i + ".png ", ".");
             images.add(image);
         }
