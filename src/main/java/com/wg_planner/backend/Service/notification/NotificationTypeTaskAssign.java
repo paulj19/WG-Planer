@@ -34,8 +34,7 @@ public class NotificationTypeTaskAssign extends NotificationFirebaseType {
         Validate.notEmpty(token, "parameter notification token must not be empty");
         Validate.notNull(token, "parameter notification token to add must not be %s", null);
 
-        Notification notification = Notification
-                .builder()
+        Notification notification = Notification.builder()
                 .setTitle(getNotificationContentTitle().getContentAsString())
                 .setBody(getNotificationContentBody().getContentAsString())
                 .build();
