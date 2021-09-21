@@ -1,14 +1,18 @@
 package com.wg_planner.views.UnauthorizedPages.intro_page;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.views.utils.UINavigationHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@CssImport("./styles/views/intro/intro.css")
 public class FeatureViewHandleTasks extends FeatureView {
 
     public FeatureViewHandleTasks() {
@@ -22,29 +26,29 @@ public class FeatureViewHandleTasks extends FeatureView {
 
     @Override
     void addFeatureDescription() {
+        VerticalLayout layout = new VerticalLayout();
         Button registerButton = new Button("Register");
+        Span check  = new Span();
+        check.addClassName("check");
         registerButton.addClassName("register-create-floor-button");
-//        registerButton.getStyle().set("width", "15vw");
         registerButton.addClickListener(event -> UINavigationHandler.getInstance().navigateToRegisterPage());
         Button createFloorButton = new Button("Create Floor");
         createFloorButton.addClassName("register-create-floor-button");
-//        createFloorButton.getStyle().set("width", "15vw");
         createFloorButton.addClickListener(event -> UINavigationHandler.getInstance().navigateToCreateFloorPage());
-
-        description.getElement().setProperty("innerHTML", "WG Planner helps you better organize your shared apartment. <br/>No more Task Boards hanging " +
-                "around! </br> No more undone tasks! <br/>No more disputes! <br/>No more worries when going away!");
+        HorizontalLayout h = new HorizontalLayout(check, new Span("Tasks done always on time!"));
+        layout.add(new Span("WG Planner helps you better organize your shared apartment. The app takes care of the household task management in your shared " +
+                "apartment while you enjoy living together."));
+        layout.add(new HorizontalLayout(check, new Span("No more Task Boards hanging around!")));
+        layout.add(h);
+        layout.add(new HorizontalLayout(check, new Span("No more disputes!")));
+        description.getElement().setProperty("innerHTML", "WG Planner helps you better organize your shared apartment. The app takes care of the household " +
+                "task management in your shared apartment while you enjoy living together. <br/><div class = \"check\"></div>No more Task Boards " +
+                "hanging around! </br><div class = \"check\"></div> Tasks done on time! <br/><div class = \"check\"></div>No more disputes!");
         description.setClassName("front-view");
-
-
-        // description.add("WG Planner helps you better organize your shared apartment. No more Task Boards hanging around! No more undone tasks! No
-        // more disputes! No more worries when going away!");
+//        description.add(layout);
         VerticalLayout buttonLayout = new VerticalLayout(createFloorButton, registerButton);
-//        buttonLayout.getStyle().set("align-items", "center");
-//        buttonLayout.getStyle().set("margin-top", "10vh");
-//        buttonLayout.getStyle().set("margin-left", "10vw");
         buttonLayout.addClassName("button-layout");
         featureBlockText.add(buttonLayout);
-        //        featureBlockText.add(createFloorButton);
         featureBlockText.getStyle().set("height", "100vh");
     }
 

@@ -13,10 +13,21 @@
     justify-content: space-evenly;
 }
 
+@font-face {
+    font-family: 'Roboto';
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+    /*src: url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;600&display=swap');*/
+    font-weight: 700;
+    /*font-style: normal;*/
+}
+
 .feature-block-text {
     display: block;
     margin-left: 20px;
     width: 45vw;
+    font-weight: bolder;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
 }
 
 .feature-description {
@@ -27,7 +38,7 @@
 }
 
 .front-view {
-    line-height: 3em;
+    line-height: 2.5em;
 
 }
 
@@ -37,15 +48,18 @@
 
 @font-face {
     font-family: 'Hahmlet';
+    /*src: url('https://fonts.googleapis.com/css2?family=Spectral:wght@500&display=swap');*/
     src: url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;600&display=swap');
-    font-weight: 600;
+    font-weight: 700;
     /*font-style: normal;*/
 }
 
 .feature-title {
     /*font-weight: lighter;*/
     margin-top: 15px;
+    /*font-family: 'Spectral', serif;*/
     font-family: 'Hahmlet', serif;
+    font-weight: 700;
     /*font-family: "Trebuchet MS", Verdana, sans-serif;*/
 }
 
@@ -69,11 +83,23 @@
 
 .button-layout {
     margin-top: 10vh;
-    margin-left: 10vw;
+    /*margin-left: 10vw;*/
+    align-items: center;
 }
 
 .register-create-floor-button {
     width: 15vw;
+}
+
+.check {
+    display: inline-block;
+    transform: rotate(45deg);
+    height: 26px;
+    width: 9px;
+    border-bottom: 7px solid #78b13f;
+    padding-top: -5px;
+    border-right: 7px solid #78b13f;
+    margin-right: 22px;
 }
 
 @media screen and (max-width: 768px) {
