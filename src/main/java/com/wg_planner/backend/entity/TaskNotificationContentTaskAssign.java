@@ -22,7 +22,7 @@ public class TaskNotificationContentTaskAssign extends AbstractEntity {
     }
 
     public TaskNotificationContentTaskAssign(Task correspondingTask, @NotNull String title) {
-        this(correspondingTask, title, String.format("You have been assigned task %s.", correspondingTask.getTaskName()));
+        this(correspondingTask, title, String.format("You have been assigned task %s", correspondingTask.getTaskName()));
     }
 
     public TaskNotificationContentTaskAssign(Task correspondingTask, @NotNull String title, @NotNull String body) {
