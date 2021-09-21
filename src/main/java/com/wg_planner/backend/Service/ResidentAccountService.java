@@ -3,13 +3,13 @@ package com.wg_planner.backend.Service;
 import com.wg_planner.backend.Repository.AccountRepository;
 import com.wg_planner.backend.Repository.ResidentAccountRepository;
 import com.wg_planner.backend.Repository.RoomRepository;
+import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.LogHandler;
-import com.wg_planner.views.sub_menu.account_details.ResidentAvailabilityView;
-import com.wg_planner.views.utils.SessionHandler;
 import com.wg_planner.backend.utils.locking.LockRegisterHandler;
+import com.wg_planner.views.utils.SessionHandler;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,15 +27,18 @@ public class ResidentAccountService {
     private final ResidentAccountRepository residentAccountRepository;
     private final RoomRepository roomRepository;
     private final AccountRepository accountRepository;
+    private final NotificationServiceFirebase notificationServiceFirebase;
 
     @Autowired
-    public ResidentAccountService(ResidentAccountRepository residentAccountRepository, RoomRepository roomRepository, AccountRepository accountRepository) {
+    public ResidentAccountService(ResidentAccountRepository residentAccountRepository, RoomRepository roomRepository, AccountRepository accountRepository,
+                                  NotificationServiceFirebase notificationServiceFirebase) {
         Validate.notNull(residentAccountRepository);
         Validate.notNull(roomRepository);
         Validate.notNull(accountRepository);
         this.residentAccountRepository = residentAccountRepository;
         this.roomRepository = roomRepository;
         this.accountRepository = accountRepository;
+        this.notificationServiceFirebase = notificationServiceFirebase;
     }
 
     public ResidentAccount getResidentAccountById(Long accountId) {
@@ -89,7 +92,7 @@ public class ResidentAccountService {
                 Object taskLock = LockRegisterHandler.getInstance().registerLock(task.getId());
                 synchronized (taskLock) {
                     LOGGER.info(LogHandler.getTestRun(), ", {}", task.getId());
-                    taskService.transferTask(task, floorService);
+                    taskService.transferTask(task, floorService, notificationServiceFirebase);
                 }
             } finally {
                 LockRegisterHandler.getInstance().unregisterLock(task.getId());

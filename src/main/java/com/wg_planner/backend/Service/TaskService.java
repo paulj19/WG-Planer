@@ -2,6 +2,8 @@ package com.wg_planner.backend.Service;
 
 import com.wg_planner.backend.Repository.RoomRepository;
 import com.wg_planner.backend.Repository.TaskRepository;
+import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
+import com.wg_planner.backend.Service.notification.NotificationTypeTaskAssign;
 import com.wg_planner.backend.entity.Room;
 import com.wg_planner.backend.entity.Task;
 import org.apache.commons.lang3.Validate;
@@ -38,12 +40,15 @@ public class TaskService {
 
     @Transactional
     public void transferTask(Task task, FloorService floorService) {
-        assignTask(task, floorService.getNextAvailableRoom(task.getAssignedRoom()));
+        transferTask(task, floorService, null);
     }
 
-    //sync fix to assign/reset and done/remind click at the same time. happens before is ordered in this class, not higher level
     @Transactional
-    public synchronized void assignTask(Task taskToAssign, Room roomToAssign) {
+    public void transferTask(Task task, FloorService floorService, NotificationServiceFirebase notificationServiceFirebase) {
+        assignTask(task, floorService.getNextAvailableRoom(task.getAssignedRoom()), notificationServiceFirebase);
+    }
+    @Transactional
+    public synchronized void assignTask(Task taskToAssign, Room roomToAssign, NotificationServiceFirebase notificationServiceFirebase) {
         Validate.notNull(taskToAssign, "parameter taskToAssign must not be %s", null);
         if (taskToAssign.getAssignedRoom() != null) {
             taskToAssign.getAssignedRoom().removeFromAssignedTask(taskToAssign);
@@ -51,8 +56,17 @@ public class TaskService {
         taskToAssign.setAssignedRoom(roomToAssign);
         if (roomToAssign != null) {
             roomToAssign.addToAssignedTasks(taskToAssign);
+            if (notificationServiceFirebase != null) {
+                notificationServiceFirebase.sendNotification(NotificationTypeTaskAssign.getInstance(taskToAssign),
+                        roomToAssign.getResidentAccount());
+            }
         }
         save(taskToAssign);
+    }
+    //sync fix to assign/reset and done/remind click at the same time. happens before is ordered in this class, not higher level
+    @Transactional
+    public synchronized void assignTask(Task taskToAssign, Room roomToAssign) {
+        assignTask(taskToAssign, roomToAssign, null);
     }
 
     public long count() {

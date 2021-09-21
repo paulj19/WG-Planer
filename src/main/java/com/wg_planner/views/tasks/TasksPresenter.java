@@ -56,7 +56,7 @@ public abstract class TasksPresenter {
                     LOGGER.info(LogHandler.getTestRun(), "Resident Account id {}. Task Done callback task {}.",
                             SessionHandler.getLoggedInResidentAccount().getId(), taskPossiblyDirty.toString());
                     UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(taskPossiblyDirty, taskPossiblyDirty.getAssignedRoom());
-                    taskService.transferTask(taskPossiblyDirty, floorService);
+                    taskService.transferTask(taskPossiblyDirty, floorService, notificationServiceFirebase);
                     UINotificationMessage.notify("The task is passed to next available resident");
                     addTasks();
                 } else {

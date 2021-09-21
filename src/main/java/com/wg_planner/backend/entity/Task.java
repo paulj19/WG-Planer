@@ -39,6 +39,9 @@ public class Task extends AbstractEntity {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "correspondingTask", cascade = CascadeType.ALL)
     TaskNotificationContent taskNotificationContent;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "correspondingTask", cascade = CascadeType.ALL)
+    TaskNotificationContentTaskAssign taskNotificationContentTaskAssign;
+
     public Task() {
     }
 
@@ -62,10 +65,15 @@ public class Task extends AbstractEntity {
         Validate.isTrue(taskName.length() <= 250, "length of task name must not exceed 250 chars");
         this.taskName = taskName.trim();
         createTaskNotificationContent(taskName.trim());
+        createTaskNotificationContentTaskAssign(taskName.trim());
     }
 
     private void createTaskNotificationContent(String taskName) {
         this.taskNotificationContent = new TaskNotificationContent(this, taskName + " Reminder");
+    }
+
+    private void createTaskNotificationContentTaskAssign(String taskName) {
+        this.taskNotificationContentTaskAssign = new TaskNotificationContentTaskAssign(this, taskName + " assigned to you!");
     }
 
     public Room getAssignedRoom() {
@@ -95,13 +103,22 @@ public class Task extends AbstractEntity {
         this.taskNotificationContent = taskNotificationContent;
     }
 
+    public TaskNotificationContentTaskAssign getTaskNotificationContentTaskAssign() {
+        return taskNotificationContentTaskAssign;
+    }
+
+    public void setTaskNotificationContentTaskAssign(TaskNotificationContentTaskAssign taskNotificationContentTaskAssign) {
+        Validate.notNull(taskNotificationContentTaskAssign, "parameter taskNotificationContent must not be %s", (Object) null);
+        this.taskNotificationContentTaskAssign = taskNotificationContentTaskAssign;
+    }
+
     public String toString() {
         return new ToStringBuilder(this).
                 append("id", getId()).
                 append("task name", taskName).
                 append("floor id", floor.getId()).
 //                append("assigned room id", assignedRoom.getId()).
-                toString();
+        toString();
     }
 
     @Override
