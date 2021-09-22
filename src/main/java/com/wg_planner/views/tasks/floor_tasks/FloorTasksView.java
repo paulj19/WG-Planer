@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
-@Route(layout = MainView.class)
+@Route(value = "floor_tasks", layout = MainView.class)
 @PageTitle("Floor Tasks")
 @CssImport("./styles/views/tasks/tasks-view.css")
 public class FloorTasksView extends VerticalLayout {

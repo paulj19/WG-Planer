@@ -12,7 +12,7 @@ import com.wg_planner.views.UnauthorizedPages.UnauthorizedPagesViewWithLogin;
 import com.wg_planner.views.utils.UINavigationHandler;
 
 @Route(value = "overview", layout = UnauthorizedPagesViewWithLogin.class)
-@PageTitle("WG Planner")
+@PageTitle("WG Planer")
 @CssImport("./styles/views/intro/intro.css")
 public class AppOverviewPage extends VerticalLayout {
 
