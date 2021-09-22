@@ -29,7 +29,7 @@
 }
 
 .dots {
-    width: 8vw;
+    width: 10vw;
     text-align: center;
     margin-left: 5px;
 }
@@ -45,17 +45,44 @@
     cursor: pointer;
 }
 
-.previous {
-    align-items: center;
-    margin-left: 20px;
-    cursor: pointer;
-}
+/*.previous {*/
+/*    align-items: center;*/
+/*    margin-left: 20px;*/
+/*    cursor: pointer;*/
+/*}*/
 
 .label-next {
     padding-right: 0;
     margin-right: -8px;
     margin-left: 10px;
     cursor: pointer;
+}
+a {
+    text-decoration: none;
+    display: inline-block;
+    /*padding: 8px 16px;*/
+    cursor: pointer;
+
+}
+
+a:hover {
+    text-decoration: none;
+    /*background-color: #717171;*/
+    color: black;
+}
+
+.previous {
+    /*background-color: #bbbbbb;*/
+    color: black;
+}
+
+.next {
+    /*background-color: #bbbbbb;*/
+    color: black;
+}
+
+.round {
+    border-radius: 50%;
 }
 
 @media screen and (max-width: 768px) {
