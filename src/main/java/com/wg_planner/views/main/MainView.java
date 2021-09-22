@@ -125,7 +125,7 @@ public class MainView extends AppLayout {
 
     public static Div getAppNameHeader() {
         Div logo = new Div();
-        logo.setText("WG Planner");
+        logo.setText("WG Planer");
         logo.addClassName("logo-wg-part");
         return logo;
     }

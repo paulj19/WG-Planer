@@ -36,12 +36,12 @@ public class FeatureViewHandleTasks extends FeatureView {
         createFloorButton.addClassName("register-create-floor-button");
         createFloorButton.addClickListener(event -> UINavigationHandler.getInstance().navigateToCreateFloorPage());
         HorizontalLayout h = new HorizontalLayout(check, new Span("Tasks done always on time!"));
-        layout.add(new Span("WG Planner helps you better organize your shared apartment. The app takes care of the household task management in your shared " +
+        layout.add(new Span("WG Planer helps you better organize your shared apartment. The app takes care of the household task management in your shared " +
                 "apartment while you enjoy living together."));
         layout.add(new HorizontalLayout(check, new Span("No more Task Boards hanging around!")));
         layout.add(h);
         layout.add(new HorizontalLayout(check, new Span("No more disputes!")));
-        description.getElement().setProperty("innerHTML", "WG Planner helps you better organize your shared apartment. The app takes care of the household " +
+        description.getElement().setProperty("innerHTML", "WG Planer helps you better organize your shared apartment. The app takes care of the household " +
                 "task management in your shared apartment while you enjoy living together. <br/><div class = \"check\"></div>No more Task Boards " +
                 "hanging around! </br><div class = \"check\"></div> Tasks done on time! <br/><div class = \"check\"></div>No more disputes!");
         description.setClassName("front-view");

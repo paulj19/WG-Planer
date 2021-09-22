@@ -11,7 +11,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route("login")
-@PageTitle("login | WG Planner")
+@PageTitle("login | WG Planer")
 @JsModule("/js/loggedInResidentAccountIdHandler.js")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
@@ -23,7 +23,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         setJustifyContentMode(JustifyContentMode.CENTER);
         loginForm.setAction("login");
 //        add(MainView.getAppNameHeader(), loginForm, register, create_floor);
-        H1 header = new H1("WG Planner");
+        H1 header = new H1("WG Planer");
         header.getStyle().set("color", "#000000)");
         header.getStyle().set("text-shadow", "1px 1px 0 rgba(0, 0, 0, 0.2)");
 

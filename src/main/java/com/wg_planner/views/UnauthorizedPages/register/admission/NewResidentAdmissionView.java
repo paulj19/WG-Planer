@@ -26,7 +26,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import java.util.List;
 
 @Route(value = "register", layout = UnauthorizedPagesView.class)
-@PageTitle("Register | WG Planner")
+@PageTitle("Register | WG Planer")
 @CssImport("./styles/views/register/register-view.css")
 public class NewResidentAdmissionView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(NewResidentAdmissionView.class);

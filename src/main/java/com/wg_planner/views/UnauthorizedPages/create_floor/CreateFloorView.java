@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 
 
 @Route(value = "create_floor", layout = UnauthorizedPagesView.class)
-@PageTitle("Create Floor | WG Planner")
+@PageTitle("Create Floor | WG Planer")
 @CssImport("./styles/views/create-floor/create-floor-view.css")
 public class CreateFloorView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateFloorView.class);

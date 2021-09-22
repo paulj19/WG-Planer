@@ -20,7 +20,7 @@ public class FeatureViewRegisterFloor extends FeatureView {
 
     @Override
     void addFeatureDescription() {
-        description.add("Start using WG Planner for your shared apartment by creating a new floor.");
+        description.add("Start using WG Planer for your shared apartment by creating a new floor.");
     }
 
     @Override

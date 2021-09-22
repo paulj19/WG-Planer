@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Route(value = "register_form", layout = UnauthorizedPagesView.class)
-@PageTitle("Register | WG Planner")
+@PageTitle("Register | WG Planer")
 @CssImport("./styles/views/register/register-view.css")
 public class RegisterView extends VerticalLayout implements HasUrlParameter<Long> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterView.class);
