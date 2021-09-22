@@ -5,6 +5,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.wg_planner.backend.Service.FloorService;
 import com.wg_planner.backend.Service.TaskService;
+import com.wg_planner.backend.Service.notification.NotificationServiceFirebase;
 import com.wg_planner.backend.entity.Task;
 import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.backend.utils.locking.LockRegisterHandler;
@@ -31,6 +32,9 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
     TaskService taskService;
     @Autowired
     FloorService floorService;
+    @Autowired
+    private NotificationServiceFirebase notificationServiceFirebase;
+
 
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
@@ -61,7 +65,7 @@ public class AssignTaskView extends VerticalLayout implements HasUrlParameter<St
             synchronized (taskLock) {
                 Task taskPossiblyDirty = taskService.getTaskById(event.getTaskToAssign().getId());
                 if (Objects.equals(taskPossiblyDirty.getAssignedRoom(), taskToAssign.getAssignedRoom())) {
-                    taskService.assignTask(taskToAssign, event.getRoomSelected());
+                    taskService.assignTask(taskToAssign, event.getRoomSelected(), notificationServiceFirebase);
                     UINotificationHandler.getInstance().removeAllRemindNotificationsForObject(taskPossiblyDirty, taskToAssign.getAssignedRoom());
                     UINavigationHandler.getInstance().navigateToHomePage();
                     UINotificationMessage.notify("Task " + taskPossiblyDirty.getTaskName() + " assigned to room " + event.getRoomSelected().getRoomName());
