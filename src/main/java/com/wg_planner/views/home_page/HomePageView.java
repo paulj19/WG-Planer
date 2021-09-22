@@ -6,6 +6,7 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.main.MainView;
 import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
@@ -15,8 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
-@Route(value = "home", layout = MainView.class)
 @PageTitle("Home")
+@Route(value = "home", layout = MainView.class)
+@RouteAlias(value = "", layout = MainView.class)
 @CssImport("./styles/views/home-page/home-page-view.css")
 public class HomePageView extends VerticalLayout {
     private static final Logger LOGGER = LoggerFactory.getLogger(HomePageView.class);
