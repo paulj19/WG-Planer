@@ -73,7 +73,7 @@ public class Task extends AbstractEntity {
     }
 
     private void createTaskNotificationContentTaskAssign(String taskName) {
-        this.taskNotificationContentTaskAssign = new TaskNotificationContentTaskAssign(this, taskName + " assigned to you!");
+        this.taskNotificationContentTaskAssign = new TaskNotificationContentTaskAssign(this, "Task" + taskName + " assigned to you!");
     }
 
     public Room getAssignedRoom() {
