@@ -2,10 +2,9 @@ package com.wg_planner.views.UnauthorizedPages.intro_page;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.wg_planner.views.utils.UINavigationHandler;
 
@@ -26,7 +25,7 @@ public class FeatureViewHandleTasks extends FeatureView {
 
     @Override
     void addFeatureDescription() {
-        VerticalLayout layout = new VerticalLayout();
+//        VerticalLayout layout = new VerticalLayout();
         Button registerButton = new Button("Register");
         Span check  = new Span();
         check.addClassName("check");
@@ -35,20 +34,26 @@ public class FeatureViewHandleTasks extends FeatureView {
         Button createFloorButton = new Button("Create Floor");
         createFloorButton.addClassName("register-create-floor-button");
         createFloorButton.addClickListener(event -> UINavigationHandler.getInstance().navigateToCreateFloorPage());
-        HorizontalLayout h = new HorizontalLayout(check, new Span("Tasks done always on time!"));
-        layout.add(new Span("WG Planer helps you better organize your shared apartment. The app takes care of the household task management in your shared " +
-                "apartment while you enjoy living together."));
-        layout.add(new HorizontalLayout(check, new Span("No more Task Boards hanging around!")));
-        layout.add(h);
-        layout.add(new HorizontalLayout(check, new Span("No more disputes!")));
+        Div googlePlayLink = new Div();
+        googlePlayLink.getElement().setProperty("innerHTML","<a href='https://play.google.com/store/apps/details?id=com" +
+                ".wgplanner&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img height=\"70px\" alt='Get it on Google Play' " +
+                "src='https://play" +
+                ".google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>");
+//        HorizontalLayout h = new HorizontalLayout(check, new Span("Tasks done always on time!"));
+//        layout.add(new Span("WG Planer helps you better organize your shared apartment. The app takes care of the household task management in your shared " +
+//                "apartment while you enjoy living together."));
+//        layout.add(new HorizontalLayout(check, new Span("No more Task Boards hanging around!")));
+//        layout.add(h);
+//        layout.add(new HorizontalLayout(check, new Span("No more disputes!")));
         description.getElement().setProperty("innerHTML", "WG Planer helps you better organize your shared apartment. The app takes care of the household " +
-                "task management in your shared apartment while you enjoy living together. <br/><div class = \"check\"></div>No more Task Boards " +
-                "hanging around! </br><div class = \"check\"></div> Tasks done on time! <br/><div class = \"check\"></div>No more disputes!");
+                "task management in your shared apartment and lets you have more fun living together.<div class = \"checks\"> <br/><span class = " +
+                "\"check\">&#10004; </span>   No more Task Boards! </br><span class = \"check\">&#10004;</span>   Tasks done always on time! <br/><span class" +
+                " = \"check\">&#10004;</span>   No more disputes!</div>");
         description.setClassName("front-view");
 //        description.add(layout);
-        VerticalLayout buttonLayout = new VerticalLayout(createFloorButton, registerButton);
-        buttonLayout.addClassName("button-layout");
-        featureBlockText.add(buttonLayout);
+        VerticalLayout linksLayout = new VerticalLayout(createFloorButton, registerButton, googlePlayLink);
+        linksLayout.addClassName("button-layout");
+        featureBlockText.add(linksLayout);
         featureBlockText.getStyle().set("height", "100vh");
     }
 

@@ -18,9 +18,9 @@ public class FeatureViewManageTasks extends FeatureView {
 
     @Override
     void addFeatureDescription() {
-        description.add("New tasks can be created anytime. All available residents will be notified about it and all have to agree. The task can then be assigned " +
-                "to a resident. Tasks can also be later reset to another resident. Deleting tasks works similar to task create where notification will be " +
-                "sent to all available residents and they all have to accept.");
+        description.add("New tasks can be created anytime. All available residents will be notified. The task gets created when all agree. The task will then" +
+                " be available to be assigned to a resident. Tasks can also be later reassigned to another resident. Just like creating tasks, tasks can also be deleted " +
+                "anytime notifications will be sent to all available residents. Once all residents accept, the task gets deleted.");
     }
 
     @Override

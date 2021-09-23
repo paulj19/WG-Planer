@@ -29,7 +29,7 @@
 }
 
 .dots {
-    width: 10vw;
+    width: 11vw;
     text-align: center;
     margin-left: 5px;
 }
@@ -57,6 +57,7 @@
     margin-left: 10px;
     cursor: pointer;
 }
+
 a {
     text-decoration: none;
     display: inline-block;
@@ -83,6 +84,12 @@ a:hover {
 
 .round {
     border-radius: 50%;
+}
+
+@media screen and (min-width: 1680px) {
+    .dots {
+        width: 12vw;
+    }
 }
 
 @media screen and (max-width: 768px) {

@@ -18,7 +18,7 @@ public class FeatureViewNotifications extends FeatureView {
 
     @Override
     void addFeatureDescription() {
-        description.add("You get notifications about different events in your shared apartment. Your neighbors can also sent you task " +
+        description.add("You get notifications about different events in your shared apartment. Other residents can also sent you task " +
                 "reminder notifications.");
     }
 

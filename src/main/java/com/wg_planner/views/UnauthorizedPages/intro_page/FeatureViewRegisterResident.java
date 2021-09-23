@@ -20,8 +20,9 @@ public class FeatureViewRegisterResident extends FeatureView {
 
     @Override
     void addFeatureDescription() {
-        description.add("Other residents can now register by giving floor code of the floor. Upon selecting a room, the app " +
-                "generates a one time code. Another registered resident can use this pin to admit the new resident into the floor.");
+        description.add("Other residents can register by giving floor code of the floor. The App then asks to select one of the free rooms available in " +
+                "the shared apartment. Upon selecting a room, the app generates a one time code. Another registered resident can use this pin to admit the " +
+                "new resident into the shared apartment. The images on the left provides a clear guidance to this procedure.");
     }
 
     @Override

@@ -18,13 +18,14 @@ public class FeatureViewTasksListing extends FeatureView {
 
     @Override
     void addFeatureDescription() {
-        description.add("You can view all tasks in the floor in Floor Tasks and all tasks assigned to you in My Tasks");
+        description.add("Floor Tasks lists all tasks in a shared apartment. Each task box contains a task name, assigned room and appropriate " +
+                "action corresponding to the task and My Tasks lists all tasks assigned to the logged in resident.");
     }
 
     @Override
     void addFeatureIllustration() {
         List<Image> images = new ArrayList<>();
-        for(int i = 1; i <= 7 ; i++ ) {
+        for (int i = 1; i <= 7; i++) {
             Image image = new Image("images/intro/phone/my_tasks_floor_tasks/" + i + ".png ", ".");
             images.add(image);
         }

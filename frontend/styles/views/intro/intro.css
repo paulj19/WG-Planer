@@ -28,6 +28,7 @@
     font-weight: bolder;
     font-family: 'Roboto', sans-serif;
     font-size: 1.1em;
+    overflow: scroll;
 }
 
 .feature-description {
@@ -45,7 +46,6 @@
 .feature-illustration {
     /*width: 25vw;*/
 }
-
 @font-face {
     font-family: 'Hahmlet';
     /*src: url('https://fonts.googleapis.com/css2?family=Spectral:wght@500&display=swap');*/
@@ -82,7 +82,7 @@
 }
 
 .button-layout {
-    margin-top: 10vh;
+    margin-top: 8vh;
     /*margin-left: 10vw;*/
     align-items: center;
 }
@@ -90,18 +90,28 @@
 .register-create-floor-button {
     width: 15vw;
 }
-
-.check {
-    display: inline-block;
-    transform: rotate(45deg);
-    height: 26px;
-    width: 9px;
-    border-bottom: 7px solid #78b13f;
-    padding-top: -5px;
-    border-right: 7px solid #78b13f;
-    margin-right: 22px;
+.checks {
+    margin-top: -20px;
 }
-
+.check {
+    color: green !important;
+    font-size: 1.7em;
+}
+/*.check {*/
+/*    display: inline-block;*/
+/*    transform: rotate(45deg);*/
+/*    height: 26px;*/
+/*    width: 9px;*/
+/*    border-bottom: 7px solid #78b13f;*/
+/*    padding-top: -5px;*/
+/*    border-right: 7px solid #78b13f;*/
+/*    margin-right: 22px;*/
+/*}*/
+@media screen and (min-width: 1680px) {
+    .button-layout {
+        margin-top: 12vh;
+    }
+}
 @media screen and (max-width: 768px) {
     .ver-layout {
         /*padding-right: 0;*/
@@ -170,7 +180,10 @@
     }
 
     .front-view {
-        line-height: 2em;
+        line-height: 1.5em;
 
+    }
+    .checks {
+        margin-top: -6px;
     }
 }
