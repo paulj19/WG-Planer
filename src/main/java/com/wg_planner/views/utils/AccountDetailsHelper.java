@@ -5,7 +5,6 @@ import com.vaadin.flow.server.VaadinSession;
 import com.wg_planner.backend.Service.ResidentAccountService;
 import com.wg_planner.backend.entity.ResidentAccount;
 import com.wg_planner.backend.utils.LogHandler;
-import com.wg_planner.views.main.MainView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,6 @@ public class AccountDetailsHelper {
         // Close the VaadinServiceSession
         VaadinSession.getCurrent().getSession().invalidate();
         // VaadinService.getCurrentRequest().getWrappedSession().invalidate();
-        UINavigationHandler.getInstance().navigateToLoginPage();
+        UINavigationHandler.getInstance().navigateToLogoutPage();
     }
 }

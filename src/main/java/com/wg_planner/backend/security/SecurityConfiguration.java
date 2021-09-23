@@ -41,14 +41,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage(OVERVIEW_URL).permitAll()
                 .loginProcessingUrl(LOGIN_PROCESSING_URL)
                 .failureUrl(LOGIN_FAILURE_URL)
-                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL)
+                .and()
+                .logout()
+//                .logoutSuccessUrl(OVERVIEW_URL)
+                .logoutUrl("/logout")
+                .deleteCookies("remember-me", "JSESSIONID")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
                 .and()
                 .rememberMe()
-//                .rememberMeCookieName("wg-planer")
                 .userDetailsService(this.userDetailsService())
 //                .useSecureCookie(true)
                 .alwaysRemember(true)
                 .tokenValiditySeconds(2419200);//28 days
+        //TODO--  password hash turns null on Account.java#equals for second login
+//                .and().sessionManagement()
+//                .maximumSessions(1)
+//                .maxSessionsPreventsLogin(true);
     }
 
     @Bean

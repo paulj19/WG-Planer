@@ -11,6 +11,7 @@ import java.util.*;
 public class UINavigationHandler {
     private static UINavigationHandler uiNavigationHandler;
     private final String LOGIN_URL = "login/";
+    private final String LOGOUT_URL = "/logout";
     private final String REGISTER_URL = "register/";
     private final String CREATE_FLOOR_URL = "create_floor/";
     private final String ACCOUNT_DETAILS_URL = "account_details/";
@@ -28,6 +29,10 @@ public class UINavigationHandler {
 
     public void navigateToLoginPage() {
         UI.getCurrent().navigate(LOGIN_URL);
+    }
+
+    public void navigateToLogoutPage() {
+        UI.getCurrent().getPage().setLocation(LOGOUT_URL);
     }
 
     public void navigateToRegisterPage() {
