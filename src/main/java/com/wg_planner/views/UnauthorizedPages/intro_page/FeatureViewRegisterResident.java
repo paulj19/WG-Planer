@@ -28,7 +28,7 @@ public class FeatureViewRegisterResident extends FeatureView {
     @Override
     void addFeatureIllustration() {
         List<Image> images = new ArrayList<>();
-        for(int i = 1; i <= 10 ; i++ ) {
+        for(int i = 1; i <= 9 ; i++ ) {
             Image image = new Image("images/intro/phone/register_new_resident/" + i + ".png ", ".");
             images.add(image);
         }
