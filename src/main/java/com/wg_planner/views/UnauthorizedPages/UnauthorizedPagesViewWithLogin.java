@@ -10,7 +10,7 @@ public class UnauthorizedPagesViewWithLogin extends UnauthorizedPagesView{
         logoLayout.add(getLoginButton());
     }
     private Component getLoginButton() {
-        Button loginButton = new Button("Log In");
+        Button loginButton = new Button("Login");
         loginButton.getStyle().set("width", "150px");
         loginButton.addClickListener(event -> UINavigationHandler.getInstance().navigateToLoginPage());
         return loginButton;
