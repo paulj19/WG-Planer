@@ -28,23 +28,15 @@ public class Carousel extends VerticalLayout {
 
     public Carousel(List<Image> images) {
         addClassName("carousel-layout");
-        //        dots.getStyle().set("width", "8vw").set("text-align", "center").set("margin-left", "5px");
-        //                .set("width", "83%");
         dots.addClassName("dots");
-        //        navigation.getStyle().set("width", "21vw").set("margin", "0");//.set("padding-left", "10px");
         navigation.addClassNames("navigation");
         rightArrow.addClassNames("arrow", "right");
         leftArrow.addClassNames("arrow", "left");
         Label labelPrevious = new Label("previous");
-        //        labelPrevious.getStyle().set("padding-left", "8px").set("margin", "0 ");
         labelPrevious.addClassName("label-previous");
-        //        previous.add(leftArrow, labelPrevious);
-
         previousBubble.addClassName("previous");
         previousBubble.getElement().setProperty("innerHTML","&laquo; Previous");
         previous.add(previousBubble);
-        //        previous.getStyle().set("align-items", "center").set("margin-left", "20px");
-//        previous.addClassName("previous");
         previous.addClickListener(event -> {
             removeAll();
             currentlyDisplayed = imageList.get((imageList.indexOf(currentlyDisplayed) == 0 ? imageList.size() - 1 : imageList.indexOf(currentlyDisplayed) - 1));
@@ -55,13 +47,10 @@ public class Carousel extends VerticalLayout {
             add(navigation);
         });
         Label labelNext = new Label("next");
-        //        labelNext.getStyle().set("padding-right", "8px").set("margin-right", "-12px");
         labelNext.addClassName("label-next");
-//        next.add(labelNext, rightArrow);
         nextBubble.addClassName("next");
         nextBubble.getElement().setProperty("innerHTML","Next &raquo;");
         next.add(nextBubble);
-//        next.getStyle().set("align-items", "center");
         next.addClickListener(event -> {
             removeAll();
             currentlyDisplayed = imageList.get((imageList.indexOf(currentlyDisplayed) + 1) % imageList.size());
@@ -86,9 +75,6 @@ public class Carousel extends VerticalLayout {
                 add(navigation);
             });
             div.add(image);
-
-            //            div.addClassNames("mySlides", "fade");
-            //            dot.addClassName("dot");
             setDotProperties(dot);
             if (imageMap.isEmpty()) {
                 currentlyDisplayed = div;
