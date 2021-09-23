@@ -87,11 +87,6 @@ vaadin-tab[selected] {
         align-items: center;
     }
 
-    .navigation-bar {
-        padding: 0;
-        align-items: center;
-    }
-
     .navigation-bar-menu {
         display: flex;
         align-content: center;

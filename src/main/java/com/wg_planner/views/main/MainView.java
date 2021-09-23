@@ -10,7 +10,6 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -26,9 +25,6 @@ import com.vaadin.flow.theme.lumo.Lumo;
 import com.wg_planner.backend.utils.LogHandler;
 import com.wg_planner.views.home_page.HomePageView;
 import com.wg_planner.views.notifications_page.NotificationsPageView;
-import com.wg_planner.views.sub_menu.account_details.AccountDetailsView;
-import com.wg_planner.views.sub_menu.account_details.ResidentAvailabilityView;
-import com.wg_planner.views.sub_menu.floor_details.FloorDetailsView;
 import com.wg_planner.views.tasks.my_tasks.MyTasksView;
 import com.wg_planner.views.utils.AccountDetailsHelper;
 import com.wg_planner.views.utils.SessionHandler;
@@ -81,7 +77,7 @@ public class MainView extends AppLayout {
     private void addBrowserWindowResizeListener() {
         UI.getCurrent().getPage().addBrowserWindowResizeListener(event -> {
             getWindowWidth();
-            UINavigationHandler.getInstance().reloadPage();
+//            UINavigationHandler.getInstance().reloadPage();
         });
     }
 
