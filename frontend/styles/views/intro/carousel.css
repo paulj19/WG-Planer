@@ -29,7 +29,7 @@
 }
 
 .dots {
-    width: 11vw;
+    width: 10vw;
     text-align: center;
     margin-left: 5px;
 }
@@ -89,6 +89,9 @@ a:hover {
 @media screen and (min-width: 1680px) {
     .dots {
         width: 12vw;
+    }
+    .navigation {
+        font-size: 1.2em;
     }
 }
 
