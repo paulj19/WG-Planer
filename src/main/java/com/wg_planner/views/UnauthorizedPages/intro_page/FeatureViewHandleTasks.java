@@ -46,9 +46,9 @@ public class FeatureViewHandleTasks extends FeatureView {
 //        layout.add(h);
 //        layout.add(new HorizontalLayout(check, new Span("No more disputes!")));
         description.getElement().setProperty("innerHTML", "WG Planer helps you better organize your shared apartment. The app takes care of the household " +
-                "task management in your shared apartment and lets you have more fun living together.<div class = \"checks\"> <br/><span class = " +
-                "\"check\">&#10004; </span>   No more Task Boards! </br><span class = \"check\">&#10004;</span>   Tasks done always on time! <br/><span class" +
-                " = \"check\">&#10004;</span>   No more disputes!</div>");
+                "task management in your shared apartment and lets you have more fun living together.<div class = \"checks\"> <br/><img width =\"25px \" " +
+                "src=\"images/tick.png\"/>   No more Task Boards! </br><img width =\"25px \" src=\"images/tick.png\"/>   Tasks done always on time! <br/><img" +
+                " width =\"25px \" src=\"images/tick.png\"/>   No more disputes!</div>");
         description.setClassName("front-view");
 //        description.add(layout);
         VerticalLayout linksLayout = new VerticalLayout(createFloorButton, registerButton, googlePlayLink);
