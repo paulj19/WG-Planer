@@ -8,6 +8,5 @@ public class CreateApacheRandomStringGenerator extends CreateRandomStringGenerat
     @Override
     public MyRandomStringGenerator createRandomStringGenerator() {
             return ApplicationContextHolder.getContext().getBean(ApacheRandomStringGenerator.class);
-//        return null;
     }
 }
