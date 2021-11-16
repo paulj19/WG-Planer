@@ -6,6 +6,7 @@ import com.wg_planner.backend.resident_admission.AdmissionHandler;
 import com.wg_planner.backend.utils.code_generator.custom_code_generator.CustomCodeCreator;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+@Disabled
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Transactional
